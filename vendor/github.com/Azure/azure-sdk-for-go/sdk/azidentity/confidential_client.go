@@ -115,7 +115,11 @@ func (c *confidentialClient) GetToken(ctx context.Context, tro policy.TokenReque
 			err = newAuthenticationFailedErrorFromMSAL(c.name, err)
 		}
 	} else {
+<<<<<<< HEAD
 		msg := fmt.Sprintf(scopeLogFmt, c.name, strings.Join(ar.GrantedScopes, ", "))
+=======
+		msg := fmt.Sprintf("%s.GetToken() acquired a token for scope %q", c.name, strings.Join(ar.GrantedScopes, ", "))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		log.Write(EventAuthentication, msg)
 	}
 	return azcore.AccessToken{Token: ar.AccessToken, ExpiresOn: ar.ExpiresOn.UTC()}, err

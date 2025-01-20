@@ -21,7 +21,10 @@ import (
 	"errors"
 	"fmt"
 	"io"
+<<<<<<< HEAD
 	"maps"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"path/filepath"
 	"strings"
 	"time"
@@ -166,16 +169,27 @@ func Annotations(f partial.WithRawManifest, anns map[string]string) partial.With
 	if img, ok := f.(v1.Image); ok {
 		return &image{
 			base:        img,
+<<<<<<< HEAD
 			annotations: maps.Clone(anns),
+=======
+			annotations: anns,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 	if idx, ok := f.(v1.ImageIndex); ok {
 		return &index{
 			base:        idx,
+<<<<<<< HEAD
 			annotations: maps.Clone(anns),
 		}
 	}
 	return arbitraryRawManifest{a: f, anns: maps.Clone(anns)}
+=======
+			annotations: anns,
+		}
+	}
+	return arbitraryRawManifest{a: f, anns: anns}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type arbitraryRawManifest struct {

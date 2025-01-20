@@ -31,7 +31,15 @@ func (s *stringArrayValue) Append(val string) error {
 func (s *stringArrayValue) Replace(val []string) error {
 	out := make([]string, len(val))
 	for i, d := range val {
+<<<<<<< HEAD
 		out[i] = d
+=======
+		var err error
+		out[i] = d
+		if err != nil {
+			return err
+		}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	*s.value = out
 	return nil

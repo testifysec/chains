@@ -14,8 +14,13 @@ TIMEOUT = 60
 .DEFAULT_GOAL := precommit
 
 .PHONY: precommit ci
+<<<<<<< HEAD
 precommit: generate toolchain-check license-check misspell go-mod-tidy golangci-lint-fix verify-readmes verify-mods test-default
 ci: generate toolchain-check license-check lint vanity-import-check verify-readmes verify-mods build test-default check-clean-work-tree test-coverage
+=======
+precommit: generate license-check misspell go-mod-tidy golangci-lint-fix verify-readmes verify-mods test-default
+ci: generate license-check lint vanity-import-check verify-readmes verify-mods build test-default check-clean-work-tree test-coverage
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 # Tools
 
@@ -54,6 +59,12 @@ $(TOOLS)/stringer: PACKAGE=golang.org/x/tools/cmd/stringer
 PORTO = $(TOOLS)/porto
 $(TOOLS)/porto: PACKAGE=github.com/jcchavezs/porto/cmd/porto
 
+<<<<<<< HEAD
+=======
+GOJQ = $(TOOLS)/gojq
+$(TOOLS)/gojq: PACKAGE=github.com/itchyny/gojq/cmd/gojq
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 GOTMPL = $(TOOLS)/gotmpl
 $(GOTMPL): PACKAGE=go.opentelemetry.io/build-tools/gotmpl
 
@@ -64,7 +75,11 @@ GOVULNCHECK = $(TOOLS)/govulncheck
 $(TOOLS)/govulncheck: PACKAGE=golang.org/x/vuln/cmd/govulncheck
 
 .PHONY: tools
+<<<<<<< HEAD
 tools: $(CROSSLINK) $(GOLANGCI_LINT) $(MISSPELL) $(GOCOVMERGE) $(STRINGER) $(PORTO) $(SEMCONVGEN) $(MULTIMOD) $(SEMCONVKIT) $(GOTMPL) $(GORELEASE)
+=======
+tools: $(CROSSLINK) $(GOLANGCI_LINT) $(MISSPELL) $(GOCOVMERGE) $(STRINGER) $(PORTO) $(GOJQ) $(SEMCONVGEN) $(MULTIMOD) $(SEMCONVKIT) $(GOTMPL) $(GORELEASE)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 # Virtualized python tools via docker
 
@@ -142,14 +157,21 @@ build-tests/%:
 
 # Tests
 
+<<<<<<< HEAD
 TEST_TARGETS := test-default test-bench test-short test-verbose test-race test-concurrent-safe
+=======
+TEST_TARGETS := test-default test-bench test-short test-verbose test-race
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 .PHONY: $(TEST_TARGETS) test
 test-default test-race: ARGS=-race
 test-bench:   ARGS=-run=xxxxxMatchNothingxxxxx -test.benchtime=1ms -bench=.
 test-short:   ARGS=-short
 test-verbose: ARGS=-v -race
+<<<<<<< HEAD
 test-concurrent-safe: ARGS=-run=ConcurrentSafe -count=100 -race
 test-concurrent-safe: TIMEOUT=120
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 $(TEST_TARGETS): test
 test: $(OTEL_GO_MOD_DIRS:%=test/%)
 test/%: DIR=$*
@@ -235,6 +257,7 @@ govulncheck/%: $(GOVULNCHECK)
 codespell: $(CODESPELL)
 	@$(DOCKERPY) $(CODESPELL)
 
+<<<<<<< HEAD
 .PHONY: toolchain-check
 toolchain-check:
 	@toolchainRes=$$(for f in $(ALL_GO_MOD_DIRS); do \
@@ -245,6 +268,8 @@ toolchain-check:
 			exit 1; \
 	fi
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 .PHONY: license-check
 license-check:
 	@licRes=$$(for f in $$(find . -type f \( -iname '*.go' -o -iname '*.sh' \) ! -path '**/third_party/*' ! -path './.git/*' ) ; do \
@@ -270,7 +295,11 @@ SEMCONVPKG ?= "semconv/"
 semconv-generate: $(SEMCONVGEN) $(SEMCONVKIT)
 	[ "$(TAG)" ] || ( echo "TAG unset: missing opentelemetry semantic-conventions tag"; exit 1 )
 	[ "$(OTEL_SEMCONV_REPO)" ] || ( echo "OTEL_SEMCONV_REPO unset: missing path to opentelemetry semantic-conventions repo"; exit 1 )
+<<<<<<< HEAD
 	$(SEMCONVGEN) -i "$(OTEL_SEMCONV_REPO)/model/." --only=attribute_group -p conventionType=trace -f attribute_group.go -z "$(SEMCONVPKG)/capitalizations.txt" -t "$(SEMCONVPKG)/template.j2" -s "$(TAG)"
+=======
+	$(SEMCONVGEN) -i "$(OTEL_SEMCONV_REPO)/model/." --only=attribute_group -p conventionType=trace -f attribute_group.go -t "$(SEMCONVPKG)/template.j2" -s "$(TAG)"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	$(SEMCONVGEN) -i "$(OTEL_SEMCONV_REPO)/model/." --only=metric  -f metric.go -t "$(SEMCONVPKG)/metric_template.j2" -s "$(TAG)"
 	$(SEMCONVKIT) -output "$(SEMCONVPKG)/$(TAG)" -tag "$(TAG)"
 

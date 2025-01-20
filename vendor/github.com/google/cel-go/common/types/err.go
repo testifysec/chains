@@ -62,12 +62,15 @@ func NewErr(format string, args ...any) ref.Val {
 	return &Err{error: fmt.Errorf(format, args...)}
 }
 
+<<<<<<< HEAD
 // NewErrFromString creates a new Err with the provided message.
 // TODO: Audit the use of this function and standardize the error messages and codes.
 func NewErrFromString(message string) ref.Val {
 	return &Err{error: errors.New(message)}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // NewErrWithNodeID creates a new Err described by the format string and args.
 // TODO: Audit the use of this function and standardize the error messages and codes.
 func NewErrWithNodeID(id int64, format string, args ...any) ref.Val {

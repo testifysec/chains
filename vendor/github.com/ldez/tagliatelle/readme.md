@@ -97,6 +97,7 @@ type Foo struct {
 }
 ```
 
+<<<<<<< HEAD
 ## What this linter is about
 
 This linter is about validating tags according to rules you define.
@@ -105,6 +106,17 @@ The linter also allows to fix tags according to the rules you defined.
 This linter is not intended to validate the fact a tag in valid or not.
 
 ## How to use the linter
+=======
+## What this tool is about
+
+This tool is about validating tags according to rules you define.
+The tool also allows to fix tags according to the rules you defined.
+
+This tool is not intended to validate the fact a tag in valid or not.
+To do that, you can use `go vet`, or use [golangci-lint](https://golangci-lint.run) ["go vet"](https://golangci-lint.run/usage/linters/#govet) linter.
+
+## How to use the tool
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 ### As a golangci-lint linter
 
@@ -113,6 +125,7 @@ Define the rules, you want via your [golangci-lint](https://golangci-lint.run) c
 ```yaml
 linters-settings:
   tagliatelle:
+<<<<<<< HEAD
     # Checks the struct tag name case.
     case:
       # Defines the association between tag name and case.
@@ -256,6 +269,19 @@ linters-settings:
       overrides:
         - pkg: foo/bar
           ignore: true
+=======
+    # Check the struck tag name case.
+    case:
+      # Use the struct field name to check the name of the struct tag.
+      # Default: false
+      use-field-name: true
+      rules:
+        # Any struct tag type can be used.
+        # Support string case: `camel`, `pascal`, `kebab`, `snake`, `upperSnake`, `goCamel`, `goPascal`, `goKebab`, `goSnake`, `upper`, `lower`, `header`.
+        json: camel
+        yaml: camel
+        xml: camel
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ```
 
 More information here https://golangci-lint.run/usage/linters/#tagliatelle
@@ -280,14 +306,23 @@ Here are the default rules for the well known and used tags, when using tagliate
 - `bson`: `camel`
 - `avro`: `snake`
 - `header`: `header`
+<<<<<<< HEAD
 - `env`: `upperSnake`
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 - `envconfig`: `upperSnake`
 
 ### Custom Rules
 
+<<<<<<< HEAD
 The linter is not limited to the tags used in example, **you can use it to validate any tag**.
 
 You can add your own tag, for example `whatever` and tells the linter you want to use `kebab`.
+=======
+The tool is not limited to the tags used in example, you can use it to validate any tag.
+
+You can add your own tag, for example `whatever` and tells the tool you want to use `kebab`.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 This option is only available via [golangci-lint](https://golangci-lint.run).
 
@@ -296,6 +331,7 @@ linters-settings:
   tagliatelle:
     # Check the struck tag name case.
     case:
+<<<<<<< HEAD
       rules:
         # Any struct tag type can be used.
         # Support string case: `camel`, `pascal`, `kebab`, `snake`, `goCamel`, `goPascal`, `goKebab`, `goSnake`, `upper`, `lower`
@@ -307,4 +343,16 @@ linters-settings:
       # Use the struct field name to check the name of the struct tag.
       # Default: false
       use-field-name: true
+=======
+      # Use the struct field name to check the name of the struct tag.
+      # Default: false
+      use-field-name: true
+      rules:
+        # Any struct tag type can be used.
+        # Support string case: `camel`, `pascal`, `kebab`, `snake`, `goCamel`, `goPascal`, `goKebab`, `goSnake`, `upper`, `lower`
+        json:     camel
+        yaml:     camel
+        xml:      camel
+        whatever: kebab
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ```

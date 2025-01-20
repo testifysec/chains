@@ -17,6 +17,7 @@ const (
 )
 
 type Config struct {
+<<<<<<< HEAD
 	SuppressLen            bool
 	SuppressNil            bool
 	SuppressErr            bool
@@ -33,6 +34,24 @@ type Config struct {
 
 func (s *Config) AllTrue() bool {
 	return s.SuppressLen && s.SuppressNil && s.SuppressErr && s.SuppressCompare && s.SuppressAsync && !s.ForbidFocus
+=======
+	SuppressLen            Boolean
+	SuppressNil            Boolean
+	SuppressErr            Boolean
+	SuppressCompare        Boolean
+	SuppressAsync          Boolean
+	ForbidFocus            Boolean
+	SuppressTypeCompare    Boolean
+	AllowHaveLen0          Boolean
+	ForceExpectTo          Boolean
+	ValidateAsyncIntervals Boolean
+	ForbidSpecPollution    Boolean
+	ForceSucceedForFuncs   Boolean
+}
+
+func (s *Config) AllTrue() bool {
+	return bool(s.SuppressLen && s.SuppressNil && s.SuppressErr && s.SuppressCompare && s.SuppressAsync && !s.ForbidFocus)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (s *Config) Clone() Config {

@@ -5,6 +5,10 @@ import (
 	"context"
 	"fmt"
 	"io"
+<<<<<<< HEAD
+=======
+	"io/ioutil"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"os"
 	"strconv"
 	"strings"
@@ -20,6 +24,7 @@ const CredentialsSourceName = "EnvConfigCredentials"
 
 // Environment variables that will be read for configuration values.
 const (
+<<<<<<< HEAD
 	awsAccessKeyIDEnv = "AWS_ACCESS_KEY_ID"
 	awsAccessKeyEnv   = "AWS_ACCESS_KEY"
 
@@ -77,18 +82,81 @@ const (
 
 	awsDisableRequestCompressionEnv      = "AWS_DISABLE_REQUEST_COMPRESSION"
 	awsRequestMinCompressionSizeBytesEnv = "AWS_REQUEST_MIN_COMPRESSION_SIZE_BYTES"
+=======
+	awsAccessKeyIDEnvVar = "AWS_ACCESS_KEY_ID"
+	awsAccessKeyEnvVar   = "AWS_ACCESS_KEY"
+
+	awsSecretAccessKeyEnvVar = "AWS_SECRET_ACCESS_KEY"
+	awsSecretKeyEnvVar       = "AWS_SECRET_KEY"
+
+	awsSessionTokenEnvVar = "AWS_SESSION_TOKEN"
+
+	awsContainerCredentialsEndpointEnvVar     = "AWS_CONTAINER_CREDENTIALS_FULL_URI"
+	awsContainerCredentialsRelativePathEnvVar = "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"
+	awsContainerPProviderAuthorizationEnvVar  = "AWS_CONTAINER_AUTHORIZATION_TOKEN"
+
+	awsRegionEnvVar        = "AWS_REGION"
+	awsDefaultRegionEnvVar = "AWS_DEFAULT_REGION"
+
+	awsProfileEnvVar        = "AWS_PROFILE"
+	awsDefaultProfileEnvVar = "AWS_DEFAULT_PROFILE"
+
+	awsSharedCredentialsFileEnvVar = "AWS_SHARED_CREDENTIALS_FILE"
+
+	awsConfigFileEnvVar = "AWS_CONFIG_FILE"
+
+	awsCustomCABundleEnvVar = "AWS_CA_BUNDLE"
+
+	awsWebIdentityTokenFilePathEnvVar = "AWS_WEB_IDENTITY_TOKEN_FILE"
+
+	awsRoleARNEnvVar         = "AWS_ROLE_ARN"
+	awsRoleSessionNameEnvVar = "AWS_ROLE_SESSION_NAME"
+
+	awsEnableEndpointDiscoveryEnvVar = "AWS_ENABLE_ENDPOINT_DISCOVERY"
+
+	awsS3UseARNRegionEnvVar = "AWS_S3_USE_ARN_REGION"
+
+	awsEc2MetadataServiceEndpointModeEnvVar = "AWS_EC2_METADATA_SERVICE_ENDPOINT_MODE"
+
+	awsEc2MetadataServiceEndpointEnvVar = "AWS_EC2_METADATA_SERVICE_ENDPOINT"
+
+	awsEc2MetadataDisabled         = "AWS_EC2_METADATA_DISABLED"
+	awsEc2MetadataV1DisabledEnvVar = "AWS_EC2_METADATA_V1_DISABLED"
+
+	awsS3DisableMultiRegionAccessPointEnvVar = "AWS_S3_DISABLE_MULTIREGION_ACCESS_POINTS"
+
+	awsUseDualStackEndpoint = "AWS_USE_DUALSTACK_ENDPOINT"
+
+	awsUseFIPSEndpoint = "AWS_USE_FIPS_ENDPOINT"
+
+	awsDefaultMode = "AWS_DEFAULTS_MODE"
+
+	awsRetryMaxAttempts = "AWS_MAX_ATTEMPTS"
+	awsRetryMode        = "AWS_RETRY_MODE"
+	awsSdkAppID         = "AWS_SDK_UA_APP_ID"
+
+	awsIgnoreConfiguredEndpoints = "AWS_IGNORE_CONFIGURED_ENDPOINT_URLS"
+	awsEndpointURL               = "AWS_ENDPOINT_URL"
+
+	awsDisableRequestCompression      = "AWS_DISABLE_REQUEST_COMPRESSION"
+	awsRequestMinCompressionSizeBytes = "AWS_REQUEST_MIN_COMPRESSION_SIZE_BYTES"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	awsS3DisableExpressSessionAuthEnv = "AWS_S3_DISABLE_EXPRESS_SESSION_AUTH"
 
 	awsAccountIDEnv             = "AWS_ACCOUNT_ID"
 	awsAccountIDEndpointModeEnv = "AWS_ACCOUNT_ID_ENDPOINT_MODE"
+<<<<<<< HEAD
 
 	awsRequestChecksumCalculation = "AWS_REQUEST_CHECKSUM_CALCULATION"
 	awsResponseChecksumValidation = "AWS_RESPONSE_CHECKSUM_VALIDATION"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 var (
 	credAccessEnvKeys = []string{
+<<<<<<< HEAD
 		awsAccessKeyIDEnv,
 		awsAccessKeyEnv,
 	}
@@ -103,6 +171,22 @@ var (
 	profileEnvKeys = []string{
 		awsProfileEnv,
 		awsDefaultProfileEnv,
+=======
+		awsAccessKeyIDEnvVar,
+		awsAccessKeyEnvVar,
+	}
+	credSecretEnvKeys = []string{
+		awsSecretAccessKeyEnvVar,
+		awsSecretKeyEnvVar,
+	}
+	regionEnvKeys = []string{
+		awsRegionEnvVar,
+		awsDefaultRegionEnvVar,
+	}
+	profileEnvKeys = []string{
+		awsProfileEnvVar,
+		awsDefaultProfileEnvVar,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 )
 
@@ -298,12 +382,15 @@ type EnvConfig struct {
 
 	// Indicates whether account ID will be required/ignored in endpoint2.0 routing
 	AccountIDEndpointMode aws.AccountIDEndpointMode
+<<<<<<< HEAD
 
 	// Indicates whether request checksum should be calculated
 	RequestChecksumCalculation aws.RequestChecksumCalculation
 
 	// Indicates whether response checksum should be validated
 	ResponseChecksumValidation aws.ResponseChecksumValidation
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // loadEnvConfig reads configuration values from the OS's environment variables.
@@ -324,6 +411,7 @@ func NewEnvConfig() (EnvConfig, error) {
 	setStringFromEnvVal(&creds.SecretAccessKey, credSecretEnvKeys)
 	if creds.HasKeys() {
 		creds.AccountID = os.Getenv(awsAccountIDEnv)
+<<<<<<< HEAD
 		creds.SessionToken = os.Getenv(awsSessionTokenEnv)
 		cfg.Credentials = creds
 	}
@@ -331,10 +419,20 @@ func NewEnvConfig() (EnvConfig, error) {
 	cfg.ContainerCredentialsEndpoint = os.Getenv(awsContainerCredentialsFullURIEnv)
 	cfg.ContainerCredentialsRelativePath = os.Getenv(awsContainerCredentialsRelativeURIEnv)
 	cfg.ContainerAuthorizationToken = os.Getenv(awsContainerAuthorizationTokenEnv)
+=======
+		creds.SessionToken = os.Getenv(awsSessionTokenEnvVar)
+		cfg.Credentials = creds
+	}
+
+	cfg.ContainerCredentialsEndpoint = os.Getenv(awsContainerCredentialsEndpointEnvVar)
+	cfg.ContainerCredentialsRelativePath = os.Getenv(awsContainerCredentialsRelativePathEnvVar)
+	cfg.ContainerAuthorizationToken = os.Getenv(awsContainerPProviderAuthorizationEnvVar)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	setStringFromEnvVal(&cfg.Region, regionEnvKeys)
 	setStringFromEnvVal(&cfg.SharedConfigProfile, profileEnvKeys)
 
+<<<<<<< HEAD
 	cfg.SharedCredentialsFile = os.Getenv(awsSharedCredentialsFileEnv)
 	cfg.SharedConfigFile = os.Getenv(awsConfigFileEnv)
 
@@ -397,6 +495,70 @@ func NewEnvConfig() (EnvConfig, error) {
 	setStringFromEnvVal(&cfg.BaseEndpoint, []string{awsEndpointURLEnv})
 
 	if err := setBoolPtrFromEnvVal(&cfg.IgnoreConfiguredEndpoints, []string{awsIgnoreConfiguredEndpointURLEnv}); err != nil {
+=======
+	cfg.SharedCredentialsFile = os.Getenv(awsSharedCredentialsFileEnvVar)
+	cfg.SharedConfigFile = os.Getenv(awsConfigFileEnvVar)
+
+	cfg.CustomCABundle = os.Getenv(awsCustomCABundleEnvVar)
+
+	cfg.WebIdentityTokenFilePath = os.Getenv(awsWebIdentityTokenFilePathEnvVar)
+
+	cfg.RoleARN = os.Getenv(awsRoleARNEnvVar)
+	cfg.RoleSessionName = os.Getenv(awsRoleSessionNameEnvVar)
+
+	cfg.AppID = os.Getenv(awsSdkAppID)
+
+	if err := setBoolPtrFromEnvVal(&cfg.DisableRequestCompression, []string{awsDisableRequestCompression}); err != nil {
+		return cfg, err
+	}
+	if err := setInt64PtrFromEnvVal(&cfg.RequestMinCompressSizeBytes, []string{awsRequestMinCompressionSizeBytes}, smithyrequestcompression.MaxRequestMinCompressSizeBytes); err != nil {
+		return cfg, err
+	}
+
+	if err := setEndpointDiscoveryTypeFromEnvVal(&cfg.EnableEndpointDiscovery, []string{awsEnableEndpointDiscoveryEnvVar}); err != nil {
+		return cfg, err
+	}
+
+	if err := setBoolPtrFromEnvVal(&cfg.S3UseARNRegion, []string{awsS3UseARNRegionEnvVar}); err != nil {
+		return cfg, err
+	}
+
+	setEC2IMDSClientEnableState(&cfg.EC2IMDSClientEnableState, []string{awsEc2MetadataDisabled})
+	if err := setEC2IMDSEndpointMode(&cfg.EC2IMDSEndpointMode, []string{awsEc2MetadataServiceEndpointModeEnvVar}); err != nil {
+		return cfg, err
+	}
+	cfg.EC2IMDSEndpoint = os.Getenv(awsEc2MetadataServiceEndpointEnvVar)
+	if err := setBoolPtrFromEnvVal(&cfg.EC2IMDSv1Disabled, []string{awsEc2MetadataV1DisabledEnvVar}); err != nil {
+		return cfg, err
+	}
+
+	if err := setBoolPtrFromEnvVal(&cfg.S3DisableMultiRegionAccessPoints, []string{awsS3DisableMultiRegionAccessPointEnvVar}); err != nil {
+		return cfg, err
+	}
+
+	if err := setUseDualStackEndpointFromEnvVal(&cfg.UseDualStackEndpoint, []string{awsUseDualStackEndpoint}); err != nil {
+		return cfg, err
+	}
+
+	if err := setUseFIPSEndpointFromEnvVal(&cfg.UseFIPSEndpoint, []string{awsUseFIPSEndpoint}); err != nil {
+		return cfg, err
+	}
+
+	if err := setDefaultsModeFromEnvVal(&cfg.DefaultsMode, []string{awsDefaultMode}); err != nil {
+		return cfg, err
+	}
+
+	if err := setIntFromEnvVal(&cfg.RetryMaxAttempts, []string{awsRetryMaxAttempts}); err != nil {
+		return cfg, err
+	}
+	if err := setRetryModeFromEnvVal(&cfg.RetryMode, []string{awsRetryMode}); err != nil {
+		return cfg, err
+	}
+
+	setStringFromEnvVal(&cfg.BaseEndpoint, []string{awsEndpointURL})
+
+	if err := setBoolPtrFromEnvVal(&cfg.IgnoreConfiguredEndpoints, []string{awsIgnoreConfiguredEndpoints}); err != nil {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return cfg, err
 	}
 
@@ -408,6 +570,7 @@ func NewEnvConfig() (EnvConfig, error) {
 		return cfg, err
 	}
 
+<<<<<<< HEAD
 	if err := setRequestChecksumCalculationFromEnvVal(&cfg.RequestChecksumCalculation, []string{awsRequestChecksumCalculation}); err != nil {
 		return cfg, err
 	}
@@ -415,6 +578,8 @@ func NewEnvConfig() (EnvConfig, error) {
 		return cfg, err
 	}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return cfg, nil
 }
 
@@ -447,6 +612,7 @@ func (c EnvConfig) getAccountIDEndpointMode(context.Context) (aws.AccountIDEndpo
 	return c.AccountIDEndpointMode, len(c.AccountIDEndpointMode) > 0, nil
 }
 
+<<<<<<< HEAD
 func (c EnvConfig) getRequestChecksumCalculation(context.Context) (aws.RequestChecksumCalculation, bool, error) {
 	return c.RequestChecksumCalculation, c.RequestChecksumCalculation > 0, nil
 }
@@ -455,6 +621,8 @@ func (c EnvConfig) getResponseChecksumValidation(context.Context) (aws.ResponseC
 	return c.ResponseChecksumValidation, c.ResponseChecksumValidation > 0, nil
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // GetRetryMaxAttempts returns the value of AWS_MAX_ATTEMPTS if was specified,
 // and not 0.
 func (c EnvConfig) GetRetryMaxAttempts(ctx context.Context) (int, bool, error) {
@@ -551,6 +719,7 @@ func setAIDEndPointModeFromEnvVal(m *aws.AccountIDEndpointMode, keys []string) e
 	return nil
 }
 
+<<<<<<< HEAD
 func setRequestChecksumCalculationFromEnvVal(m *aws.RequestChecksumCalculation, keys []string) error {
 	for _, k := range keys {
 		value := os.Getenv(k)
@@ -590,6 +759,8 @@ func setResponseChecksumValidationFromEnvVal(m *aws.ResponseChecksumValidation, 
 	return nil
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // GetRegion returns the AWS Region if set in the environment. Returns an empty
 // string if not set.
 func (c EnvConfig) getRegion(ctx context.Context) (string, bool, error) {
@@ -646,7 +817,11 @@ func (c EnvConfig) getCustomCABundle(context.Context) (io.Reader, bool, error) {
 		return nil, false, nil
 	}
 
+<<<<<<< HEAD
 	b, err := os.ReadFile(c.CustomCABundle)
+=======
+	b, err := ioutil.ReadFile(c.CustomCABundle)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, false, err
 	}
@@ -670,7 +845,11 @@ func (c EnvConfig) getBaseEndpoint(context.Context) (string, bool, error) {
 // GetServiceBaseEndpoint is used to retrieve a normalized SDK ID for use
 // with configured endpoints.
 func (c EnvConfig) GetServiceBaseEndpoint(ctx context.Context, sdkID string) (string, bool, error) {
+<<<<<<< HEAD
 	if endpt := os.Getenv(fmt.Sprintf("%s_%s", awsEndpointURLEnv, normalizeEnv(sdkID))); endpt != "" {
+=======
+	if endpt := os.Getenv(fmt.Sprintf("%s_%s", awsEndpointURL, normalizeEnv(sdkID))); endpt != "" {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return endpt, true, nil
 	}
 	return "", false, nil

@@ -17,14 +17,20 @@ package parser
 import (
 	"errors"
 	"fmt"
+<<<<<<< HEAD
 	"regexp"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strconv"
 	"strings"
 
 	"github.com/google/cel-go/common/ast"
 	"github.com/google/cel-go/common/operators"
 	"github.com/google/cel-go/common/types"
+<<<<<<< HEAD
 	"github.com/google/cel-go/common/types/ref"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // Unparse takes an input expression and source position information and generates a human-readable
@@ -67,6 +73,7 @@ func Unparse(expr ast.Expr, info *ast.SourceInfo, opts ...UnparserOption) (strin
 	return un.str.String(), nil
 }
 
+<<<<<<< HEAD
 var identifierPartPattern *regexp.Regexp = regexp.MustCompile(`^[A-Za-z_][0-9A-Za-z_]*$`)
 
 func maybeQuoteField(field string) string {
@@ -76,6 +83,8 @@ func maybeQuoteField(field string) string {
 	return field
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // unparser visits an expression to reconstruct a human-readable string from an AST.
 type unparser struct {
 	str              strings.Builder
@@ -274,6 +283,7 @@ func (un *unparser) visitCallUnary(expr ast.Expr) error {
 	return un.visitMaybeNested(args[0], nested)
 }
 
+<<<<<<< HEAD
 func (un *unparser) visitConstVal(val ref.Val) error {
 	optional := false
 	if optVal, ok := val.(*types.Optional); ok {
@@ -285,6 +295,10 @@ func (un *unparser) visitConstVal(val ref.Val) error {
 		un.str.WriteString("optional.of(")
 		val = optVal.GetValue()
 	}
+=======
+func (un *unparser) visitConst(expr ast.Expr) error {
+	val := expr.AsLiteral()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	switch val := val.(type) {
 	case types.Bool:
 		un.str.WriteString(strconv.FormatBool(bool(val)))
@@ -313,6 +327,7 @@ func (un *unparser) visitConstVal(val ref.Val) error {
 		ui := strconv.FormatUint(uint64(val), 10)
 		un.str.WriteString(ui)
 		un.str.WriteString("u")
+<<<<<<< HEAD
 	case *types.Optional:
 		if err := un.visitConstVal(val); err != nil {
 			return err
@@ -328,6 +343,9 @@ func (un *unparser) visitConstVal(val ref.Val) error {
 func (un *unparser) visitConst(expr ast.Expr) error {
 	val := expr.AsLiteral()
 	if err := un.visitConstVal(val); err != nil {
+=======
+	default:
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return fmt.Errorf("unsupported constant: %v", expr)
 	}
 	return nil
@@ -386,7 +404,11 @@ func (un *unparser) visitSelectInternal(operand ast.Expr, testOnly bool, op stri
 		return err
 	}
 	un.str.WriteString(op)
+<<<<<<< HEAD
 	un.str.WriteString(maybeQuoteField(field))
+=======
+	un.str.WriteString(field)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if testOnly {
 		un.str.WriteString(")")
 	}
@@ -404,7 +426,11 @@ func (un *unparser) visitStructMsg(expr ast.Expr) error {
 		if field.IsOptional() {
 			un.str.WriteString("?")
 		}
+<<<<<<< HEAD
 		un.str.WriteString(maybeQuoteField(f))
+=======
+		un.str.WriteString(f)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		un.str.WriteString(": ")
 		v := field.Value()
 		err := un.visit(v)

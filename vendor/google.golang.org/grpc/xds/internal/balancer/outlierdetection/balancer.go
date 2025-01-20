@@ -25,7 +25,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
+<<<<<<< HEAD
 	rand "math/rand/v2"
+=======
+	"math/rand"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -33,7 +37,10 @@ import (
 	"unsafe"
 
 	"google.golang.org/grpc/balancer"
+<<<<<<< HEAD
 	"google.golang.org/grpc/balancer/pickfirst/pickfirstleaf"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/internal/balancer/gracefulswitch"
 	"google.golang.org/grpc/internal/buffer"
@@ -73,7 +80,11 @@ func (bb) Build(cc balancer.ClientConn, bOpts balancer.BuildOptions) balancer.Ba
 	}
 	b.logger = prefixLogger(b)
 	b.logger.Infof("Created")
+<<<<<<< HEAD
 	b.child = synchronizingBalancerWrapper{lb: gracefulswitch.NewBalancer(b, bOpts)}
+=======
+	b.child = gracefulswitch.NewBalancer(b, bOpts)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	go b.run()
 	return b
 }
@@ -153,11 +164,14 @@ type lbCfgUpdate struct {
 	done chan struct{}
 }
 
+<<<<<<< HEAD
 type scHealthUpdate struct {
 	scw   *subConnWrapper
 	state balancer.SubConnState
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type outlierDetectionBalancer struct {
 	// These fields are safe to be accessed without holding any mutex because
 	// they are synchronized in run(), which makes these field accesses happen
@@ -176,7 +190,14 @@ type outlierDetectionBalancer struct {
 	logger         *grpclog.PrefixLogger
 	channelzParent channelz.Identifier
 
+<<<<<<< HEAD
 	child synchronizingBalancerWrapper
+=======
+	// childMu guards calls into child (to uphold the balancer.Balancer API
+	// guarantee of synchronous calls).
+	childMu sync.Mutex
+	child   *gracefulswitch.Balancer
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// mu guards access to the following fields. It also helps to synchronize
 	// behaviors of the following events: config updates, firing of the interval
@@ -193,8 +214,13 @@ type outlierDetectionBalancer struct {
 	// which uses addrs. This balancer waits for the interval timer algorithm to
 	// finish before making the update to the addrs map.
 	//
+<<<<<<< HEAD
 	// This mutex is never held when calling methods on the child policy
 	// (within the context of a single goroutine).
+=======
+	// This mutex is never held at the same time as childMu (within the context
+	// of a single goroutine).
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	mu                    sync.Mutex
 	addrs                 map[string]*addressInfo
 	cfg                   *LBConfig
@@ -279,9 +305,19 @@ func (b *outlierDetectionBalancer) UpdateClientConnState(s balancer.ClientConnSt
 	// the balancer.Balancer API, so it is guaranteed to be called in a
 	// synchronous manner, so it cannot race with this read.
 	if b.cfg == nil || b.cfg.ChildPolicy.Name != lbCfg.ChildPolicy.Name {
+<<<<<<< HEAD
 		if err := b.child.switchTo(bb); err != nil {
 			return fmt.Errorf("outlier detection: error switching to child of type %q: %v", lbCfg.ChildPolicy.Name, err)
 		}
+=======
+		b.childMu.Lock()
+		err := b.child.SwitchTo(bb)
+		if err != nil {
+			b.childMu.Unlock()
+			return fmt.Errorf("outlier detection: error switching to child of type %q: %v", lbCfg.ChildPolicy.Name, err)
+		}
+		b.childMu.Unlock()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	b.mu.Lock()
@@ -318,10 +354,19 @@ func (b *outlierDetectionBalancer) UpdateClientConnState(s balancer.ClientConnSt
 	}
 	b.mu.Unlock()
 
+<<<<<<< HEAD
 	err := b.child.updateClientConnState(balancer.ClientConnState{
 		ResolverState:  s.ResolverState,
 		BalancerConfig: b.cfg.ChildPolicy.Config,
 	})
+=======
+	b.childMu.Lock()
+	err := b.child.UpdateClientConnState(balancer.ClientConnState{
+		ResolverState:  s.ResolverState,
+		BalancerConfig: b.cfg.ChildPolicy.Config,
+	})
+	b.childMu.Unlock()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	done := make(chan struct{})
 	b.pickerUpdateCh.Put(lbCfgUpdate{
@@ -334,7 +379,13 @@ func (b *outlierDetectionBalancer) UpdateClientConnState(s balancer.ClientConnSt
 }
 
 func (b *outlierDetectionBalancer) ResolverError(err error) {
+<<<<<<< HEAD
 	b.child.resolverError(err)
+=======
+	b.childMu.Lock()
+	defer b.childMu.Unlock()
+	b.child.ResolverError(err)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (b *outlierDetectionBalancer) updateSubConnState(sc balancer.SubConn, state balancer.SubConnState) {
@@ -350,7 +401,10 @@ func (b *outlierDetectionBalancer) updateSubConnState(sc balancer.SubConn, state
 	if state.ConnectivityState == connectivity.Shutdown {
 		delete(b.scWrappers, scw.SubConn)
 	}
+<<<<<<< HEAD
 	scw.setLatestConnectivityState(state.ConnectivityState)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	b.scUpdateCh.Put(&scUpdate{
 		scw:   scw,
 		state: state,
@@ -364,7 +418,13 @@ func (b *outlierDetectionBalancer) UpdateSubConnState(sc balancer.SubConn, state
 func (b *outlierDetectionBalancer) Close() {
 	b.closed.Fire()
 	<-b.done.Done()
+<<<<<<< HEAD
 	b.child.closeLB()
+=======
+	b.childMu.Lock()
+	b.child.Close()
+	b.childMu.Unlock()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	b.scUpdateCh.Close()
 	b.pickerUpdateCh.Close()
@@ -377,7 +437,13 @@ func (b *outlierDetectionBalancer) Close() {
 }
 
 func (b *outlierDetectionBalancer) ExitIdle() {
+<<<<<<< HEAD
 	b.child.exitIdle()
+=======
+	b.childMu.Lock()
+	defer b.childMu.Unlock()
+	b.child.ExitIdle()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // wrappedPicker delegates to the child policy's picker, and when the request
@@ -467,6 +533,7 @@ func (b *outlierDetectionBalancer) NewSubConn(addrs []resolver.Address, opts bal
 		return nil, err
 	}
 	scw := &subConnWrapper{
+<<<<<<< HEAD
 		SubConn:                    sc,
 		addresses:                  addrs,
 		scUpdateCh:                 b.scUpdateCh,
@@ -474,6 +541,12 @@ func (b *outlierDetectionBalancer) NewSubConn(addrs []resolver.Address, opts bal
 		latestRawConnectivityState: balancer.SubConnState{ConnectivityState: connectivity.Idle},
 		latestHealthState:          balancer.SubConnState{ConnectivityState: connectivity.Connecting},
 		healthListenerEnabled:      len(addrs) == 1 && pickfirstleaf.IsManagedByPickfirst(addrs[0]),
+=======
+		SubConn:    sc,
+		addresses:  addrs,
+		scUpdateCh: b.scUpdateCh,
+		listener:   oldListener,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	b.mu.Lock()
 	defer b.mu.Unlock()
@@ -591,18 +664,47 @@ func (b *outlierDetectionBalancer) Target() string {
 // if the SubConn is not ejected.
 func (b *outlierDetectionBalancer) handleSubConnUpdate(u *scUpdate) {
 	scw := u.scw
+<<<<<<< HEAD
 	scw.clearHealthListener()
 	b.child.updateSubConnState(scw, u.state)
 }
 
 func (b *outlierDetectionBalancer) handleSubConnHealthUpdate(u *scHealthUpdate) {
 	b.child.updateSubConnHealthState(u.scw, u.state)
+=======
+	scw.latestState = u.state
+	if !scw.ejected {
+		if scw.listener != nil {
+			b.childMu.Lock()
+			scw.listener(u.state)
+			b.childMu.Unlock()
+		}
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // handleEjectedUpdate handles any SubConns that get ejected/unejected, and
 // forwards the appropriate corresponding subConnState to the child policy.
 func (b *outlierDetectionBalancer) handleEjectedUpdate(u *ejectionUpdate) {
+<<<<<<< HEAD
 	b.child.handleEjectionUpdate(u)
+=======
+	scw := u.scw
+	scw.ejected = u.isEjected
+	// If scw.latestState has never been written to will default to connectivity
+	// IDLE, which is fine.
+	stateToUpdate := scw.latestState
+	if u.isEjected {
+		stateToUpdate = balancer.SubConnState{
+			ConnectivityState: connectivity.TransientFailure,
+		}
+	}
+	if scw.listener != nil {
+		b.childMu.Lock()
+		scw.listener(stateToUpdate)
+		b.childMu.Unlock()
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // handleChildStateUpdate forwards the picker update wrapped in a wrapped picker
@@ -675,8 +777,11 @@ func (b *outlierDetectionBalancer) run() {
 				b.handleSubConnUpdate(u)
 			case *ejectionUpdate:
 				b.handleEjectedUpdate(u)
+<<<<<<< HEAD
 			case *scHealthUpdate:
 				b.handleSubConnHealthUpdate(u)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 		case update, ok := <-b.pickerUpdateCh.Get():
 			if !ok {
@@ -805,7 +910,11 @@ func (b *outlierDetectionBalancer) successRateAlgorithm() {
 		requiredSuccessRate := mean - stddev*(float64(ejectionCfg.StdevFactor)/1000)
 		if successRate < requiredSuccessRate {
 			channelz.Infof(logger, b.channelzParent, "SuccessRate algorithm detected outlier: %s. Parameters: successRate=%f, mean=%f, stddev=%f, requiredSuccessRate=%f", addrInfo, successRate, mean, stddev, requiredSuccessRate)
+<<<<<<< HEAD
 			if uint32(rand.Int32N(100)) < ejectionCfg.EnforcementPercentage {
+=======
+			if uint32(rand.Int31n(100)) < ejectionCfg.EnforcementPercentage {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				b.ejectAddress(addrInfo)
 			}
 		}
@@ -832,7 +941,11 @@ func (b *outlierDetectionBalancer) failurePercentageAlgorithm() {
 		failurePercentage := (float64(bucket.numFailures) / float64(bucket.numSuccesses+bucket.numFailures)) * 100
 		if failurePercentage > float64(b.cfg.FailurePercentageEjection.Threshold) {
 			channelz.Infof(logger, b.channelzParent, "FailurePercentage algorithm detected outlier: %s, failurePercentage=%f", addrInfo, failurePercentage)
+<<<<<<< HEAD
 			if uint32(rand.Int32N(100)) < ejectionCfg.EnforcementPercentage {
+=======
+			if uint32(rand.Int31n(100)) < ejectionCfg.EnforcementPercentage {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				b.ejectAddress(addrInfo)
 			}
 		}
@@ -861,6 +974,7 @@ func (b *outlierDetectionBalancer) unejectAddress(addrInfo *addressInfo) {
 	}
 }
 
+<<<<<<< HEAD
 // synchronizingBalancerWrapper serializes calls into balancer (to uphold the
 // balancer.Balancer API guarantee of synchronous calls). It also ensures a
 // consistent order of locking mutexes when using SubConn listeners to avoid
@@ -924,6 +1038,8 @@ func (sbw *synchronizingBalancerWrapper) handleEjectionUpdate(u *ejectionUpdate)
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // addressInfo contains the runtime information about an address that pertains
 // to Outlier Detection. This struct and all of its fields is protected by
 // outlierDetectionBalancer.mu in the case where it is accessed through the

@@ -43,6 +43,7 @@ import (
 // ID and Errors (if present) will always be filled.
 // [Load] may return more information than requested.
 //
+<<<<<<< HEAD
 // The Mode flag is a union of several bits named NeedName,
 // NeedFiles, and so on, each of which determines whether
 // a given field of Package (Name, Files, etc) should be
@@ -57,6 +58,8 @@ import (
 //	[LoadSyntax]    ... plus type-annotated syntax
 //	[LoadAllSyntax] ... for all dependencies
 //
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Unfortunately there are a number of open bugs related to
 // interactions among the LoadMode bits:
 //   - https://github.com/golang/go/issues/56633
@@ -69,7 +72,11 @@ const (
 	// NeedName adds Name and PkgPath.
 	NeedName LoadMode = 1 << iota
 
+<<<<<<< HEAD
 	// NeedFiles adds Dir, GoFiles, OtherFiles, and IgnoredFiles
+=======
+	// NeedFiles adds GoFiles, OtherFiles, and IgnoredFiles
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	NeedFiles
 
 	// NeedCompiledGoFiles adds CompiledGoFiles.
@@ -100,10 +107,16 @@ const (
 	// needInternalDepsErrors adds the internal deps errors field for use by gopls.
 	needInternalDepsErrors
 
+<<<<<<< HEAD
 	// NeedForTest adds ForTest.
 	//
 	// Tests must also be set on the context for this field to be populated.
 	NeedForTest
+=======
+	// needInternalForTest adds the internal forTest field.
+	// Tests must also be set on the context for this field to be populated.
+	needInternalForTest
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// typecheckCgo enables full support for type checking cgo. Requires Go 1.15+.
 	// Modifies CompiledGoFiles and Types, and has no effect on its own.
@@ -118,14 +131,18 @@ const (
 	// NeedEmbedPatterns adds EmbedPatterns.
 	NeedEmbedPatterns
 
+<<<<<<< HEAD
 	// NeedTarget adds Target.
 	NeedTarget
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Be sure to update loadmode_string.go when adding new items!
 )
 
 const (
 	// LoadFiles loads the name and file names for the initial packages.
+<<<<<<< HEAD
 	LoadFiles = NeedName | NeedFiles | NeedCompiledGoFiles
 
 	// LoadImports loads the name, file names, and import mapping for the initial packages.
@@ -138,6 +155,35 @@ const (
 	LoadSyntax = LoadTypes | NeedSyntax | NeedTypesInfo
 
 	// LoadAllSyntax loads typed syntax for the initial packages and all dependencies.
+=======
+	//
+	// Deprecated: LoadFiles exists for historical compatibility
+	// and should not be used. Please directly specify the needed fields using the Need values.
+	LoadFiles = NeedName | NeedFiles | NeedCompiledGoFiles
+
+	// LoadImports loads the name, file names, and import mapping for the initial packages.
+	//
+	// Deprecated: LoadImports exists for historical compatibility
+	// and should not be used. Please directly specify the needed fields using the Need values.
+	LoadImports = LoadFiles | NeedImports
+
+	// LoadTypes loads exported type information for the initial packages.
+	//
+	// Deprecated: LoadTypes exists for historical compatibility
+	// and should not be used. Please directly specify the needed fields using the Need values.
+	LoadTypes = LoadImports | NeedTypes | NeedTypesSizes
+
+	// LoadSyntax loads typed syntax for the initial packages.
+	//
+	// Deprecated: LoadSyntax exists for historical compatibility
+	// and should not be used. Please directly specify the needed fields using the Need values.
+	LoadSyntax = LoadTypes | NeedSyntax | NeedTypesInfo
+
+	// LoadAllSyntax loads typed syntax for the initial packages and all dependencies.
+	//
+	// Deprecated: LoadAllSyntax exists for historical compatibility
+	// and should not be used. Please directly specify the needed fields using the Need values.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	LoadAllSyntax = LoadSyntax | NeedDeps
 
 	// Deprecated: NeedExportsFile is a historical misspelling of NeedExportFile.
@@ -437,12 +483,15 @@ type Package struct {
 	// PkgPath is the package path as used by the go/types package.
 	PkgPath string
 
+<<<<<<< HEAD
 	// Dir is the directory associated with the package, if it exists.
 	//
 	// For packages listed by the go command, this is the directory containing
 	// the package files.
 	Dir string
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Errors contains any errors encountered querying the metadata
 	// of the package, or while parsing or type-checking its files.
 	Errors []Error
@@ -482,10 +531,13 @@ type Package struct {
 	// information for the package as provided by the build system.
 	ExportFile string
 
+<<<<<<< HEAD
 	// Target is the absolute install path of the .a file, for libraries,
 	// and of the executable file, for binaries.
 	Target string
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Imports maps import paths appearing in the package's Go source files
 	// to corresponding loaded Packages.
 	Imports map[string]*Package
@@ -534,8 +586,13 @@ type Package struct {
 
 	// -- internal --
 
+<<<<<<< HEAD
 	// ForTest is the package under test, if any.
 	ForTest string
+=======
+	// forTest is the package under test, if any.
+	forTest string
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// depsErrors is the DepsErrors field from the go list response, if any.
 	depsErrors []*packagesinternal.PackageError
@@ -564,6 +621,12 @@ type ModuleError struct {
 }
 
 func init() {
+<<<<<<< HEAD
+=======
+	packagesinternal.GetForTest = func(p interface{}) string {
+		return p.(*Package).forTest
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	packagesinternal.GetDepsErrors = func(p interface{}) []*packagesinternal.PackageError {
 		return p.(*Package).depsErrors
 	}
@@ -575,6 +638,10 @@ func init() {
 	}
 	packagesinternal.TypecheckCgo = int(typecheckCgo)
 	packagesinternal.DepsErrors = int(needInternalDepsErrors)
+<<<<<<< HEAD
+=======
+	packagesinternal.ForTest = int(needInternalForTest)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // An Error describes a problem with a package's metadata, syntax, or types.

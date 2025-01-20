@@ -40,7 +40,11 @@ func Float32P(val string) (*float32, error) {
 }
 
 // Int64P parses the given string representation of an integer
+<<<<<<< HEAD
 // and returns a pointer to an int64 whose value is same as the parsed integer.
+=======
+// and returns a pointer to a int64 whose value is same as the parsed integer.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func Int64P(val string) (*int64, error) {
 	i, err := Int64(val)
 	if err != nil {
@@ -50,7 +54,11 @@ func Int64P(val string) (*int64, error) {
 }
 
 // Int32P parses the given string representation of an integer
+<<<<<<< HEAD
 // and returns a pointer to an int32 whose value is same as the parsed integer.
+=======
+// and returns a pointer to a int32 whose value is same as the parsed integer.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func Int32P(val string) (*int32, error) {
 	i, err := Int32(val)
 	if err != nil {

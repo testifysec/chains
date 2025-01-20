@@ -285,10 +285,14 @@ func (b *ringhashBalancer) updateAddresses(addrs []resolver.Address) bool {
 }
 
 func (b *ringhashBalancer) UpdateClientConnState(s balancer.ClientConnState) error {
+<<<<<<< HEAD
 	if b.logger.V(2) {
 		b.logger.Infof("Received update from resolver, balancer config: %+v", pretty.ToJSON(s.BalancerConfig))
 	}
 
+=======
+	b.logger.Infof("Received update from resolver, balancer config: %+v", pretty.ToJSON(s.BalancerConfig))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	newConfig, ok := s.BalancerConfig.(*LBConfig)
 	if !ok {
 		return fmt.Errorf("unexpected balancer config with type: %T", s.BalancerConfig)

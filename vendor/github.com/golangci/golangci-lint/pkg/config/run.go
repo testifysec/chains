@@ -29,10 +29,17 @@ type Run struct {
 	// Deprecated: use Issues.ExcludeDirs instead.
 	SkipDirs []string `mapstructure:"skip-dirs"`
 	// Deprecated: use Issues.UseDefaultExcludeDirs instead.
+<<<<<<< HEAD
 	UseDefaultSkipDirs *bool `mapstructure:"skip-dirs-use-default"`
 
 	// Deprecated: use Output.ShowStats instead.
 	ShowStats *bool `mapstructure:"show-stats"`
+=======
+	UseDefaultSkipDirs bool `mapstructure:"skip-dirs-use-default"`
+
+	// Deprecated: use Output.ShowStats instead.
+	ShowStats bool `mapstructure:"show-stats"`
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (r *Run) Validate() error {

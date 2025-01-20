@@ -12,3 +12,14 @@ go.work
 go.work.sum
 
 gen/
+<<<<<<< HEAD
+=======
+
+/example/dice/dice
+/example/namedtracer/namedtracer
+/example/otel-collector/otel-collector
+/example/opencensus/opencensus
+/example/passthrough/passthrough
+/example/prometheus/prometheus
+/example/zipkin/zipkin
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

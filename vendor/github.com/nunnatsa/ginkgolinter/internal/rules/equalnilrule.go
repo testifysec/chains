@@ -12,7 +12,11 @@ import (
 type EqualNilRule struct{}
 
 func (r EqualNilRule) isApplied(gexp *expression.GomegaExpression, config types.Config) bool {
+<<<<<<< HEAD
 	return !config.SuppressNil &&
+=======
+	return !bool(config.SuppressNil) &&
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		gexp.MatcherTypeIs(matcher.EqualValueMatcherType)
 }
 

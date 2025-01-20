@@ -10,8 +10,11 @@ import (
 	"io"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/google/uuid"
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/errors"
 	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/internal/exported"
 	internalTime "github.com/AzureAD/microsoft-authentication-library-for-go/apps/internal/json/types/time"
@@ -20,6 +23,10 @@ import (
 	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/internal/oauth/ops/authority"
 	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/internal/oauth/ops/wstrust"
 	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/internal/oauth/ops/wstrust/defs"
+<<<<<<< HEAD
+=======
+	"github.com/google/uuid"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // ResolveEndpointer contains the methods for resolving authority endpoints.
@@ -332,7 +339,11 @@ func (t *Client) DeviceCode(ctx context.Context, authParams authority.AuthParams
 func (t *Client) resolveEndpoint(ctx context.Context, authParams *authority.AuthParams, userPrincipalName string) error {
 	endpoints, err := t.Resolver.ResolveEndpoints(ctx, authParams.AuthorityInfo, userPrincipalName)
 	if err != nil {
+<<<<<<< HEAD
 		return fmt.Errorf("unable to resolve an endpoint: %w", err)
+=======
+		return fmt.Errorf("unable to resolve an endpoint: %s", err)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	authParams.Endpoints = endpoints
 	return nil

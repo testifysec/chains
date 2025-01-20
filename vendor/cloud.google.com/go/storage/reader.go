@@ -22,7 +22,10 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+<<<<<<< HEAD
 	"sync"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"time"
 
 	"cloud.google.com/go/internal/trace"
@@ -141,7 +144,10 @@ func (o *ObjectHandle) NewRangeReader(ctx context.Context, offset, length int64)
 		encryptionKey:  o.encryptionKey,
 		conds:          o.conds,
 		readCompressed: o.readCompressed,
+<<<<<<< HEAD
 		handle:         &o.readHandle,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	r, err = o.c.tc.NewRangeReader(ctx, params, opts...)
@@ -157,6 +163,7 @@ func (o *ObjectHandle) NewRangeReader(ctx context.Context, offset, length int64)
 	return r, err
 }
 
+<<<<<<< HEAD
 // NewMultiRangeDownloader creates a multi-range reader for an object.
 // Must be called on a gRPC client created using [NewGRPCClient].
 //
@@ -200,6 +207,8 @@ func (o *ObjectHandle) NewMultiRangeDownloader(ctx context.Context) (mrd *MultiR
 	return r, err
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // decompressiveTranscoding returns true if the request was served decompressed
 // and different than its original storage form. This happens when the "Content-Encoding"
 // header is "gzip".
@@ -267,16 +276,23 @@ var emptyBody = ioutil.NopCloser(strings.NewReader(""))
 // the stored CRC, returning an error from Read if there is a mismatch. This integrity check
 // is skipped if transcoding occurs. See https://cloud.google.com/storage/docs/transcoding.
 type Reader struct {
+<<<<<<< HEAD
 	Attrs          ReaderObjectAttrs
 	objectMetadata *map[string]string
 
+=======
+	Attrs              ReaderObjectAttrs
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	seen, remain, size int64
 	checkCRC           bool // Did we check the CRC? This is now only used by tests.
 
 	reader io.ReadCloser
 	ctx    context.Context
+<<<<<<< HEAD
 	mu     sync.Mutex
 	handle *ReadHandle
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // Close closes the Reader. It must be called when done reading.
@@ -347,6 +363,7 @@ func (r *Reader) CacheControl() string {
 func (r *Reader) LastModified() (time.Time, error) {
 	return r.Attrs.LastModified, nil
 }
+<<<<<<< HEAD
 
 // Metadata returns user-provided metadata, in key/value pairs.
 //
@@ -439,3 +456,5 @@ func (mrd *MultiRangeDownloader) Wait() {
 func (mrd *MultiRangeDownloader) GetHandle() []byte {
 	return mrd.reader.getHandle()
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

@@ -15,7 +15,10 @@
 package cel
 
 import (
+<<<<<<< HEAD
 	"fmt"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"math"
 	"strconv"
 	"strings"
@@ -36,11 +39,17 @@ const (
 	optMapMacro                = "optMap"
 	optFlatMapMacro            = "optFlatMap"
 	hasValueFunc               = "hasValue"
+<<<<<<< HEAD
 	unwrapOptFunc              = "unwrapOpt"
 	optionalNoneFunc           = "optional.none"
 	optionalOfFunc             = "optional.of"
 	optionalOfNonZeroValueFunc = "optional.ofNonZeroValue"
 	optionalUnwrapFunc         = "optional.unwrap"
+=======
+	optionalNoneFunc           = "optional.none"
+	optionalOfFunc             = "optional.of"
+	optionalOfNonZeroValueFunc = "optional.ofNonZeroValue"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	valueFunc                  = "value"
 	unusedIterVar              = "#unused"
 )
@@ -263,6 +272,7 @@ func (stdLibrary) ProgramOptions() []ProgramOption {
 // be expressed with `optMap`.
 //
 //	msg.?elements.optFlatMap(e, e[?0]) // return the first element if present.
+<<<<<<< HEAD
 
 // # First
 //
@@ -294,6 +304,8 @@ func (stdLibrary) ProgramOptions() []ProgramOption {
 // optional.unwrap([optional.of(42), optional.none()]) == [42]
 // [optional.of(42), optional.none()].unwrapOpt() == [42]
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func OptionalTypes(opts ...OptionalTypesOption) EnvOption {
 	lib := &optionalLib{version: math.MaxUint32}
 	for _, opt := range opts {
@@ -337,7 +349,10 @@ func (lib *optionalLib) CompileOptions() []EnvOption {
 	optionalTypeV := OptionalType(paramTypeV)
 	listTypeV := ListType(paramTypeV)
 	mapTypeKV := MapType(paramTypeK, paramTypeV)
+<<<<<<< HEAD
 	listOptionalTypeV := ListType(optionalTypeV)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	opts := []EnvOption{
 		// Enable the optional syntax in the parser.
@@ -410,6 +425,7 @@ func (lib *optionalLib) CompileOptions() []EnvOption {
 	if lib.version >= 1 {
 		opts = append(opts, Macros(ReceiverMacro(optFlatMapMacro, 2, optFlatMap)))
 	}
+<<<<<<< HEAD
 
 	if lib.version >= 2 {
 		opts = append(opts, Function("last",
@@ -450,6 +466,8 @@ func (lib *optionalLib) CompileOptions() []EnvOption {
 				UnaryBinding(optUnwrap))))
 	}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return opts
 }
 
@@ -478,7 +496,11 @@ func optMap(meh MacroExprFactory, target ast.Expr, args []ast.Expr) (ast.Expr, *
 				meh.NewList(),
 				unusedIterVar,
 				varName,
+<<<<<<< HEAD
 				meh.NewMemberCall(valueFunc, meh.Copy(target)),
+=======
+				meh.NewMemberCall(valueFunc, target),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				meh.NewLiteral(types.False),
 				meh.NewIdent(varName),
 				mapExpr,
@@ -505,7 +527,11 @@ func optFlatMap(meh MacroExprFactory, target ast.Expr, args []ast.Expr) (ast.Exp
 			meh.NewList(),
 			unusedIterVar,
 			varName,
+<<<<<<< HEAD
 			meh.NewMemberCall(valueFunc, meh.Copy(target)),
+=======
+			meh.NewMemberCall(valueFunc, target),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			meh.NewLiteral(types.False),
 			meh.NewIdent(varName),
 			mapExpr,
@@ -514,6 +540,7 @@ func optFlatMap(meh MacroExprFactory, target ast.Expr, args []ast.Expr) (ast.Exp
 	), nil
 }
 
+<<<<<<< HEAD
 func optUnwrap(value ref.Val) ref.Val {
 	list := value.(traits.Lister)
 	var unwrappedList []ref.Val
@@ -531,6 +558,8 @@ func optUnwrap(value ref.Val) ref.Val {
 	return types.DefaultTypeAdapter.NativeToValue(unwrappedList)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func enableOptionalSyntax() EnvOption {
 	return func(e *Env) (*Env, error) {
 		e.prsrOpts = append(e.prsrOpts, parser.EnableOptionalSyntax(true))
@@ -538,12 +567,15 @@ func enableOptionalSyntax() EnvOption {
 	}
 }
 
+<<<<<<< HEAD
 // EnableErrorOnBadPresenceTest enables error generation when a presence test or optional field
 // selection is performed on a primitive type.
 func EnableErrorOnBadPresenceTest(value bool) EnvOption {
 	return features(featureEnableErrorOnBadPresenceTest, value)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func decorateOptionalOr(i interpreter.Interpretable) (interpreter.Interpretable, error) {
 	call, ok := i.(interpreter.InterpretableCall)
 	if !ok {
@@ -769,7 +801,11 @@ var (
 func timestampGetFullYear(ts, tz ref.Val) ref.Val {
 	t, err := inTimeZone(ts, tz)
 	if err != nil {
+<<<<<<< HEAD
 		return types.NewErrFromString(err.Error())
+=======
+		return types.NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return types.Int(t.Year())
 }
@@ -777,7 +813,11 @@ func timestampGetFullYear(ts, tz ref.Val) ref.Val {
 func timestampGetMonth(ts, tz ref.Val) ref.Val {
 	t, err := inTimeZone(ts, tz)
 	if err != nil {
+<<<<<<< HEAD
 		return types.NewErrFromString(err.Error())
+=======
+		return types.NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	// CEL spec indicates that the month should be 0-based, but the Time value
 	// for Month() is 1-based.
@@ -787,7 +827,11 @@ func timestampGetMonth(ts, tz ref.Val) ref.Val {
 func timestampGetDayOfYear(ts, tz ref.Val) ref.Val {
 	t, err := inTimeZone(ts, tz)
 	if err != nil {
+<<<<<<< HEAD
 		return types.NewErrFromString(err.Error())
+=======
+		return types.NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return types.Int(t.YearDay() - 1)
 }
@@ -795,7 +839,11 @@ func timestampGetDayOfYear(ts, tz ref.Val) ref.Val {
 func timestampGetDayOfMonthZeroBased(ts, tz ref.Val) ref.Val {
 	t, err := inTimeZone(ts, tz)
 	if err != nil {
+<<<<<<< HEAD
 		return types.NewErrFromString(err.Error())
+=======
+		return types.NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return types.Int(t.Day() - 1)
 }
@@ -803,7 +851,11 @@ func timestampGetDayOfMonthZeroBased(ts, tz ref.Val) ref.Val {
 func timestampGetDayOfMonthOneBased(ts, tz ref.Val) ref.Val {
 	t, err := inTimeZone(ts, tz)
 	if err != nil {
+<<<<<<< HEAD
 		return types.NewErrFromString(err.Error())
+=======
+		return types.NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return types.Int(t.Day())
 }
@@ -811,7 +863,11 @@ func timestampGetDayOfMonthOneBased(ts, tz ref.Val) ref.Val {
 func timestampGetDayOfWeek(ts, tz ref.Val) ref.Val {
 	t, err := inTimeZone(ts, tz)
 	if err != nil {
+<<<<<<< HEAD
 		return types.NewErrFromString(err.Error())
+=======
+		return types.NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return types.Int(t.Weekday())
 }
@@ -819,7 +875,11 @@ func timestampGetDayOfWeek(ts, tz ref.Val) ref.Val {
 func timestampGetHours(ts, tz ref.Val) ref.Val {
 	t, err := inTimeZone(ts, tz)
 	if err != nil {
+<<<<<<< HEAD
 		return types.NewErrFromString(err.Error())
+=======
+		return types.NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return types.Int(t.Hour())
 }
@@ -827,7 +887,11 @@ func timestampGetHours(ts, tz ref.Val) ref.Val {
 func timestampGetMinutes(ts, tz ref.Val) ref.Val {
 	t, err := inTimeZone(ts, tz)
 	if err != nil {
+<<<<<<< HEAD
 		return types.NewErrFromString(err.Error())
+=======
+		return types.NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return types.Int(t.Minute())
 }
@@ -835,7 +899,11 @@ func timestampGetMinutes(ts, tz ref.Val) ref.Val {
 func timestampGetSeconds(ts, tz ref.Val) ref.Val {
 	t, err := inTimeZone(ts, tz)
 	if err != nil {
+<<<<<<< HEAD
 		return types.NewErrFromString(err.Error())
+=======
+		return types.NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return types.Int(t.Second())
 }
@@ -843,7 +911,11 @@ func timestampGetSeconds(ts, tz ref.Val) ref.Val {
 func timestampGetMilliseconds(ts, tz ref.Val) ref.Val {
 	t, err := inTimeZone(ts, tz)
 	if err != nil {
+<<<<<<< HEAD
 		return types.NewErrFromString(err.Error())
+=======
+		return types.NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return types.Int(t.Nanosecond() / 1000000)
 }

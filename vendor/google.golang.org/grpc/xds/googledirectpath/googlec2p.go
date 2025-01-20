@@ -28,9 +28,14 @@ package googledirectpath
 import (
 	"encoding/json"
 	"fmt"
+<<<<<<< HEAD
 	rand "math/rand/v2"
 	"net/url"
 	"sync"
+=======
+	"math/rand"
+	"net/url"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"time"
 
 	"google.golang.org/grpc/grpclog"
@@ -47,7 +52,11 @@ const (
 	c2pScheme    = "google-c2p"
 	c2pAuthority = "traffic-director-c2p.xds.googleapis.com"
 
+<<<<<<< HEAD
 	defaultUniverseDomain   = "googleapis.com"
+=======
+	tdURL                   = "dns:///directpath-pa.googleapis.com"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	zoneURL                 = "http://metadata.google.internal/computeMetadata/v1/instance/zone"
 	ipv6URL                 = "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ipv6s"
 	ipv6CapableMetadataName = "TRAFFICDIRECTOR_DIRECTPATH_C2P_IPV6_CAPABLE"
@@ -57,6 +66,7 @@ const (
 	dnsName, xdsName = "dns", "xds"
 )
 
+<<<<<<< HEAD
 var (
 	logger           = internalgrpclog.NewPrefixLogger(grpclog.Component("directpath"), logPrefix)
 	universeDomainMu sync.Mutex
@@ -64,12 +74,20 @@ var (
 	// For overriding in unittests.
 	onGCE   = googlecloud.OnGCE
 	randInt = rand.Int
+=======
+// For overriding in unittests.
+var (
+	onGCE   = googlecloud.OnGCE
+	randInt = rand.Int
+	logger  = internalgrpclog.NewPrefixLogger(grpclog.Component("directpath"), logPrefix)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 func init() {
 	resolver.Register(c2pResolverBuilder{})
 }
 
+<<<<<<< HEAD
 // SetUniverseDomain informs the gRPC library of the universe domain
 // in which the process is running (for example, "googleapis.com").
 // It is the caller's responsibility to ensure that the domain is correct.
@@ -117,6 +135,8 @@ func getXdsServerURI() string {
 	return fmt.Sprintf("dns:///directpath-pa.%s", universeDomain)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type c2pResolverBuilder struct{}
 
 func (c2pResolverBuilder) Build(t resolver.Target, cc resolver.ClientConn, opts resolver.BuildOptions) (resolver.Resolver, error) {
@@ -140,7 +160,15 @@ func (c2pResolverBuilder) Build(t resolver.Target, cc resolver.ClientConn, opts 
 	go func() { zoneCh <- getZone(httpReqTimeout) }()
 	go func() { ipv6CapableCh <- getIPv6Capable(httpReqTimeout) }()
 
+<<<<<<< HEAD
 	xdsServerURI := getXdsServerURI()
+=======
+	xdsServerURI := envconfig.C2PResolverTestOnlyTrafficDirectorURI
+	if xdsServerURI == "" {
+		xdsServerURI = tdURL
+	}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	nodeCfg := newNodeConfig(<-zoneCh, <-ipv6CapableCh)
 	xdsServerCfg := newXdsServerConfig(xdsServerURI)
 	authoritiesCfg := newAuthoritiesConfig(xdsServerCfg)

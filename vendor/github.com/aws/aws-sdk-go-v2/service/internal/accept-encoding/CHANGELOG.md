@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # v1.12.2 (2025-01-24)
 
 * **Dependency Update**: Upgrade to smithy-go v1.22.2.
@@ -6,6 +7,8 @@
 
 * **Dependency Update**: Update to smithy-go v1.22.1.
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 # v1.12.0 (2024-10-04)
 
 * **Feature**: Add support for HTTP client metrics.

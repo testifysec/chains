@@ -31,7 +31,12 @@ var (
 // This is a copy of the gRPC internal googlecloud.OnGCE() func at:
 // https://github.com/grpc/grpc-go/blob/master/internal/googlecloud/googlecloud.go
 // The functionality is similar to the metadata.OnGCE() func at:
+<<<<<<< HEAD
 // https://github.com/googleapis/google-cloud-go/blob/main/compute/metadata/metadata.go
+=======
+// https://github.com/xmenxk/google-cloud-go/blob/main/compute/metadata/metadata.go
+//
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // The difference is that OnComputeEngine() does not perform HTTP or DNS check on the metadata server.
 // In particular, OnComputeEngine() will return false on Serverless.
 func OnComputeEngine() bool {

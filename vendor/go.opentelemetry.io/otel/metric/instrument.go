@@ -351,7 +351,11 @@ func WithAttributeSet(attributes attribute.Set) MeasurementOption {
 //
 //	cp := make([]attribute.KeyValue, len(attributes))
 //	copy(cp, attributes)
+<<<<<<< HEAD
 //	WithAttributeSet(attribute.NewSet(cp...))
+=======
+//	WithAttributes(attribute.NewSet(cp...))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 // [attribute.NewSet] may modify the passed attributes so this will make a copy
 // of attributes before creating a set in order to ensure this function is

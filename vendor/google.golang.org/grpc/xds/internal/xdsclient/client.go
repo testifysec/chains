@@ -32,9 +32,15 @@ import (
 type XDSClient interface {
 	// WatchResource uses xDS to discover the resource associated with the
 	// provided resource name. The resource type implementation determines how
+<<<<<<< HEAD
 	// xDS responses are are deserialized and validated, as received from the
 	// xDS management server. Upon receipt of a response from the management
 	// server, an appropriate callback on the watcher is invoked.
+=======
+	// xDS requests are sent out and how responses are deserialized and
+	// validated. Upon receipt of a response from the management server, an
+	// appropriate callback on the watcher is invoked.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	//
 	// Most callers will not have a need to use this API directly. They will
 	// instead use a resource-type-specific wrapper API provided by the relevant

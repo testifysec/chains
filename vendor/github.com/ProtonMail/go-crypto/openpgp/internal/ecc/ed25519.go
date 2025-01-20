@@ -2,7 +2,10 @@
 package ecc
 
 import (
+<<<<<<< HEAD
 	"bytes"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"crypto/subtle"
 	"io"
 
@@ -91,6 +94,7 @@ func (c *ed25519) GenerateEdDSA(rand io.Reader) (pub, priv []byte, err error) {
 }
 
 func getEd25519Sk(publicKey, privateKey []byte) ed25519lib.PrivateKey {
+<<<<<<< HEAD
 	privateKeyCap, privateKeyLen, publicKeyLen := cap(privateKey), len(privateKey), len(publicKey)
 
 	if privateKeyCap >= privateKeyLen+publicKeyLen &&
@@ -99,6 +103,9 @@ func getEd25519Sk(publicKey, privateKey []byte) ed25519lib.PrivateKey {
 	}
 
 	return append(privateKey[:privateKeyLen:privateKeyLen], publicKey...)
+=======
+	return append(privateKey, publicKey...)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (c *ed25519) Sign(publicKey, privateKey, message []byte) (sig []byte, err error) {

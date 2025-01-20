@@ -23,7 +23,10 @@ import (
 	"cloud.google.com/go/auth"
 	"cloud.google.com/go/auth/internal"
 	"cloud.google.com/go/compute/metadata"
+<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const identitySuffix = "instance/service-accounts/default/identity"
@@ -35,6 +38,7 @@ func computeCredentials(opts *Options) (*auth.Credentials, error) {
 	if opts.CustomClaims != nil {
 		return nil, fmt.Errorf("idtoken: Options.CustomClaims can't be used with the metadata service, please provide a service account if you would like to use this feature")
 	}
+<<<<<<< HEAD
 	metadataClient := metadata.NewWithOptions(&metadata.Options{
 		Logger: internallog.New(opts.Logger),
 	})
@@ -42,27 +46,46 @@ func computeCredentials(opts *Options) (*auth.Credentials, error) {
 		audience: opts.Audience,
 		format:   opts.ComputeTokenFormat,
 		client:   metadataClient,
+=======
+	tp := computeIDTokenProvider{
+		audience: opts.Audience,
+		format:   opts.ComputeTokenFormat,
+		client:   *metadata.NewClient(opts.client()),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return auth.NewCredentials(&auth.CredentialsOptions{
 		TokenProvider: auth.NewCachedTokenProvider(tp, &auth.CachedTokenProviderOptions{
 			ExpireEarly: 5 * time.Minute,
 		}),
 		ProjectIDProvider: auth.CredentialsPropertyFunc(func(ctx context.Context) (string, error) {
+<<<<<<< HEAD
 			return metadataClient.ProjectIDWithContext(ctx)
 		}),
 		UniverseDomainProvider: &internal.ComputeUniverseDomainProvider{
 			MetadataClient: metadataClient,
 		},
+=======
+			return metadata.ProjectIDWithContext(ctx)
+		}),
+		UniverseDomainProvider: &internal.ComputeUniverseDomainProvider{},
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}), nil
 }
 
 type computeIDTokenProvider struct {
 	audience string
 	format   ComputeTokenFormat
+<<<<<<< HEAD
 	client   *metadata.Client
 }
 
 func (c *computeIDTokenProvider) Token(ctx context.Context) (*auth.Token, error) {
+=======
+	client   metadata.Client
+}
+
+func (c computeIDTokenProvider) Token(ctx context.Context) (*auth.Token, error) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	v := url.Values{}
 	v.Set("audience", c.audience)
 	if c.format != ComputeTokenFormatStandard {

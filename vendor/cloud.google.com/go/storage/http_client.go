@@ -34,6 +34,10 @@ import (
 	"cloud.google.com/go/iam/apiv1/iampb"
 	"cloud.google.com/go/internal/optional"
 	"cloud.google.com/go/internal/trace"
+<<<<<<< HEAD
+=======
+	"github.com/googleapis/gax-go/v2"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/googleapis/gax-go/v2/callctx"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/googleapi"
@@ -592,6 +596,7 @@ func (c *httpStorageClient) RestoreObject(ctx context.Context, params *restoreOb
 	return newObject(obj), err
 }
 
+<<<<<<< HEAD
 func (c *httpStorageClient) MoveObject(ctx context.Context, params *moveObjectParams, opts ...storageOption) (*ObjectAttrs, error) {
 	s := callSettings(c.settings, opts...)
 	req := c.raw.Objects.Move(params.bucket, params.srcObject, params.dstObject).Context(ctx)
@@ -617,6 +622,8 @@ func (c *httpStorageClient) MoveObject(ctx context.Context, params *moveObjectPa
 	return newObject(obj), err
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Default Object ACL methods.
 
 func (c *httpStorageClient) DeleteDefaultObjectACL(ctx context.Context, bucket string, entity ACLEntity, opts ...storageOption) error {
@@ -822,7 +829,11 @@ func (c *httpStorageClient) RewriteObject(ctx context.Context, req *rewriteObjec
 	if err := applyConds("Copy destination", defaultGen, req.dstObject.conds, call); err != nil {
 		return nil, err
 	}
+<<<<<<< HEAD
 	if err := applySourceConds("Copy source", req.srcObject.gen, req.srcObject.conds, call); err != nil {
+=======
+	if err := applySourceConds(req.srcObject.gen, req.srcObject.conds, call); err != nil {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return nil, err
 	}
 	if s.userProject != "" {
@@ -861,11 +872,14 @@ func (c *httpStorageClient) RewriteObject(ctx context.Context, req *rewriteObjec
 	return r, nil
 }
 
+<<<<<<< HEAD
 // NewMultiRangeDownloader is not supported by http client.
 func (c *httpStorageClient) NewMultiRangeDownloader(ctx context.Context, params *newMultiRangeDownloaderParams, opts ...storageOption) (mr *MultiRangeDownloader, err error) {
 	return nil, errMethodNotSupported
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *httpStorageClient) NewRangeReader(ctx context.Context, params *newRangeReaderParams, opts ...storageOption) (r *Reader, err error) {
 	ctx = trace.StartSpan(ctx, "cloud.google.com/go/storage.httpStorageClient.NewRangeReader")
 	defer func() { trace.EndSpan(ctx, err) }()
@@ -982,10 +996,13 @@ func (c *httpStorageClient) newRangeReaderJSON(ctx context.Context, params *newR
 }
 
 func (c *httpStorageClient) OpenWriter(params *openWriterParams, opts ...storageOption) (*io.PipeWriter, error) {
+<<<<<<< HEAD
 	if params.append {
 		return nil, errors.New("storage: append not supported on HTTP Client; use gRPC")
 	}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	s := callSettings(c.settings, opts...)
 	errorf := params.setError
 	setObj := params.setObj
@@ -1059,7 +1076,17 @@ func (c *httpStorageClient) OpenWriter(params *openWriterParams, opts ...storage
 			}
 			if useRetry {
 				if s.retry != nil {
+<<<<<<< HEAD
 					call.WithRetry(s.retry.backoff, s.retry.shouldRetry)
+=======
+					bo := &gax.Backoff{}
+					if s.retry.backoff != nil {
+						bo.Multiplier = s.retry.backoff.GetMultiplier()
+						bo.Initial = s.retry.backoff.GetInitial()
+						bo.Max = s.retry.backoff.GetMax()
+					}
+					call.WithRetry(bo, s.retry.shouldRetry)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				} else {
 					call.WithRetry(nil, nil)
 				}
@@ -1550,6 +1577,7 @@ func parseReadResponse(res *http.Response, params *newRangeReaderParams, reopen 
 		}
 	}
 
+<<<<<<< HEAD
 	metadata := map[string]string{}
 	for key, values := range res.Header {
 		if len(values) > 0 && strings.HasPrefix(key, "X-Goog-Meta-") {
@@ -1558,6 +1586,8 @@ func parseReadResponse(res *http.Response, params *newRangeReaderParams, reopen 
 		}
 	}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	attrs := ReaderObjectAttrs{
 		Size:            size,
 		ContentType:     res.Header.Get("Content-Type"),
@@ -1571,11 +1601,18 @@ func parseReadResponse(res *http.Response, params *newRangeReaderParams, reopen 
 		Decompressed:    res.Uncompressed || uncompressedByServer(res),
 	}
 	return &Reader{
+<<<<<<< HEAD
 		Attrs:          attrs,
 		objectMetadata: &metadata,
 		size:           size,
 		remain:         remain,
 		checkCRC:       checkCRC,
+=======
+		Attrs:    attrs,
+		size:     size,
+		remain:   remain,
+		checkCRC: checkCRC,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		reader: &httpReader{
 			reopen:   reopen,
 			body:     body,

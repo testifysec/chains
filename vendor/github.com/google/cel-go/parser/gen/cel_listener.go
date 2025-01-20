@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 // Code generated from /usr/local/google/home/jdtatum/github/cel-go/parser/gen/CEL.g4 by ANTLR 4.13.1. DO NOT EDIT.
+=======
+// Code generated from /usr/local/google/home/tswadell/go/src/github.com/google/cel-go/parser/gen/CEL.g4 by ANTLR 4.13.1. DO NOT EDIT.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 package gen // CEL
 import "github.com/antlr4-go/antlr/v4"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // CELListener is a complete listener for a parse tree produced by CELParser.
 type CELListener interface {
 	antlr.ParseTreeListener
@@ -46,11 +54,16 @@ type CELListener interface {
 	// EnterIndex is called when entering the Index production.
 	EnterIndex(c *IndexContext)
 
+<<<<<<< HEAD
 	// EnterIdent is called when entering the Ident production.
 	EnterIdent(c *IdentContext)
 
 	// EnterGlobalCall is called when entering the GlobalCall production.
 	EnterGlobalCall(c *GlobalCallContext)
+=======
+	// EnterIdentOrGlobalCall is called when entering the IdentOrGlobalCall production.
+	EnterIdentOrGlobalCall(c *IdentOrGlobalCallContext)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// EnterNested is called when entering the Nested production.
 	EnterNested(c *NestedContext)
@@ -82,12 +95,15 @@ type CELListener interface {
 	// EnterMapInitializerList is called when entering the mapInitializerList production.
 	EnterMapInitializerList(c *MapInitializerListContext)
 
+<<<<<<< HEAD
 	// EnterSimpleIdentifier is called when entering the SimpleIdentifier production.
 	EnterSimpleIdentifier(c *SimpleIdentifierContext)
 
 	// EnterEscapedIdentifier is called when entering the EscapedIdentifier production.
 	EnterEscapedIdentifier(c *EscapedIdentifierContext)
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// EnterOptExpr is called when entering the optExpr production.
 	EnterOptExpr(c *OptExprContext)
 
@@ -154,11 +170,16 @@ type CELListener interface {
 	// ExitIndex is called when exiting the Index production.
 	ExitIndex(c *IndexContext)
 
+<<<<<<< HEAD
 	// ExitIdent is called when exiting the Ident production.
 	ExitIdent(c *IdentContext)
 
 	// ExitGlobalCall is called when exiting the GlobalCall production.
 	ExitGlobalCall(c *GlobalCallContext)
+=======
+	// ExitIdentOrGlobalCall is called when exiting the IdentOrGlobalCall production.
+	ExitIdentOrGlobalCall(c *IdentOrGlobalCallContext)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// ExitNested is called when exiting the Nested production.
 	ExitNested(c *NestedContext)
@@ -190,12 +211,15 @@ type CELListener interface {
 	// ExitMapInitializerList is called when exiting the mapInitializerList production.
 	ExitMapInitializerList(c *MapInitializerListContext)
 
+<<<<<<< HEAD
 	// ExitSimpleIdentifier is called when exiting the SimpleIdentifier production.
 	ExitSimpleIdentifier(c *SimpleIdentifierContext)
 
 	// ExitEscapedIdentifier is called when exiting the EscapedIdentifier production.
 	ExitEscapedIdentifier(c *EscapedIdentifierContext)
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// ExitOptExpr is called when exiting the optExpr production.
 	ExitOptExpr(c *OptExprContext)
 

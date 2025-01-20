@@ -7,7 +7,10 @@ package local
 import (
 	"context"
 	"fmt"
+<<<<<<< HEAD
 	"html"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net"
 	"net/http"
 	"strconv"
@@ -142,7 +145,11 @@ func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
 
 	headerErr := q.Get("error")
 	if headerErr != "" {
+<<<<<<< HEAD
 		desc := html.EscapeString(q.Get("error_description"))
+=======
+		desc := q.Get("error_description")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// Note: It is a little weird we handle some errors by not going to the failPage. If they all should,
 		// change this to s.error() and make s.error() write the failPage instead of an error code.
 		_, _ = w.Write([]byte(fmt.Sprintf(failPage, headerErr, desc)))

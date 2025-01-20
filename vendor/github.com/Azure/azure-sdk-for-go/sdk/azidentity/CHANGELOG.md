@@ -1,5 +1,6 @@
 # Release History
 
+<<<<<<< HEAD
 ## 1.8.1 (2025-01-15)
 
 ### Bugs Fixed
@@ -14,6 +15,8 @@
   credential after `ManagedIdentityCredential` receives an unexpected response
   from IMDS, indicating the response is from something else such as a proxy
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## 1.8.0 (2024-10-08)
 
 ### Other Changes

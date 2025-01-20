@@ -648,6 +648,7 @@ func (m *Cluster) validate(all bool) error {
 	}
 
 	if all {
+<<<<<<< HEAD
 		switch v := interface{}(m.GetDnsJitter()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
@@ -677,6 +678,8 @@ func (m *Cluster) validate(all bool) error {
 	}
 
 	if all {
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		switch v := interface{}(m.GetDnsFailureRefreshRate()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {

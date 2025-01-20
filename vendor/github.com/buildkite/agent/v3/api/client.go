@@ -11,13 +11,20 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+<<<<<<< HEAD
+=======
+	"net/http/httputil"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/url"
 	"reflect"
 	"strconv"
 	"strings"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/buildkite/agent/v3/internal/agenthttp"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/buildkite/agent/v3/logger"
 	"github.com/google/go-querystring/query"
 )
@@ -45,9 +52,12 @@ type Config struct {
 	// If true, requests and responses will be dumped and set to the logger
 	DebugHTTP bool
 
+<<<<<<< HEAD
 	// If true timings for each request will be logged
 	TraceHTTP bool
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// The http client used, leave nil for the default
 	HTTPClient *http.Client
 
@@ -77,22 +87,55 @@ func NewClient(l logger.Logger, conf Config) *Client {
 		conf.UserAgent = defaultUserAgent
 	}
 
+<<<<<<< HEAD
 	if conf.HTTPClient != nil {
 		return &Client{
 			logger: l,
 			client: conf.HTTPClient,
 			conf:   conf,
+=======
+	httpClient := conf.HTTPClient
+	if conf.HTTPClient == nil {
+
+		// use the default transport as it is optimized and configured for http2
+		// and will avoid accidents in the future
+		tr := http.DefaultTransport.(*http.Transport).Clone()
+
+		if conf.DisableHTTP2 {
+			tr.ForceAttemptHTTP2 = false
+			tr.TLSNextProto = make(map[string]func(authority string, c *tls.Conn) http.RoundTripper)
+			// The default TLSClientConfig has h2 in NextProtos, so the negotiated TLS connection will assume h2 support.
+			// see https://github.com/golang/go/issues/50571
+			tr.TLSClientConfig.NextProtos = []string{"http/1.1"}
+		}
+
+		if conf.TLSConfig != nil {
+			tr.TLSClientConfig = conf.TLSConfig
+		}
+
+		httpClient = &http.Client{
+			Timeout: 60 * time.Second,
+			Transport: &authenticatedTransport{
+				Token:    conf.Token,
+				Delegate: tr,
+			},
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 
 	return &Client{
 		logger: l,
+<<<<<<< HEAD
 		client: agenthttp.NewClient(
 			agenthttp.WithAuthToken(conf.Token),
 			agenthttp.WithAllowHTTP2(!conf.DisableHTTP2),
 			agenthttp.WithTLSConfig(conf.TLSConfig),
 		),
 		conf: conf,
+=======
+		client: httpClient,
+		conf:   conf,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -219,6 +262,7 @@ func newResponse(r *http.Response) *Response {
 // interface, the raw response body will be written to v, without attempting to
 // first decode it.
 func (c *Client) doRequest(req *http.Request, v any) (*Response, error) {
+<<<<<<< HEAD
 
 	resp, err := agenthttp.Do(c.logger, c.client, req,
 		agenthttp.WithDebugHTTP(c.conf.DebugHTTP),
@@ -227,12 +271,64 @@ func (c *Client) doRequest(req *http.Request, v any) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
+=======
+	var err error
+
+	if c.conf.DebugHTTP {
+		// If the request is a multi-part form, then it's probably a
+		// file upload, in which case we don't want to spewing out the
+		// file contents into the debug log (especially if it's been
+		// gzipped)
+		var requestDump []byte
+		if strings.Contains(req.Header.Get("Content-Type"), "multipart/form-data") {
+			requestDump, err = httputil.DumpRequestOut(req, false)
+		} else {
+			requestDump, err = httputil.DumpRequestOut(req, true)
+		}
+
+		if err != nil {
+			c.logger.Debug("ERR: %s\n%s", err, string(requestDump))
+		} else {
+			c.logger.Debug("%s", string(requestDump))
+		}
+	}
+
+	ts := time.Now()
+
+	c.logger.Debug("%s %s", req.Method, req.URL)
+
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	c.logger.WithFields(
+		logger.StringField("proto", resp.Proto),
+		logger.IntField("status", resp.StatusCode),
+		logger.DurationField("Δ", time.Since(ts)),
+	).Debug("↳ %s %s", req.Method, req.URL)
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	defer resp.Body.Close()
 	defer io.Copy(io.Discard, resp.Body)
 
 	response := newResponse(resp)
 
+<<<<<<< HEAD
 	if err := checkResponse(resp); err != nil {
+=======
+	if c.conf.DebugHTTP {
+		responseDump, err := httputil.DumpResponse(resp, true)
+		if err != nil {
+			c.logger.Debug("\nERR: %s\n%s", err, string(responseDump))
+		} else {
+			c.logger.Debug("\n%s", string(responseDump))
+		}
+	}
+
+	err = checkResponse(resp)
+	if err != nil {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// even though there was an error, we still return the response
 		// in case the caller wants to inspect it further
 		return response, err
@@ -252,7 +348,11 @@ func (c *Client) doRequest(req *http.Request, v any) (*Response, error) {
 		}
 	}
 
+<<<<<<< HEAD
 	return response, nil
+=======
+	return response, err
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ErrorResponse provides a message.

@@ -7,6 +7,10 @@ package packet
 import (
 	"bytes"
 	"io"
+<<<<<<< HEAD
+=======
+	"io/ioutil"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"github.com/ProtonMail/go-crypto/openpgp/errors"
 )
@@ -25,7 +29,11 @@ type OpaquePacket struct {
 }
 
 func (op *OpaquePacket) parse(r io.Reader) (err error) {
+<<<<<<< HEAD
 	op.Contents, err = io.ReadAll(r)
+=======
+	op.Contents, err = ioutil.ReadAll(r)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return
 }
 

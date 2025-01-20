@@ -47,7 +47,11 @@
                     },
                     "required": [ "algorithm", "value" ]
                 }
+<<<<<<< HEAD
             }
+=======
+            }        
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
         }
     },
     "required": [ "signature", "data" ]

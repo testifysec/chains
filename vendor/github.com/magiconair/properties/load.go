@@ -6,7 +6,11 @@ package properties
 
 import (
 	"fmt"
+<<<<<<< HEAD
 	"io"
+=======
+	"io/ioutil"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"os"
 	"strings"
@@ -52,6 +56,7 @@ func (l *Loader) LoadBytes(buf []byte) (*Properties, error) {
 	return l.loadBytes(buf, l.Encoding)
 }
 
+<<<<<<< HEAD
 // LoadReader reads an io.Reader into a Properties struct.
 func (l *Loader) LoadReader(r io.Reader) (*Properties, error) {
 	if buf, err := io.ReadAll(r); err != nil {
@@ -61,6 +66,8 @@ func (l *Loader) LoadReader(r io.Reader) (*Properties, error) {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // LoadAll reads the content of multiple URLs or files in the given order into
 // a Properties struct. If IgnoreMissing is true then a 404 status code or
 // missing file will not be reported as error. Encoding sets the encoding for
@@ -100,7 +107,11 @@ func (l *Loader) LoadAll(names []string) (*Properties, error) {
 // If IgnoreMissing is true then a missing file will not be
 // reported as error.
 func (l *Loader) LoadFile(filename string) (*Properties, error) {
+<<<<<<< HEAD
 	data, err := os.ReadFile(filename)
+=======
+	data, err := ioutil.ReadFile(filename)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		if l.IgnoreMissing && os.IsNotExist(err) {
 			LogPrintf("properties: %s not found. skipping", filename)
@@ -135,7 +146,11 @@ func (l *Loader) LoadURL(url string) (*Properties, error) {
 		return nil, fmt.Errorf("properties: %s returned %d", url, resp.StatusCode)
 	}
 
+<<<<<<< HEAD
 	body, err := io.ReadAll(resp.Body)
+=======
+	body, err := ioutil.ReadAll(resp.Body)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, fmt.Errorf("properties: %s error reading response. %s", url, err)
 	}
@@ -194,12 +209,15 @@ func LoadFile(filename string, enc Encoding) (*Properties, error) {
 	return l.LoadAll([]string{filename})
 }
 
+<<<<<<< HEAD
 // LoadReader reads an io.Reader into a Properties struct.
 func LoadReader(r io.Reader, enc Encoding) (*Properties, error) {
 	l := &Loader{Encoding: enc}
 	return l.LoadReader(r)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // LoadFiles reads multiple files in the given order into
 // a Properties struct. If 'ignoreMissing' is true then
 // non-existent files will not be reported as error.
@@ -239,12 +257,15 @@ func MustLoadString(s string) *Properties {
 	return must(LoadString(s))
 }
 
+<<<<<<< HEAD
 // MustLoadSReader reads an io.Reader into a Properties struct and
 // panics on error.
 func MustLoadReader(r io.Reader, enc Encoding) *Properties {
 	return must(LoadReader(r, enc))
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // MustLoadFile reads a file into a Properties struct and
 // panics on error.
 func MustLoadFile(filename string, enc Encoding) *Properties {

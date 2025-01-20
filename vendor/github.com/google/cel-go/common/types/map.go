@@ -94,6 +94,7 @@ func NewProtoMap(adapter Adapter, value *pb.Map) traits.Mapper {
 	}
 }
 
+<<<<<<< HEAD
 // NewMutableMap constructs a mutable map from an adapter and a set of map values.
 func NewMutableMap(adapter Adapter, mutableValues map[ref.Val]ref.Val) traits.MutableMapper {
 	mutableCopy := make(map[ref.Val]ref.Val, len(mutableValues))
@@ -112,6 +113,8 @@ func NewMutableMap(adapter Adapter, mutableValues map[ref.Val]ref.Val) traits.Mu
 	return m
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // mapAccessor is a private interface for finding values within a map and iterating over the keys.
 // This interface implements portions of the API surface area required by the traits.Mapper
 // interface.
@@ -123,9 +126,12 @@ type mapAccessor interface {
 
 	// Iterator returns an Iterator over the map key set.
 	Iterator() traits.Iterator
+<<<<<<< HEAD
 
 	// Fold calls the FoldEntry method for each (key, value) pair in the map.
 	Fold(traits.Folder)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // baseMap is a reflection based map implementation designed to handle a variety of map-like types.
@@ -328,6 +334,7 @@ func (m *baseMap) Value() any {
 	return m.value
 }
 
+<<<<<<< HEAD
 // mutableMap holds onto a set of mutable values which are used for intermediate computations.
 type mutableMap struct {
 	*baseMap
@@ -350,6 +357,8 @@ func (m *mutableMap) ToImmutableMap() traits.Mapper {
 	return NewRefValMap(m.Adapter, m.mutableValues)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func newJSONStructAccessor(adapter Adapter, st map[string]*structpb.Value) mapAccessor {
 	return &jsonStructAccessor{
 		Adapter: adapter,
@@ -393,6 +402,7 @@ func (a *jsonStructAccessor) Iterator() traits.Iterator {
 	}
 }
 
+<<<<<<< HEAD
 // Fold calls the FoldEntry method for each (key, value) pair in the map.
 func (a *jsonStructAccessor) Fold(f traits.Folder) {
 	for k, v := range a.st {
@@ -402,6 +412,8 @@ func (a *jsonStructAccessor) Fold(f traits.Folder) {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func newReflectMapAccessor(adapter Adapter, value reflect.Value) mapAccessor {
 	keyType := value.Type().Key()
 	return &reflectMapAccessor{
@@ -476,6 +488,7 @@ func (m *reflectMapAccessor) Iterator() traits.Iterator {
 	}
 }
 
+<<<<<<< HEAD
 // Fold calls the FoldEntry method for each (key, value) pair in the map.
 func (m *reflectMapAccessor) Fold(f traits.Folder) {
 	mapRange := m.refValue.MapRange()
@@ -486,6 +499,8 @@ func (m *reflectMapAccessor) Fold(f traits.Folder) {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func newRefValMapAccessor(mapVal map[ref.Val]ref.Val) mapAccessor {
 	return &refValMapAccessor{mapVal: mapVal}
 }
@@ -539,6 +554,7 @@ func (a *refValMapAccessor) Iterator() traits.Iterator {
 	}
 }
 
+<<<<<<< HEAD
 // Fold calls the FoldEntry method for each (key, value) pair in the map.
 func (a *refValMapAccessor) Fold(f traits.Folder) {
 	for k, v := range a.mapVal {
@@ -548,6 +564,8 @@ func (a *refValMapAccessor) Fold(f traits.Folder) {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func newStringMapAccessor(strMap map[string]string) mapAccessor {
 	return &stringMapAccessor{mapVal: strMap}
 }
@@ -586,6 +604,7 @@ func (a *stringMapAccessor) Iterator() traits.Iterator {
 	}
 }
 
+<<<<<<< HEAD
 // Fold calls the FoldEntry method for each (key, value) pair in the map.
 func (a *stringMapAccessor) Fold(f traits.Folder) {
 	for k, v := range a.mapVal {
@@ -595,6 +614,8 @@ func (a *stringMapAccessor) Fold(f traits.Folder) {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func newStringIfaceMapAccessor(adapter Adapter, mapVal map[string]any) mapAccessor {
 	return &stringIfaceMapAccessor{
 		Adapter: adapter,
@@ -637,6 +658,7 @@ func (a *stringIfaceMapAccessor) Iterator() traits.Iterator {
 	}
 }
 
+<<<<<<< HEAD
 // Fold calls the FoldEntry method for each (key, value) pair in the map.
 func (a *stringIfaceMapAccessor) Fold(f traits.Folder) {
 	for k, v := range a.mapVal {
@@ -646,6 +668,8 @@ func (a *stringIfaceMapAccessor) Fold(f traits.Folder) {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // protoMap is a specialized, separate implementation of the traits.Mapper interfaces tailored to
 // accessing protoreflect.Map values.
 type protoMap struct {
@@ -858,6 +882,7 @@ func (m *protoMap) Iterator() traits.Iterator {
 	}
 }
 
+<<<<<<< HEAD
 // Fold calls the FoldEntry method for each (key, value) pair in the map.
 func (m *protoMap) Fold(f traits.Folder) {
 	m.value.Range(func(k protoreflect.MapKey, v protoreflect.Value) bool {
@@ -865,6 +890,8 @@ func (m *protoMap) Fold(f traits.Folder) {
 	})
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Size returns the number of entries in the protoreflect.Map.
 func (m *protoMap) Size() ref.Val {
 	return Int(m.value.Len())
@@ -948,6 +975,7 @@ func (it *stringKeyIterator) Next() ref.Val {
 	}
 	return nil
 }
+<<<<<<< HEAD
 
 // ToFoldableMap will create a Foldable version of a map suitable for key-value pair iteration.
 //
@@ -1000,3 +1028,5 @@ func InsertMapKeyValue(m traits.Mapper, k, v ref.Val) ref.Val {
 	}
 	return NewErr("insert failed: key %v already exists", k)
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

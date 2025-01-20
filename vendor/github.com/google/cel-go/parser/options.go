@@ -26,8 +26,11 @@ type options struct {
 	populateMacroCalls               bool
 	enableOptionalSyntax             bool
 	enableVariadicOperatorASTs       bool
+<<<<<<< HEAD
 	enableIdentEscapeSyntax          bool
 	enableHiddenAccumulatorName      bool
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // Option configures the behavior of the parser.
@@ -129,6 +132,7 @@ func EnableOptionalSyntax(optionalSyntax bool) Option {
 	}
 }
 
+<<<<<<< HEAD
 // EnableIdentEscapeSyntax enables backtick (`) escaped field identifiers. This
 // supports extended types of characters in identifiers, e.g. foo.`baz-bar`.
 func EnableIdentEscapeSyntax(enableIdentEscapeSyntax bool) Option {
@@ -150,6 +154,8 @@ func EnableHiddenAccumulatorName(enabled bool) Option {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // EnableVariadicOperatorASTs enables a compact representation of chained like-kind commutative
 // operators. e.g. `a || b || c || d` -> `call(op='||', args=[a, b, c, d])`
 //

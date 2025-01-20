@@ -26,13 +26,20 @@ import (
 	"archive/tar"
 	"bytes"
 	"compress/gzip"
+<<<<<<< HEAD
 	"crypto/rand"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"crypto/sha256"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+<<<<<<< HEAD
 	"math/big"
+=======
+	"math/rand"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"os"
 	"path/filepath"
 	"reflect"
@@ -46,6 +53,13 @@ import (
 	digest "github.com/opencontainers/go-digest"
 )
 
+<<<<<<< HEAD
+=======
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // TestingController is Compression with some helper methods necessary for testing.
 type TestingController interface {
 	Compression
@@ -917,11 +931,17 @@ func checkVerifyInvalidTOCEntryFail(filename string) check {
 				}
 				if sampleEntry == nil {
 					t.Fatalf("TOC must contain at least one regfile or chunk entry other than the rewrite target")
+<<<<<<< HEAD
 					return
 				}
 				if targetEntry == nil {
 					t.Fatalf("rewrite target not found")
 					return
+=======
+				}
+				if targetEntry == nil {
+					t.Fatalf("rewrite target not found")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				}
 				targetEntry.Offset = sampleEntry.Offset
 			},
@@ -2290,11 +2310,15 @@ var runes = []rune("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
 func randomContents(n int) string {
 	b := make([]rune, n)
 	for i := range b {
+<<<<<<< HEAD
 		bi, err := rand.Int(rand.Reader, big.NewInt(int64(len(runes))))
 		if err != nil {
 			panic(err)
 		}
 		b[i] = runes[int(bi.Int64())]
+=======
+		b[i] = runes[rand.Intn(len(runes))]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return string(b)
 }

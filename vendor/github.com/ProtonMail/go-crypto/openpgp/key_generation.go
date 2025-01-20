@@ -15,15 +15,21 @@ import (
 
 	"github.com/ProtonMail/go-crypto/openpgp/ecdh"
 	"github.com/ProtonMail/go-crypto/openpgp/ecdsa"
+<<<<<<< HEAD
 	"github.com/ProtonMail/go-crypto/openpgp/ed25519"
 	"github.com/ProtonMail/go-crypto/openpgp/ed448"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/ProtonMail/go-crypto/openpgp/eddsa"
 	"github.com/ProtonMail/go-crypto/openpgp/errors"
 	"github.com/ProtonMail/go-crypto/openpgp/internal/algorithm"
 	"github.com/ProtonMail/go-crypto/openpgp/internal/ecc"
 	"github.com/ProtonMail/go-crypto/openpgp/packet"
+<<<<<<< HEAD
 	"github.com/ProtonMail/go-crypto/openpgp/x25519"
 	"github.com/ProtonMail/go-crypto/openpgp/x448"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // NewEntity returns an Entity that contains a fresh RSA/RSA keypair with a
@@ -40,10 +46,15 @@ func NewEntity(name, comment, email string, config *packet.Config) (*Entity, err
 		return nil, err
 	}
 	primary := packet.NewSignerPrivateKey(creationTime, primaryPrivRaw)
+<<<<<<< HEAD
 	if config.V6() {
 		if err := primary.UpgradeToV6(); err != nil {
 			return nil, err
 		}
+=======
+	if config != nil && config.V5Keys {
+		primary.UpgradeToV5()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	e := &Entity{
@@ -51,6 +62,7 @@ func NewEntity(name, comment, email string, config *packet.Config) (*Entity, err
 		PrivateKey: primary,
 		Identities: make(map[string]*Identity),
 		Subkeys:    []Subkey{},
+<<<<<<< HEAD
 		Signatures: []*packet.Signature{},
 	}
 
@@ -70,6 +82,11 @@ func NewEntity(name, comment, email string, config *packet.Config) (*Entity, err
 	}
 
 	err = e.addUserId(name, comment, email, config, creationTime, keyLifetimeSecs, !config.V6())
+=======
+	}
+
+	err = e.addUserId(name, comment, email, config, creationTime, keyLifetimeSecs)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}
@@ -87,6 +104,7 @@ func NewEntity(name, comment, email string, config *packet.Config) (*Entity, err
 func (t *Entity) AddUserId(name, comment, email string, config *packet.Config) error {
 	creationTime := config.Now()
 	keyLifetimeSecs := config.KeyLifetime()
+<<<<<<< HEAD
 	return t.addUserId(name, comment, email, config, creationTime, keyLifetimeSecs, !config.V6())
 }
 
@@ -95,11 +113,38 @@ func writeKeyProperties(selfSignature *packet.Signature, creationTime time.Time,
 
 	selfSignature.CreationTime = creationTime
 	selfSignature.KeyLifetimeSecs = &keyLifetimeSecs
+=======
+	return t.addUserId(name, comment, email, config, creationTime, keyLifetimeSecs)
+}
+
+func (t *Entity) addUserId(name, comment, email string, config *packet.Config, creationTime time.Time, keyLifetimeSecs uint32) error {
+	uid := packet.NewUserId(name, comment, email)
+	if uid == nil {
+		return errors.InvalidArgumentError("user id field contained invalid characters")
+	}
+
+	if _, ok := t.Identities[uid.Id]; ok {
+		return errors.InvalidArgumentError("user id exist")
+	}
+
+	primary := t.PrivateKey
+
+	isPrimaryId := len(t.Identities) == 0
+
+	selfSignature := createSignaturePacket(&primary.PublicKey, packet.SigTypePositiveCert, config)
+	selfSignature.CreationTime = creationTime
+	selfSignature.KeyLifetimeSecs = &keyLifetimeSecs
+	selfSignature.IsPrimaryId = &isPrimaryId
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	selfSignature.FlagsValid = true
 	selfSignature.FlagSign = true
 	selfSignature.FlagCertify = true
 	selfSignature.SEIPDv1 = true // true by default, see 5.8 vs. 5.14
+<<<<<<< HEAD
 	selfSignature.SEIPDv2 = advertiseAead
+=======
+	selfSignature.SEIPDv2 = config.AEAD() != nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Set the PreferredHash for the SelfSignature from the packet.Config.
 	// If it is not the must-implement algorithm from rfc4880bis, append that.
@@ -128,6 +173,7 @@ func writeKeyProperties(selfSignature *packet.Signature, creationTime time.Time,
 		selfSignature.PreferredCompression = append(selfSignature.PreferredCompression, uint8(config.Compression()))
 	}
 
+<<<<<<< HEAD
 	if advertiseAead {
 		// Get the preferred AEAD mode from the packet.Config.
 		// If it is not the must-implement algorithm from rfc9580, append that.
@@ -166,6 +212,20 @@ func (t *Entity) addUserId(name, comment, email string, config *packet.Config, c
 		}
 	}
 	selfSignature.IsPrimaryId = &isPrimaryId
+=======
+	// And for DefaultMode.
+	modes := []uint8{uint8(config.AEAD().Mode())}
+	if config.AEAD().Mode() != packet.AEADModeOCB {
+		modes = append(modes, uint8(packet.AEADModeOCB))
+	}
+
+	// For preferred (AES256, GCM), we'll generate (AES256, GCM), (AES256, OCB), (AES128, GCM), (AES128, OCB)
+	for _, cipher := range selfSignature.PreferredSymmetric {
+		for _, mode := range modes {
+			selfSignature.PreferredCipherSuites = append(selfSignature.PreferredCipherSuites, [2]uint8{cipher, mode})
+		}
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// User ID binding signature
 	err := selfSignature.SignUserId(uid.Id, &primary.PublicKey, primary, config)
@@ -193,10 +253,15 @@ func (e *Entity) AddSigningSubkey(config *packet.Config) error {
 	}
 	sub := packet.NewSignerPrivateKey(creationTime, subPrivRaw)
 	sub.IsSubkey = true
+<<<<<<< HEAD
 	if config.V6() {
 		if err := sub.UpgradeToV6(); err != nil {
 			return err
 		}
+=======
+	if config != nil && config.V5Keys {
+		sub.UpgradeToV5()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	subkey := Subkey{
@@ -240,10 +305,15 @@ func (e *Entity) addEncryptionSubkey(config *packet.Config, creationTime time.Ti
 	}
 	sub := packet.NewDecrypterPrivateKey(creationTime, subPrivRaw)
 	sub.IsSubkey = true
+<<<<<<< HEAD
 	if config.V6() {
 		if err := sub.UpgradeToV6(); err != nil {
 			return err
 		}
+=======
+	if config != nil && config.V5Keys {
+		sub.UpgradeToV5()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	subkey := Subkey{
@@ -281,11 +351,14 @@ func newSigner(config *packet.Config) (signer interface{}, err error) {
 		}
 		return rsa.GenerateKey(config.Random(), bits)
 	case packet.PubKeyAlgoEdDSA:
+<<<<<<< HEAD
 		if config.V6() {
 			// Implementations MUST NOT accept or generate v6 key material
 			// using the deprecated OIDs.
 			return nil, errors.InvalidArgumentError("EdDSALegacy cannot be used for v6 keys")
 		}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		curve := ecc.FindEdDSAByGenName(string(config.CurveName()))
 		if curve == nil {
 			return nil, errors.InvalidArgumentError("unsupported curve")
@@ -307,6 +380,7 @@ func newSigner(config *packet.Config) (signer interface{}, err error) {
 			return nil, err
 		}
 		return priv, nil
+<<<<<<< HEAD
 	case packet.PubKeyAlgoEd25519:
 		priv, err := ed25519.GenerateKey(config.Random())
 		if err != nil {
@@ -319,6 +393,8 @@ func newSigner(config *packet.Config) (signer interface{}, err error) {
 			return nil, err
 		}
 		return priv, nil
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		return nil, errors.InvalidArgumentError("unsupported public key algorithm")
 	}
@@ -341,6 +417,7 @@ func newDecrypter(config *packet.Config) (decrypter interface{}, err error) {
 	case packet.PubKeyAlgoEdDSA, packet.PubKeyAlgoECDSA:
 		fallthrough // When passing EdDSA or ECDSA, we generate an ECDH subkey
 	case packet.PubKeyAlgoECDH:
+<<<<<<< HEAD
 		if config.V6() &&
 			(config.CurveName() == packet.Curve25519 ||
 				config.CurveName() == packet.Curve448) {
@@ -348,6 +425,8 @@ func newDecrypter(config *packet.Config) (decrypter interface{}, err error) {
 			// using the deprecated OIDs.
 			return nil, errors.InvalidArgumentError("ECDH with Curve25519/448 legacy cannot be used for v6 keys")
 		}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		var kdf = ecdh.KDF{
 			Hash:   algorithm.SHA512,
 			Cipher: algorithm.AES256,
@@ -357,10 +436,13 @@ func newDecrypter(config *packet.Config) (decrypter interface{}, err error) {
 			return nil, errors.InvalidArgumentError("unsupported curve")
 		}
 		return ecdh.GenerateKey(config.Random(), curve, kdf)
+<<<<<<< HEAD
 	case packet.PubKeyAlgoEd25519, packet.PubKeyAlgoX25519: // When passing Ed25519, we generate an x25519 subkey
 		return x25519.GenerateKey(config.Random())
 	case packet.PubKeyAlgoEd448, packet.PubKeyAlgoX448: // When passing Ed448, we generate an x448 subkey
 		return x448.GenerateKey(config.Random())
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		return nil, errors.InvalidArgumentError("unsupported public key algorithm")
 	}
@@ -369,7 +451,11 @@ func newDecrypter(config *packet.Config) (decrypter interface{}, err error) {
 var bigOne = big.NewInt(1)
 
 // generateRSAKeyWithPrimes generates a multi-prime RSA keypair of the
+<<<<<<< HEAD
 // given bit size, using the given random source and pre-populated primes.
+=======
+// given bit size, using the given random source and prepopulated primes.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func generateRSAKeyWithPrimes(random io.Reader, nprimes int, bits int, prepopulatedPrimes []*big.Int) (*rsa.PrivateKey, error) {
 	priv := new(rsa.PrivateKey)
 	priv.E = 65537

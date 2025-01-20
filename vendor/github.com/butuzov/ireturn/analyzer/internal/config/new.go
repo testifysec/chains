@@ -10,6 +10,10 @@ import (
 
 var ErrCollisionOfInterests = errors.New("can't have both `-accept` and `-reject` specified at same time")
 
+<<<<<<< HEAD
+=======
+// nolint: exhaustivestruct
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func DefaultValidatorConfig() *allowConfig {
 	return allowAll([]string{
 		types.NameEmpty,  // "empty": empty interfaces (interface{})

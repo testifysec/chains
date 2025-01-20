@@ -11,6 +11,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+<<<<<<< HEAD
+=======
+//go:build go1.21
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 package model
 
 import (

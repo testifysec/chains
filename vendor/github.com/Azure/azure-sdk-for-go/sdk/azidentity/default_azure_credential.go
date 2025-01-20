@@ -23,6 +23,7 @@ type DefaultAzureCredentialOptions struct {
 	// to credential types that authenticate via external tools such as the Azure CLI.
 	azcore.ClientOptions
 
+<<<<<<< HEAD
 	// AdditionallyAllowedTenants specifies tenants to which the credential may authenticate, in addition to
 	// TenantID. When TenantID is empty, this option has no effect and the credential will authenticate to
 	// any requested tenant. Add the wildcard value "*" to allow the credential to authenticate to any tenant.
@@ -30,12 +31,21 @@ type DefaultAzureCredentialOptions struct {
 	// AZURE_ADDITIONALLY_ALLOWED_TENANTS.
 	AdditionallyAllowedTenants []string
 
+=======
+	// AdditionallyAllowedTenants specifies additional tenants for which the credential may acquire tokens. Add
+	// the wildcard value "*" to allow the credential to acquire tokens for any tenant. This value can also be
+	// set as a semicolon delimited list of tenants in the environment variable AZURE_ADDITIONALLY_ALLOWED_TENANTS.
+	AdditionallyAllowedTenants []string
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// DisableInstanceDiscovery should be set true only by applications authenticating in disconnected clouds, or
 	// private clouds such as Azure Stack. It determines whether the credential requests Microsoft Entra instance metadata
 	// from https://login.microsoft.com before authenticating. Setting this to true will skip this request, making
 	// the application responsible for ensuring the configured authority is valid and trustworthy.
 	DisableInstanceDiscovery bool
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// TenantID sets the default tenant for authentication via the Azure CLI and workload identity.
 	TenantID string
 }
@@ -43,7 +53,11 @@ type DefaultAzureCredentialOptions struct {
 // DefaultAzureCredential simplifies authentication while developing applications that deploy to Azure by
 // combining credentials used in Azure hosting environments and credentials used in local development. In
 // production, it's better to use a specific credential type so authentication is more predictable and easier
+<<<<<<< HEAD
 // to debug. For more information, see [DefaultAzureCredential overview].
+=======
+// to debug.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 // DefaultAzureCredential attempts to authenticate with each of these credential types, in the following order,
 // stopping when one provides a token:
@@ -59,8 +73,11 @@ type DefaultAzureCredentialOptions struct {
 // Consult the documentation for these credential types for more information on how they authenticate.
 // Once a credential has successfully authenticated, DefaultAzureCredential will use that credential for
 // every subsequent authentication.
+<<<<<<< HEAD
 //
 // [DefaultAzureCredential overview]: https://aka.ms/azsdk/go/identity/credential-chains#defaultazurecredential-overview
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type DefaultAzureCredential struct {
 	chain *ChainedTokenCredential
 }

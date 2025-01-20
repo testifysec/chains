@@ -22,7 +22,11 @@ package resolver
 import (
 	"context"
 	"fmt"
+<<<<<<< HEAD
 	rand "math/rand/v2"
+=======
+	"math/rand"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"sync/atomic"
 
 	"google.golang.org/grpc/internal"
@@ -44,10 +48,17 @@ import (
 // xdsresolver.Scheme
 const Scheme = "xds"
 
+<<<<<<< HEAD
 // newBuilderWithConfigForTesting creates a new xds resolver builder using a
 // specific xds bootstrap config, so tests can use multiple xds clients in
 // different ClientConns at the same time.
 func newBuilderWithConfigForTesting(config []byte) (resolver.Builder, error) {
+=======
+// newBuilderForTesting creates a new xds resolver builder using a specific xds
+// bootstrap config, so tests can use multiple xds clients in different
+// ClientConns at the same time.
+func newBuilderForTesting(config []byte) (resolver.Builder, error) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return &xdsResolverBuilder{
 		newXDSClient: func(name string) (xdsclient.XDSClient, func(), error) {
 			return xdsclient.NewForTesting(xdsclient.OptionsForTesting{Name: name, Contents: config})
@@ -55,6 +66,7 @@ func newBuilderWithConfigForTesting(config []byte) (resolver.Builder, error) {
 	}, nil
 }
 
+<<<<<<< HEAD
 // newBuilderWithClientForTesting creates a new xds resolver builder using the
 // specific xDS client, so that tests have complete control over the exact
 // specific xDS client being used.
@@ -72,6 +84,11 @@ func init() {
 	resolver.Register(&xdsResolverBuilder{})
 	internal.NewXDSResolverWithConfigForTesting = newBuilderWithConfigForTesting
 	internal.NewXDSResolverWithClientForTesting = newBuilderWithClientForTesting
+=======
+func init() {
+	resolver.Register(&xdsResolverBuilder{})
+	internal.NewXDSResolverWithConfigForTesting = newBuilderForTesting
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	rinternal.NewWRR = wrr.NewRandom
 	rinternal.NewXDSClient = xdsclient.New

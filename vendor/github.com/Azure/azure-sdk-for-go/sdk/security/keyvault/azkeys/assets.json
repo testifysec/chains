@@ -2,5 +2,9 @@
   "AssetsRepo": "Azure/azure-sdk-assets",
   "AssetsRepoPrefixPath": "go",
   "TagPrefix": "go/security/keyvault/azkeys",
+<<<<<<< HEAD
   "Tag": "go/security/keyvault/azkeys_d53919c433"
+=======
+  "Tag": "go/security/keyvault/azkeys_2d421aec6c"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

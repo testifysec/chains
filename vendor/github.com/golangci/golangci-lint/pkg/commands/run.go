@@ -238,21 +238,31 @@ func (c *runCommand) execute(_ *cobra.Command, args []string) {
 	needTrackResources := logutils.IsVerbose() || c.opts.PrintResourcesUsage
 
 	trackResourcesEndCh := make(chan struct{})
+<<<<<<< HEAD
 
 	// Note: this defer must be before ctx.cancel defer
 	defer func() {
 		// wait until resource tracking finished to print properly
 		if needTrackResources {
+=======
+	defer func() { // XXX: this defer must be before ctx.cancel defer
+		if needTrackResources { // wait until resource tracking finished to print properly
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			<-trackResourcesEndCh
 		}
 	}()
 
+<<<<<<< HEAD
 	ctx := context.Background()
 	if c.cfg.Run.Timeout > 0 {
 		var cancel context.CancelFunc
 		ctx, cancel = context.WithTimeout(ctx, c.cfg.Run.Timeout)
 		defer cancel()
 	}
+=======
+	ctx, cancel := context.WithTimeout(context.Background(), c.cfg.Run.Timeout)
+	defer cancel()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if needTrackResources {
 		go watchResources(ctx, trackResourcesEndCh, c.log, c.debugf)

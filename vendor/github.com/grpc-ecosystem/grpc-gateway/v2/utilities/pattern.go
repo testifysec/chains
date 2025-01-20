@@ -1,6 +1,10 @@
 package utilities
 
+<<<<<<< HEAD
 // OpCode is an opcode of compiled path patterns.
+=======
+// An OpCode is a opcode of compiled path patterns.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type OpCode int
 
 // These constants are the valid values of OpCode.

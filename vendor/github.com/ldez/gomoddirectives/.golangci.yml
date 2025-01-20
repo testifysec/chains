@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 linters:
   enable-all: true
   disable:
@@ -20,12 +21,19 @@ linters:
     - exhaustive
     - exhaustruct
     - varnamelen
+=======
+run:
+  timeout: 2m
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 linters-settings:
   govet:
     enable-all: true
+<<<<<<< HEAD
     disable:
       - fieldalignment
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   gocyclo:
     min-complexity: 12
   goconst:
@@ -71,6 +79,42 @@ linters-settings:
       rules:
         json: pascal
 
+<<<<<<< HEAD
+=======
+linters:
+  enable-all: true
+  disable:
+    - deadcode # deprecated
+    - exhaustivestruct # deprecated
+    - golint # deprecated
+    - ifshort # deprecated
+    - interfacer # deprecated
+    - maligned # deprecated
+    - nosnakecase # deprecated
+    - scopelint # deprecated
+    - structcheck # deprecated
+    - varcheck # deprecated
+    - sqlclosecheck # not relevant (SQL)
+    - rowserrcheck # not relevant (SQL)
+    - execinquery # not relevant (SQL)
+    - cyclop # duplicate of gocyclo
+    - lll
+    - dupl
+    - prealloc
+    - bodyclose
+    - wsl
+    - nlreturn
+    - gomnd
+    - testpackage
+    - paralleltest
+    - tparallel
+    - goerr113
+    - wrapcheck
+    - exhaustive
+    - exhaustruct
+    - varnamelen
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 issues:
   exclude-use-default: false
   max-issues-per-linter: 0
@@ -81,20 +125,29 @@ issues:
   exclude-rules:
     - path: "(.+)_test.go"
       linters:
+<<<<<<< HEAD
         - funlen
         - goconst
         - maintidx
     - path: cmd/gomoddirectives/gomoddirectives.go
       linters:
         - forbidigo
+=======
+      - funlen
+      - goconst
+    - path: cmd/gomoddirectives/gomoddirectives.go
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
       text: 'use of `fmt.Println` forbidden'
 
 output:
   show-stats: true
   sort-results: true
+<<<<<<< HEAD
   sort-order:
     - linter
     - file
 
 run:
   timeout: 2m
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

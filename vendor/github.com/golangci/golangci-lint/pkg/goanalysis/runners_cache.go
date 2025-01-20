@@ -48,7 +48,11 @@ func saveIssuesToCache(allPkgs []*packages.Package, pkgsFromCache map[*packages.
 						Severity:             i.Severity,
 						Pos:                  i.Pos,
 						LineRange:            i.LineRange,
+<<<<<<< HEAD
 						SuggestedFixes:       i.SuggestedFixes,
+=======
+						Replacement:          i.Replacement,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 						ExpectNoLint:         i.ExpectNoLint,
 						ExpectedNoLintLinter: i.ExpectedNoLintLinter,
 					})
@@ -123,7 +127,11 @@ func loadIssuesFromCache(pkgs []*packages.Package, lintCtx *linter.Context,
 						Severity:             issue.Severity,
 						Pos:                  issue.Pos,
 						LineRange:            issue.LineRange,
+<<<<<<< HEAD
 						SuggestedFixes:       issue.SuggestedFixes,
+=======
+						Replacement:          issue.Replacement,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 						Pkg:                  pkg,
 						ExpectNoLint:         issue.ExpectNoLint,
 						ExpectedNoLintLinter: issue.ExpectedNoLintLinter,

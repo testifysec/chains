@@ -17,6 +17,7 @@ package ast
 import (
 	"fmt"
 
+<<<<<<< HEAD
 	"google.golang.org/protobuf/proto"
 
 	"github.com/google/cel-go/common/types"
@@ -25,6 +26,14 @@ import (
 	celpb "cel.dev/expr"
 	exprpb "google.golang.org/genproto/googleapis/api/expr/v1alpha1"
 	structpb "google.golang.org/protobuf/types/known/structpb"
+=======
+	"github.com/google/cel-go/common/types"
+	"github.com/google/cel-go/common/types/ref"
+
+	structpb "google.golang.org/protobuf/types/known/structpb"
+
+	exprpb "google.golang.org/genproto/googleapis/api/expr/v1alpha1"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // ToProto converts an AST to a CheckedExpr protobouf.
@@ -175,10 +184,16 @@ func exprComprehension(factory ExprFactory, id int64, comp *exprpb.Expr_Comprehe
 	if err != nil {
 		return nil, err
 	}
+<<<<<<< HEAD
 	return factory.NewComprehensionTwoVar(id,
 		iterRange,
 		comp.GetIterVar(),
 		comp.GetIterVar2(),
+=======
+	return factory.NewComprehension(id,
+		iterRange,
+		comp.GetIterVar(),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		comp.GetAccuVar(),
 		accuInit,
 		loopCond,
@@ -366,7 +381,10 @@ func protoComprehension(id int64, comp ComprehensionExpr) (*exprpb.Expr, error) 
 		ExprKind: &exprpb.Expr_ComprehensionExpr{
 			ComprehensionExpr: &exprpb.Expr_Comprehension{
 				IterVar:       comp.IterVar(),
+<<<<<<< HEAD
 				IterVar2:      comp.IterVar2(),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				IterRange:     iterRange,
 				AccuVar:       comp.AccuVar(),
 				AccuInit:      accuInit,
@@ -613,6 +631,7 @@ func ValToConstant(v ref.Val) (*exprpb.Constant, error) {
 
 // ConstantToVal converts a protobuf Constant to a CEL-native ref.Val.
 func ConstantToVal(c *exprpb.Constant) (ref.Val, error) {
+<<<<<<< HEAD
 	return AlphaProtoConstantAsVal(c)
 }
 
@@ -644,10 +663,30 @@ func ProtoConstantAsVal(c *celpb.Constant) (ref.Val, error) {
 	case *celpb.Constant_StringValue:
 		return types.String(c.GetStringValue()), nil
 	case *celpb.Constant_Uint64Value:
+=======
+	if c == nil {
+		return nil, nil
+	}
+	switch c.GetConstantKind().(type) {
+	case *exprpb.Constant_BoolValue:
+		return types.Bool(c.GetBoolValue()), nil
+	case *exprpb.Constant_BytesValue:
+		return types.Bytes(c.GetBytesValue()), nil
+	case *exprpb.Constant_DoubleValue:
+		return types.Double(c.GetDoubleValue()), nil
+	case *exprpb.Constant_Int64Value:
+		return types.Int(c.GetInt64Value()), nil
+	case *exprpb.Constant_NullValue:
+		return types.NullValue, nil
+	case *exprpb.Constant_StringValue:
+		return types.String(c.GetStringValue()), nil
+	case *exprpb.Constant_Uint64Value:
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return types.Uint(c.GetUint64Value()), nil
 	}
 	return nil, fmt.Errorf("unsupported constant kind: %v", c.GetConstantKind())
 }
+<<<<<<< HEAD
 
 func convertProto(src, dst proto.Message) error {
 	pb, err := proto.Marshal(src)
@@ -657,3 +696,5 @@ func convertProto(src, dst proto.Message) error {
 	err = proto.Unmarshal(pb, dst)
 	return err
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

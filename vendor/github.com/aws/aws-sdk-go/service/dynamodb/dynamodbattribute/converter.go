@@ -3,7 +3,10 @@ package dynamodbattribute
 import (
 	"bytes"
 	"encoding/json"
+<<<<<<< HEAD
 	"errors"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"fmt"
 	"reflect"
 	"runtime"
@@ -26,7 +29,11 @@ func ConvertToMap(in interface{}) (item map[string]*dynamodb.AttributeValue, err
 			if e, ok := r.(runtime.Error); ok {
 				err = e
 			} else if s, ok := r.(string); ok {
+<<<<<<< HEAD
 				err = errors.New(s)
+=======
+				err = fmt.Errorf(s)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			} else {
 				err = r.(error)
 			}
@@ -74,7 +81,11 @@ func ConvertFromMap(item map[string]*dynamodb.AttributeValue, v interface{}) (er
 			if e, ok := r.(runtime.Error); ok {
 				err = e
 			} else if s, ok := r.(string); ok {
+<<<<<<< HEAD
 				err = errors.New(s)
+=======
+				err = fmt.Errorf(s)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			} else {
 				err = r.(error)
 			}
@@ -128,7 +139,11 @@ func ConvertToList(in interface{}) (item []*dynamodb.AttributeValue, err error) 
 			if e, ok := r.(runtime.Error); ok {
 				err = e
 			} else if s, ok := r.(string); ok {
+<<<<<<< HEAD
 				err = errors.New(s)
+=======
+				err = fmt.Errorf(s)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			} else {
 				err = r.(error)
 			}
@@ -177,7 +192,11 @@ func ConvertFromList(item []*dynamodb.AttributeValue, v interface{}) (err error)
 			if e, ok := r.(runtime.Error); ok {
 				err = e
 			} else if s, ok := r.(string); ok {
+<<<<<<< HEAD
 				err = errors.New(s)
+=======
+				err = fmt.Errorf(s)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			} else {
 				err = r.(error)
 			}
@@ -225,7 +244,11 @@ func ConvertTo(in interface{}) (item *dynamodb.AttributeValue, err error) {
 			if e, ok := r.(runtime.Error); ok {
 				err = e
 			} else if s, ok := r.(string); ok {
+<<<<<<< HEAD
 				err = errors.New(s)
+=======
+				err = fmt.Errorf(s)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			} else {
 				err = r.(error)
 			}
@@ -255,7 +278,11 @@ func ConvertFrom(item *dynamodb.AttributeValue, v interface{}) (err error) {
 			if e, ok := r.(runtime.Error); ok {
 				err = e
 			} else if s, ok := r.(string); ok {
+<<<<<<< HEAD
 				err = errors.New(s)
+=======
+				err = fmt.Errorf(s)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			} else {
 				err = r.(error)
 			}

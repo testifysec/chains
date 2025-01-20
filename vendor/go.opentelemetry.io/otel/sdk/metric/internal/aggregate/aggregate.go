@@ -8,6 +8,10 @@ import (
 	"time"
 
 	"go.opentelemetry.io/otel/attribute"
+<<<<<<< HEAD
+=======
+	"go.opentelemetry.io/otel/sdk/metric/internal/exemplar"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/otel/sdk/metric/metricdata"
 )
 
@@ -37,8 +41,13 @@ type Builder[N int64 | float64] struct {
 	// create new exemplar reservoirs for a new seen attribute set.
 	//
 	// If this is not provided a default factory function that returns an
+<<<<<<< HEAD
 	// dropReservoir reservoir will be used.
 	ReservoirFunc func(attribute.Set) FilteredExemplarReservoir[N]
+=======
+	// exemplar.Drop reservoir will be used.
+	ReservoirFunc func() exemplar.FilteredReservoir[N]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// AggregationLimit is the cardinality limit of measurement attributes. Any
 	// measurement for new attributes once the limit has been reached will be
 	// aggregated into a single aggregate for the "otel.metric.overflow"
@@ -49,12 +58,20 @@ type Builder[N int64 | float64] struct {
 	AggregationLimit int
 }
 
+<<<<<<< HEAD
 func (b Builder[N]) resFunc() func(attribute.Set) FilteredExemplarReservoir[N] {
+=======
+func (b Builder[N]) resFunc() func() exemplar.FilteredReservoir[N] {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if b.ReservoirFunc != nil {
 		return b.ReservoirFunc
 	}
 
+<<<<<<< HEAD
 	return dropReservoir
+=======
+	return exemplar.Drop
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type fltrMeasure[N int64 | float64] func(ctx context.Context, value N, fltrAttr attribute.Set, droppedAttr []attribute.KeyValue)

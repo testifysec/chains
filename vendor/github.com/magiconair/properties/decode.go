@@ -189,12 +189,21 @@ func dec(p *Properties, key string, def *string, opts map[string]string, v refle
 		for i := 0; i < v.NumField(); i++ {
 			fv := v.Field(i)
 			fk, def, opts := keydef(t.Field(i))
+<<<<<<< HEAD
 			if fk == "-" {
 				continue
 			}
 			if !fv.CanSet() {
 				return fmt.Errorf("cannot set %s", t.Field(i).Name)
 			}
+=======
+			if !fv.CanSet() {
+				return fmt.Errorf("cannot set %s", t.Field(i).Name)
+			}
+			if fk == "-" {
+				continue
+			}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if key != "" {
 				fk = key + "." + fk
 			}

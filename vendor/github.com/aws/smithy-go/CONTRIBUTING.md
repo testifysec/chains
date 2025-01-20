@@ -39,6 +39,7 @@ To send us a pull request, please:
 GitHub provides additional document on [forking a repository](https://help.github.com/articles/fork-a-repo/) and
 [creating a pull request](https://help.github.com/articles/creating-a-pull-request/).
 
+<<<<<<< HEAD
 ### Changelog Documents
 
 (You can SKIP this step if you are only changing the code generator, and not the runtime).
@@ -70,6 +71,8 @@ These are used to generate the content `CHANGELOG.md` and Release Notes. The for
 * description: Description of this change. Most of the times is the same as the title of the PR
 * modules: which Go modules does this change impact. The root module is expressed as "."
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 ## Finding contributions to work on
 Looking at the existing issues is a great way to find something to contribute on. As our projects, by default, use the default GitHub issue labels (enhancement/bug/duplicate/help wanted/invalid/question/wontfix), looking at any 'help wanted' issues is a great place to start.

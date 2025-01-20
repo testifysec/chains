@@ -30,6 +30,7 @@ type Errors struct {
 
 // NewErrors creates a new instance of the Errors type.
 func NewErrors(source Source) *Errors {
+<<<<<<< HEAD
 	src := source
 	if src == nil {
 		src = NewTextSource("")
@@ -37,6 +38,11 @@ func NewErrors(source Source) *Errors {
 	return &Errors{
 		errors:            []*Error{},
 		source:            src,
+=======
+	return &Errors{
+		errors:            []*Error{},
+		source:            source,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		maxErrorsToReport: 100,
 	}
 }
@@ -46,11 +52,14 @@ func (e *Errors) ReportError(l Location, format string, args ...any) {
 	e.ReportErrorAtID(0, l, format, args...)
 }
 
+<<<<<<< HEAD
 // ReportErrorString records an error at a source location.
 func (e *Errors) ReportErrorString(l Location, message string) {
 	e.ReportErrorAtID(0, l, "%s", message)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // ReportErrorAtID records an error at a source location and expression id.
 func (e *Errors) ReportErrorAtID(id int64, l Location, format string, args ...any) {
 	e.numErrors++

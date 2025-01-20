@@ -58,6 +58,7 @@ func (b Bytes) Compare(other ref.Val) ref.Val {
 // ConvertToNative implements the ref.Val interface method.
 func (b Bytes) ConvertToNative(typeDesc reflect.Type) (any, error) {
 	switch typeDesc.Kind() {
+<<<<<<< HEAD
 	case reflect.Array:
 		if len(b) != typeDesc.Len() {
 			return nil, fmt.Errorf("[%d]byte not assignable to [%d]byte array", len(b), typeDesc.Len())
@@ -69,6 +70,9 @@ func (b Bytes) ConvertToNative(typeDesc reflect.Type) (any, error) {
 		}
 		return refArr.Interface(), nil
 	case reflect.Slice:
+=======
+	case reflect.Array, reflect.Slice:
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return reflect.ValueOf(b).Convert(typeDesc).Interface(), nil
 	case reflect.Ptr:
 		switch typeDesc {

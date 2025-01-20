@@ -51,6 +51,7 @@ type Artifact struct {
 }
 
 type ArtifactBatch struct {
+<<<<<<< HEAD
 	ID                 string      `json:"id"`
 	Artifacts          []*Artifact `json:"artifacts"`
 	UploadDestination  string      `json:"upload_destination"`
@@ -92,6 +93,27 @@ type ArtifactBatchCreateResponse struct {
 	// uploads. It overrides InstructionTemplate and should not contain
 	// interpolations. Map: artifact ID -> instructions for that artifact.
 	PerArtifactInstructions map[string]*ArtifactUploadInstructions `json:"per_artifact_instructions"`
+=======
+	ID                string      `json:"id"`
+	Artifacts         []*Artifact `json:"artifacts"`
+	UploadDestination string      `json:"upload_destination"`
+}
+
+type ArtifactUploadInstructions struct {
+	Data   map[string]string `json:"data"`
+	Action struct {
+		URL       string `json:"url,omitempty"`
+		Method    string `json:"method"`
+		Path      string `json:"path"`
+		FileInput string `json:"file_input"`
+	}
+}
+
+type ArtifactBatchCreateResponse struct {
+	ID                 string                      `json:"id"`
+	ArtifactIDs        []string                    `json:"artifact_ids"`
+	UploadInstructions *ArtifactUploadInstructions `json:"upload_instructions"`
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ArtifactSearchOptions specifies the optional parameters to the
@@ -104,6 +126,7 @@ type ArtifactSearchOptions struct {
 	IncludeDuplicates  bool   `url:"include_duplicates,omitempty"`
 }
 
+<<<<<<< HEAD
 // ArtifactState represents the state of a single artifact, when calling UpdateArtifacts.
 type ArtifactState struct {
 	ID        string `json:"id"`
@@ -127,6 +150,20 @@ type ArtifactBatchUpdateRequest struct {
 // CreateArtifacts takes a slice of artifacts, and creates them on Buildkite as a batch.
 func (c *Client) CreateArtifacts(ctx context.Context, jobID string, batch *ArtifactBatch) (*ArtifactBatchCreateResponse, *Response, error) {
 	u := fmt.Sprintf("jobs/%s/artifacts", railsPathEscape(jobID))
+=======
+type ArtifactBatchUpdateArtifact struct {
+	ID    string `json:"id"`
+	State string `json:"state"`
+}
+
+type ArtifactBatchUpdateRequest struct {
+	Artifacts []*ArtifactBatchUpdateArtifact `json:"artifacts"`
+}
+
+// CreateArtifacts takes a slice of artifacts, and creates them on Buildkite as a batch.
+func (c *Client) CreateArtifacts(ctx context.Context, jobId string, batch *ArtifactBatch) (*ArtifactBatchCreateResponse, *Response, error) {
+	u := fmt.Sprintf("jobs/%s/artifacts", railsPathEscape(jobId))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	req, err := c.newRequest(ctx, "POST", u, batch)
 	if err != nil {
@@ -142,11 +179,21 @@ func (c *Client) CreateArtifacts(ctx context.Context, jobID string, batch *Artif
 	return createResponse, resp, err
 }
 
+<<<<<<< HEAD
 // UpdateArtifacts updates Buildkite with one or more artifact states.
 func (c *Client) UpdateArtifacts(ctx context.Context, jobID string, artifactStates []ArtifactState) (*Response, error) {
 	u := fmt.Sprintf("jobs/%s/artifacts", railsPathEscape(jobID))
 	payload := ArtifactBatchUpdateRequest{
 		Artifacts: artifactStates,
+=======
+// Updates a particular artifact
+func (c *Client) UpdateArtifacts(ctx context.Context, jobId string, artifactStates map[string]string) (*Response, error) {
+	u := fmt.Sprintf("jobs/%s/artifacts", railsPathEscape(jobId))
+	payload := ArtifactBatchUpdateRequest{}
+
+	for id, state := range artifactStates {
+		payload.Artifacts = append(payload.Artifacts, &ArtifactBatchUpdateArtifact{id, state})
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	req, err := c.newRequest(ctx, "PUT", u, payload)
@@ -154,12 +201,26 @@ func (c *Client) UpdateArtifacts(ctx context.Context, jobID string, artifactStat
 		return nil, err
 	}
 
+<<<<<<< HEAD
 	return c.doRequest(req, nil)
 }
 
 // SearchArtifacts searches Buildkite for a set of artifacts
 func (c *Client) SearchArtifacts(ctx context.Context, buildID string, opt *ArtifactSearchOptions) ([]*Artifact, *Response, error) {
 	u := fmt.Sprintf("builds/%s/artifacts/search", railsPathEscape(buildID))
+=======
+	resp, err := c.doRequest(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
+}
+
+// SearchArtifacts searches Buildkite for a set of artifacts
+func (c *Client) SearchArtifacts(ctx context.Context, buildId string, opt *ArtifactSearchOptions) ([]*Artifact, *Response, error) {
+	u := fmt.Sprintf("builds/%s/artifacts/search", railsPathEscape(buildId))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	u, err := addOptions(u, opt)
 	if err != nil {
 		return nil, nil, err

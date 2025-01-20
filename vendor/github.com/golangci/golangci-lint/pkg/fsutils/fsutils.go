@@ -61,7 +61,11 @@ func EvalSymlinks(path string) (string, error) {
 	}
 
 	var er evalSymlinkRes
+<<<<<<< HEAD
 	er.path, er.err = evalSymlinks(path)
+=======
+	er.path, er.err = filepath.EvalSymlinks(path)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	evalSymlinkCache.Store(path, er)
 
 	return er.path, er.err

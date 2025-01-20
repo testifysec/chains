@@ -24,7 +24,11 @@ import (
 	"errors"
 	"fmt"
 	"io"
+<<<<<<< HEAD
 	rand "math/rand/v2"
+=======
+	"math/rand"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strconv"
 	"sync/atomic"
 	"time"
@@ -162,7 +166,11 @@ func (i *interceptor) NewStream(ctx context.Context, _ iresolver.RPCInfo, done f
 }
 
 // For overriding in tests
+<<<<<<< HEAD
 var randIntn = rand.IntN
+=======
+var randIntn = rand.Intn
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 var newTimer = time.NewTimer
 
 func injectDelay(ctx context.Context, delayCfg *cpb.FaultDelay) error {

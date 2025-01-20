@@ -20,15 +20,24 @@
 package adaptive
 
 import (
+<<<<<<< HEAD
 	rand "math/rand/v2"
+=======
+	"math/rand"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"sync"
 	"time"
 )
 
 // For overriding in unittests.
 var (
+<<<<<<< HEAD
 	timeNowFunc = time.Now
 	randFunc    = rand.Float64
+=======
+	timeNowFunc = func() time.Time { return time.Now() }
+	randFunc    = func() float64 { return rand.Float64() }
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const (

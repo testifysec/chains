@@ -7,16 +7,24 @@ package packet
 import (
 	"crypto"
 	"encoding/binary"
+<<<<<<< HEAD
 	"io"
 	"strconv"
 
 	"github.com/ProtonMail/go-crypto/openpgp/errors"
 	"github.com/ProtonMail/go-crypto/openpgp/internal/algorithm"
+=======
+	"github.com/ProtonMail/go-crypto/openpgp/errors"
+	"github.com/ProtonMail/go-crypto/openpgp/internal/algorithm"
+	"io"
+	"strconv"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // OnePassSignature represents a one-pass signature packet. See RFC 4880,
 // section 5.4.
 type OnePassSignature struct {
+<<<<<<< HEAD
 	Version        int
 	SigType        SignatureType
 	Hash           crypto.Hash
@@ -38,6 +46,27 @@ func (ops *OnePassSignature) parse(r io.Reader) (err error) {
 		return errors.UnsupportedError("one-pass-signature packet version " + strconv.Itoa(int(buf[0])))
 	}
 	ops.Version = int(buf[0])
+=======
+	SigType    SignatureType
+	Hash       crypto.Hash
+	PubKeyAlgo PublicKeyAlgorithm
+	KeyId      uint64
+	IsLast     bool
+}
+
+const onePassSignatureVersion = 3
+
+func (ops *OnePassSignature) parse(r io.Reader) (err error) {
+	var buf [13]byte
+
+	_, err = readFull(r, buf[:])
+	if err != nil {
+		return
+	}
+	if buf[0] != onePassSignatureVersion {
+		err = errors.UnsupportedError("one-pass-signature packet version " + strconv.Itoa(int(buf[0])))
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	var ok bool
 	ops.Hash, ok = algorithm.HashIdToHashWithSha1(buf[2])
@@ -47,6 +76,7 @@ func (ops *OnePassSignature) parse(r io.Reader) (err error) {
 
 	ops.SigType = SignatureType(buf[1])
 	ops.PubKeyAlgo = PublicKeyAlgorithm(buf[3])
+<<<<<<< HEAD
 
 	if ops.Version == 6 {
 		// Only for v6, a variable-length field containing the salt
@@ -92,11 +122,16 @@ func (ops *OnePassSignature) parse(r io.Reader) (err error) {
 		return
 	}
 	ops.IsLast = buf[0] != 0
+=======
+	ops.KeyId = binary.BigEndian.Uint64(buf[4:12])
+	ops.IsLast = buf[12] != 0
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return
 }
 
 // Serialize marshals the given OnePassSignature to w.
 func (ops *OnePassSignature) Serialize(w io.Writer) error {
+<<<<<<< HEAD
 	//v3 length 1+1+1+1+8+1 =
 	packetLength := 13
 	if ops.Version == 6 {
@@ -110,6 +145,10 @@ func (ops *OnePassSignature) Serialize(w io.Writer) error {
 
 	var buf [8]byte
 	buf[0] = byte(ops.Version)
+=======
+	var buf [13]byte
+	buf[0] = onePassSignatureVersion
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	buf[1] = uint8(ops.SigType)
 	var ok bool
 	buf[2], ok = algorithm.HashToHashIdWithSha1(ops.Hash)
@@ -117,6 +156,7 @@ func (ops *OnePassSignature) Serialize(w io.Writer) error {
 		return errors.UnsupportedError("hash type: " + strconv.Itoa(int(ops.Hash)))
 	}
 	buf[3] = uint8(ops.PubKeyAlgo)
+<<<<<<< HEAD
 
 	_, err := w.Write(buf[:4])
 	if err != nil {
@@ -153,5 +193,16 @@ func (ops *OnePassSignature) Serialize(w io.Writer) error {
 	}
 
 	_, err = w.Write(isLast)
+=======
+	binary.BigEndian.PutUint64(buf[4:12], ops.KeyId)
+	if ops.IsLast {
+		buf[12] = 1
+	}
+
+	if err := serializeHeader(w, packetTypeOnePassSignature, len(buf)); err != nil {
+		return err
+	}
+	_, err := w.Write(buf[:])
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return err
 }

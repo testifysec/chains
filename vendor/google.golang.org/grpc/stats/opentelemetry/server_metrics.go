@@ -264,6 +264,7 @@ func (h *serverStatsHandler) processRPCEnd(ctx context.Context, ai *attemptInfo,
 }
 
 const (
+<<<<<<< HEAD
 	// ServerCallStartedMetricName is the number of server calls started.
 	ServerCallStartedMetricName string = "grpc.server.call.started"
 	// ServerCallSentCompressedTotalMessageSizeMetricName is the compressed
@@ -275,4 +276,17 @@ const (
 	// ServerCallDurationMetricName is the end-to-end time taken to complete a
 	// call from server transport's perspective.
 	ServerCallDurationMetricName string = "grpc.server.call.duration"
+=======
+	// ServerCallStarted is the number of server calls started.
+	ServerCallStarted estats.Metric = "grpc.server.call.started"
+	// ServerCallSentCompressedTotalMessageSize is the compressed message bytes
+	// sent per server call.
+	ServerCallSentCompressedTotalMessageSize estats.Metric = "grpc.server.call.sent_total_compressed_message_size"
+	// ServerCallRcvdCompressedTotalMessageSize is the compressed message bytes
+	// received per server call.
+	ServerCallRcvdCompressedTotalMessageSize estats.Metric = "grpc.server.call.rcvd_total_compressed_message_size"
+	// ServerCallDuration is the end-to-end time taken to complete a call from
+	// server transport's perspective.
+	ServerCallDuration estats.Metric = "grpc.server.call.duration"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )

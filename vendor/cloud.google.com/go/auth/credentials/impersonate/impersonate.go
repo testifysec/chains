@@ -20,7 +20,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+<<<<<<< HEAD
 	"log/slog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"strings"
 	"time"
@@ -29,11 +32,18 @@ import (
 	"cloud.google.com/go/auth/credentials"
 	"cloud.google.com/go/auth/httptransport"
 	"cloud.google.com/go/auth/internal"
+<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 var (
 	universeDomainPlaceholder                   = "UNIVERSE_DOMAIN"
+<<<<<<< HEAD
+=======
+	iamCredentialsEndpoint                      = "https://iamcredentials.googleapis.com"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	iamCredentialsUniverseDomainEndpoint        = "https://iamcredentials.UNIVERSE_DOMAIN"
 	oauth2Endpoint                              = "https://oauth2.googleapis.com"
 	errMissingTargetPrincipal                   = errors.New("impersonate: target service account must be provided")
@@ -66,21 +76,31 @@ func NewCredentials(opts *CredentialsOptions) (*auth.Credentials, error) {
 
 	client := opts.Client
 	creds := opts.Credentials
+<<<<<<< HEAD
 	logger := internallog.New(opts.Logger)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if client == nil {
 		var err error
 		if creds == nil {
 			creds, err = credentials.DetectDefault(&credentials.DetectOptions{
 				Scopes:           []string{defaultScope},
 				UseSelfSignedJWT: true,
+<<<<<<< HEAD
 				Logger:           logger,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			})
 			if err != nil {
 				return nil, err
 			}
 		}
 
+<<<<<<< HEAD
 		client, err = httptransport.NewClient(transportOpts(opts, creds, logger))
+=======
+		client, err = httptransport.NewClient(transportOpts(opts, creds))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return nil, err
 		}
@@ -105,10 +125,16 @@ func NewCredentials(opts *CredentialsOptions) (*auth.Credentials, error) {
 		targetPrincipal:        opts.TargetPrincipal,
 		lifetime:               fmt.Sprintf("%.fs", lifetime.Seconds()),
 		universeDomainProvider: universeDomainProvider,
+<<<<<<< HEAD
 		logger:                 logger,
 	}
 	for _, v := range opts.Delegates {
 		its.delegates = append(its.delegates, internal.FormatIAMServiceAccountResource(v))
+=======
+	}
+	for _, v := range opts.Delegates {
+		its.delegates = append(its.delegates, formatIAMServiceAccountName(v))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	its.scopes = make([]string, len(opts.Scopes))
 	copy(its.scopes, opts.Scopes)
@@ -130,10 +156,16 @@ func NewCredentials(opts *CredentialsOptions) (*auth.Credentials, error) {
 // is provided, it will be used in the transport for a validation ensuring that it
 // matches the universe domain in the base credentials. If opts.UniverseDomain
 // is not provided, this validation will be skipped.
+<<<<<<< HEAD
 func transportOpts(opts *CredentialsOptions, creds *auth.Credentials, logger *slog.Logger) *httptransport.Options {
 	tOpts := &httptransport.Options{
 		Credentials: creds,
 		Logger:      logger,
+=======
+func transportOpts(opts *CredentialsOptions, creds *auth.Credentials) *httptransport.Options {
+	tOpts := &httptransport.Options{
+		Credentials: creds,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if opts.UniverseDomain == "" {
 		tOpts.InternalOptions = &httptransport.InternalOptions{
@@ -191,11 +223,14 @@ type CredentialsOptions struct {
 	// This field has no default value, and only if provided will it be used to
 	// verify the universe domain from the credentials. Optional.
 	UniverseDomain string
+<<<<<<< HEAD
 	// Logger is used for debug logging. If provided, logging will be enabled
 	// at the loggers configured level. By default logging is disabled unless
 	// enabled by setting GOOGLE_SDK_GO_LOGGING_LEVEL in which case a default
 	// logger will be used. Optional.
 	Logger *slog.Logger
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (o *CredentialsOptions) validate() error {
@@ -214,6 +249,13 @@ func (o *CredentialsOptions) validate() error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+func formatIAMServiceAccountName(name string) string {
+	return fmt.Sprintf("projects/-/serviceAccounts/%s", name)
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type generateAccessTokenRequest struct {
 	Delegates []string `json:"delegates,omitempty"`
 	Lifetime  string   `json:"lifetime,omitempty"`
@@ -226,10 +268,15 @@ type generateAccessTokenResponse struct {
 }
 
 type impersonatedTokenProvider struct {
+<<<<<<< HEAD
 	client *http.Client
 	// universeDomain is used for endpoint construction.
 	universeDomainProvider auth.CredentialsPropertyProvider
 	logger                 *slog.Logger
+=======
+	client                 *http.Client
+	universeDomainProvider auth.CredentialsPropertyProvider
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	targetPrincipal string
 	lifetime        string
@@ -253,18 +300,28 @@ func (i impersonatedTokenProvider) Token(ctx context.Context) (*auth.Token, erro
 		return nil, err
 	}
 	endpoint := strings.Replace(iamCredentialsUniverseDomainEndpoint, universeDomainPlaceholder, universeDomain, 1)
+<<<<<<< HEAD
 	url := fmt.Sprintf("%s/v1/%s:generateAccessToken", endpoint, internal.FormatIAMServiceAccountResource(i.targetPrincipal))
+=======
+	url := fmt.Sprintf("%s/v1/%s:generateAccessToken", endpoint, formatIAMServiceAccountName(i.targetPrincipal))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewReader(b))
 	if err != nil {
 		return nil, fmt.Errorf("impersonate: unable to create request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
+<<<<<<< HEAD
 	i.logger.DebugContext(ctx, "impersonated token request", "request", internallog.HTTPRequest(req, b))
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(i.client, req)
 	if err != nil {
 		return nil, fmt.Errorf("impersonate: unable to generate access token: %w", err)
 	}
+<<<<<<< HEAD
 	i.logger.DebugContext(ctx, "impersonated token response", "response", internallog.HTTPResponse(resp, body))
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if c := resp.StatusCode; c < 200 || c > 299 {
 		return nil, fmt.Errorf("impersonate: status code %d: %s", c, body)
 	}

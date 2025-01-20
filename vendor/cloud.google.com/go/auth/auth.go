@@ -24,7 +24,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+<<<<<<< HEAD
 	"log/slog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"net/url"
 	"strings"
@@ -33,7 +36,10 @@ import (
 
 	"cloud.google.com/go/auth/internal"
 	"cloud.google.com/go/auth/internal/jwt"
+<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const (
@@ -492,11 +498,14 @@ type Options2LO struct {
 	// UseIDToken requests that the token returned be an ID token if one is
 	// returned from the server. Optional.
 	UseIDToken bool
+<<<<<<< HEAD
 	// Logger is used for debug logging. If provided, logging will be enabled
 	// at the loggers configured level. By default logging is disabled unless
 	// enabled by setting GOOGLE_SDK_GO_LOGGING_LEVEL in which case a default
 	// logger will be used. Optional.
 	Logger *slog.Logger
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (o *Options2LO) client() *http.Client {
@@ -527,13 +536,20 @@ func New2LOTokenProvider(opts *Options2LO) (TokenProvider, error) {
 	if err := opts.validate(); err != nil {
 		return nil, err
 	}
+<<<<<<< HEAD
 	return tokenProvider2LO{opts: opts, Client: opts.client(), logger: internallog.New(opts.Logger)}, nil
+=======
+	return tokenProvider2LO{opts: opts, Client: opts.client()}, nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type tokenProvider2LO struct {
 	opts   *Options2LO
 	Client *http.Client
+<<<<<<< HEAD
 	logger *slog.Logger
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (tp tokenProvider2LO) Token(ctx context.Context) (*Token, error) {
@@ -568,12 +584,18 @@ func (tp tokenProvider2LO) Token(ctx context.Context) (*Token, error) {
 		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+<<<<<<< HEAD
 	tp.logger.DebugContext(ctx, "2LO token request", "request", internallog.HTTPRequest(req, []byte(v.Encode())))
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(tp.Client, req)
 	if err != nil {
 		return nil, fmt.Errorf("auth: cannot fetch token: %w", err)
 	}
+<<<<<<< HEAD
 	tp.logger.DebugContext(ctx, "2LO token response", "response", internallog.HTTPResponse(resp, body))
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if c := resp.StatusCode; c < http.StatusOK || c >= http.StatusMultipleChoices {
 		return nil, &Error{
 			Response: resp,

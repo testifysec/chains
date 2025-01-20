@@ -56,8 +56,28 @@ func (group Group) sanitize() Group {
 // combinedError is a list of non-empty errors
 type combinedError []error
 
+<<<<<<< HEAD
 // Unwrap returns the first error.
 func (group combinedError) Unwrap() []error { return group }
+=======
+// Cause returns the first error.
+func (group combinedError) Cause() error {
+	if len(group) > 0 {
+		return group[0]
+	}
+	return nil
+}
+
+// Unwrap returns the first error.
+func (group combinedError) Unwrap() error {
+	return group.Cause()
+}
+
+// Ungroup returns all errors.
+func (group combinedError) Ungroup() []error {
+	return group
+}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 // Error returns error string delimited by semicolons.
 func (group combinedError) Error() string { return fmt.Sprintf("%v", group) }

@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 <!-- Released section -->
 <!-- Don't change this section unless doing release -->
 
+<<<<<<< HEAD
 ## [1.34.0/0.56.0/0.10.0] 2025-01-17
 
 ### Changed
@@ -146,6 +147,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Drop support for [Go 1.21]. (#5736, #5740, #5800)
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## [1.29.0/0.51.0/0.5.0] 2024-08-23
 
 This release is the last to support [Go 1.21].
@@ -2030,7 +2033,11 @@ with major version 0.
 - Setting error status while recording error with Span from oteltest package. (#1729)
 - The concept of a remote and local Span stored in a context is unified to just the current Span.
   Because of this `"go.opentelemetry.io/otel/trace".RemoteSpanContextFromContext` is removed as it is no longer needed.
+<<<<<<< HEAD
   Instead, `"go.opentelemetry.io/otel/trace".SpanContextFromContext` can be used to return the current Span.
+=======
+  Instead, `"go.opentelemetry.io/otel/trace".SpanContextFromContex` can be used to return the current Span.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   If needed, that Span's `SpanContext.IsRemote()` can then be used to determine if it is remote or not. (#1731)
 - The `HasRemoteParent` field of the `"go.opentelemetry.io/otel/sdk/trace".SamplingParameters` is removed.
   This field is redundant to the information returned from the `Remote` method of the `SpanContext` held in the `ParentContext` field. (#1749)
@@ -2604,7 +2611,11 @@ This release migrates the default OpenTelemetry SDK into its own Go module, deco
 - Prometheus exporter will not apply stale updates or forget inactive metrics. (#903)
 - Add test for api.standard `HTTPClientAttributesFromHTTPRequest`. (#905)
 - Bump github.com/golangci/golangci-lint from 1.27.0 to 1.28.1 in /tools. (#901, #913)
+<<<<<<< HEAD
 - Update otel-collector example to use the v0.5.0 collector. (#915)
+=======
+- Update otel-colector example to use the v0.5.0 collector. (#915)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 - The `grpctrace` instrumentation uses a span name conforming to the OpenTelemetry semantic conventions (does not contain a leading slash (`/`)). (#922)
 - The `grpctrace` instrumentation includes an `rpc.method` attribute now set to the gRPC method name. (#900, #922)
 - The `grpctrace` instrumentation `rpc.service` attribute now contains the package name if one exists.
@@ -3197,12 +3208,16 @@ It contains api and sdk for trace and meter.
 - CircleCI build CI manifest files.
 - CODEOWNERS file to track owners of this project.
 
+<<<<<<< HEAD
 [Unreleased]: https://github.com/open-telemetry/opentelemetry-go/compare/v1.34.0...HEAD
 [1.34.0/0.56.0/0.10.0]: https://github.com/open-telemetry/opentelemetry-go/releases/tag/v1.34.0
 [1.33.0/0.55.0/0.9.0/0.0.12]: https://github.com/open-telemetry/opentelemetry-go/releases/tag/v1.33.0
 [1.32.0/0.54.0/0.8.0/0.0.11]: https://github.com/open-telemetry/opentelemetry-go/releases/tag/v1.32.0
 [1.31.0/0.53.0/0.7.0/0.0.10]: https://github.com/open-telemetry/opentelemetry-go/releases/tag/v1.31.0
 [1.30.0/0.52.0/0.6.0/0.0.9]: https://github.com/open-telemetry/opentelemetry-go/releases/tag/v1.30.0
+=======
+[Unreleased]: https://github.com/open-telemetry/opentelemetry-go/compare/v1.29.0...HEAD
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 [1.29.0/0.51.0/0.5.0]: https://github.com/open-telemetry/opentelemetry-go/releases/tag/v1.29.0
 [1.28.0/0.50.0/0.4.0]: https://github.com/open-telemetry/opentelemetry-go/releases/tag/v1.28.0
 [1.27.0/0.49.0/0.3.0]: https://github.com/open-telemetry/opentelemetry-go/releases/tag/v1.27.0

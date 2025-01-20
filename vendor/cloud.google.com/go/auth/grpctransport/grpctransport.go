@@ -21,7 +21,10 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+<<<<<<< HEAD
 	"log/slog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"os"
 	"sync"
@@ -30,7 +33,11 @@ import (
 	"cloud.google.com/go/auth/credentials"
 	"cloud.google.com/go/auth/internal"
 	"cloud.google.com/go/auth/internal/transport"
+<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
+=======
+	"go.opencensus.io/plugin/ocgrpc"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"google.golang.org/grpc"
 	grpccreds "google.golang.org/grpc/credentials"
@@ -118,11 +125,14 @@ type Options struct {
 	// APIKey specifies an API key to be used as the basis for authentication.
 	// If set DetectOpts are ignored.
 	APIKey string
+<<<<<<< HEAD
 	// Logger is used for debug logging. If provided, logging will be enabled
 	// at the loggers configured level. By default logging is disabled unless
 	// enabled by setting GOOGLE_SDK_GO_LOGGING_LEVEL in which case a default
 	// logger will be used. Optional.
 	Logger *slog.Logger
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// InternalOptions are NOT meant to be set directly by consumers of this
 	// package, they should only be set by generated client code.
@@ -138,10 +148,13 @@ func (o *Options) client() *http.Client {
 	return nil
 }
 
+<<<<<<< HEAD
 func (o *Options) logger() *slog.Logger {
 	return internallog.New(o.Logger)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (o *Options) validate() error {
 	if o == nil {
 		return errors.New("grpctransport: opts required to be non-nil")
@@ -183,9 +196,12 @@ func (o *Options) resolveDetectOptions() *credentials.DetectOptions {
 		do.Client = transport.DefaultHTTPClientWithTLS(tlsConfig)
 		do.TokenURL = credentials.GoogleMTLSTokenURL
 	}
+<<<<<<< HEAD
 	if do.Logger == nil {
 		do.Logger = o.logger()
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return do
 }
 
@@ -254,7 +270,10 @@ func dial(ctx context.Context, secure bool, opts *Options) (*grpc.ClientConn, er
 		ClientCertProvider: opts.ClientCertProvider,
 		Client:             opts.client(),
 		UniverseDomain:     opts.UniverseDomain,
+<<<<<<< HEAD
 		Logger:             opts.logger(),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if io := opts.InternalOptions; io != nil {
 		tOpts.DefaultEndpointTemplate = io.DefaultEndpointTemplate
@@ -332,6 +351,10 @@ func dial(ctx context.Context, secure bool, opts *Options) (*grpc.ClientConn, er
 	// Add tracing, but before the other options, so that clients can override the
 	// gRPC stats handler.
 	// This assumes that gRPC options are processed in order, left to right.
+<<<<<<< HEAD
+=======
+	grpcOpts = addOCStatsHandler(grpcOpts, opts)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	grpcOpts = addOpenTelemetryStatsHandler(grpcOpts, opts)
 	grpcOpts = append(grpcOpts, opts.GRPCDialOpts...)
 
@@ -430,6 +453,16 @@ func (c *grpcCredentialsProvider) RequireTransportSecurity() bool {
 	return c.secure
 }
 
+<<<<<<< HEAD
+=======
+func addOCStatsHandler(dialOpts []grpc.DialOption, opts *Options) []grpc.DialOption {
+	if opts.DisableTelemetry {
+		return dialOpts
+	}
+	return append(dialOpts, grpc.WithStatsHandler(&ocgrpc.ClientHandler{}))
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func addOpenTelemetryStatsHandler(dialOpts []grpc.DialOption, opts *Options) []grpc.DialOption {
 	if opts.DisableTelemetry {
 		return dialOpts

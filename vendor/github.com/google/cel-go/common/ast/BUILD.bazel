@@ -15,6 +15,7 @@ go_library(
         "navigable.go",
     ],
     importpath = "github.com/google/cel-go/common/ast",
+<<<<<<< HEAD
     deps = [
         "//common:go_default_library",
         "//common/types:go_default_library",
@@ -22,6 +23,13 @@ go_library(
         "@dev_cel_expr//:expr",
         "@org_golang_google_genproto_googleapis_api//expr/v1alpha1:go_default_library",
         "@org_golang_google_protobuf//proto:go_default_library",
+=======
+    deps = [    
+        "//common:go_default_library",
+        "//common/types:go_default_library",
+        "//common/types/ref:go_default_library",
+        "@org_golang_google_genproto_googleapis_api//expr/v1alpha1:go_default_library",
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
         "@org_golang_google_protobuf//types/known/structpb:go_default_library",
     ],
 )
@@ -37,13 +45,20 @@ go_test(
     embed = [
         ":go_default_library",
     ],
+<<<<<<< HEAD
     deps = [
+=======
+    deps = [    
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
         "//checker:go_default_library",
         "//checker/decls:go_default_library",
         "//common:go_default_library",
         "//common/containers:go_default_library",
         "//common/decls:go_default_library",
+<<<<<<< HEAD
         "//common/operators:go_default_library",
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
         "//common/overloads:go_default_library",
         "//common/stdlib:go_default_library",
         "//common/types:go_default_library",

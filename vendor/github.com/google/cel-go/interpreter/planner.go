@@ -506,7 +506,11 @@ func (p *planner) planCreateList(expr ast.Expr) (Interpretable, error) {
 		id:           expr.ID(),
 		elems:        elems,
 		optionals:    optionals,
+<<<<<<< HEAD
 		hasOptionals: len(optionalIndices) != 0,
+=======
+		hasOptionals: len(optionals) != 0,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		adapter:      p.adapter,
 	}, nil
 }
@@ -518,7 +522,10 @@ func (p *planner) planCreateMap(expr ast.Expr) (Interpretable, error) {
 	optionals := make([]bool, len(entries))
 	keys := make([]Interpretable, len(entries))
 	vals := make([]Interpretable, len(entries))
+<<<<<<< HEAD
 	hasOptionals := false
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for i, e := range entries {
 		entry := e.AsMapEntry()
 		keyVal, err := p.Plan(entry.Key())
@@ -533,14 +540,21 @@ func (p *planner) planCreateMap(expr ast.Expr) (Interpretable, error) {
 		}
 		vals[i] = valVal
 		optionals[i] = entry.IsOptional()
+<<<<<<< HEAD
 		hasOptionals = hasOptionals || entry.IsOptional()
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return &evalMap{
 		id:           expr.ID(),
 		keys:         keys,
 		vals:         vals,
 		optionals:    optionals,
+<<<<<<< HEAD
 		hasOptionals: hasOptionals,
+=======
+		hasOptionals: len(optionals) != 0,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		adapter:      p.adapter,
 	}, nil
 }
@@ -556,7 +570,10 @@ func (p *planner) planCreateStruct(expr ast.Expr) (Interpretable, error) {
 	optionals := make([]bool, len(objFields))
 	fields := make([]string, len(objFields))
 	vals := make([]Interpretable, len(objFields))
+<<<<<<< HEAD
 	hasOptionals := false
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for i, f := range objFields {
 		field := f.AsStructField()
 		fields[i] = field.Name()
@@ -566,7 +583,10 @@ func (p *planner) planCreateStruct(expr ast.Expr) (Interpretable, error) {
 		}
 		vals[i] = val
 		optionals[i] = field.IsOptional()
+<<<<<<< HEAD
 		hasOptionals = hasOptionals || field.IsOptional()
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return &evalObj{
 		id:           expr.ID(),
@@ -574,7 +594,11 @@ func (p *planner) planCreateStruct(expr ast.Expr) (Interpretable, error) {
 		fields:       fields,
 		vals:         vals,
 		optionals:    optionals,
+<<<<<<< HEAD
 		hasOptionals: hasOptionals,
+=======
+		hasOptionals: len(optionals) != 0,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		provider:     p.provider,
 	}, nil
 }
@@ -607,7 +631,10 @@ func (p *planner) planComprehension(expr ast.Expr) (Interpretable, error) {
 		accuVar:   fold.AccuVar(),
 		accu:      accu,
 		iterVar:   fold.IterVar(),
+<<<<<<< HEAD
 		iterVar2:  fold.IterVar2(),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		iterRange: iterRange,
 		cond:      cond,
 		step:      step,

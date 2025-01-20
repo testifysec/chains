@@ -28,6 +28,7 @@ import (
 
 // CostEstimator estimates the sizes of variable length input data and the costs of functions.
 type CostEstimator interface {
+<<<<<<< HEAD
 	// EstimateSize returns a SizeEstimate for the given AstNode, or nil if the estimator has no
 	// estimate to provide.
 	//
@@ -42,6 +43,17 @@ type CostEstimator interface {
 
 	// EstimateCallCost returns the estimated cost of an invocation, or nil if the estimator has no
 	// estimate to provide.
+=======
+	// EstimateSize returns a SizeEstimate for the given AstNode, or nil if
+	// the estimator has no estimate to provide. The size is equivalent to the result of the CEL `size()` function:
+	// length of strings and bytes, number of map entries or number of list items.
+	// EstimateSize is only called for AstNodes where
+	// CEL does not know the size; EstimateSize is not called for values defined inline in CEL where the size
+	// is already obvious to CEL.
+	EstimateSize(element AstNode) *SizeEstimate
+	// EstimateCallCost returns the estimated cost of an invocation, or nil if
+	// the estimator has no estimate to provide.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	EstimateCallCost(function, overloadID string, target *AstNode, args []AstNode) *CallEstimate
 }
 
@@ -49,7 +61,10 @@ type CostEstimator interface {
 // The ResultSize should only be provided if the call results in a map, list, string or bytes.
 type CallEstimate struct {
 	CostEstimate
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	ResultSize *SizeEstimate
 }
 
@@ -59,6 +74,7 @@ type AstNode interface {
 	// represent type directly reachable from the provided type declarations.
 	// The first path element is a variable. All subsequent path elements are one of: field name, '@items', '@keys', '@values'.
 	Path() []string
+<<<<<<< HEAD
 
 	// Type returns the deduced type of the AstNode.
 	Type() *types.Type
@@ -66,6 +82,12 @@ type AstNode interface {
 	// Expr returns the expression of the AstNode.
 	Expr() ast.Expr
 
+=======
+	// Type returns the deduced type of the AstNode.
+	Type() *types.Type
+	// Expr returns the expression of the AstNode.
+	Expr() ast.Expr
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// ComputedSize returns a size estimate of the AstNode derived from information available in the CEL expression.
 	// For constants and inline list and map declarations, the exact size is returned. For concatenated list, strings
 	// and bytes, the size is derived from the size estimates of the operands. nil is returned if there is no
@@ -93,7 +115,40 @@ func (e astNode) Expr() ast.Expr {
 }
 
 func (e astNode) ComputedSize() *SizeEstimate {
+<<<<<<< HEAD
 	return e.derivedSize
+=======
+	if e.derivedSize != nil {
+		return e.derivedSize
+	}
+	var v uint64
+	switch e.expr.Kind() {
+	case ast.LiteralKind:
+		switch ck := e.expr.AsLiteral().(type) {
+		case types.String:
+			// converting to runes here is an O(n) operation, but
+			// this is consistent with how size is computed at runtime,
+			// and how the language definition defines string size
+			v = uint64(len([]rune(ck)))
+		case types.Bytes:
+			v = uint64(len(ck))
+		case types.Bool, types.Double, types.Duration,
+			types.Int, types.Timestamp, types.Uint,
+			types.Null:
+			v = uint64(1)
+		default:
+			return nil
+		}
+	case ast.ListKind:
+		v = uint64(e.expr.AsList().Size())
+	case ast.MapKind:
+		v = uint64(e.expr.AsMap().Size())
+	default:
+		return nil
+	}
+
+	return &SizeEstimate{Min: v, Max: v}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // SizeEstimate represents an estimated size of a variable length string, bytes, map or list.
@@ -101,6 +156,7 @@ type SizeEstimate struct {
 	Min, Max uint64
 }
 
+<<<<<<< HEAD
 // UnknownSizeEstimate returns a size between 0 and max uint
 func UnknownSizeEstimate() SizeEstimate {
 	return unknownSizeEstimate
@@ -111,6 +167,8 @@ func FixedSizeEstimate(size uint64) SizeEstimate {
 	return SizeEstimate{Min: size, Max: size}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Add adds to another SizeEstimate and returns the sum.
 // If add would result in an uint64 overflow, the result is math.MaxUint64.
 func (se SizeEstimate) Add(sizeEstimate SizeEstimate) SizeEstimate {
@@ -165,6 +223,7 @@ type CostEstimate struct {
 	Min, Max uint64
 }
 
+<<<<<<< HEAD
 // UnknownCostEstimate returns a cost with an unknown impact.
 func UnknownCostEstimate() CostEstimate {
 	return unknownCostEstimate
@@ -175,12 +234,19 @@ func FixedCostEstimate(cost uint64) CostEstimate {
 	return CostEstimate{Min: cost, Max: cost}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Add adds the costs and returns the sum.
 // If add would result in an uint64 overflow for the min or max, the value is set to math.MaxUint64.
 func (ce CostEstimate) Add(cost CostEstimate) CostEstimate {
 	return CostEstimate{
+<<<<<<< HEAD
 		Min: addUint64NoOverflow(ce.Min, cost.Min),
 		Max: addUint64NoOverflow(ce.Max, cost.Max),
+=======
+		addUint64NoOverflow(ce.Min, cost.Min),
+		addUint64NoOverflow(ce.Max, cost.Max),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -188,8 +254,13 @@ func (ce CostEstimate) Add(cost CostEstimate) CostEstimate {
 // If multiply would result in an uint64 overflow, the result is math.MaxUint64.
 func (ce CostEstimate) Multiply(cost CostEstimate) CostEstimate {
 	return CostEstimate{
+<<<<<<< HEAD
 		Min: multiplyUint64NoOverflow(ce.Min, cost.Min),
 		Max: multiplyUint64NoOverflow(ce.Max, cost.Max),
+=======
+		multiplyUint64NoOverflow(ce.Min, cost.Min),
+		multiplyUint64NoOverflow(ce.Max, cost.Max),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -197,8 +268,13 @@ func (ce CostEstimate) Multiply(cost CostEstimate) CostEstimate {
 // nearest integer of the result, rounded up.
 func (ce CostEstimate) MultiplyByCostFactor(costPerUnit float64) CostEstimate {
 	return CostEstimate{
+<<<<<<< HEAD
 		Min: multiplyByCostFactor(ce.Min, costPerUnit),
 		Max: multiplyByCostFactor(ce.Max, costPerUnit),
+=======
+		multiplyByCostFactor(ce.Min, costPerUnit),
+		multiplyByCostFactor(ce.Max, costPerUnit),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -245,6 +321,52 @@ func multiplyByCostFactor(x uint64, y float64) uint64 {
 	return uint64(ceil)
 }
 
+<<<<<<< HEAD
+=======
+var (
+	selectAndIdentCost = CostEstimate{Min: common.SelectAndIdentCost, Max: common.SelectAndIdentCost}
+	constCost          = CostEstimate{Min: common.ConstCost, Max: common.ConstCost}
+
+	createListBaseCost    = CostEstimate{Min: common.ListCreateBaseCost, Max: common.ListCreateBaseCost}
+	createMapBaseCost     = CostEstimate{Min: common.MapCreateBaseCost, Max: common.MapCreateBaseCost}
+	createMessageBaseCost = CostEstimate{Min: common.StructCreateBaseCost, Max: common.StructCreateBaseCost}
+)
+
+type coster struct {
+	// exprPath maps from Expr Id to field path.
+	exprPath map[int64][]string
+	// iterRanges tracks the iterRange of each iterVar.
+	iterRanges iterRangeScopes
+	// computedSizes tracks the computed sizes of call results.
+	computedSizes      map[int64]SizeEstimate
+	checkedAST         *ast.AST
+	estimator          CostEstimator
+	overloadEstimators map[string]FunctionEstimator
+	// presenceTestCost will either be a zero or one based on whether has() macros count against cost computations.
+	presenceTestCost CostEstimate
+}
+
+// Use a stack of iterVar -> iterRange Expr Ids to handle shadowed variable names.
+type iterRangeScopes map[string][]int64
+
+func (vs iterRangeScopes) push(varName string, expr ast.Expr) {
+	vs[varName] = append(vs[varName], expr.ID())
+}
+
+func (vs iterRangeScopes) pop(varName string) {
+	varStack := vs[varName]
+	vs[varName] = varStack[:len(varStack)-1]
+}
+
+func (vs iterRangeScopes) peek(varName string) (int64, bool) {
+	varStack := vs[varName]
+	if len(varStack) > 0 {
+		return varStack[len(varStack)-1], true
+	}
+	return 0, false
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // CostOption configures flags which affect cost computations.
 type CostOption func(*coster) error
 
@@ -257,7 +379,11 @@ func PresenceTestHasCost(hasCost bool) CostOption {
 			c.presenceTestCost = selectAndIdentCost
 			return nil
 		}
+<<<<<<< HEAD
 		c.presenceTestCost = FixedCostEstimate(0)
+=======
+		c.presenceTestCost = CostEstimate{Min: 0, Max: 0}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return nil
 	}
 }
@@ -282,11 +408,18 @@ func Cost(checked *ast.AST, estimator CostEstimator, opts ...CostOption) (CostEs
 		checkedAST:         checked,
 		estimator:          estimator,
 		overloadEstimators: map[string]FunctionEstimator{},
+<<<<<<< HEAD
 		exprPaths:          map[int64][]string{},
 		localVars:          make(scopes),
 		computedSizes:      map[int64]SizeEstimate{},
 		computedEntrySizes: map[int64]entrySizeEstimate{},
 		presenceTestCost:   FixedCostEstimate(1),
+=======
+		exprPath:           map[int64][]string{},
+		iterRanges:         map[string][]int64{},
+		computedSizes:      map[int64]SizeEstimate{},
+		presenceTestCost:   CostEstimate{Min: 1, Max: 1},
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	for _, opt := range opts {
 		err := opt(c)
@@ -297,6 +430,7 @@ func Cost(checked *ast.AST, estimator CostEstimator, opts ...CostOption) (CostEs
 	return c.cost(checked.Expr()), nil
 }
 
+<<<<<<< HEAD
 type coster struct {
 	// exprPaths maps from Expr Id to field path.
 	exprPaths map[int64][]string
@@ -456,6 +590,8 @@ func (c *coster) popLocalVar(varName string) {
 	c.localVars.pop(varName)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *coster) cost(e ast.Expr) CostEstimate {
 	if e == nil {
 		return CostEstimate{}
@@ -477,11 +613,15 @@ func (c *coster) cost(e ast.Expr) CostEstimate {
 	case ast.StructKind:
 		cost = c.costCreateStruct(e)
 	case ast.ComprehensionKind:
+<<<<<<< HEAD
 		if c.isBind(e) {
 			cost = c.costBind(e)
 		} else {
 			cost = c.costComprehension(e)
 		}
+=======
+		cost = c.costComprehension(e)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		return CostEstimate{}
 	}
@@ -491,11 +631,25 @@ func (c *coster) cost(e ast.Expr) CostEstimate {
 func (c *coster) costIdent(e ast.Expr) CostEstimate {
 	identName := e.AsIdent()
 	// build and track the field path
+<<<<<<< HEAD
 	if v, ok := c.peekLocalVar(identName); ok {
 		c.addPath(e, v.path)
 	} else {
 		c.addPath(e, []string{identName})
 	}
+=======
+	if iterRange, ok := c.iterRanges.peek(identName); ok {
+		switch c.checkedAST.GetType(iterRange).Kind() {
+		case types.ListKind:
+			c.addPath(e, append(c.exprPath[iterRange], "@items"))
+		case types.MapKind:
+			c.addPath(e, append(c.exprPath[iterRange], "@keys"))
+		}
+	} else {
+		c.addPath(e, []string{identName})
+	}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return selectAndIdentCost
 }
 
@@ -520,10 +674,15 @@ func (c *coster) costSelect(e ast.Expr) CostEstimate {
 
 	// build and track the field path
 	c.addPath(e, append(c.getPath(sel.Operand()), sel.FieldName()))
+<<<<<<< HEAD
+=======
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return sum
 }
 
 func (c *coster) costCall(e ast.Expr) CostEstimate {
+<<<<<<< HEAD
 	// Dyn is just a way to disable type-checking, so return the cost of 1 with the cost of the argument
 	if dynEstimate := c.maybeUnwrapDynCall(e); dynEstimate != nil {
 		return *dynEstimate
@@ -532,6 +691,11 @@ func (c *coster) costCall(e ast.Expr) CostEstimate {
 	// Continue estimating the cost of all other calls.
 	call := e.AsCall()
 	args := call.Args()
+=======
+	call := e.AsCall()
+	args := call.Args()
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	var sum CostEstimate
 
 	argTypes := make([]AstNode, len(args))
@@ -554,7 +718,11 @@ func (c *coster) costCall(e ast.Expr) CostEstimate {
 	fnCost := CostEstimate{Min: uint64(math.MaxUint64), Max: 0}
 	var resultSize *SizeEstimate
 	for _, overload := range overloadIDs {
+<<<<<<< HEAD
 		overloadCost := c.functionCost(e, call.FunctionName(), overload, &targetType, argTypes, argCosts)
+=======
+		overloadCost := c.functionCost(call.FunctionName(), overload, &targetType, argTypes, argCosts)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		fnCost = fnCost.Union(overloadCost.CostEstimate)
 		if overloadCost.ResultSize != nil {
 			if resultSize == nil {
@@ -568,12 +736,16 @@ func (c *coster) costCall(e ast.Expr) CostEstimate {
 		switch overload {
 		case overloads.IndexList:
 			if len(args) > 0 {
+<<<<<<< HEAD
 				// note: assigning resultSize here could be redundant with the path-based lookup later
 				resultSize = c.computeEntrySize(args[0]).valSize()
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				c.addPath(e, append(c.getPath(args[0]), "@items"))
 			}
 		case overloads.IndexMap:
 			if len(args) > 0 {
+<<<<<<< HEAD
 				resultSize = c.computeEntrySize(args[0]).valSize()
 				c.addPath(e, append(c.getPath(args[0]), "@values"))
 			}
@@ -611,22 +783,44 @@ func (c *coster) costCreateList(e ast.Expr) CostEstimate {
 		itemSize = itemSize.Union(is)
 	}
 	c.setEntrySize(e, &entrySizeEstimate{containerKind: types.ListKind, key: FixedSizeEstimate(1), val: itemSize})
+=======
+				c.addPath(e, append(c.getPath(args[0]), "@values"))
+			}
+		}
+	}
+	if resultSize != nil {
+		c.computedSizes[e.ID()] = *resultSize
+	}
+	return sum.Add(fnCost)
+}
+
+func (c *coster) costCreateList(e ast.Expr) CostEstimate {
+	create := e.AsList()
+	var sum CostEstimate
+	for _, e := range create.Elements() {
+		sum = sum.Add(c.cost(e))
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return sum.Add(createListBaseCost)
 }
 
 func (c *coster) costCreateMap(e ast.Expr) CostEstimate {
 	mapVal := e.AsMap()
 	var sum CostEstimate
+<<<<<<< HEAD
 	keySize := SizeEstimate{Min: math.MaxUint64, Max: 0}
 	valSize := SizeEstimate{Min: math.MaxUint64, Max: 0}
 	if mapVal.Size() == 0 {
 		valSize.Min = 0
 		keySize.Min = 0
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, ent := range mapVal.Entries() {
 		entry := ent.AsMapEntry()
 		sum = sum.Add(c.cost(entry.Key()))
 		sum = sum.Add(c.cost(entry.Value()))
+<<<<<<< HEAD
 		// Compute the key size range
 		ks := c.sizeOrUnknown(entry.Key())
 		keySize = keySize.Union(ks)
@@ -635,6 +829,9 @@ func (c *coster) costCreateMap(e ast.Expr) CostEstimate {
 		valSize = valSize.Union(vs)
 	}
 	c.setEntrySize(e, &entrySizeEstimate{containerKind: types.MapKind, key: keySize, val: valSize})
+=======
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return sum.Add(createMapBaseCost)
 }
 
@@ -653,6 +850,7 @@ func (c *coster) costComprehension(e ast.Expr) CostEstimate {
 	var sum CostEstimate
 	sum = sum.Add(c.cost(comp.IterRange()))
 	sum = sum.Add(c.cost(comp.AccuInit()))
+<<<<<<< HEAD
 	c.pushLocalVar(comp.AccuVar(), comp.AccuInit())
 
 	// Track the iterRange of each IterVar and AccuVar for field path construction
@@ -723,6 +921,45 @@ func (c *coster) costBind(e ast.Expr) CostEstimate {
 }
 
 func (c *coster) functionCost(e ast.Expr, function, overloadID string, target *AstNode, args []AstNode, argCosts []CostEstimate) CallEstimate {
+=======
+
+	// Track the iterRange of each IterVar for field path construction
+	c.iterRanges.push(comp.IterVar(), comp.IterRange())
+	loopCost := c.cost(comp.LoopCondition())
+	stepCost := c.cost(comp.LoopStep())
+	c.iterRanges.pop(comp.IterVar())
+	sum = sum.Add(c.cost(comp.Result()))
+	rangeCnt := c.sizeEstimate(c.newAstNode(comp.IterRange()))
+
+	c.computedSizes[e.ID()] = rangeCnt
+
+	rangeCost := rangeCnt.MultiplyByCost(stepCost.Add(loopCost))
+	sum = sum.Add(rangeCost)
+
+	return sum
+}
+
+func (c *coster) sizeEstimate(t AstNode) SizeEstimate {
+	if l := t.ComputedSize(); l != nil {
+		return *l
+	}
+	if l := c.estimator.EstimateSize(t); l != nil {
+		return *l
+	}
+	// return an estimate of 1 for return types of set
+	// lengths, since strings/bytes/more complex objects could be of
+	// variable length
+	if isScalar(t.Type()) {
+		// TODO: since the logic for size estimation is split between
+		// ComputedSize and isScalar, changing one will likely require changing
+		// the other, so they should be merged in the future if possible
+		return SizeEstimate{Min: 1, Max: 1}
+	}
+	return SizeEstimate{Min: 0, Max: math.MaxUint64}
+}
+
+func (c *coster) functionCost(function, overloadID string, target *AstNode, args []AstNode, argCosts []CostEstimate) CallEstimate {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	argCostSum := func() CostEstimate {
 		var sum CostEstimate
 		for _, a := range argCosts {
@@ -747,6 +984,7 @@ func (c *coster) functionCost(e ast.Expr, function, overloadID string, target *A
 	case overloads.ExtFormatString:
 		if target != nil {
 			// ResultSize not calculated because we can't bound the max size.
+<<<<<<< HEAD
 			return CallEstimate{
 				CostEstimate: c.sizeOrUnknown(*target).MultiplyByCostFactor(common.StringTraversalCostFactor).Add(argCostSum())}
 		}
@@ -777,12 +1015,41 @@ func (c *coster) functionCost(e ast.Expr, function, overloadID string, target *A
 	case overloads.StartsWithString, overloads.EndsWithString:
 		if len(args) == 1 {
 			return CallEstimate{CostEstimate: c.sizeOrUnknown(args[0]).MultiplyByCostFactor(common.StringTraversalCostFactor).Add(argCostSum())}
+=======
+			return CallEstimate{CostEstimate: c.sizeEstimate(*target).MultiplyByCostFactor(common.StringTraversalCostFactor).Add(argCostSum())}
+		}
+	case overloads.StringToBytes:
+		if len(args) == 1 {
+			sz := c.sizeEstimate(args[0])
+			// ResultSize max is when each char converts to 4 bytes.
+			return CallEstimate{CostEstimate: sz.MultiplyByCostFactor(common.StringTraversalCostFactor).Add(argCostSum()), ResultSize: &SizeEstimate{Min: sz.Min, Max: sz.Max * 4}}
+		}
+	case overloads.BytesToString:
+		if len(args) == 1 {
+			sz := c.sizeEstimate(args[0])
+			// ResultSize min is when 4 bytes convert to 1 char.
+			return CallEstimate{CostEstimate: sz.MultiplyByCostFactor(common.StringTraversalCostFactor).Add(argCostSum()), ResultSize: &SizeEstimate{Min: sz.Min / 4, Max: sz.Max}}
+		}
+	case overloads.ExtQuoteString:
+		if len(args) == 1 {
+			sz := c.sizeEstimate(args[0])
+			// ResultSize max is when each char is escaped. 2 quote chars always added.
+			return CallEstimate{CostEstimate: sz.MultiplyByCostFactor(common.StringTraversalCostFactor).Add(argCostSum()), ResultSize: &SizeEstimate{Min: sz.Min + 2, Max: sz.Max*2 + 2}}
+		}
+	case overloads.StartsWithString, overloads.EndsWithString:
+		if len(args) == 1 {
+			return CallEstimate{CostEstimate: c.sizeEstimate(args[0]).MultiplyByCostFactor(common.StringTraversalCostFactor).Add(argCostSum())}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	case overloads.InList:
 		// If a list is composed entirely of constant values this is O(1), but we don't account for that here.
 		// We just assume all list containment checks are O(n).
 		if len(args) == 2 {
+<<<<<<< HEAD
 			return CallEstimate{CostEstimate: c.sizeOrUnknown(args[1]).MultiplyByCostFactor(1).Add(argCostSum())}
+=======
+			return CallEstimate{CostEstimate: c.sizeEstimate(args[1]).MultiplyByCostFactor(1).Add(argCostSum())}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	// O(nm) functions
 	case overloads.MatchesString:
@@ -790,19 +1057,32 @@ func (c *coster) functionCost(e ast.Expr, function, overloadID string, target *A
 		if target != nil && len(args) == 1 {
 			// Add one to string length for purposes of cost calculation to prevent product of string and regex to be 0
 			// in case where string is empty but regex is still expensive.
+<<<<<<< HEAD
 			strCost := c.sizeOrUnknown(*target).Add(SizeEstimate{Min: 1, Max: 1}).MultiplyByCostFactor(common.StringTraversalCostFactor)
+=======
+			strCost := c.sizeEstimate(*target).Add(SizeEstimate{Min: 1, Max: 1}).MultiplyByCostFactor(common.StringTraversalCostFactor)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			// We don't know how many expressions are in the regex, just the string length (a huge
 			// improvement here would be to somehow get a count the number of expressions in the regex or
 			// how many states are in the regex state machine and use that to measure regex cost).
 			// For now, we're making a guess that each expression in a regex is typically at least 4 chars
 			// in length.
+<<<<<<< HEAD
 			regexCost := c.sizeOrUnknown(args[0]).MultiplyByCostFactor(common.RegexStringLengthCostFactor)
+=======
+			regexCost := c.sizeEstimate(args[0]).MultiplyByCostFactor(common.RegexStringLengthCostFactor)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return CallEstimate{CostEstimate: strCost.Multiply(regexCost).Add(argCostSum())}
 		}
 	case overloads.ContainsString:
 		if target != nil && len(args) == 1 {
+<<<<<<< HEAD
 			strCost := c.sizeOrUnknown(*target).MultiplyByCostFactor(common.StringTraversalCostFactor)
 			substrCost := c.sizeOrUnknown(args[0]).MultiplyByCostFactor(common.StringTraversalCostFactor)
+=======
+			strCost := c.sizeEstimate(*target).MultiplyByCostFactor(common.StringTraversalCostFactor)
+			substrCost := c.sizeEstimate(args[0]).MultiplyByCostFactor(common.StringTraversalCostFactor)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return CallEstimate{CostEstimate: strCost.Multiply(substrCost).Add(argCostSum())}
 		}
 	case overloads.LogicalOr, overloads.LogicalAnd:
@@ -812,9 +1092,13 @@ func (c *coster) functionCost(e ast.Expr, function, overloadID string, target *A
 		argCost := CostEstimate{Min: lhs.Min, Max: lhs.Add(rhs).Max}
 		return CallEstimate{CostEstimate: argCost}
 	case overloads.Conditional:
+<<<<<<< HEAD
 		size := c.sizeOrUnknown(args[1]).Union(c.sizeOrUnknown(args[2]))
 		resultEntrySize := c.computeEntrySize(args[1].Expr()).union(c.computeEntrySize(args[2].Expr()))
 		c.setEntrySize(e, resultEntrySize)
+=======
+		size := c.sizeEstimate(args[1]).Union(c.sizeEstimate(args[2]))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		conditionalCost := argCosts[0]
 		ifTrueCost := argCosts[1]
 		ifFalseCost := argCosts[2]
@@ -822,6 +1106,7 @@ func (c *coster) functionCost(e ast.Expr, function, overloadID string, target *A
 		return CallEstimate{CostEstimate: argCost, ResultSize: &size}
 	case overloads.AddString, overloads.AddBytes, overloads.AddList:
 		if len(args) == 2 {
+<<<<<<< HEAD
 			lhsSize := c.sizeOrUnknown(args[0])
 			rhsSize := c.sizeOrUnknown(args[1])
 			resultSize := lhsSize.Add(rhsSize)
@@ -835,6 +1120,15 @@ func (c *coster) functionCost(e ast.Expr, function, overloadID string, target *A
 			case overloads.AddList:
 				// list concatenation is O(1), but we handle it here to track size
 				return CallEstimate{CostEstimate: FixedCostEstimate(1).Add(argCostSum()), ResultSize: &resultSize}
+=======
+			lhsSize := c.sizeEstimate(args[0])
+			rhsSize := c.sizeEstimate(args[1])
+			resultSize := lhsSize.Add(rhsSize)
+			switch overloadID {
+			case overloads.AddList:
+				// list concatenation is O(1), but we handle it here to track size
+				return CallEstimate{CostEstimate: CostEstimate{Min: 1, Max: 1}.Add(argCostSum()), ResultSize: &resultSize}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			default:
 				return CallEstimate{CostEstimate: resultSize.MultiplyByCostFactor(common.StringTraversalCostFactor).Add(argCostSum()), ResultSize: &resultSize}
 			}
@@ -842,8 +1136,13 @@ func (c *coster) functionCost(e ast.Expr, function, overloadID string, target *A
 	case overloads.LessString, overloads.GreaterString, overloads.LessEqualsString, overloads.GreaterEqualsString,
 		overloads.LessBytes, overloads.GreaterBytes, overloads.LessEqualsBytes, overloads.GreaterEqualsBytes,
 		overloads.Equals, overloads.NotEquals:
+<<<<<<< HEAD
 		lhsCost := c.sizeOrUnknown(args[0])
 		rhsCost := c.sizeOrUnknown(args[1])
+=======
+		lhsCost := c.sizeEstimate(args[0])
+		rhsCost := c.sizeEstimate(args[1])
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		min := uint64(0)
 		smallestMax := lhsCost.Max
 		if rhsCost.Max < smallestMax {
@@ -853,16 +1152,24 @@ func (c *coster) functionCost(e ast.Expr, function, overloadID string, target *A
 			min = 1
 		}
 		// equality of 2 scalar values results in a cost of 1
+<<<<<<< HEAD
 		return CallEstimate{
 			CostEstimate: CostEstimate{Min: min, Max: smallestMax}.MultiplyByCostFactor(common.StringTraversalCostFactor).Add(argCostSum()),
 		}
+=======
+		return CallEstimate{CostEstimate: CostEstimate{Min: min, Max: smallestMax}.MultiplyByCostFactor(common.StringTraversalCostFactor).Add(argCostSum())}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	// O(1) functions
 	// See CostTracker.costCall for more details about O(1) cost calculations
 
 	// Benchmarks suggest that most of the other operations take +/- 50% of a base cost unit
 	// which on an Intel xeon 2.20GHz CPU is 50ns.
+<<<<<<< HEAD
 	return CallEstimate{CostEstimate: FixedCostEstimate(1).Add(argCostSum())}
+=======
+	return CallEstimate{CostEstimate: CostEstimate{Min: 1, Max: 1}.Add(argCostSum())}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (c *coster) getType(e ast.Expr) *types.Type {
@@ -870,6 +1177,7 @@ func (c *coster) getType(e ast.Expr) *types.Type {
 }
 
 func (c *coster) getPath(e ast.Expr) []string {
+<<<<<<< HEAD
 	if e.Kind() == ast.IdentKind {
 		if v, found := c.peekLocalVar(e.AsIdent()); found {
 			return v.path[:]
@@ -884,18 +1192,37 @@ func (c *coster) addPath(e ast.Expr, path []string) {
 
 func isAccumulatorVar(name string) bool {
 	return name == parser.AccumulatorName || name == parser.HiddenAccumulatorName
+=======
+	return c.exprPath[e.ID()]
+}
+
+func (c *coster) addPath(e ast.Expr, path []string) {
+	c.exprPath[e.ID()] = path
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (c *coster) newAstNode(e ast.Expr) *astNode {
 	path := c.getPath(e)
+<<<<<<< HEAD
 	if len(path) > 0 && isAccumulatorVar(path[0]) {
 		// only provide paths to root vars; omit accumulator vars
 		path = nil
 	}
+=======
+	if len(path) > 0 && path[0] == parser.AccumulatorName {
+		// only provide paths to root vars; omit accumulator vars
+		path = nil
+	}
+	var derivedSize *SizeEstimate
+	if size, ok := c.computedSizes[e.ID()]; ok {
+		derivedSize = &size
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return &astNode{
 		path:        path,
 		t:           c.getType(e),
 		expr:        e,
+<<<<<<< HEAD
 		derivedSize: c.computeSize(e)}
 }
 
@@ -1009,6 +1336,9 @@ func computeTypeSize(t *types.Type) *SizeEstimate {
 		return &cost
 	}
 	return nil
+=======
+		derivedSize: derivedSize}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // isScalar returns true if the given type is known to be of a constant size at
@@ -1018,16 +1348,20 @@ func isScalar(t *types.Type) bool {
 	switch t.Kind() {
 	case types.BoolKind, types.DoubleKind, types.DurationKind, types.IntKind, types.TimestampKind, types.UintKind:
 		return true
+<<<<<<< HEAD
 	case types.OpaqueKind:
 		if t.TypeName() == "optional_type" {
 			return isScalar(t.Parameters()[0])
 		}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return false
 }
 
 var (
 	doubleTwoTo64 = math.Ldexp(1.0, 64)
+<<<<<<< HEAD
 
 	unknownSizeEstimate = SizeEstimate{Min: 0, Max: math.MaxUint64}
 	unknownCostEstimate = unknownSizeEstimate.MultiplyByCostFactor(1)
@@ -1038,4 +1372,6 @@ var (
 	createListBaseCost    = FixedCostEstimate(common.ListCreateBaseCost)
 	createMapBaseCost     = FixedCostEstimate(common.MapCreateBaseCost)
 	createMessageBaseCost = FixedCostEstimate(common.StructCreateBaseCost)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )

@@ -19,6 +19,10 @@ import (
 	"cloud.google.com/go/auth/credentials"
 	"cloud.google.com/go/auth/httptransport"
 	"cloud.google.com/go/auth/oauth2adapt"
+<<<<<<< HEAD
+=======
+	"go.opencensus.io/plugin/ochttp"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"golang.org/x/net/http2"
 	"golang.org/x/oauth2"
@@ -26,6 +30,10 @@ import (
 	"google.golang.org/api/internal"
 	"google.golang.org/api/internal/cert"
 	"google.golang.org/api/option"
+<<<<<<< HEAD
+=======
+	"google.golang.org/api/transport/http/internal/propagation"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // NewClient returns an HTTP client for use communicating with a Google cloud
@@ -119,7 +127,10 @@ func newClientNewAuth(ctx context.Context, base http.RoundTripper, ds *internal.
 			Audience:        aud,
 			CredentialsFile: ds.CredentialsFile,
 			CredentialsJSON: ds.CredentialsJSON,
+<<<<<<< HEAD
 			Logger:          ds.Logger,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		},
 		InternalOptions: &httptransport.InternalOptions{
 			EnableJWTWithScope:      ds.EnableJwtWithScope,
@@ -130,7 +141,10 @@ func newClientNewAuth(ctx context.Context, base http.RoundTripper, ds *internal.
 			SkipValidation:          skipValidation,
 		},
 		UniverseDomain: ds.UniverseDomain,
+<<<<<<< HEAD
 		Logger:         ds.Logger,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	})
 	if err != nil {
 		return nil, err
@@ -165,7 +179,14 @@ func newTransport(ctx context.Context, base http.RoundTripper, settings *interna
 		requestReason: settings.RequestReason,
 	}
 	var trans http.RoundTripper = paramTransport
+<<<<<<< HEAD
 	trans = addOpenTelemetryTransport(trans, settings)
+=======
+	// Give OpenTelemetry precedence over OpenCensus in case user configuration
+	// causes both to write the same header (`X-Cloud-Trace-Context`).
+	trans = addOpenTelemetryTransport(trans, settings)
+	trans = addOCTransport(trans, settings)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	switch {
 	case settings.NoAuth:
 		// Do nothing.
@@ -306,6 +327,19 @@ func addOpenTelemetryTransport(trans http.RoundTripper, settings *internal.DialS
 	return otelhttp.NewTransport(trans)
 }
 
+<<<<<<< HEAD
+=======
+func addOCTransport(trans http.RoundTripper, settings *internal.DialSettings) http.RoundTripper {
+	if settings.TelemetryDisabled {
+		return trans
+	}
+	return &ochttp.Transport{
+		Base:        trans,
+		Propagation: &propagation.HTTPFormat{},
+	}
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // clonedTransport returns the given RoundTripper as a cloned *http.Transport.
 // It returns nil if the RoundTripper can't be cloned or coerced to
 // *http.Transport.

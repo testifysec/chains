@@ -141,7 +141,10 @@ func handleServiceAccount(f *credsfile.ServiceAccountFile, opts *DetectOptions) 
 		TokenURL:     f.TokenURL,
 		Subject:      opts.Subject,
 		Client:       opts.client(),
+<<<<<<< HEAD
 		Logger:       opts.logger(),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if opts2LO.TokenURL == "" {
 		opts2LO.TokenURL = jwtTokenURL
@@ -160,7 +163,10 @@ func handleUserCredential(f *credsfile.UserCredentialsFile, opts *DetectOptions)
 		EarlyTokenExpiry: opts.EarlyTokenRefresh,
 		RefreshToken:     f.RefreshToken,
 		Client:           opts.client(),
+<<<<<<< HEAD
 		Logger:           opts.logger(),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return auth.New3LOTokenProvider(opts3LO)
 }
@@ -179,7 +185,10 @@ func handleExternalAccount(f *credsfile.ExternalAccountFile, opts *DetectOptions
 		Scopes:                         opts.scopes(),
 		WorkforcePoolUserProject:       f.WorkforcePoolUserProject,
 		Client:                         opts.client(),
+<<<<<<< HEAD
 		Logger:                         opts.logger(),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		IsDefaultClient:                opts.Client == nil,
 	}
 	if f.ServiceAccountImpersonation != nil {
@@ -198,7 +207,10 @@ func handleExternalAccountAuthorizedUser(f *credsfile.ExternalAccountAuthorizedU
 		ClientSecret: f.ClientSecret,
 		Scopes:       opts.scopes(),
 		Client:       opts.client(),
+<<<<<<< HEAD
 		Logger:       opts.logger(),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return externalaccountuser.NewTokenProvider(externalOpts)
 }
@@ -218,7 +230,10 @@ func handleImpersonatedServiceAccount(f *credsfile.ImpersonatedServiceAccountFil
 		Tp:        tp,
 		Delegates: f.Delegates,
 		Client:    opts.client(),
+<<<<<<< HEAD
 		Logger:    opts.logger(),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	})
 }
 
@@ -226,6 +241,9 @@ func handleGDCHServiceAccount(f *credsfile.GDCHServiceAccountFile, opts *DetectO
 	return gdch.NewTokenProvider(f, &gdch.Options{
 		STSAudience: opts.STSAudience,
 		Client:      opts.client(),
+<<<<<<< HEAD
 		Logger:      opts.logger(),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	})
 }

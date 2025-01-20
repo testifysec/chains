@@ -76,11 +76,15 @@ func detachSign(w io.Writer, signer *Entity, message io.Reader, sigType packet.S
 
 	sig := createSignaturePacket(signingKey.PublicKey, sigType, config)
 
+<<<<<<< HEAD
 	h, err := sig.PrepareSign(config)
 	if err != nil {
 		return
 	}
 	wrappedHash, err := wrapHashForSignature(h, sig.SigType)
+=======
+	h, wrappedHash, err := hashForSignature(sig.Hash, sig.SigType)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return
 	}
@@ -279,6 +283,7 @@ func writeAndSign(payload io.WriteCloser, candidateHashes []uint8, signed *Entit
 		return nil, errors.InvalidArgumentError("cannot encrypt because no candidate hash functions are compiled in. (Wanted " + name + " in this case.)")
 	}
 
+<<<<<<< HEAD
 	var salt []byte
 	if signer != nil {
 		var opsVersion = 3
@@ -287,12 +292,17 @@ func writeAndSign(payload io.WriteCloser, candidateHashes []uint8, signed *Entit
 		}
 		ops := &packet.OnePassSignature{
 			Version:    opsVersion,
+=======
+	if signer != nil {
+		ops := &packet.OnePassSignature{
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			SigType:    sigType,
 			Hash:       hash,
 			PubKeyAlgo: signer.PubKeyAlgo,
 			KeyId:      signer.KeyId,
 			IsLast:     true,
 		}
+<<<<<<< HEAD
 		if opsVersion == 6 {
 			ops.KeyFingerprint = signer.Fingerprint
 			salt, err = packet.SignatureSaltForHash(hash, config.Random())
@@ -301,6 +311,8 @@ func writeAndSign(payload io.WriteCloser, candidateHashes []uint8, signed *Entit
 			}
 			ops.Salt = salt
 		}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err := ops.Serialize(payload); err != nil {
 			return nil, err
 		}
@@ -328,19 +340,31 @@ func writeAndSign(payload io.WriteCloser, candidateHashes []uint8, signed *Entit
 	}
 
 	if signer != nil {
+<<<<<<< HEAD
 		h, wrappedHash, err := hashForSignature(hash, sigType, salt)
+=======
+		h, wrappedHash, err := hashForSignature(hash, sigType)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return nil, err
 		}
 		metadata := &packet.LiteralData{
+<<<<<<< HEAD
 			Format:   'u',
+=======
+			Format:   't',
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			FileName: hints.FileName,
 			Time:     epochSeconds,
 		}
 		if hints.IsBinary {
 			metadata.Format = 'b'
 		}
+<<<<<<< HEAD
 		return signatureWriter{payload, literalData, hash, wrappedHash, h, salt, signer, sigType, config, metadata}, nil
+=======
+		return signatureWriter{payload, literalData, hash, wrappedHash, h, signer, sigType, config, metadata}, nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return literalData, nil
 }
@@ -398,6 +422,7 @@ func encrypt(keyWriter io.Writer, dataWriter io.Writer, to []*Entity, signed *En
 			return nil, errors.InvalidArgumentError("cannot encrypt a message to key id " + strconv.FormatUint(to[i].PrimaryKey.KeyId, 16) + " because it has no valid encryption keys")
 		}
 
+<<<<<<< HEAD
 		primarySelfSignature, _ := to[i].PrimarySelfSignature()
 		if primarySelfSignature == nil {
 			return nil, errors.InvalidArgumentError("entity without a self-signature")
@@ -411,6 +436,17 @@ func encrypt(keyWriter io.Writer, dataWriter io.Writer, to []*Entity, signed *En
 		candidateHashes = intersectPreferences(candidateHashes, primarySelfSignature.PreferredHash)
 		candidateCipherSuites = intersectCipherSuites(candidateCipherSuites, primarySelfSignature.PreferredCipherSuites)
 		candidateCompression = intersectPreferences(candidateCompression, primarySelfSignature.PreferredCompression)
+=======
+		sig := to[i].PrimaryIdentity().SelfSignature
+		if !sig.SEIPDv2 {
+			aeadSupported = false
+		}
+
+		candidateCiphers = intersectPreferences(candidateCiphers, sig.PreferredSymmetric)
+		candidateHashes = intersectPreferences(candidateHashes, sig.PreferredHash)
+		candidateCipherSuites = intersectCipherSuites(candidateCipherSuites, sig.PreferredCipherSuites)
+		candidateCompression = intersectPreferences(candidateCompression, sig.PreferredCompression)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// In the event that the intersection of supported algorithms is empty we use the ones
@@ -444,6 +480,7 @@ func encrypt(keyWriter io.Writer, dataWriter io.Writer, to []*Entity, signed *En
 		}
 	}
 
+<<<<<<< HEAD
 	var symKey []byte
 	if aeadSupported {
 		symKey = make([]byte, aeadCipherSuite.Cipher.KeySize())
@@ -451,12 +488,19 @@ func encrypt(keyWriter io.Writer, dataWriter io.Writer, to []*Entity, signed *En
 		symKey = make([]byte, cipher.KeySize())
 	}
 
+=======
+	symKey := make([]byte, cipher.KeySize())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if _, err := io.ReadFull(config.Random(), symKey); err != nil {
 		return nil, err
 	}
 
 	for _, key := range encryptKeys {
+<<<<<<< HEAD
 		if err := packet.SerializeEncryptedKeyAEAD(keyWriter, key.PublicKey, cipher, aeadSupported, symKey, config); err != nil {
+=======
+		if err := packet.SerializeEncryptedKey(keyWriter, key.PublicKey, cipher, symKey, config); err != nil {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return nil, err
 		}
 	}
@@ -493,17 +537,25 @@ func Sign(output io.Writer, signed *Entity, hints *FileHints, config *packet.Con
 		hashToHashId(crypto.SHA3_512),
 	}
 	defaultHashes := candidateHashes[0:1]
+<<<<<<< HEAD
 	primarySelfSignature, _ := signed.PrimarySelfSignature()
 	if primarySelfSignature == nil {
 		return nil, errors.StructuralError("signed entity has no self-signature")
 	}
 	preferredHashes := primarySelfSignature.PreferredHash
+=======
+	preferredHashes := signed.PrimaryIdentity().SelfSignature.PreferredHash
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(preferredHashes) == 0 {
 		preferredHashes = defaultHashes
 	}
 	candidateHashes = intersectPreferences(candidateHashes, preferredHashes)
 	if len(candidateHashes) == 0 {
+<<<<<<< HEAD
 		return nil, errors.StructuralError("cannot sign because signing key shares no common algorithms with candidate hashes")
+=======
+		return nil, errors.InvalidArgumentError("cannot sign because signing key shares no common algorithms with candidate hashes")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	return writeAndSign(noOpCloser{output}, candidateHashes, signed, hints, packet.SigTypeBinary, config)
@@ -518,7 +570,10 @@ type signatureWriter struct {
 	hashType      crypto.Hash
 	wrappedHash   hash.Hash
 	h             hash.Hash
+<<<<<<< HEAD
 	salt          []byte // v6 only
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	signer        *packet.PrivateKey
 	sigType       packet.SignatureType
 	config        *packet.Config
@@ -542,10 +597,13 @@ func (s signatureWriter) Close() error {
 	sig.Hash = s.hashType
 	sig.Metadata = s.metadata
 
+<<<<<<< HEAD
 	if err := sig.SetSalt(s.salt); err != nil {
 		return err
 	}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err := sig.Sign(s.h, s.signer, s.config); err != nil {
 		return err
 	}

@@ -1,5 +1,6 @@
 # Release History
 
+<<<<<<< HEAD
 ## 1.1.0 (2024-10-21)
 
 ### Features Added
@@ -11,6 +12,8 @@
 ### Other Changes
 * Upgraded dependencies
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## 1.0.0 (2023-08-15)
 
 ### Features Added

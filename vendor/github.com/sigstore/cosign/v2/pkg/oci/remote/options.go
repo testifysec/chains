@@ -113,6 +113,7 @@ func WithRemoteOptions(opts ...remote.Option) Option {
 	}
 }
 
+<<<<<<< HEAD
 // WithMoreRemoteOptions is a functional option for adding to the default
 // remote options already specified
 func WithMoreRemoteOptions(opts ...remote.Option) Option {
@@ -121,6 +122,8 @@ func WithMoreRemoteOptions(opts ...remote.Option) Option {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // WithTargetRepository is a functional option for overriding the default
 // target repository hosting the signature and attestation tags.
 func WithTargetRepository(repo name.Repository) Option {

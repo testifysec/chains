@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 version: 2
+=======
+---
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 project_name: tagalign
 
 release:
@@ -29,4 +33,8 @@ builds:
         goarch: 386
       - goos: freebsd
         goarch: arm64
+<<<<<<< HEAD
     main: ./cmd/tagalign/
+=======
+    main: ./cmd/tagalign/
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

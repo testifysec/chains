@@ -75,7 +75,11 @@ func GetTLSConfigurationForClient(serverHostname string, s2AStream stream.S2AStr
 		return nil, fmt.Errorf("failed to get TLS configuration from S2A: %d, %v", resp.GetStatus().Code, resp.GetStatus().Details)
 	}
 
+<<<<<<< HEAD
 	// Extract TLS configuration from SessionResp.
+=======
+	// Extract TLS configiguration from SessionResp.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	tlsConfig := resp.GetGetTlsConfigurationResp().GetClientTlsConfiguration()
 
 	var cert tls.Certificate

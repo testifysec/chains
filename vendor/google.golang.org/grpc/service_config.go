@@ -168,7 +168,10 @@ func init() {
 		return parseServiceConfig(js, defaultMaxCallAttempts)
 	}
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func parseServiceConfig(js string, maxAttempts int) *serviceconfig.ParseResult {
 	if len(js) == 0 {
 		return &serviceconfig.ParseResult{Err: fmt.Errorf("no JSON service config provided")}
@@ -268,6 +271,7 @@ func parseServiceConfig(js string, maxAttempts int) *serviceconfig.ParseResult {
 	return &serviceconfig.ParseResult{Config: &sc}
 }
 
+<<<<<<< HEAD
 func isValidRetryPolicy(jrp *jsonRetryPolicy) bool {
 	return jrp.MaxAttempts > 1 &&
 		jrp.InitialBackoff > 0 &&
@@ -276,13 +280,25 @@ func isValidRetryPolicy(jrp *jsonRetryPolicy) bool {
 		len(jrp.RetryableStatusCodes) > 0
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func convertRetryPolicy(jrp *jsonRetryPolicy, maxAttempts int) (p *internalserviceconfig.RetryPolicy, err error) {
 	if jrp == nil {
 		return nil, nil
 	}
 
+<<<<<<< HEAD
 	if !isValidRetryPolicy(jrp) {
 		return nil, fmt.Errorf("invalid retry policy (%+v): ", jrp)
+=======
+	if jrp.MaxAttempts <= 1 ||
+		jrp.InitialBackoff <= 0 ||
+		jrp.MaxBackoff <= 0 ||
+		jrp.BackoffMultiplier <= 0 ||
+		len(jrp.RetryableStatusCodes) == 0 {
+		logger.Warningf("grpc: ignoring retry policy %v due to illegal configuration", jrp)
+		return nil, nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	if jrp.MaxAttempts < maxAttempts {
@@ -301,7 +317,11 @@ func convertRetryPolicy(jrp *jsonRetryPolicy, maxAttempts int) (p *internalservi
 	return rp, nil
 }
 
+<<<<<<< HEAD
 func minPointers(a, b *int) *int {
+=======
+func min(a, b *int) *int {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if *a < *b {
 		return a
 	}
@@ -313,7 +333,11 @@ func getMaxSize(mcMax, doptMax *int, defaultVal int) *int {
 		return &defaultVal
 	}
 	if mcMax != nil && doptMax != nil {
+<<<<<<< HEAD
 		return minPointers(mcMax, doptMax)
+=======
+		return min(mcMax, doptMax)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if mcMax != nil {
 		return mcMax

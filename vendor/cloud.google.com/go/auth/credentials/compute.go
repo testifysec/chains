@@ -37,11 +37,16 @@ var (
 
 // computeTokenProvider creates a [cloud.google.com/go/auth.TokenProvider] that
 // uses the metadata service to retrieve tokens.
+<<<<<<< HEAD
 func computeTokenProvider(opts *DetectOptions, client *metadata.Client) auth.TokenProvider {
 	return auth.NewCachedTokenProvider(&computeProvider{
 		scopes: opts.Scopes,
 		client: client,
 	}, &auth.CachedTokenProviderOptions{
+=======
+func computeTokenProvider(opts *DetectOptions) auth.TokenProvider {
+	return auth.NewCachedTokenProvider(computeProvider{scopes: opts.Scopes}, &auth.CachedTokenProviderOptions{
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		ExpireEarly:         opts.EarlyTokenRefresh,
 		DisableAsyncRefresh: opts.DisableAsyncRefresh,
 	})
@@ -50,7 +55,10 @@ func computeTokenProvider(opts *DetectOptions, client *metadata.Client) auth.Tok
 // computeProvider fetches tokens from the google cloud metadata service.
 type computeProvider struct {
 	scopes []string
+<<<<<<< HEAD
 	client *metadata.Client
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type metadataTokenResp struct {
@@ -59,7 +67,11 @@ type metadataTokenResp struct {
 	TokenType    string `json:"token_type"`
 }
 
+<<<<<<< HEAD
 func (cs *computeProvider) Token(ctx context.Context) (*auth.Token, error) {
+=======
+func (cs computeProvider) Token(ctx context.Context) (*auth.Token, error) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	tokenURI, err := url.Parse(computeTokenURI)
 	if err != nil {
 		return nil, err
@@ -69,7 +81,11 @@ func (cs *computeProvider) Token(ctx context.Context) (*auth.Token, error) {
 		v.Set("scopes", strings.Join(cs.scopes, ","))
 		tokenURI.RawQuery = v.Encode()
 	}
+<<<<<<< HEAD
 	tokenJSON, err := cs.client.GetWithContext(ctx, tokenURI.String())
+=======
+	tokenJSON, err := metadata.GetWithContext(ctx, tokenURI.String())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, fmt.Errorf("credentials: cannot fetch token: %w", err)
 	}

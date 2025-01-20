@@ -42,7 +42,10 @@ type Diagnostic struct {
 	Analyzer *analysis.Analyzer
 	Position token.Position
 	Pkg      *packages.Package
+<<<<<<< HEAD
 	File     *token.File
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type runner struct {
@@ -122,9 +125,15 @@ func (r *runner) makeAction(a *analysis.Analyzer, pkg *packages.Package,
 	}
 
 	act = actAlloc.alloc()
+<<<<<<< HEAD
 	act.Analyzer = a
 	act.Package = pkg
 	act.runner = r
+=======
+	act.a = a
+	act.pkg = pkg
+	act.r = r
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	act.isInitialPkg = initialPkgs[pkg]
 	act.needAnalyzeSource = initialPkgs[pkg]
 	act.analysisDoneCh = make(chan struct{})
@@ -133,11 +142,19 @@ func (r *runner) makeAction(a *analysis.Analyzer, pkg *packages.Package,
 	if len(a.FactTypes) > 0 {
 		depsCount += len(pkg.Imports)
 	}
+<<<<<<< HEAD
 	act.Deps = make([]*action, 0, depsCount)
 
 	// Add a dependency on each required analyzers.
 	for _, req := range a.Requires {
 		act.Deps = append(act.Deps, r.makeAction(req, pkg, initialPkgs, actions, actAlloc))
+=======
+	act.deps = make([]*action, 0, depsCount)
+
+	// Add a dependency on each required analyzers.
+	for _, req := range a.Requires {
+		act.deps = append(act.deps, r.makeAction(req, pkg, initialPkgs, actions, actAlloc))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	r.buildActionFactDeps(act, a, pkg, initialPkgs, actions, actAlloc)
@@ -163,7 +180,11 @@ func (r *runner) buildActionFactDeps(act *action, a *analysis.Analyzer, pkg *pac
 	sort.Strings(paths) // for determinism
 	for _, path := range paths {
 		dep := r.makeAction(a, pkg.Imports[path], initialPkgs, actions, actAlloc)
+<<<<<<< HEAD
 		act.Deps = append(act.Deps, dep)
+=======
+		act.deps = append(act.deps, dep)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Need to register fact types for pkgcache proper gob encoding.
@@ -204,7 +225,11 @@ func (r *runner) prepareAnalysis(pkgs []*packages.Package,
 	for _, a := range analyzers {
 		for _, pkg := range pkgs {
 			root := r.makeAction(a, pkg, initialPkgs, actions, actAlloc)
+<<<<<<< HEAD
 			root.IsRoot = true
+=======
+			root.isroot = true
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			roots = append(roots, root)
 		}
 	}
@@ -221,7 +246,11 @@ func (r *runner) analyze(pkgs []*packages.Package, analyzers []*analysis.Analyze
 
 	actionPerPkg := map[*packages.Package][]*action{}
 	for _, act := range actions {
+<<<<<<< HEAD
 		actionPerPkg[act.Package] = append(actionPerPkg[act.Package], act)
+=======
+		actionPerPkg[act.pkg] = append(actionPerPkg[act.pkg], act)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Fill Imports field.
@@ -251,7 +280,11 @@ func (r *runner) analyze(pkgs []*packages.Package, analyzers []*analysis.Analyze
 		}
 	}
 	for _, act := range actions {
+<<<<<<< HEAD
 		dfs(act.Package)
+=======
+		dfs(act.pkg)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Limit memory and IO usage.
@@ -283,7 +316,11 @@ func extractDiagnostics(roots []*action) (retDiags []Diagnostic, retErrors []err
 		for _, act := range actions {
 			if !extracted[act] {
 				extracted[act] = true
+<<<<<<< HEAD
 				visitAll(act.Deps)
+=======
+				visitAll(act.deps)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				extract(act)
 			}
 		}
@@ -300,6 +337,7 @@ func extractDiagnostics(roots []*action) (retDiags []Diagnostic, retErrors []err
 	seen := make(map[key]bool)
 
 	extract = func(act *action) {
+<<<<<<< HEAD
 		if act.Err != nil {
 			if pe, ok := act.Err.(*errorutil.PanicError); ok {
 				panic(pe)
@@ -317,17 +355,41 @@ func extractDiagnostics(roots []*action) (retDiags []Diagnostic, retErrors []err
 				file := act.Package.Fset.File(diag.Pos)
 
 				k := key{Position: position, Analyzer: act.Analyzer, message: diag.Message}
+=======
+		if act.err != nil {
+			if pe, ok := act.err.(*errorutil.PanicError); ok {
+				panic(pe)
+			}
+			retErrors = append(retErrors, fmt.Errorf("%s: %w", act.a.Name, act.err))
+			return
+		}
+
+		if act.isroot {
+			for _, diag := range act.diagnostics {
+				// We don't display a.Name/f.Category
+				// as most users don't care.
+
+				posn := act.pkg.Fset.Position(diag.Pos)
+				k := key{posn, act.a, diag.Message}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				if seen[k] {
 					continue // duplicate
 				}
 				seen[k] = true
 
 				retDiag := Diagnostic{
+<<<<<<< HEAD
 					File:       file,
 					Diagnostic: diag,
 					Analyzer:   act.Analyzer,
 					Position:   position,
 					Pkg:        act.Package,
+=======
+					Diagnostic: diag,
+					Analyzer:   act.a,
+					Position:   posn,
+					Pkg:        act.pkg,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				}
 				retDiags = append(retDiags, retDiag)
 			}

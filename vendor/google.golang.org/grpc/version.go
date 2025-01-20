@@ -19,4 +19,8 @@
 package grpc
 
 // Version is the current grpc version.
+<<<<<<< HEAD
 const Version = "1.70.0"
+=======
+const Version = "1.68.1"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

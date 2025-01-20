@@ -3,4 +3,8 @@
 package kms
 
 // goModuleVersion is the tagged release for this module
+<<<<<<< HEAD
 const goModuleVersion = "1.37.14"
+=======
+const goModuleVersion = "1.37.5"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

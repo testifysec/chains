@@ -5,17 +5,29 @@
 //
 // You can create a new bundle for a specific trust domain:
 //
+<<<<<<< HEAD
 //	td := spiffeid.RequireTrustDomainFromString("example.org")
+=======
+//	td := spiffeid.RequireTrustDomain("example.org")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //	bundle := spiffebundle.New(td)
 //
 // Or you can load it from disk:
 //
+<<<<<<< HEAD
 //	td := spiffeid.RequireTrustDomainFromString("example.org")
+=======
+//	td := spiffeid.RequireTrustDomain("example.org")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //	bundle := spiffebundle.Load(td, "bundle.json")
 //
 // The bundle can be initialized with X.509 or JWT authorities:
 //
+<<<<<<< HEAD
 //	td := spiffeid.RequireTrustDomainFromString("example.org")
+=======
+//	td := spiffeid.RequireTrustDomain("example.org")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 //	var x509Authorities []*x509.Certificate = ...
 //	bundle := spiffebundle.FromX509Authorities(td, x509Authorities)

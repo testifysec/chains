@@ -322,7 +322,10 @@ type jsonPackage struct {
 	ImportPath        string
 	Dir               string
 	Name              string
+<<<<<<< HEAD
 	Target            string
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	Export            string
 	GoFiles           []string
 	CompiledGoFiles   []string
@@ -506,15 +509,22 @@ func (state *golistState) createDriverResponse(words ...string) (*DriverResponse
 		pkg := &Package{
 			Name:            p.Name,
 			ID:              p.ImportPath,
+<<<<<<< HEAD
 			Dir:             p.Dir,
 			Target:          p.Target,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			GoFiles:         absJoin(p.Dir, p.GoFiles, p.CgoFiles),
 			CompiledGoFiles: absJoin(p.Dir, p.CompiledGoFiles),
 			OtherFiles:      absJoin(p.Dir, otherFiles(p)...),
 			EmbedFiles:      absJoin(p.Dir, p.EmbedFiles),
 			EmbedPatterns:   absJoin(p.Dir, p.EmbedPatterns),
 			IgnoredFiles:    absJoin(p.Dir, p.IgnoredGoFiles, p.IgnoredOtherFiles),
+<<<<<<< HEAD
 			ForTest:         p.ForTest,
+=======
+			forTest:         p.ForTest,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			depsErrors:      p.DepsErrors,
 			Module:          p.Module,
 		}
@@ -798,7 +808,11 @@ func jsonFlag(cfg *Config, goVersion int) string {
 		// Request Dir in the unlikely case Export is not absolute.
 		addFields("Dir", "Export")
 	}
+<<<<<<< HEAD
 	if cfg.Mode&NeedForTest != 0 {
+=======
+	if cfg.Mode&needInternalForTest != 0 {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		addFields("ForTest")
 	}
 	if cfg.Mode&needInternalDepsErrors != 0 {
@@ -813,9 +827,12 @@ func jsonFlag(cfg *Config, goVersion int) string {
 	if cfg.Mode&NeedEmbedPatterns != 0 {
 		addFields("EmbedPatterns")
 	}
+<<<<<<< HEAD
 	if cfg.Mode&NeedTarget != 0 {
 		addFields("Target")
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return "-json=" + strings.Join(fields, ",")
 }
 

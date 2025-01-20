@@ -24,9 +24,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+<<<<<<< HEAD
 	rand "math/rand/v2"
 	"net"
 	"net/netip"
+=======
+	"math/rand"
+	"net"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"os"
 	"strconv"
 	"strings"
@@ -123,7 +128,11 @@ func (b *dnsBuilder) Build(target resolver.Target, cc resolver.ClientConn, opts 
 	}
 
 	// IP address.
+<<<<<<< HEAD
 	if ipAddr, err := formatIP(host); err == nil {
+=======
+	if ipAddr, ok := formatIP(host); ok {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		addr := []resolver.Address{{Addr: ipAddr + ":" + port}}
 		cc.UpdateState(resolver.State{Addresses: addr})
 		return deadResolver{}, nil
@@ -261,9 +270,15 @@ func (d *dnsResolver) lookupSRV(ctx context.Context) ([]resolver.Address, error)
 			return nil, err
 		}
 		for _, a := range lbAddrs {
+<<<<<<< HEAD
 			ip, err := formatIP(a)
 			if err != nil {
 				return nil, fmt.Errorf("dns: error parsing A record IP address %v: %v", a, err)
+=======
+			ip, ok := formatIP(a)
+			if !ok {
+				return nil, fmt.Errorf("dns: error parsing A record IP address %v", a)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 			addr := ip + ":" + strconv.Itoa(int(s.Port))
 			newAddrs = append(newAddrs, resolver.Address{Addr: addr, ServerName: s.Target})
@@ -323,9 +338,15 @@ func (d *dnsResolver) lookupHost(ctx context.Context) ([]resolver.Address, error
 	}
 	newAddrs := make([]resolver.Address, 0, len(addrs))
 	for _, a := range addrs {
+<<<<<<< HEAD
 		ip, err := formatIP(a)
 		if err != nil {
 			return nil, fmt.Errorf("dns: error parsing A record IP address %v: %v", a, err)
+=======
+		ip, ok := formatIP(a)
+		if !ok {
+			return nil, fmt.Errorf("dns: error parsing A record IP address %v", a)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		addr := ip + ":" + d.port
 		newAddrs = append(newAddrs, resolver.Address{Addr: addr})
@@ -352,6 +373,7 @@ func (d *dnsResolver) lookup() (*resolver.State, error) {
 	return &state, nil
 }
 
+<<<<<<< HEAD
 // formatIP returns an error if addr is not a valid textual representation of
 // an IP address. If addr is an IPv4 address, return the addr and error = nil.
 // If addr is an IPv6 address, return the addr enclosed in square brackets and
@@ -365,6 +387,21 @@ func formatIP(addr string) (string, error) {
 		return addr, nil
 	}
 	return "[" + addr + "]", nil
+=======
+// formatIP returns ok = false if addr is not a valid textual representation of
+// an IP address. If addr is an IPv4 address, return the addr and ok = true.
+// If addr is an IPv6 address, return the addr enclosed in square brackets and
+// ok = true.
+func formatIP(addr string) (addrIP string, ok bool) {
+	ip := net.ParseIP(addr)
+	if ip == nil {
+		return "", false
+	}
+	if ip.To4() != nil {
+		return addr, true
+	}
+	return "[" + addr + "]", true
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // parseTarget takes the user input target string and default port, returns
@@ -380,7 +417,11 @@ func parseTarget(target, defaultPort string) (host, port string, err error) {
 	if target == "" {
 		return "", "", internal.ErrMissingAddr
 	}
+<<<<<<< HEAD
 	if _, err := netip.ParseAddr(target); err == nil {
+=======
+	if ip := net.ParseIP(target); ip != nil {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// target is an IPv4 or IPv6(without brackets) address
 		return target, defaultPort, nil
 	}
@@ -428,7 +469,11 @@ func chosenByPercentage(a *int) bool {
 	if a == nil {
 		return true
 	}
+<<<<<<< HEAD
 	return rand.IntN(100)+1 <= *a
+=======
+	return rand.Intn(100)+1 <= *a
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func canaryingSC(js string) string {

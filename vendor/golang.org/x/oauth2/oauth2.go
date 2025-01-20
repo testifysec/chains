@@ -56,7 +56,11 @@ type Config struct {
 	// the OAuth flow, after the resource owner's URLs.
 	RedirectURL string
 
+<<<<<<< HEAD
 	// Scopes specifies optional requested permissions.
+=======
+	// Scope specifies optional requested permissions.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	Scopes []string
 
 	// authStyleCache caches which auth style to use when Endpoint.AuthStyle is

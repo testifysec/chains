@@ -8,7 +8,10 @@ import (
 	"golang.org/x/tools/go/analysis"
 
 	"github.com/nunnatsa/ginkgolinter/internal/expression/value"
+<<<<<<< HEAD
 	"github.com/nunnatsa/ginkgolinter/internal/gomegahandler"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/nunnatsa/ginkgolinter/internal/gomegainfo"
 	"github.com/nunnatsa/ginkgolinter/internal/reverseassertion"
 )
@@ -41,15 +44,24 @@ func (a ArgType) Is(val ArgType) bool {
 	return a&val != 0
 }
 
+<<<<<<< HEAD
 func getActualArgPayload(origActualExpr, actualExprClone *ast.CallExpr, pass *analysis.Pass, info *gomegahandler.GomegaBasicInfo) (ArgPayload, int) {
 	origArgExpr, argExprClone, actualOffset, isGomegaExpr := getActualArg(origActualExpr, actualExprClone, info.MethodName, pass)
+=======
+func getActualArgPayload(origActualExpr, actualExprClone *ast.CallExpr, pass *analysis.Pass, actualMethodName string, errMethodExists bool) (ArgPayload, int) {
+	origArgExpr, argExprClone, actualOffset, isGomegaExpr := getActualArg(origActualExpr, actualExprClone, actualMethodName, pass)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if !isGomegaExpr {
 		return nil, 0
 	}
 
 	var arg ArgPayload
 
+<<<<<<< HEAD
 	if info.HasErrorMethod {
+=======
+	if errMethodExists {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		arg = &ErrorMethodPayload{}
 	} else if value.IsExprError(pass, origArgExpr) {
 		arg = newErrPayload(origArgExpr, argExprClone, pass)

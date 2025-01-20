@@ -144,12 +144,15 @@ type Stream struct {
 	// Use NewAllowKeysFilter from "go.opentelemetry.io/otel/attribute" to
 	// provide an allow-list of attribute keys here.
 	AttributeFilter attribute.Filter
+<<<<<<< HEAD
 	// ExemplarReservoirProvider selects the
 	// [go.opentelemetry.io/otel/sdk/metric/exemplar.ReservoirProvider] based
 	// on the [Aggregation].
 	//
 	// If unspecified, [DefaultExemplarReservoirProviderSelector] is used.
 	ExemplarReservoirProviderSelector ExemplarReservoirProviderSelector
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // instID are the identifying properties of a instrument.
@@ -240,8 +243,13 @@ func (i *float64Inst) aggregate(ctx context.Context, val float64, s attribute.Se
 	}
 }
 
+<<<<<<< HEAD
 // observableID is a comparable unique identifier of an observable.
 type observableID[N int64 | float64] struct {
+=======
+// observablID is a comparable unique identifier of an observable.
+type observablID[N int64 | float64] struct {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	name        string
 	description string
 	kind        InstrumentKind
@@ -293,7 +301,11 @@ func newInt64Observable(m *meter, kind InstrumentKind, name, desc, u string) int
 
 type observable[N int64 | float64] struct {
 	metric.Observable
+<<<<<<< HEAD
 	observableID[N]
+=======
+	observablID[N]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	meter           *meter
 	measures        measures[N]
@@ -302,7 +314,11 @@ type observable[N int64 | float64] struct {
 
 func newObservable[N int64 | float64](m *meter, kind InstrumentKind, name, desc, u string) *observable[N] {
 	return &observable[N]{
+<<<<<<< HEAD
 		observableID: observableID[N]{
+=======
+		observablID: observablID[N]{
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			name:        name,
 			description: desc,
 			kind:        kind,

@@ -8,13 +8,23 @@ import (
 	"context"
 	"errors"
 	"fmt"
+<<<<<<< HEAD
+=======
+	"strings"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"sync"
 	"sync/atomic"
 
 	"go.opentelemetry.io/otel/internal/global"
+<<<<<<< HEAD
 	"go.opentelemetry.io/otel/metric/embedded"
 	"go.opentelemetry.io/otel/sdk/instrumentation"
 	"go.opentelemetry.io/otel/sdk/metric/exemplar"
+=======
+	"go.opentelemetry.io/otel/metric"
+	"go.opentelemetry.io/otel/metric/embedded"
+	"go.opentelemetry.io/otel/sdk/instrumentation"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/otel/sdk/metric/internal"
 	"go.opentelemetry.io/otel/sdk/metric/internal/aggregate"
 	"go.opentelemetry.io/otel/sdk/metric/internal/x"
@@ -37,17 +47,27 @@ type instrumentSync struct {
 	compAgg     aggregate.ComputeAggregation
 }
 
+<<<<<<< HEAD
 func newPipeline(res *resource.Resource, reader Reader, views []View, exemplarFilter exemplar.Filter) *pipeline {
+=======
+func newPipeline(res *resource.Resource, reader Reader, views []View) *pipeline {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if res == nil {
 		res = resource.Empty()
 	}
 	return &pipeline{
+<<<<<<< HEAD
 		resource:        res,
 		reader:          reader,
 		views:           views,
 		int64Measures:   map[observableID[int64]][]aggregate.Measure[int64]{},
 		float64Measures: map[observableID[float64]][]aggregate.Measure[float64]{},
 		exemplarFilter:  exemplarFilter,
+=======
+		resource: res,
+		reader:   reader,
+		views:    views,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// aggregations is lazy allocated when needed.
 	}
 }
@@ -65,6 +85,7 @@ type pipeline struct {
 	views  []View
 
 	sync.Mutex
+<<<<<<< HEAD
 	int64Measures   map[observableID[int64]][]aggregate.Measure[int64]
 	float64Measures map[observableID[float64]][]aggregate.Measure[float64]
 	aggregations    map[instrumentation.Scope][]instrumentSync
@@ -85,6 +106,11 @@ func (p *pipeline) addFloat64Measure(id observableID[float64], m []aggregate.Mea
 	p.Lock()
 	defer p.Unlock()
 	p.float64Measures[id] = m
+=======
+	aggregations   map[instrumentation.Scope][]instrumentSync
+	callbacks      []func(context.Context) error
+	multiCallbacks list.List
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // addSync adds the instrumentSync to pipeline p with scope. This method is not
@@ -124,6 +150,7 @@ func (p *pipeline) produce(ctx context.Context, rm *metricdata.ResourceMetrics) 
 	p.Lock()
 	defer p.Unlock()
 
+<<<<<<< HEAD
 	var err error
 	for _, c := range p.callbacks {
 		// TODO make the callbacks parallel. ( #3034 )
@@ -133,6 +160,16 @@ func (p *pipeline) produce(ctx context.Context, rm *metricdata.ResourceMetrics) 
 		if err := ctx.Err(); err != nil {
 			rm.Resource = nil
 			clear(rm.ScopeMetrics) // Erase elements to let GC collect objects.
+=======
+	var errs multierror
+	for _, c := range p.callbacks {
+		// TODO make the callbacks parallel. ( #3034 )
+		if err := c(ctx); err != nil {
+			errs.append(err)
+		}
+		if err := ctx.Err(); err != nil {
+			rm.Resource = nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			rm.ScopeMetrics = rm.ScopeMetrics[:0]
 			return err
 		}
@@ -140,13 +177,21 @@ func (p *pipeline) produce(ctx context.Context, rm *metricdata.ResourceMetrics) 
 	for e := p.multiCallbacks.Front(); e != nil; e = e.Next() {
 		// TODO make the callbacks parallel. ( #3034 )
 		f := e.Value.(multiCallback)
+<<<<<<< HEAD
 		if e := f(ctx); e != nil {
 			err = errors.Join(err, e)
+=======
+		if err := f(ctx); err != nil {
+			errs.append(err)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		if err := ctx.Err(); err != nil {
 			// This means the context expired before we finished running callbacks.
 			rm.Resource = nil
+<<<<<<< HEAD
 			clear(rm.ScopeMetrics) // Erase elements to let GC collect objects.
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			rm.ScopeMetrics = rm.ScopeMetrics[:0]
 			return err
 		}
@@ -178,7 +223,11 @@ func (p *pipeline) produce(ctx context.Context, rm *metricdata.ResourceMetrics) 
 
 	rm.ScopeMetrics = rm.ScopeMetrics[:i]
 
+<<<<<<< HEAD
 	return err
+=======
+	return errs.errorOrNil()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // inserter facilitates inserting of new instruments from a single scope into a
@@ -240,7 +289,11 @@ func (i *inserter[N]) Instrument(inst Instrument, readerAggregation Aggregation)
 		measures []aggregate.Measure[N]
 	)
 
+<<<<<<< HEAD
 	var err error
+=======
+	errs := &multierror{wrapped: errCreatingAggregators}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	seen := make(map[uint64]struct{})
 	for _, v := range i.pipeline.views {
 		stream, match := v(inst)
@@ -248,9 +301,15 @@ func (i *inserter[N]) Instrument(inst Instrument, readerAggregation Aggregation)
 			continue
 		}
 		matched = true
+<<<<<<< HEAD
 		in, id, e := i.cachedAggregator(inst.Scope, inst.Kind, stream, readerAggregation)
 		if e != nil {
 			err = errors.Join(err, e)
+=======
+		in, id, err := i.cachedAggregator(inst.Scope, inst.Kind, stream, readerAggregation)
+		if err != nil {
+			errs.append(err)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		if in == nil { // Drop aggregation.
 			continue
@@ -263,12 +322,17 @@ func (i *inserter[N]) Instrument(inst Instrument, readerAggregation Aggregation)
 		measures = append(measures, in)
 	}
 
+<<<<<<< HEAD
 	if err != nil {
 		err = errors.Join(errCreatingAggregators, err)
 	}
 
 	if matched {
 		return measures, err
+=======
+	if matched {
+		return measures, errs.errorOrNil()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Apply implicit default view if no explicit matched.
@@ -277,18 +341,28 @@ func (i *inserter[N]) Instrument(inst Instrument, readerAggregation Aggregation)
 		Description: inst.Description,
 		Unit:        inst.Unit,
 	}
+<<<<<<< HEAD
 	in, _, e := i.cachedAggregator(inst.Scope, inst.Kind, stream, readerAggregation)
 	if e != nil {
 		if err == nil {
 			err = errCreatingAggregators
 		}
 		err = errors.Join(err, e)
+=======
+	in, _, err := i.cachedAggregator(inst.Scope, inst.Kind, stream, readerAggregation)
+	if err != nil {
+		errs.append(err)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if in != nil {
 		// Ensured to have not seen given matched was false.
 		measures = append(measures, in)
 	}
+<<<<<<< HEAD
 	return measures, err
+=======
+	return measures, errs.errorOrNil()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // addCallback registers a single instrument callback to be run when
@@ -357,9 +431,12 @@ func (i *inserter[N]) cachedAggregator(scope instrumentation.Scope, kind Instrum
 		// The view explicitly requested the default aggregation.
 		stream.Aggregation = DefaultAggregationSelector(kind)
 	}
+<<<<<<< HEAD
 	if stream.ExemplarReservoirProviderSelector == nil {
 		stream.ExemplarReservoirProviderSelector = DefaultExemplarReservoirProviderSelector
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if err := isAggregatorCompatible(kind, stream.Aggregation); err != nil {
 		return nil, 0, fmt.Errorf(
@@ -380,7 +457,11 @@ func (i *inserter[N]) cachedAggregator(scope instrumentation.Scope, kind Instrum
 	cv := i.aggregators.Lookup(normID, func() aggVal[N] {
 		b := aggregate.Builder[N]{
 			Temporality:   i.pipeline.reader.temporality(kind),
+<<<<<<< HEAD
 			ReservoirFunc: reservoirFunc[N](stream.ExemplarReservoirProviderSelector(stream.Aggregation), i.pipeline.exemplarFilter),
+=======
+			ReservoirFunc: reservoirFunc[N](stream.Aggregation),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		b.Filter = stream.AttributeFilter
 		// A value less than or equal to zero will disable the aggregation
@@ -583,16 +664,34 @@ func isAggregatorCompatible(kind InstrumentKind, agg Aggregation) error {
 // measurement.
 type pipelines []*pipeline
 
+<<<<<<< HEAD
 func newPipelines(res *resource.Resource, readers []Reader, views []View, exemplarFilter exemplar.Filter) pipelines {
 	pipes := make([]*pipeline, 0, len(readers))
 	for _, r := range readers {
 		p := newPipeline(res, r, views, exemplarFilter)
+=======
+func newPipelines(res *resource.Resource, readers []Reader, views []View) pipelines {
+	pipes := make([]*pipeline, 0, len(readers))
+	for _, r := range readers {
+		p := newPipeline(res, r, views)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		r.register(p)
 		pipes = append(pipes, p)
 	}
 	return pipes
 }
 
+<<<<<<< HEAD
+=======
+func (p pipelines) registerMultiCallback(c multiCallback) metric.Registration {
+	unregs := make([]func(), len(p))
+	for i, pipe := range p {
+		unregs[i] = pipe.addMultiCallback(c)
+	}
+	return unregisterFuncs{f: unregs}
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type unregisterFuncs struct {
 	embedded.Registration
 	f []func()
@@ -625,6 +724,7 @@ func newResolver[N int64 | float64](p pipelines, vc *cache[string, instID]) reso
 func (r resolver[N]) Aggregators(id Instrument) ([]aggregate.Measure[N], error) {
 	var measures []aggregate.Measure[N]
 
+<<<<<<< HEAD
 	var err error
 	for _, i := range r.inserters {
 		in, e := i.Instrument(id, i.readerDefaultAggregation(id.Kind))
@@ -634,6 +734,17 @@ func (r resolver[N]) Aggregators(id Instrument) ([]aggregate.Measure[N], error) 
 		measures = append(measures, in...)
 	}
 	return measures, err
+=======
+	errs := &multierror{}
+	for _, i := range r.inserters {
+		in, err := i.Instrument(id, i.readerDefaultAggregation(id.Kind))
+		if err != nil {
+			errs.append(err)
+		}
+		measures = append(measures, in...)
+	}
+	return measures, errs.errorOrNil()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // HistogramAggregators returns the histogram Aggregators that must be updated by the instrument
@@ -642,13 +753,18 @@ func (r resolver[N]) Aggregators(id Instrument) ([]aggregate.Measure[N], error) 
 func (r resolver[N]) HistogramAggregators(id Instrument, boundaries []float64) ([]aggregate.Measure[N], error) {
 	var measures []aggregate.Measure[N]
 
+<<<<<<< HEAD
 	var err error
+=======
+	errs := &multierror{}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, i := range r.inserters {
 		agg := i.readerDefaultAggregation(id.Kind)
 		if histAgg, ok := agg.(AggregationExplicitBucketHistogram); ok && len(boundaries) > 0 {
 			histAgg.Boundaries = boundaries
 			agg = histAgg
 		}
+<<<<<<< HEAD
 		in, e := i.Instrument(id, agg)
 		if e != nil {
 			err = errors.Join(err, e)
@@ -656,4 +772,32 @@ func (r resolver[N]) HistogramAggregators(id Instrument, boundaries []float64) (
 		measures = append(measures, in...)
 	}
 	return measures, err
+=======
+		in, err := i.Instrument(id, agg)
+		if err != nil {
+			errs.append(err)
+		}
+		measures = append(measures, in...)
+	}
+	return measures, errs.errorOrNil()
+}
+
+type multierror struct {
+	wrapped error
+	errors  []string
+}
+
+func (m *multierror) errorOrNil() error {
+	if len(m.errors) == 0 {
+		return nil
+	}
+	if m.wrapped == nil {
+		return errors.New(strings.Join(m.errors, "; "))
+	}
+	return fmt.Errorf("%w: %s", m.wrapped, strings.Join(m.errors, "; "))
+}
+
+func (m *multierror) append(err error) {
+	m.errors = append(m.errors, err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

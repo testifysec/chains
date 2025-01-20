@@ -154,7 +154,16 @@ func (p *publicClient) GetToken(ctx context.Context, tro policy.TokenRequestOpti
 	if p.opts.DisableAutomaticAuthentication {
 		return azcore.AccessToken{}, newAuthenticationRequiredError(p.name, tro)
 	}
+<<<<<<< HEAD
 	return p.reqToken(ctx, client, tro)
+=======
+	at, err := p.reqToken(ctx, client, tro)
+	if err == nil {
+		msg := fmt.Sprintf("%s.GetToken() acquired a token for scope %q", p.name, strings.Join(ar.GrantedScopes, ", "))
+		log.Write(EventAuthentication, msg)
+	}
+	return at, err
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // reqToken requests a token from the MSAL public client. It's separate from GetToken() to enable Authenticate() to bypass the cache.
@@ -237,8 +246,11 @@ func (p *publicClient) newMSALClient(enableCAE bool) (msalPublicClient, error) {
 
 func (p *publicClient) token(ar public.AuthResult, err error) (azcore.AccessToken, error) {
 	if err == nil {
+<<<<<<< HEAD
 		msg := fmt.Sprintf(scopeLogFmt, p.name, strings.Join(ar.GrantedScopes, ", "))
 		log.Write(EventAuthentication, msg)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		p.record, err = newAuthenticationRecord(ar)
 	} else {
 		err = newAuthenticationFailedErrorFromMSAL(p.name, err)

@@ -242,6 +242,7 @@ func getAccountIDEndpointMode(ctx context.Context, configs configs) (value aws.A
 	return
 }
 
+<<<<<<< HEAD
 // requestChecksumCalculationProvider provides access to the RequestChecksumCalculation
 type requestChecksumCalculationProvider interface {
 	getRequestChecksumCalculation(context.Context) (aws.RequestChecksumCalculation, bool, error)
@@ -276,6 +277,8 @@ func getResponseChecksumValidation(ctx context.Context, configs configs) (value 
 	return
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // ec2IMDSRegionProvider provides access to the ec2 imds region
 // configuration value
 type ec2IMDSRegionProvider interface {

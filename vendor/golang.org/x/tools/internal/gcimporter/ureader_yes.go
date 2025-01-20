@@ -11,6 +11,10 @@ import (
 	"go/token"
 	"go/types"
 	"sort"
+<<<<<<< HEAD
+=======
+	"strings"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"golang.org/x/tools/internal/aliases"
 	"golang.org/x/tools/internal/pkgbits"
@@ -70,6 +74,10 @@ func UImportData(fset *token.FileSet, imports map[string]*types.Package, data []
 	}
 
 	s := string(data)
+<<<<<<< HEAD
+=======
+	s = s[:strings.LastIndex(s, "\n$$\n")]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	input := pkgbits.NewPkgDecoder(path, s)
 	pkg = readUnifiedPackage(fset, nil, imports, input)
 	return
@@ -264,12 +272,16 @@ func (pr *pkgReader) pkgIdx(idx pkgbits.Index) *types.Package {
 func (r *reader) doPkg() *types.Package {
 	path := r.String()
 	switch path {
+<<<<<<< HEAD
 	// cmd/compile emits path="main" for main packages because
 	// that's the linker symbol prefix it used; but we need
 	// the package's path as it would be reported by go list,
 	// hence "main" below.
 	// See test at go/packages.TestMainPackagePathInModeTypes.
 	case "", "main":
+=======
+	case "":
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		path = r.p.PkgPath()
 	case "builtin":
 		return nil // universe

@@ -8,17 +8,26 @@ import (
 	"bytes"
 	"crypto"
 	"crypto/dsa"
+<<<<<<< HEAD
 	"encoding/asn1"
 	"encoding/binary"
 	"hash"
 	"io"
 	"math/big"
+=======
+	"encoding/binary"
+	"hash"
+	"io"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strconv"
 	"time"
 
 	"github.com/ProtonMail/go-crypto/openpgp/ecdsa"
+<<<<<<< HEAD
 	"github.com/ProtonMail/go-crypto/openpgp/ed25519"
 	"github.com/ProtonMail/go-crypto/openpgp/ed448"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/ProtonMail/go-crypto/openpgp/eddsa"
 	"github.com/ProtonMail/go-crypto/openpgp/errors"
 	"github.com/ProtonMail/go-crypto/openpgp/internal/algorithm"
@@ -26,8 +35,12 @@ import (
 )
 
 const (
+<<<<<<< HEAD
 	// First octet of key flags.
 	// See RFC 9580, section 5.2.3.29 for details.
+=======
+	// See RFC 4880, section 5.2.3.21 for details.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	KeyFlagCertify = 1 << iota
 	KeyFlagSign
 	KeyFlagEncryptCommunications
@@ -38,6 +51,7 @@ const (
 	KeyFlagGroupKey
 )
 
+<<<<<<< HEAD
 const (
 	// First octet of keyserver preference flags.
 	// See RFC 9580, section 5.2.3.25 for details.
@@ -54,14 +68,20 @@ const (
 const SaltNotationName = "salt@notations.openpgpjs.org"
 
 // Signature represents a signature. See RFC 9580, section 5.2.
+=======
+// Signature represents a signature. See RFC 4880, section 5.2.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type Signature struct {
 	Version    int
 	SigType    SignatureType
 	PubKeyAlgo PublicKeyAlgorithm
 	Hash       crypto.Hash
+<<<<<<< HEAD
 	// salt contains a random salt value for v6 signatures
 	// See RFC 9580 Section 5.2.4.
 	salt []byte
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// HashSuffix is extra data that is hashed in after the signed data.
 	HashSuffix []byte
@@ -80,7 +100,10 @@ type Signature struct {
 	DSASigR, DSASigS     encoding.Field
 	ECDSASigR, ECDSASigS encoding.Field
 	EdDSASigR, EdDSASigS encoding.Field
+<<<<<<< HEAD
 	EdSig                []byte
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// rawSubpackets contains the unparsed subpackets, in order.
 	rawSubpackets []outputSubpacket
@@ -96,17 +119,25 @@ type Signature struct {
 	SignerUserId                                            *string
 	IsPrimaryId                                             *bool
 	Notations                                               []*Notation
+<<<<<<< HEAD
 	IntendedRecipients                                      []*Recipient
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// TrustLevel and TrustAmount can be set by the signer to assert that
 	// the key is not only valid but also trustworthy at the specified
 	// level.
+<<<<<<< HEAD
 	// See RFC 9580, section 5.2.3.21 for details.
+=======
+	// See RFC 4880, section 5.2.3.13 for details.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	TrustLevel  TrustLevel
 	TrustAmount TrustAmount
 
 	// TrustRegularExpression can be used in conjunction with trust Signature
 	// packets to limit the scope of the trust that is extended.
+<<<<<<< HEAD
 	// See RFC 9580, section 5.2.3.22 for details.
 	TrustRegularExpression *string
 
@@ -127,11 +158,27 @@ type Signature struct {
 
 	// FlagsValid is set if any flags were given. See RFC 9580, section
 	// 5.2.3.29 for details.
+=======
+	// See RFC 4880, section 5.2.3.14 for details.
+	TrustRegularExpression *string
+
+	// PolicyURI can be set to the URI of a document that describes the
+	// policy under which the signature was issued. See RFC 4880, section
+	// 5.2.3.20 for details.
+	PolicyURI string
+
+	// FlagsValid is set if any flags were given. See RFC 4880, section
+	// 5.2.3.21 for details.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	FlagsValid                                                                                                         bool
 	FlagCertify, FlagSign, FlagEncryptCommunications, FlagEncryptStorage, FlagSplitKey, FlagAuthenticate, FlagGroupKey bool
 
 	// RevocationReason is set if this signature has been revoked.
+<<<<<<< HEAD
 	// See RFC 9580, section 5.2.3.31 for details.
+=======
+	// See RFC 4880, section 5.2.3.23 for details.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	RevocationReason     *ReasonForRevocation
 	RevocationReasonText string
 
@@ -148,6 +195,7 @@ type Signature struct {
 	outSubpackets []outputSubpacket
 }
 
+<<<<<<< HEAD
 // VerifiableSignature internally keeps state if the
 // the signature has been verified before.
 type VerifiableSignature struct {
@@ -173,10 +221,16 @@ func (sig *Signature) Salt() []byte {
 func (sig *Signature) parse(r io.Reader) (err error) {
 	// RFC 9580, section 5.2.3
 	var buf [7]byte
+=======
+func (sig *Signature) parse(r io.Reader) (err error) {
+	// RFC 4880, section 5.2.3
+	var buf [5]byte
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	_, err = readFull(r, buf[:1])
 	if err != nil {
 		return
 	}
+<<<<<<< HEAD
 	sig.Version = int(buf[0])
 	if sig.Version != 4 && sig.Version != 5 && sig.Version != 6 {
 		err = errors.UnsupportedError("signature packet version " + strconv.Itoa(int(buf[0])))
@@ -192,13 +246,25 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 	} else {
 		_, err = readFull(r, buf[:5])
 	}
+=======
+	if buf[0] != 4 && buf[0] != 5 {
+		err = errors.UnsupportedError("signature packet version " + strconv.Itoa(int(buf[0])))
+		return
+	}
+	sig.Version = int(buf[0])
+	_, err = readFull(r, buf[:5])
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return
 	}
 	sig.SigType = SignatureType(buf[0])
 	sig.PubKeyAlgo = PublicKeyAlgorithm(buf[1])
 	switch sig.PubKeyAlgo {
+<<<<<<< HEAD
 	case PubKeyAlgoRSA, PubKeyAlgoRSASignOnly, PubKeyAlgoDSA, PubKeyAlgoECDSA, PubKeyAlgoEdDSA, PubKeyAlgoEd25519, PubKeyAlgoEd448:
+=======
+	case PubKeyAlgoRSA, PubKeyAlgoRSASignOnly, PubKeyAlgoDSA, PubKeyAlgoECDSA, PubKeyAlgoEdDSA:
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		err = errors.UnsupportedError("public key algorithm " + strconv.Itoa(int(sig.PubKeyAlgo)))
 		return
@@ -216,6 +282,7 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 		return errors.UnsupportedError("hash function " + strconv.Itoa(int(buf[2])))
 	}
 
+<<<<<<< HEAD
 	var hashedSubpacketsLength int
 	if sig.Version == 6 {
 		// For a v6 signature, a four-octet length is used.
@@ -227,6 +294,9 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 	} else {
 		hashedSubpacketsLength = int(buf[3])<<8 | int(buf[4])
 	}
+=======
+	hashedSubpacketsLength := int(buf[3])<<8 | int(buf[4])
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	hashedSubpackets := make([]byte, hashedSubpacketsLength)
 	_, err = readFull(r, hashedSubpackets)
 	if err != nil {
@@ -242,6 +312,7 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 		return
 	}
 
+<<<<<<< HEAD
 	if sig.Version == 6 {
 		_, err = readFull(r, buf[:4])
 	} else {
@@ -257,6 +328,13 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 	} else {
 		unhashedSubpacketsLength = uint32(buf[0])<<8 | uint32(buf[1])
 	}
+=======
+	_, err = readFull(r, buf[:2])
+	if err != nil {
+		return
+	}
+	unhashedSubpacketsLength := int(buf[0])<<8 | int(buf[1])
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	unhashedSubpackets := make([]byte, unhashedSubpacketsLength)
 	_, err = readFull(r, unhashedSubpackets)
 	if err != nil {
@@ -272,6 +350,7 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 		return
 	}
 
+<<<<<<< HEAD
 	if sig.Version == 6 {
 		// Only for v6 signatures, a variable-length field containing the salt
 		_, err = readFull(r, buf[:1])
@@ -296,6 +375,8 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 		sig.salt = salt
 	}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	switch sig.PubKeyAlgo {
 	case PubKeyAlgoRSA, PubKeyAlgoRSASignOnly:
 		sig.RSASignature = new(encoding.MPI)
@@ -326,6 +407,7 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 		if _, err = sig.EdDSASigS.ReadFrom(r); err != nil {
 			return
 		}
+<<<<<<< HEAD
 	case PubKeyAlgoEd25519:
 		sig.EdSig, err = ed25519.ReadSignature(r)
 		if err != nil {
@@ -336,6 +418,8 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 		if err != nil {
 			return
 		}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		panic("unreachable")
 	}
@@ -343,7 +427,11 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 }
 
 // parseSignatureSubpackets parses subpackets of the main signature packet. See
+<<<<<<< HEAD
 // RFC 9580, section 5.2.3.1.
+=======
+// RFC 4880, section 5.2.3.1.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func parseSignatureSubpackets(sig *Signature, subpackets []byte, isHashed bool) (err error) {
 	for len(subpackets) > 0 {
 		subpackets, err = parseSignatureSubpacket(sig, subpackets, isHashed)
@@ -364,7 +452,10 @@ type signatureSubpacketType uint8
 const (
 	creationTimeSubpacket        signatureSubpacketType = 2
 	signatureExpirationSubpacket signatureSubpacketType = 3
+<<<<<<< HEAD
 	exportableCertSubpacket      signatureSubpacketType = 4
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	trustSubpacket               signatureSubpacketType = 5
 	regularExpressionSubpacket   signatureSubpacketType = 6
 	keyExpirationSubpacket       signatureSubpacketType = 9
@@ -373,8 +464,11 @@ const (
 	notationDataSubpacket        signatureSubpacketType = 20
 	prefHashAlgosSubpacket       signatureSubpacketType = 21
 	prefCompressionSubpacket     signatureSubpacketType = 22
+<<<<<<< HEAD
 	keyserverPrefsSubpacket      signatureSubpacketType = 23
 	prefKeyserverSubpacket       signatureSubpacketType = 24
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	primaryUserIdSubpacket       signatureSubpacketType = 25
 	policyUriSubpacket           signatureSubpacketType = 26
 	keyFlagsSubpacket            signatureSubpacketType = 27
@@ -383,13 +477,20 @@ const (
 	featuresSubpacket            signatureSubpacketType = 30
 	embeddedSignatureSubpacket   signatureSubpacketType = 32
 	issuerFingerprintSubpacket   signatureSubpacketType = 33
+<<<<<<< HEAD
 	intendedRecipientSubpacket   signatureSubpacketType = 35
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	prefCipherSuitesSubpacket    signatureSubpacketType = 39
 )
 
 // parseSignatureSubpacket parses a single subpacket. len(subpacket) is >= 1.
 func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (rest []byte, err error) {
+<<<<<<< HEAD
 	// RFC 9580, section 5.2.3.7
+=======
+	// RFC 4880, section 5.2.3.1
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	var (
 		length     uint32
 		packetType signatureSubpacketType
@@ -447,24 +548,35 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 		t := binary.BigEndian.Uint32(subpacket)
 		sig.CreationTime = time.Unix(int64(t), 0)
 	case signatureExpirationSubpacket:
+<<<<<<< HEAD
 		// Signature expiration time, section 5.2.3.18
+=======
+		// Signature expiration time, section 5.2.3.10
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if len(subpacket) != 4 {
 			err = errors.StructuralError("expiration subpacket with bad length")
 			return
 		}
 		sig.SigLifetimeSecs = new(uint32)
 		*sig.SigLifetimeSecs = binary.BigEndian.Uint32(subpacket)
+<<<<<<< HEAD
 	case exportableCertSubpacket:
 		if subpacket[0] == 0 {
 			err = errors.UnsupportedError("signature with non-exportable certification")
 			return
 		}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case trustSubpacket:
 		if len(subpacket) != 2 {
 			err = errors.StructuralError("trust subpacket with bad length")
 			return
 		}
+<<<<<<< HEAD
 		// Trust level and amount, section 5.2.3.21
+=======
+		// Trust level and amount, section 5.2.3.13
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		sig.TrustLevel = TrustLevel(subpacket[0])
 		sig.TrustAmount = TrustAmount(subpacket[1])
 	case regularExpressionSubpacket:
@@ -472,7 +584,11 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 			err = errors.StructuralError("regexp subpacket with bad length")
 			return
 		}
+<<<<<<< HEAD
 		// Trust regular expression, section 5.2.3.22
+=======
+		// Trust regular expression, section 5.2.3.14
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// RFC specifies the string should be null-terminated; remove a null byte from the end
 		if subpacket[len(subpacket)-1] != 0x00 {
 			err = errors.StructuralError("expected regular expression to be null-terminated")
@@ -481,7 +597,11 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 		trustRegularExpression := string(subpacket[:len(subpacket)-1])
 		sig.TrustRegularExpression = &trustRegularExpression
 	case keyExpirationSubpacket:
+<<<<<<< HEAD
 		// Key expiration time, section 5.2.3.13
+=======
+		// Key expiration time, section 5.2.3.6
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if len(subpacket) != 4 {
 			err = errors.StructuralError("key expiration subpacket with bad length")
 			return
@@ -489,6 +609,7 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 		sig.KeyLifetimeSecs = new(uint32)
 		*sig.KeyLifetimeSecs = binary.BigEndian.Uint32(subpacket)
 	case prefSymmetricAlgosSubpacket:
+<<<<<<< HEAD
 		// Preferred symmetric algorithms, section 5.2.3.14
 		sig.PreferredSymmetric = make([]byte, len(subpacket))
 		copy(sig.PreferredSymmetric, subpacket)
@@ -496,18 +617,34 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 		// Issuer, section 5.2.3.12
 		if sig.Version > 4 && isHashed {
 			err = errors.StructuralError("issuer subpacket found in v6 key")
+=======
+		// Preferred symmetric algorithms, section 5.2.3.7
+		sig.PreferredSymmetric = make([]byte, len(subpacket))
+		copy(sig.PreferredSymmetric, subpacket)
+	case issuerSubpacket:
+		// Issuer, section 5.2.3.5
+		if sig.Version > 4 {
+			err = errors.StructuralError("issuer subpacket found in v5 key")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return
 		}
 		if len(subpacket) != 8 {
 			err = errors.StructuralError("issuer subpacket with bad length")
 			return
 		}
+<<<<<<< HEAD
 		if sig.Version <= 4 {
 			sig.IssuerKeyId = new(uint64)
 			*sig.IssuerKeyId = binary.BigEndian.Uint64(subpacket)
 		}
 	case notationDataSubpacket:
 		// Notation data, section 5.2.3.24
+=======
+		sig.IssuerKeyId = new(uint64)
+		*sig.IssuerKeyId = binary.BigEndian.Uint64(subpacket)
+	case notationDataSubpacket:
+		// Notation data, section 5.2.3.16
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if len(subpacket) < 8 {
 			err = errors.StructuralError("notation data subpacket with bad length")
 			return
@@ -529,6 +666,7 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 
 		sig.Notations = append(sig.Notations, &notation)
 	case prefHashAlgosSubpacket:
+<<<<<<< HEAD
 		// Preferred hash algorithms, section 5.2.3.16
 		sig.PreferredHash = make([]byte, len(subpacket))
 		copy(sig.PreferredHash, subpacket)
@@ -550,6 +688,17 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 		sig.PreferredKeyserver = string(subpacket)
 	case primaryUserIdSubpacket:
 		// Primary User ID, section 5.2.3.27
+=======
+		// Preferred hash algorithms, section 5.2.3.8
+		sig.PreferredHash = make([]byte, len(subpacket))
+		copy(sig.PreferredHash, subpacket)
+	case prefCompressionSubpacket:
+		// Preferred compression algorithms, section 5.2.3.9
+		sig.PreferredCompression = make([]byte, len(subpacket))
+		copy(sig.PreferredCompression, subpacket)
+	case primaryUserIdSubpacket:
+		// Primary User ID, section 5.2.3.19
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if len(subpacket) != 1 {
 			err = errors.StructuralError("primary user id subpacket with bad length")
 			return
@@ -559,11 +708,20 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 			*sig.IsPrimaryId = true
 		}
 	case keyFlagsSubpacket:
+<<<<<<< HEAD
 		// Key flags, section 5.2.3.29
 		sig.FlagsValid = true
 		if len(subpacket) == 0 {
 			return
 		}
+=======
+		// Key flags, section 5.2.3.21
+		if len(subpacket) == 0 {
+			err = errors.StructuralError("empty key flags subpacket")
+			return
+		}
+		sig.FlagsValid = true
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if subpacket[0]&KeyFlagCertify != 0 {
 			sig.FlagCertify = true
 		}
@@ -589,16 +747,27 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 		userId := string(subpacket)
 		sig.SignerUserId = &userId
 	case reasonForRevocationSubpacket:
+<<<<<<< HEAD
 		// Reason For Revocation, section 5.2.3.31
+=======
+		// Reason For Revocation, section 5.2.3.23
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if len(subpacket) == 0 {
 			err = errors.StructuralError("empty revocation reason subpacket")
 			return
 		}
 		sig.RevocationReason = new(ReasonForRevocation)
+<<<<<<< HEAD
 		*sig.RevocationReason = NewReasonForRevocation(subpacket[0])
 		sig.RevocationReasonText = string(subpacket[1:])
 	case featuresSubpacket:
 		// Features subpacket, section 5.2.3.32 specifies a very general
+=======
+		*sig.RevocationReason = ReasonForRevocation(subpacket[0])
+		sig.RevocationReasonText = string(subpacket[1:])
+	case featuresSubpacket:
+		// Features subpacket, section 5.2.3.24 specifies a very general
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// mechanism for OpenPGP implementations to signal support for new
 		// features.
 		if len(subpacket) > 0 {
@@ -612,13 +781,23 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 		}
 	case embeddedSignatureSubpacket:
 		// Only usage is in signatures that cross-certify
+<<<<<<< HEAD
 		// signing subkeys. section 5.2.3.34 describes the
+=======
+		// signing subkeys. section 5.2.3.26 describes the
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// format, with its usage described in section 11.1
 		if sig.EmbeddedSignature != nil {
 			err = errors.StructuralError("Cannot have multiple embedded signatures")
 			return
 		}
 		sig.EmbeddedSignature = new(Signature)
+<<<<<<< HEAD
+=======
+		// Embedded signatures are required to be v4 signatures see
+		// section 12.1. However, we only parse v4 signatures in this
+		// file anyway.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err := sig.EmbeddedSignature.parse(bytes.NewBuffer(subpacket)); err != nil {
 			return nil, err
 		}
@@ -626,7 +805,11 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 			return nil, errors.StructuralError("cross-signature has unexpected type " + strconv.Itoa(int(sigType)))
 		}
 	case policyUriSubpacket:
+<<<<<<< HEAD
 		// Policy URI, section 5.2.3.28
+=======
+		// Policy URI, section 5.2.3.20
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		sig.PolicyURI = string(subpacket)
 	case issuerFingerprintSubpacket:
 		if len(subpacket) == 0 {
@@ -634,17 +817,26 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 			return
 		}
 		v, l := subpacket[0], len(subpacket[1:])
+<<<<<<< HEAD
 		if v >= 5 && l != 32 || v < 5 && l != 20 {
+=======
+		if v == 5 && l != 32 || v != 5 && l != 20 {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return nil, errors.StructuralError("bad fingerprint length")
 		}
 		sig.IssuerFingerprint = make([]byte, l)
 		copy(sig.IssuerFingerprint, subpacket[1:])
 		sig.IssuerKeyId = new(uint64)
+<<<<<<< HEAD
 		if v >= 5 {
+=======
+		if v == 5 {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			*sig.IssuerKeyId = binary.BigEndian.Uint64(subpacket[1:9])
 		} else {
 			*sig.IssuerKeyId = binary.BigEndian.Uint64(subpacket[13:21])
 		}
+<<<<<<< HEAD
 	case intendedRecipientSubpacket:
 		// Intended Recipient Fingerprint, section 5.2.3.36
 		if len(subpacket) < 1 {
@@ -659,6 +851,11 @@ func parseSignatureSubpacket(sig *Signature, subpacket []byte, isHashed bool) (r
 		sig.IntendedRecipients = append(sig.IntendedRecipients, &Recipient{int(version), fingerprint})
 	case prefCipherSuitesSubpacket:
 		// Preferred AEAD cipher suites, section 5.2.3.15
+=======
+	case prefCipherSuitesSubpacket:
+		// Preferred AEAD cipher suites
+		// See https://www.ietf.org/archive/id/draft-ietf-openpgp-crypto-refresh-07.html#name-preferred-aead-ciphersuites
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if len(subpacket)%2 != 0 {
 			err = errors.StructuralError("invalid aead cipher suite length")
 			return
@@ -700,6 +897,7 @@ func (sig *Signature) CheckKeyIdOrFingerprint(pk *PublicKey) bool {
 	return sig.IssuerKeyId != nil && *sig.IssuerKeyId == pk.KeyId
 }
 
+<<<<<<< HEAD
 func (sig *Signature) CheckKeyIdOrFingerprintExplicit(fingerprint []byte, keyId uint64) bool {
 	if sig.IssuerFingerprint != nil && len(sig.IssuerFingerprint) >= 20 && fingerprint != nil {
 		return bytes.Equal(sig.IssuerFingerprint, fingerprint)
@@ -710,6 +908,11 @@ func (sig *Signature) CheckKeyIdOrFingerprintExplicit(fingerprint []byte, keyId 
 // serializeSubpacketLength marshals the given length into to.
 func serializeSubpacketLength(to []byte, length int) int {
 	// RFC 9580, Section 4.2.1.
+=======
+// serializeSubpacketLength marshals the given length into to.
+func serializeSubpacketLength(to []byte, length int) int {
+	// RFC 4880, Section 4.2.2.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if length < 192 {
 		to[0] = byte(length)
 		return 1
@@ -755,19 +958,31 @@ func serializeSubpackets(to []byte, subpackets []outputSubpacket, hashed bool) {
 			to = to[n:]
 		}
 	}
+<<<<<<< HEAD
+=======
+	return
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // SigExpired returns whether sig is a signature that has expired or is created
 // in the future.
 func (sig *Signature) SigExpired(currentTime time.Time) bool {
+<<<<<<< HEAD
 	if sig.CreationTime.Unix() > currentTime.Unix() {
+=======
+	if sig.CreationTime.After(currentTime) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return true
 	}
 	if sig.SigLifetimeSecs == nil || *sig.SigLifetimeSecs == 0 {
 		return false
 	}
 	expiry := sig.CreationTime.Add(time.Duration(*sig.SigLifetimeSecs) * time.Second)
+<<<<<<< HEAD
 	return currentTime.Unix() > expiry.Unix()
+=======
+	return currentTime.After(expiry)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // buildHashSuffix constructs the HashSuffix member of sig in preparation for signing.
@@ -791,6 +1006,7 @@ func (sig *Signature) buildHashSuffix(hashedSubpackets []byte) (err error) {
 		uint8(sig.SigType),
 		uint8(sig.PubKeyAlgo),
 		uint8(hashId),
+<<<<<<< HEAD
 	})
 	hashedSubpacketsLength := len(hashedSubpackets)
 	if sig.Version == 6 {
@@ -813,14 +1029,27 @@ func (sig *Signature) buildHashSuffix(hashedSubpackets []byte) (err error) {
 	var l uint64 = uint64(lenPrefix + len(hashedSubpackets))
 	if sig.Version == 5 {
 		// v5 case
+=======
+		uint8(len(hashedSubpackets) >> 8),
+		uint8(len(hashedSubpackets)),
+	})
+	hashedFields.Write(hashedSubpackets)
+
+	var l uint64 = uint64(6 + len(hashedSubpackets))
+	if sig.Version == 5 {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		hashedFields.Write([]byte{0x05, 0xff})
 		hashedFields.Write([]byte{
 			uint8(l >> 56), uint8(l >> 48), uint8(l >> 40), uint8(l >> 32),
 			uint8(l >> 24), uint8(l >> 16), uint8(l >> 8), uint8(l),
 		})
 	} else {
+<<<<<<< HEAD
 		// v4 and v6 case
 		hashedFields.Write([]byte{byte(sig.Version), 0xff})
+=======
+		hashedFields.Write([]byte{0x04, 0xff})
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		hashedFields.Write([]byte{
 			uint8(l >> 24), uint8(l >> 16), uint8(l >> 8), uint8(l),
 		})
@@ -848,6 +1077,7 @@ func (sig *Signature) signPrepareHash(h hash.Hash) (digest []byte, err error) {
 	return
 }
 
+<<<<<<< HEAD
 // PrepareSign must be called to create a hash object before Sign for v6 signatures.
 // The created hash object initially hashes a randomly generated salt
 // as required by v6 signatures. The generated salt is stored in sig. If the signature is not v6,
@@ -909,6 +1139,8 @@ func (sig *Signature) PrepareVerify() (hash.Hash, error) {
 	return hasher, nil
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Sign signs a message with a private key. The hash, h, must contain
 // the hash of the message to be signed and will be mutated by this function.
 // On success, the signature is stored in sig. Call Serialize to write it out.
@@ -919,6 +1151,7 @@ func (sig *Signature) Sign(h hash.Hash, priv *PrivateKey, config *Config) (err e
 	}
 	sig.Version = priv.PublicKey.Version
 	sig.IssuerFingerprint = priv.PublicKey.Fingerprint
+<<<<<<< HEAD
 	if sig.Version < 6 && config.RandomizeSignaturesViaNotation() {
 		sig.removeNotationsWithName(SaltNotationName)
 		salt, err := SignatureSaltForHash(sig.Hash, config.Random())
@@ -933,6 +1166,8 @@ func (sig *Signature) Sign(h hash.Hash, priv *PrivateKey, config *Config) (err e
 		}
 		sig.Notations = append(sig.Notations, &notation)
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	sig.outSubpackets, err = sig.buildSubpackets(priv.PublicKey)
 	if err != nil {
 		return err
@@ -962,6 +1197,7 @@ func (sig *Signature) Sign(h hash.Hash, priv *PrivateKey, config *Config) (err e
 			sig.DSASigS = new(encoding.MPI).SetBig(s)
 		}
 	case PubKeyAlgoECDSA:
+<<<<<<< HEAD
 		var r, s *big.Int
 		if sk, ok := priv.PrivateKey.(*ecdsa.PrivateKey); ok {
 			r, s, err = ecdsa.Sign(config.Random(), sk, digest)
@@ -972,6 +1208,10 @@ func (sig *Signature) Sign(h hash.Hash, priv *PrivateKey, config *Config) (err e
 				r, s, err = unwrapECDSASig(b)
 			}
 		}
+=======
+		sk := priv.PrivateKey.(*ecdsa.PrivateKey)
+		r, s, err := ecdsa.Sign(config.Random(), sk, digest)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 		if err == nil {
 			sig.ECDSASigR = new(encoding.MPI).SetBig(r)
@@ -984,6 +1224,7 @@ func (sig *Signature) Sign(h hash.Hash, priv *PrivateKey, config *Config) (err e
 			sig.EdDSASigR = encoding.NewMPI(r)
 			sig.EdDSASigS = encoding.NewMPI(s)
 		}
+<<<<<<< HEAD
 	case PubKeyAlgoEd25519:
 		sk := priv.PrivateKey.(*ed25519.PrivateKey)
 		signature, err := ed25519.Sign(sk, digest)
@@ -996,6 +1237,8 @@ func (sig *Signature) Sign(h hash.Hash, priv *PrivateKey, config *Config) (err e
 		if err == nil {
 			sig.EdSig = signature
 		}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		err = errors.UnsupportedError("public key algorithm: " + strconv.Itoa(int(sig.PubKeyAlgo)))
 	}
@@ -1003,6 +1246,7 @@ func (sig *Signature) Sign(h hash.Hash, priv *PrivateKey, config *Config) (err e
 	return
 }
 
+<<<<<<< HEAD
 // unwrapECDSASig parses the two integer components of an ASN.1-encoded ECDSA signature.
 func unwrapECDSASig(b []byte) (r, s *big.Int, err error) {
 	var ecsdaSig struct {
@@ -1015,6 +1259,8 @@ func unwrapECDSASig(b []byte) (r, s *big.Int, err error) {
 	return ecsdaSig.R, ecsdaSig.S, nil
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // SignUserId computes a signature from priv, asserting that pub is a valid
 // key for the identity id.  On success, the signature is stored in sig. Call
 // Serialize to write it out.
@@ -1023,6 +1269,7 @@ func (sig *Signature) SignUserId(id string, pub *PublicKey, priv *PrivateKey, co
 	if priv.Dummy() {
 		return errors.ErrDummyPrivateKey("dummy key found")
 	}
+<<<<<<< HEAD
 	prepareHash, err := sig.PrepareSign(config)
 	if err != nil {
 		return err
@@ -1049,6 +1296,13 @@ func (sig *Signature) SignDirectKeyBinding(pub *PublicKey, priv *PrivateKey, con
 		return err
 	}
 	return sig.Sign(prepareHash, priv, config)
+=======
+	h, err := userIdSignatureHash(id, pub, sig.Hash)
+	if err != nil {
+		return err
+	}
+	return sig.Sign(h, priv, config)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // CrossSignKey computes a signature from signingKey on pub hashed using hashKey. On success,
@@ -1056,11 +1310,15 @@ func (sig *Signature) SignDirectKeyBinding(pub *PublicKey, priv *PrivateKey, con
 // If config is nil, sensible defaults will be used.
 func (sig *Signature) CrossSignKey(pub *PublicKey, hashKey *PublicKey, signingKey *PrivateKey,
 	config *Config) error {
+<<<<<<< HEAD
 	prepareHash, err := sig.PrepareSign(config)
 	if err != nil {
 		return err
 	}
 	h, err := keySignatureHash(hashKey, pub, prepareHash)
+=======
+	h, err := keySignatureHash(hashKey, pub, sig.Hash)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return err
 	}
@@ -1074,11 +1332,15 @@ func (sig *Signature) SignKey(pub *PublicKey, priv *PrivateKey, config *Config) 
 	if priv.Dummy() {
 		return errors.ErrDummyPrivateKey("dummy key found")
 	}
+<<<<<<< HEAD
 	prepareHash, err := sig.PrepareSign(config)
 	if err != nil {
 		return err
 	}
 	h, err := keySignatureHash(&priv.PublicKey, pub, prepareHash)
+=======
+	h, err := keySignatureHash(&priv.PublicKey, pub, sig.Hash)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return err
 	}
@@ -1089,6 +1351,7 @@ func (sig *Signature) SignKey(pub *PublicKey, priv *PrivateKey, config *Config) 
 // stored in sig. Call Serialize to write it out.
 // If config is nil, sensible defaults will be used.
 func (sig *Signature) RevokeKey(pub *PublicKey, priv *PrivateKey, config *Config) error {
+<<<<<<< HEAD
 	prepareHash, err := sig.PrepareSign(config)
 	if err != nil {
 		return err
@@ -1097,6 +1360,13 @@ func (sig *Signature) RevokeKey(pub *PublicKey, priv *PrivateKey, config *Config
 		return err
 	}
 	return sig.Sign(prepareHash, priv, config)
+=======
+	h, err := keyRevocationHash(pub, sig.Hash)
+	if err != nil {
+		return err
+	}
+	return sig.Sign(h, priv, config)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // RevokeSubkey computes a subkey revocation signature of pub using priv.
@@ -1113,7 +1383,11 @@ func (sig *Signature) Serialize(w io.Writer) (err error) {
 	if len(sig.outSubpackets) == 0 {
 		sig.outSubpackets = sig.rawSubpackets
 	}
+<<<<<<< HEAD
 	if sig.RSASignature == nil && sig.DSASigR == nil && sig.ECDSASigR == nil && sig.EdDSASigR == nil && sig.EdSig == nil {
+=======
+	if sig.RSASignature == nil && sig.DSASigR == nil && sig.ECDSASigR == nil && sig.EdDSASigR == nil {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return errors.InvalidArgumentError("Signature: need to call Sign, SignUserId or SignKey before Serialize")
 	}
 
@@ -1130,14 +1404,18 @@ func (sig *Signature) Serialize(w io.Writer) (err error) {
 	case PubKeyAlgoEdDSA:
 		sigLength = int(sig.EdDSASigR.EncodedLength())
 		sigLength += int(sig.EdDSASigS.EncodedLength())
+<<<<<<< HEAD
 	case PubKeyAlgoEd25519:
 		sigLength = ed25519.SignatureSize
 	case PubKeyAlgoEd448:
 		sigLength = ed448.SignatureSize
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		panic("impossible")
 	}
 
+<<<<<<< HEAD
 	hashedSubpacketsLen := subpacketsLength(sig.outSubpackets, true)
 	unhashedSubpacketsLen := subpacketsLength(sig.outSubpackets, false)
 	length := 4 + /* length of version|signature type|public-key algorithm|hash algorithm */
@@ -1148,6 +1426,14 @@ func (sig *Signature) Serialize(w io.Writer) (err error) {
 		length += 4 + /* the two length fields are four-octet instead of two */
 			1 + /* salt length */
 			len(sig.salt) /* length salt */
+=======
+	unhashedSubpacketsLen := subpacketsLength(sig.outSubpackets, false)
+	length := len(sig.HashSuffix) - 6 /* trailer not included */ +
+		2 /* length of unhashed subpackets */ + unhashedSubpacketsLen +
+		2 /* hash tag */ + sigLength
+	if sig.Version == 5 {
+		length -= 4 // eight-octet instead of four-octet big endian
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	err = serializeHeader(w, packetTypeSignature, length)
 	if err != nil {
@@ -1161,6 +1447,7 @@ func (sig *Signature) Serialize(w io.Writer) (err error) {
 }
 
 func (sig *Signature) serializeBody(w io.Writer) (err error) {
+<<<<<<< HEAD
 	var fields []byte
 	if sig.Version == 6 {
 		// v6 signatures use 4 octets for length
@@ -1176,12 +1463,17 @@ func (sig *Signature) serializeBody(w io.Writer) (err error) {
 		fields = sig.HashSuffix[:6+hashedSubpacketsLen]
 
 	}
+=======
+	hashedSubpacketsLen := uint16(uint16(sig.HashSuffix[4])<<8) | uint16(sig.HashSuffix[5])
+	fields := sig.HashSuffix[:6+hashedSubpacketsLen]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	_, err = w.Write(fields)
 	if err != nil {
 		return
 	}
 
 	unhashedSubpacketsLen := subpacketsLength(sig.outSubpackets, false)
+<<<<<<< HEAD
 	var unhashedSubpackets []byte
 	if sig.Version == 6 {
 		unhashedSubpackets = make([]byte, 4+unhashedSubpacketsLen)
@@ -1196,6 +1488,12 @@ func (sig *Signature) serializeBody(w io.Writer) (err error) {
 		unhashedSubpackets[1] = byte(unhashedSubpacketsLen)
 		serializeSubpackets(unhashedSubpackets[2:], sig.outSubpackets, false)
 	}
+=======
+	unhashedSubpackets := make([]byte, 2+unhashedSubpacketsLen)
+	unhashedSubpackets[0] = byte(unhashedSubpacketsLen >> 8)
+	unhashedSubpackets[1] = byte(unhashedSubpacketsLen)
+	serializeSubpackets(unhashedSubpackets[2:], sig.outSubpackets, false)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	_, err = w.Write(unhashedSubpackets)
 	if err != nil {
@@ -1206,6 +1504,7 @@ func (sig *Signature) serializeBody(w io.Writer) (err error) {
 		return
 	}
 
+<<<<<<< HEAD
 	if sig.Version == 6 {
 		// write salt for v6 signatures
 		_, err = w.Write([]byte{uint8(len(sig.salt))})
@@ -1218,6 +1517,8 @@ func (sig *Signature) serializeBody(w io.Writer) (err error) {
 		}
 	}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	switch sig.PubKeyAlgo {
 	case PubKeyAlgoRSA, PubKeyAlgoRSASignOnly:
 		_, err = w.Write(sig.RSASignature.EncodedBytes())
@@ -1236,10 +1537,13 @@ func (sig *Signature) serializeBody(w io.Writer) (err error) {
 			return
 		}
 		_, err = w.Write(sig.EdDSASigS.EncodedBytes())
+<<<<<<< HEAD
 	case PubKeyAlgoEd25519:
 		err = ed25519.WriteSignature(w, sig.EdSig)
 	case PubKeyAlgoEd448:
 		err = ed448.WriteSignature(w, sig.EdSig)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		panic("impossible")
 	}
@@ -1257,14 +1561,32 @@ type outputSubpacket struct {
 func (sig *Signature) buildSubpackets(issuer PublicKey) (subpackets []outputSubpacket, err error) {
 	creationTime := make([]byte, 4)
 	binary.BigEndian.PutUint32(creationTime, uint32(sig.CreationTime.Unix()))
+<<<<<<< HEAD
 	// Signature Creation Time
 	subpackets = append(subpackets, outputSubpacket{true, creationTimeSubpacket, true, creationTime})
 	// Signature Expiration Time
+=======
+	subpackets = append(subpackets, outputSubpacket{true, creationTimeSubpacket, false, creationTime})
+
+	if sig.IssuerKeyId != nil && sig.Version == 4 {
+		keyId := make([]byte, 8)
+		binary.BigEndian.PutUint64(keyId, *sig.IssuerKeyId)
+		subpackets = append(subpackets, outputSubpacket{true, issuerSubpacket, false, keyId})
+	}
+	if sig.IssuerFingerprint != nil {
+		contents := append([]uint8{uint8(issuer.Version)}, sig.IssuerFingerprint...)
+		subpackets = append(subpackets, outputSubpacket{true, issuerFingerprintSubpacket, sig.Version == 5, contents})
+	}
+	if sig.SignerUserId != nil {
+		subpackets = append(subpackets, outputSubpacket{true, signerUserIdSubpacket, false, []byte(*sig.SignerUserId)})
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if sig.SigLifetimeSecs != nil && *sig.SigLifetimeSecs != 0 {
 		sigLifetime := make([]byte, 4)
 		binary.BigEndian.PutUint32(sigLifetime, *sig.SigLifetimeSecs)
 		subpackets = append(subpackets, outputSubpacket{true, signatureExpirationSubpacket, true, sigLifetime})
 	}
+<<<<<<< HEAD
 	// Trust Signature
 	if sig.TrustLevel != 0 {
 		subpackets = append(subpackets, outputSubpacket{true, trustSubpacket, true, []byte{byte(sig.TrustLevel), byte(sig.TrustAmount)}})
@@ -1332,6 +1654,11 @@ func (sig *Signature) buildSubpackets(issuer PublicKey) (subpackets []outputSubp
 	}
 	// Key Flags
 	// Key flags may only appear in self-signatures or certification signatures.
+=======
+
+	// Key flags may only appear in self-signatures or certification signatures.
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if sig.FlagsValid {
 		var flags byte
 		if sig.FlagCertify {
@@ -1355,6 +1682,7 @@ func (sig *Signature) buildSubpackets(issuer PublicKey) (subpackets []outputSubp
 		if sig.FlagGroupKey {
 			flags |= KeyFlagGroupKey
 		}
+<<<<<<< HEAD
 		subpackets = append(subpackets, outputSubpacket{true, keyFlagsSubpacket, true, []byte{flags}})
 	}
 	// Signer's User ID
@@ -1368,6 +1696,24 @@ func (sig *Signature) buildSubpackets(issuer PublicKey) (subpackets []outputSubp
 			append([]uint8{uint8(*sig.RevocationReason)}, []uint8(sig.RevocationReasonText)...)})
 	}
 	// Features
+=======
+		subpackets = append(subpackets, outputSubpacket{true, keyFlagsSubpacket, false, []byte{flags}})
+	}
+
+	for _, notation := range sig.Notations {
+		subpackets = append(
+			subpackets,
+			outputSubpacket{
+				true,
+				notationDataSubpacket,
+				notation.IsCritical,
+				notation.getData(),
+			})
+	}
+
+	// The following subpackets may only appear in self-signatures.
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	var features = byte(0x00)
 	if sig.SEIPDv1 {
 		features |= 0x01
@@ -1375,6 +1721,7 @@ func (sig *Signature) buildSubpackets(issuer PublicKey) (subpackets []outputSubp
 	if sig.SEIPDv2 {
 		features |= 0x08
 	}
+<<<<<<< HEAD
 	if features != 0x00 {
 		subpackets = append(subpackets, outputSubpacket{true, featuresSubpacket, false, []byte{features}})
 	}
@@ -1405,6 +1752,48 @@ func (sig *Signature) buildSubpackets(issuer PublicKey) (subpackets []outputSubp
 			})
 	}
 	// Preferred AEAD Ciphersuites
+=======
+
+	if features != 0x00 {
+		subpackets = append(subpackets, outputSubpacket{true, featuresSubpacket, false, []byte{features}})
+	}
+
+	if sig.TrustLevel != 0 {
+		subpackets = append(subpackets, outputSubpacket{true, trustSubpacket, true, []byte{byte(sig.TrustLevel), byte(sig.TrustAmount)}})
+	}
+
+	if sig.TrustRegularExpression != nil {
+		// RFC specifies the string should be null-terminated; add a null byte to the end
+		subpackets = append(subpackets, outputSubpacket{true, regularExpressionSubpacket, true, []byte(*sig.TrustRegularExpression + "\000")})
+	}
+
+	if sig.KeyLifetimeSecs != nil && *sig.KeyLifetimeSecs != 0 {
+		keyLifetime := make([]byte, 4)
+		binary.BigEndian.PutUint32(keyLifetime, *sig.KeyLifetimeSecs)
+		subpackets = append(subpackets, outputSubpacket{true, keyExpirationSubpacket, true, keyLifetime})
+	}
+
+	if sig.IsPrimaryId != nil && *sig.IsPrimaryId {
+		subpackets = append(subpackets, outputSubpacket{true, primaryUserIdSubpacket, false, []byte{1}})
+	}
+
+	if len(sig.PreferredSymmetric) > 0 {
+		subpackets = append(subpackets, outputSubpacket{true, prefSymmetricAlgosSubpacket, false, sig.PreferredSymmetric})
+	}
+
+	if len(sig.PreferredHash) > 0 {
+		subpackets = append(subpackets, outputSubpacket{true, prefHashAlgosSubpacket, false, sig.PreferredHash})
+	}
+
+	if len(sig.PreferredCompression) > 0 {
+		subpackets = append(subpackets, outputSubpacket{true, prefCompressionSubpacket, false, sig.PreferredCompression})
+	}
+
+	if len(sig.PolicyURI) > 0 {
+		subpackets = append(subpackets, outputSubpacket{true, policyUriSubpacket, false, []uint8(sig.PolicyURI)})
+	}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(sig.PreferredCipherSuites) > 0 {
 		serialized := make([]byte, len(sig.PreferredCipherSuites)*2)
 		for i, cipherSuite := range sig.PreferredCipherSuites {
@@ -1413,6 +1802,26 @@ func (sig *Signature) buildSubpackets(issuer PublicKey) (subpackets []outputSubp
 		}
 		subpackets = append(subpackets, outputSubpacket{true, prefCipherSuitesSubpacket, false, serialized})
 	}
+<<<<<<< HEAD
+=======
+
+	// Revocation reason appears only in revocation signatures and is serialized as per section 5.2.3.23.
+	if sig.RevocationReason != nil {
+		subpackets = append(subpackets, outputSubpacket{true, reasonForRevocationSubpacket, true,
+			append([]uint8{uint8(*sig.RevocationReason)}, []uint8(sig.RevocationReasonText)...)})
+	}
+
+	// EmbeddedSignature appears only in subkeys capable of signing and is serialized as per section 5.2.3.26.
+	if sig.EmbeddedSignature != nil {
+		var buf bytes.Buffer
+		err = sig.EmbeddedSignature.serializeBody(&buf)
+		if err != nil {
+			return
+		}
+		subpackets = append(subpackets, outputSubpacket{true, embeddedSignatureSubpacket, true, buf.Bytes()})
+	}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return
 }
 
@@ -1454,6 +1863,11 @@ func (sig *Signature) AddMetadataToHashSuffix() {
 	binary.BigEndian.PutUint32(buf[:], lit.Time)
 	suffix.Write(buf[:])
 
+<<<<<<< HEAD
+=======
+	// Update the counter and restore trailing bytes
+	l = uint64(suffix.Len())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	suffix.Write([]byte{0x05, 0xff})
 	suffix.Write([]byte{
 		uint8(l >> 56), uint8(l >> 48), uint8(l >> 40), uint8(l >> 32),
@@ -1461,6 +1875,7 @@ func (sig *Signature) AddMetadataToHashSuffix() {
 	})
 	sig.HashSuffix = suffix.Bytes()
 }
+<<<<<<< HEAD
 
 // SaltLengthForHash selects the required salt length for the given hash algorithm,
 // as per Table 23 (Hash algorithm registry) of the crypto refresh.
@@ -1507,3 +1922,5 @@ func (sig *Signature) removeNotationsWithName(name string) {
 	}
 	sig.Notations = updatedNotations
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

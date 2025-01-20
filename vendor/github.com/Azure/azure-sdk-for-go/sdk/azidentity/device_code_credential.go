@@ -21,9 +21,14 @@ const credNameDeviceCode = "DeviceCodeCredential"
 type DeviceCodeCredentialOptions struct {
 	azcore.ClientOptions
 
+<<<<<<< HEAD
 	// AdditionallyAllowedTenants specifies tenants to which the credential may authenticate, in addition to
 	// TenantID. When TenantID is empty, this option has no effect and the credential will authenticate to
 	// any requested tenant. Add the wildcard value "*" to allow the credential to authenticate to any tenant.
+=======
+	// AdditionallyAllowedTenants specifies additional tenants for which the credential may acquire
+	// tokens. Add the wildcard value "*" to allow the credential to acquire tokens for any tenant.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	AdditionallyAllowedTenants []string
 
 	// AuthenticationRecord returned by a call to a credential's Authenticate method. Set this option

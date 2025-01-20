@@ -151,7 +151,11 @@ func (o *protoObj) Get(index ref.Val) ref.Val {
 	}
 	fv, err := fd.GetFrom(o.value)
 	if err != nil {
+<<<<<<< HEAD
 		return NewErrFromString(err.Error())
+=======
+		return NewErr(err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return o.NativeToValue(fv)
 }

@@ -22,6 +22,7 @@ func GetDefaultAddress() (string, bool) {
 // a Workload API endpoint exposed as either a Unix
 // Domain Socket or TCP socket.
 func ValidateAddress(addr string) error {
+<<<<<<< HEAD
 	_, err := TargetFromAddress(addr)
 	return err
 }
@@ -29,6 +30,15 @@ func ValidateAddress(addr string) error {
 // TargetFromAddress parses the endpoint address and returns a gRPC target
 // string for dialing.
 func TargetFromAddress(addr string) (string, error) {
+=======
+	_, err := parseTargetFromStringAddr(addr)
+	return err
+}
+
+// parseTargetFromStringAddr parses the endpoint address and returns a gRPC target
+// string for dialing.
+func parseTargetFromStringAddr(addr string) (string, error) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	u, err := url.Parse(addr)
 	if err != nil {
 		return "", errors.New("workload endpoint socket is not a valid URI: " + err.Error())

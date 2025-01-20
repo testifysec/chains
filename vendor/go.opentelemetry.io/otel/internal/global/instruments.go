@@ -13,7 +13,11 @@ import (
 
 // unwrapper unwraps to return the underlying instrument implementation.
 type unwrapper interface {
+<<<<<<< HEAD
 	unwrap() metric.Observable
+=======
+	Unwrap() metric.Observable
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type afCounter struct {
@@ -40,7 +44,11 @@ func (i *afCounter) setDelegate(m metric.Meter) {
 	i.delegate.Store(ctr)
 }
 
+<<<<<<< HEAD
 func (i *afCounter) unwrap() metric.Observable {
+=======
+func (i *afCounter) Unwrap() metric.Observable {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if ctr := i.delegate.Load(); ctr != nil {
 		return ctr.(metric.Float64ObservableCounter)
 	}
@@ -71,7 +79,11 @@ func (i *afUpDownCounter) setDelegate(m metric.Meter) {
 	i.delegate.Store(ctr)
 }
 
+<<<<<<< HEAD
 func (i *afUpDownCounter) unwrap() metric.Observable {
+=======
+func (i *afUpDownCounter) Unwrap() metric.Observable {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if ctr := i.delegate.Load(); ctr != nil {
 		return ctr.(metric.Float64ObservableUpDownCounter)
 	}
@@ -102,7 +114,11 @@ func (i *afGauge) setDelegate(m metric.Meter) {
 	i.delegate.Store(ctr)
 }
 
+<<<<<<< HEAD
 func (i *afGauge) unwrap() metric.Observable {
+=======
+func (i *afGauge) Unwrap() metric.Observable {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if ctr := i.delegate.Load(); ctr != nil {
 		return ctr.(metric.Float64ObservableGauge)
 	}
@@ -133,7 +149,11 @@ func (i *aiCounter) setDelegate(m metric.Meter) {
 	i.delegate.Store(ctr)
 }
 
+<<<<<<< HEAD
 func (i *aiCounter) unwrap() metric.Observable {
+=======
+func (i *aiCounter) Unwrap() metric.Observable {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if ctr := i.delegate.Load(); ctr != nil {
 		return ctr.(metric.Int64ObservableCounter)
 	}
@@ -164,7 +184,11 @@ func (i *aiUpDownCounter) setDelegate(m metric.Meter) {
 	i.delegate.Store(ctr)
 }
 
+<<<<<<< HEAD
 func (i *aiUpDownCounter) unwrap() metric.Observable {
+=======
+func (i *aiUpDownCounter) Unwrap() metric.Observable {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if ctr := i.delegate.Load(); ctr != nil {
 		return ctr.(metric.Int64ObservableUpDownCounter)
 	}
@@ -195,7 +219,11 @@ func (i *aiGauge) setDelegate(m metric.Meter) {
 	i.delegate.Store(ctr)
 }
 
+<<<<<<< HEAD
 func (i *aiGauge) unwrap() metric.Observable {
+=======
+func (i *aiGauge) Unwrap() metric.Observable {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if ctr := i.delegate.Load(); ctr != nil {
 		return ctr.(metric.Int64ObservableGauge)
 	}

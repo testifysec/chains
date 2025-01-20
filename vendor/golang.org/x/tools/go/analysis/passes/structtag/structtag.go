@@ -89,7 +89,11 @@ var checkTagSpaces = map[string]bool{"json": true, "xml": true, "asn1": true}
 // checkCanonicalFieldTag checks a single struct field tag.
 func checkCanonicalFieldTag(pass *analysis.Pass, field *types.Var, tag string, seen *namesSeen) {
 	switch pass.Pkg.Path() {
+<<<<<<< HEAD
 	case "encoding/json", "encoding/json/v2", "encoding/xml":
+=======
+	case "encoding/json", "encoding/xml":
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// These packages know how to use their own APIs.
 		// Sometimes they are testing what happens to incorrect programs.
 		return

@@ -24,6 +24,10 @@ func (c *Client) setAddress() error {
 	}
 
 	var err error
+<<<<<<< HEAD
 	c.config.address, err = TargetFromAddress(c.config.address)
+=======
+	c.config.address, err = parseTargetFromStringAddr(c.config.address)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return err
 }

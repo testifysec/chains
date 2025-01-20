@@ -20,7 +20,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+<<<<<<< HEAD
 	"log/slog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"net/url"
 	"strings"
@@ -28,11 +31,14 @@ import (
 
 	"cloud.google.com/go/auth"
 	"cloud.google.com/go/auth/internal"
+<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
 )
 
 var (
 	iamCredentialsEndpoint = "https://iamcredentials.googleapis.com"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // user provides an auth flow for domain-wide delegation, setting
@@ -47,11 +53,18 @@ func user(opts *CredentialsOptions, client *http.Client, lifetime time.Duration,
 		subject:                opts.Subject,
 		lifetime:               lifetime,
 		universeDomainProvider: universeDomainProvider,
+<<<<<<< HEAD
 		logger:                 internallog.New(opts.Logger),
 	}
 	u.delegates = make([]string, len(opts.Delegates))
 	for i, v := range opts.Delegates {
 		u.delegates[i] = internal.FormatIAMServiceAccountResource(v)
+=======
+	}
+	u.delegates = make([]string, len(opts.Delegates))
+	for i, v := range opts.Delegates {
+		u.delegates[i] = formatIAMServiceAccountName(v)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	u.scopes = make([]string, len(opts.Scopes))
 	copy(u.scopes, opts.Scopes)
@@ -95,7 +108,10 @@ type exchangeTokenResponse struct {
 
 type userTokenProvider struct {
 	client *http.Client
+<<<<<<< HEAD
 	logger *slog.Logger
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	targetPrincipal        string
 	subject                string
@@ -147,18 +163,28 @@ func (u userTokenProvider) signJWT(ctx context.Context) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("impersonate: unable to marshal request: %w", err)
 	}
+<<<<<<< HEAD
 	reqURL := fmt.Sprintf("%s/v1/%s:signJwt", iamCredentialsEndpoint, internal.FormatIAMServiceAccountResource(u.targetPrincipal))
+=======
+	reqURL := fmt.Sprintf("%s/v1/%s:signJwt", iamCredentialsEndpoint, formatIAMServiceAccountName(u.targetPrincipal))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	req, err := http.NewRequestWithContext(ctx, "POST", reqURL, bytes.NewReader(bodyBytes))
 	if err != nil {
 		return "", fmt.Errorf("impersonate: unable to create request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
+<<<<<<< HEAD
 	u.logger.DebugContext(ctx, "impersonated user sign JWT request", "request", internallog.HTTPRequest(req, bodyBytes))
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(u.client, req)
 	if err != nil {
 		return "", fmt.Errorf("impersonate: unable to sign JWT: %w", err)
 	}
+<<<<<<< HEAD
 	u.logger.DebugContext(ctx, "impersonated user sign JWT response", "response", internallog.HTTPResponse(resp, body))
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if c := resp.StatusCode; c < 200 || c > 299 {
 		return "", fmt.Errorf("impersonate: status code %d: %s", c, body)
 	}
@@ -179,12 +205,18 @@ func (u userTokenProvider) exchangeToken(ctx context.Context, signedJWT string) 
 	if err != nil {
 		return nil, err
 	}
+<<<<<<< HEAD
 	u.logger.DebugContext(ctx, "impersonated user token exchange request", "request", internallog.HTTPRequest(req, []byte(v.Encode())))
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(u.client, req)
 	if err != nil {
 		return nil, fmt.Errorf("impersonate: unable to exchange token: %w", err)
 	}
+<<<<<<< HEAD
 	u.logger.DebugContext(ctx, "impersonated user token exchange response", "response", internallog.HTTPResponse(resp, body))
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if c := resp.StatusCode; c < 200 || c > 299 {
 		return nil, fmt.Errorf("impersonate: status code %d: %s", c, body)
 	}

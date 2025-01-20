@@ -137,7 +137,11 @@ func (ps ParamSpecs) validateNoDuplicateNames() *apis.FieldError {
 	return errs
 }
 
+<<<<<<< HEAD
 // validateParamEnums validates feature flag, duplication and allowed types for Param Enum
+=======
+// validateParamEnum validates feature flag, duplication and allowed types for Param Enum
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (ps ParamSpecs) validateParamEnums(ctx context.Context) *apis.FieldError {
 	var errs *apis.FieldError
 	for _, p := range ps {

@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 // Code generated from /usr/local/google/home/jdtatum/github/cel-go/parser/gen/CEL.g4 by ANTLR 4.13.1. DO NOT EDIT.
+=======
+// Code generated from /usr/local/google/home/tswadell/go/src/github.com/google/cel-go/parser/gen/CEL.g4 by ANTLR 4.13.1. DO NOT EDIT.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 package gen // CEL
 import "github.com/antlr4-go/antlr/v4"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type BaseCELVisitor struct {
 	*antlr.BaseParseTreeVisitor
 }
@@ -59,11 +67,15 @@ func (v *BaseCELVisitor) VisitIndex(ctx *IndexContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+<<<<<<< HEAD
 func (v *BaseCELVisitor) VisitIdent(ctx *IdentContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
 func (v *BaseCELVisitor) VisitGlobalCall(ctx *GlobalCallContext) interface{} {
+=======
+func (v *BaseCELVisitor) VisitIdentOrGlobalCall(ctx *IdentOrGlobalCallContext) interface{} {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return v.VisitChildren(ctx)
 }
 
@@ -107,6 +119,7 @@ func (v *BaseCELVisitor) VisitMapInitializerList(ctx *MapInitializerListContext)
 	return v.VisitChildren(ctx)
 }
 
+<<<<<<< HEAD
 func (v *BaseCELVisitor) VisitSimpleIdentifier(ctx *SimpleIdentifierContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -115,6 +128,8 @@ func (v *BaseCELVisitor) VisitEscapedIdentifier(ctx *EscapedIdentifierContext) i
 	return v.VisitChildren(ctx)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (v *BaseCELVisitor) VisitOptExpr(ctx *OptExprContext) interface{} {
 	return v.VisitChildren(ctx)
 }

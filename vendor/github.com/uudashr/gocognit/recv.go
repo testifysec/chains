@@ -20,6 +20,9 @@ func recvString(recv ast.Expr) string {
 	case *ast.IndexListExpr:
 		return recvString(t.X)
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return "BADRECV"
 }

@@ -164,8 +164,11 @@ func (rx *ResumableUpload) transferChunk(ctx context.Context) (*http.Response, e
 // and calls the returned functions after the request returns (see send.go).
 // rx is private to the auto-generated API code.
 // Exactly one of resp or err will be nil.  If resp is non-nil, the caller must call resp.Body.Close.
+<<<<<<< HEAD
 // Upload does not parse the response into the error on a non 200 response;
 // it is the caller's responsibility to call resp.Body.Close.
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (rx *ResumableUpload) Upload(ctx context.Context) (resp *http.Response, err error) {
 
 	// There are a couple of cases where it's possible for err and resp to both
@@ -258,6 +261,7 @@ func (rx *ResumableUpload) Upload(ctx context.Context) (resp *http.Response, err
 				rCtx, cancel = context.WithTimeout(ctx, rx.ChunkTransferTimeout)
 			}
 
+<<<<<<< HEAD
 			// We close the response's body here, since we definitely will not
 			// return `resp` now. If we close it before the select case above, a
 			// timer may fire and cause us to return a response with a closed body
@@ -270,6 +274,8 @@ func (rx *ResumableUpload) Upload(ctx context.Context) (resp *http.Response, err
 				io.Copy(io.Discard, resp.Body)
 				resp.Body.Close()
 			}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			resp, err = rx.transferChunk(rCtx)
 
 			var status int
@@ -296,11 +302,21 @@ func (rx *ResumableUpload) Upload(ctx context.Context) (resp *http.Response, err
 
 			rx.attempts++
 			pause = bo.Pause()
+<<<<<<< HEAD
+=======
+			if resp != nil && resp.Body != nil {
+				resp.Body.Close()
+			}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 
 		// If the chunk was uploaded successfully, but there's still
 		// more to go, upload the next chunk without any delay.
 		if statusResumeIncomplete(resp) {
+<<<<<<< HEAD
+=======
+			resp.Body.Close()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			continue
 		}
 

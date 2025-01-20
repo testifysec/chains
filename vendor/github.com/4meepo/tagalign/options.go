@@ -2,6 +2,16 @@ package tagalign
 
 type Option func(*Helper)
 
+<<<<<<< HEAD
+=======
+// WithMode specify the mode of tagalign.
+func WithMode(mode Mode) Option {
+	return func(h *Helper) {
+		h.mode = mode
+	}
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // WithSort enable tags sort.
 // fixedOrder specify the order of tags, the other tags will be sorted by name.
 // Sory is disabled by default.

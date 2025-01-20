@@ -88,7 +88,11 @@ func PruneAst(expr ast.Expr, macroCalls map[int64]ast.Expr, state EvalState) *as
 
 func (p *astPruner) maybeCreateLiteral(id int64, val ref.Val) (ast.Expr, bool) {
 	switch v := val.(type) {
+<<<<<<< HEAD
 	case types.Bool, types.Bytes, types.Double, types.Int, types.Null, types.String, types.Uint, *types.Optional:
+=======
+	case types.Bool, types.Bytes, types.Double, types.Int, types.Null, types.String, types.Uint:
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		p.state.SetValue(id, val)
 		return p.NewLiteral(id, val), true
 	case types.Duration:
@@ -281,6 +285,7 @@ func (p *astPruner) prune(node ast.Expr) (ast.Expr, bool) {
 	}
 	if macro, found := p.macroCalls[node.ID()]; found {
 		// Ensure that intermediate values for the comprehension are cleared during pruning
+<<<<<<< HEAD
 		pruneMacroCall := node.Kind() != ast.UnspecifiedExprKind
 		if node.Kind() == ast.ComprehensionKind {
 			// Only prune cel.bind() calls since the variables of the comprehension are all
@@ -304,6 +309,15 @@ func (p *astPruner) prune(node ast.Expr) (ast.Expr, bool) {
 					p.macroCalls[node.ID()] = macro
 				}
 			}
+=======
+		if node.Kind() == ast.ComprehensionKind {
+			compre := node.AsComprehension()
+			visit(macro, clearIterVarVisitor(compre.IterVar(), p.state))
+		}
+		// prune the expression in terms of the macro call instead of the expanded form.
+		if newMacro, pruned := p.prune(macro); pruned {
+			p.macroCalls[node.ID()] = newMacro
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 
@@ -437,6 +451,7 @@ func (p *astPruner) prune(node ast.Expr) (ast.Expr, bool) {
 		// the last iteration of the comprehension and not each step in the evaluation which
 		// means that the any residuals computed in between might be inaccurate.
 		if newRange, pruned := p.maybePrune(compre.IterRange()); pruned {
+<<<<<<< HEAD
 			if compre.HasIterVar2() {
 				return p.NewComprehensionTwoVar(
 					node.ID(),
@@ -450,6 +465,8 @@ func (p *astPruner) prune(node ast.Expr) (ast.Expr, bool) {
 					compre.Result(),
 				), true
 			}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return p.NewComprehension(
 				node.ID(),
 				newRange,
@@ -497,6 +514,19 @@ func getMaxID(expr ast.Expr) int64 {
 	return maxID
 }
 
+<<<<<<< HEAD
+=======
+func clearIterVarVisitor(varName string, state EvalState) astVisitor {
+	return astVisitor{
+		visitExpr: func(e ast.Expr) {
+			if e.Kind() == ast.IdentKind && e.AsIdent() == varName {
+				state.SetValue(e.ID(), nil)
+			}
+		},
+	}
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func maxIDVisitor(maxID *int64) astVisitor {
 	return astVisitor{
 		visitExpr: func(e ast.Expr) {
@@ -560,6 +590,7 @@ func visit(expr ast.Expr, visitor astVisitor) {
 		}
 	}
 }
+<<<<<<< HEAD
 
 func isCelBindMacro(macro ast.Expr) bool {
 	if macro.Kind() != ast.CallKind {
@@ -572,3 +603,5 @@ func isCelBindMacro(macro ast.Expr) bool {
 		target.Kind() == ast.IdentKind &&
 		target.AsIdent() == "cel"
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

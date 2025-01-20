@@ -17,6 +17,10 @@ linters:
     - errcheck
     - errname
     - errorlint
+<<<<<<< HEAD
+=======
+    - exhaustive # checks exhaustiveness of enum switch statements
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     - exportloopref # checks for pointers to enclosing loop variables
     - gci
     - gochecknoinits # checks that no init functions are present in Go code
@@ -58,6 +62,15 @@ linters-settings:
       - standard # Standard section: captures all standard packages.
       - default # Default section: contains all imports that could not be matched to another section type.
       - prefix(github.com/jjti)
+<<<<<<< HEAD
+=======
+  exhaustive:
+    # Program elements to check for exhaustiveness.
+    # Default: [ switch ]
+    check:
+      - switch
+      - map
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   gocritic:
     settings:
       captLocal:

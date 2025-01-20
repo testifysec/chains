@@ -250,7 +250,11 @@ func verifyTSRWithChain(ts *timestamp.Timestamp, opts VerifyOpts) error {
 		return fmt.Errorf("error parsing hashed message: %w", err)
 	}
 
+<<<<<<< HEAD
 	if len(opts.Roots) == 0 {
+=======
+	if opts.Roots == nil || len(opts.Roots) == 0 {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return fmt.Errorf("no root certificates provided for verifying the certificate chain")
 	}
 

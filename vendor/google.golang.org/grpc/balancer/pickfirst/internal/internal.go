@@ -18,6 +18,7 @@
 // Package internal contains code internal to the pickfirst package.
 package internal
 
+<<<<<<< HEAD
 import (
 	rand "math/rand/v2"
 	"time"
@@ -33,3 +34,9 @@ var (
 		return func() { timer.Stop() }
 	}
 )
+=======
+import "math/rand"
+
+// RandShuffle pseudo-randomizes the order of addresses.
+var RandShuffle = rand.Shuffle
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

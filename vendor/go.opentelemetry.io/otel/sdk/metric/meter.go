@@ -150,11 +150,14 @@ func (m *meter) int64ObservableInstrument(id Instrument, callbacks []metric.Int6
 				continue
 			}
 			inst.appendMeasures(in)
+<<<<<<< HEAD
 
 			// Add the measures to the pipeline. It is required to maintain
 			// measures per pipeline to avoid calling the measure that
 			// is not part of the pipeline.
 			insert.pipeline.addInt64Measure(inst.observableID, in)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			for _, cback := range callbacks {
 				inst := int64Observer{measures: in}
 				fn := cback
@@ -314,11 +317,14 @@ func (m *meter) float64ObservableInstrument(id Instrument, callbacks []metric.Fl
 				continue
 			}
 			inst.appendMeasures(in)
+<<<<<<< HEAD
 
 			// Add the measures to the pipeline. It is required to maintain
 			// measures per pipeline to avoid calling the measure that
 			// is not part of the pipeline.
 			insert.pipeline.addFloat64Measure(inst.observableID, in)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			for _, cback := range callbacks {
 				inst := float64Observer{measures: in}
 				fn := cback
@@ -451,6 +457,7 @@ func (m *meter) RegisterCallback(f metric.Callback, insts ...metric.Observable) 
 		return noopRegister{}, nil
 	}
 
+<<<<<<< HEAD
 	var err error
 	validInstruments := make([]metric.Observable, 0, len(insts))
 	for _, inst := range insts {
@@ -473,17 +480,52 @@ func (m *meter) RegisterCallback(f metric.Callback, insts ...metric.Observable) 
 			}
 
 			validInstruments = append(validInstruments, inst)
+=======
+	reg := newObserver()
+	var errs multierror
+	for _, inst := range insts {
+		// Unwrap any global.
+		if u, ok := inst.(interface {
+			Unwrap() metric.Observable
+		}); ok {
+			inst = u.Unwrap()
+		}
+
+		switch o := inst.(type) {
+		case int64Observable:
+			if err := o.registerable(m); err != nil {
+				if !errors.Is(err, errEmptyAgg) {
+					errs.append(err)
+				}
+				continue
+			}
+			reg.registerInt64(o.observablID)
+		case float64Observable:
+			if err := o.registerable(m); err != nil {
+				if !errors.Is(err, errEmptyAgg) {
+					errs.append(err)
+				}
+				continue
+			}
+			reg.registerFloat64(o.observablID)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		default:
 			// Instrument external to the SDK.
 			return nil, fmt.Errorf("invalid observable: from different implementation")
 		}
 	}
 
+<<<<<<< HEAD
 	if len(validInstruments) == 0 {
+=======
+	err := errs.errorOrNil()
+	if reg.len() == 0 {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// All insts use drop aggregation or are invalid.
 		return noopRegister{}, err
 	}
 
+<<<<<<< HEAD
 	unregs := make([]func(), len(m.pipes))
 	for ix, pipe := range m.pipes {
 		reg := newObserver(pipe)
@@ -502,11 +544,17 @@ func (m *meter) RegisterCallback(f metric.Callback, insts ...metric.Observable) 
 	}
 
 	return unregisterFuncs{f: unregs}, err
+=======
+	// Some or all instruments were valid.
+	cback := func(ctx context.Context) error { return f(ctx, reg) }
+	return m.pipes.registerMultiCallback(cback), err
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type observer struct {
 	embedded.Observer
 
+<<<<<<< HEAD
 	pipe    *pipeline
 	float64 map[observableID[float64]]struct{}
 	int64   map[observableID[int64]]struct{}
@@ -525,6 +573,28 @@ func (r observer) registerFloat64(id observableID[float64]) {
 }
 
 func (r observer) registerInt64(id observableID[int64]) {
+=======
+	float64 map[observablID[float64]]struct{}
+	int64   map[observablID[int64]]struct{}
+}
+
+func newObserver() observer {
+	return observer{
+		float64: make(map[observablID[float64]]struct{}),
+		int64:   make(map[observablID[int64]]struct{}),
+	}
+}
+
+func (r observer) len() int {
+	return len(r.float64) + len(r.int64)
+}
+
+func (r observer) registerFloat64(id observablID[float64]) {
+	r.float64[id] = struct{}{}
+}
+
+func (r observer) registerInt64(id observablID[int64]) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	r.int64[id] = struct{}{}
 }
 
@@ -538,12 +608,29 @@ func (r observer) ObserveFloat64(o metric.Float64Observable, v float64, opts ...
 	switch conv := o.(type) {
 	case float64Observable:
 		oImpl = conv
+<<<<<<< HEAD
+=======
+	case interface {
+		Unwrap() metric.Observable
+	}:
+		// Unwrap any global.
+		async := conv.Unwrap()
+		var ok bool
+		if oImpl, ok = async.(float64Observable); !ok {
+			global.Error(errUnknownObserver, "failed to record asynchronous")
+			return
+		}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		global.Error(errUnknownObserver, "failed to record")
 		return
 	}
 
+<<<<<<< HEAD
 	if _, registered := r.float64[oImpl.observableID]; !registered {
+=======
+	if _, registered := r.float64[oImpl.observablID]; !registered {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if !oImpl.dropAggregation {
 			global.Error(errUnregObserver, "failed to record",
 				"name", oImpl.name,
@@ -555,12 +642,16 @@ func (r observer) ObserveFloat64(o metric.Float64Observable, v float64, opts ...
 		return
 	}
 	c := metric.NewObserveConfig(opts)
+<<<<<<< HEAD
 	// Access to r.pipe.float64Measure is already guarded by a lock in pipeline.produce.
 	// TODO (#5946): Refactor pipeline and observable measures.
 	measures := r.pipe.float64Measures[oImpl.observableID]
 	for _, m := range measures {
 		m(context.Background(), v, c.Attributes())
 	}
+=======
+	oImpl.observe(v, c.Attributes())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (r observer) ObserveInt64(o metric.Int64Observable, v int64, opts ...metric.ObserveOption) {
@@ -568,12 +659,29 @@ func (r observer) ObserveInt64(o metric.Int64Observable, v int64, opts ...metric
 	switch conv := o.(type) {
 	case int64Observable:
 		oImpl = conv
+<<<<<<< HEAD
+=======
+	case interface {
+		Unwrap() metric.Observable
+	}:
+		// Unwrap any global.
+		async := conv.Unwrap()
+		var ok bool
+		if oImpl, ok = async.(int64Observable); !ok {
+			global.Error(errUnknownObserver, "failed to record asynchronous")
+			return
+		}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		global.Error(errUnknownObserver, "failed to record")
 		return
 	}
 
+<<<<<<< HEAD
 	if _, registered := r.int64[oImpl.observableID]; !registered {
+=======
+	if _, registered := r.int64[oImpl.observablID]; !registered {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if !oImpl.dropAggregation {
 			global.Error(errUnregObserver, "failed to record",
 				"name", oImpl.name,
@@ -585,12 +693,16 @@ func (r observer) ObserveInt64(o metric.Int64Observable, v int64, opts ...metric
 		return
 	}
 	c := metric.NewObserveConfig(opts)
+<<<<<<< HEAD
 	// Access to r.pipe.int64Measures is already guarded b a lock in pipeline.produce.
 	// TODO (#5946): Refactor pipeline and observable measures.
 	measures := r.pipe.int64Measures[oImpl.observableID]
 	for _, m := range measures {
 		m(context.Background(), v, c.Attributes())
 	}
+=======
+	oImpl.observe(v, c.Attributes())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type noopRegister struct{ embedded.Registration }

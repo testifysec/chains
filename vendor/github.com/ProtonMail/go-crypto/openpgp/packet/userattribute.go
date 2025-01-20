@@ -9,6 +9,10 @@ import (
 	"image"
 	"image/jpeg"
 	"io"
+<<<<<<< HEAD
+=======
+	"io/ioutil"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const UserAttrImageSubpacket = 1
@@ -62,7 +66,11 @@ func NewUserAttribute(contents ...*OpaqueSubpacket) *UserAttribute {
 
 func (uat *UserAttribute) parse(r io.Reader) (err error) {
 	// RFC 4880, section 5.13
+<<<<<<< HEAD
 	b, err := io.ReadAll(r)
+=======
+	b, err := ioutil.ReadAll(r)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return
 	}

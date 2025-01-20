@@ -1,9 +1,13 @@
 package credentials
 
+<<<<<<< HEAD
 import (
 	"errors"
 	"strings"
 )
+=======
+import "errors"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 const (
 	// ErrCredentialsNotFound standardizes the not found error, so every helper returns
@@ -50,7 +54,11 @@ func IsErrCredentialsNotFound(err error) bool {
 // This function helps to check messages returned by an
 // external program via its standard output.
 func IsErrCredentialsNotFoundMessage(err string) bool {
+<<<<<<< HEAD
 	return strings.TrimSpace(err) == errCredentialsNotFoundMessage
+=======
+	return err == errCredentialsNotFoundMessage
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // errCredentialsMissingServerURL represents an error raised
@@ -107,7 +115,11 @@ func IsCredentialsMissingServerURL(err error) bool {
 // IsCredentialsMissingServerURLMessage checks for an
 // errCredentialsMissingServerURL in the error message.
 func IsCredentialsMissingServerURLMessage(err string) bool {
+<<<<<<< HEAD
 	return strings.TrimSpace(err) == errCredentialsMissingServerURLMessage
+=======
+	return err == errCredentialsMissingServerURLMessage
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // IsCredentialsMissingUsername returns true if the error
@@ -120,5 +132,9 @@ func IsCredentialsMissingUsername(err error) bool {
 // IsCredentialsMissingUsernameMessage checks for an
 // errCredentialsMissingUsername in the error message.
 func IsCredentialsMissingUsernameMessage(err string) bool {
+<<<<<<< HEAD
 	return strings.TrimSpace(err) == errCredentialsMissingUsernameMessage
+=======
+	return err == errCredentialsMissingUsernameMessage
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

@@ -1,13 +1,19 @@
 package commands
 
 import (
+<<<<<<< HEAD
 	"encoding/json"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"fmt"
 	"slices"
 	"sort"
 	"strings"
+<<<<<<< HEAD
 	"unicode"
 	"unicode/utf8"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
@@ -18,6 +24,7 @@ import (
 	"github.com/golangci/golangci-lint/pkg/logutils"
 )
 
+<<<<<<< HEAD
 type linterHelp struct {
 	Name             string   `json:"name"`
 	Desc             string   `json:"description"`
@@ -39,6 +46,11 @@ type helpCommand struct {
 
 	opts helpOptions
 
+=======
+type helpCommand struct {
+	cmd *cobra.Command
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	dbManager *lintersdb.Manager
 
 	log logutils.Log
@@ -56,6 +68,7 @@ func newHelpCommand(logger logutils.Log) *helpCommand {
 		},
 	}
 
+<<<<<<< HEAD
 	lintersCmd := &cobra.Command{
 		Use:               "linters",
 		Short:             "Help about linters",
@@ -71,6 +84,18 @@ func newHelpCommand(logger logutils.Log) *helpCommand {
 	fs.SortFlags = false // sort them as they are defined here
 
 	fs.BoolVar(&c.opts.JSON, "json", false, color.GreenString("Display as JSON"))
+=======
+	helpCmd.AddCommand(
+		&cobra.Command{
+			Use:               "linters",
+			Short:             "Help about linters",
+			Args:              cobra.NoArgs,
+			ValidArgsFunction: cobra.NoFileCompletions,
+			Run:               c.execute,
+			PreRunE:           c.preRunE,
+		},
+	)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	c.cmd = helpCmd
 
@@ -90,6 +115,7 @@ func (c *helpCommand) preRunE(_ *cobra.Command, _ []string) error {
 	return nil
 }
 
+<<<<<<< HEAD
 func (c *helpCommand) execute(_ *cobra.Command, _ []string) error {
 	if c.opts.JSON {
 		return c.printJSON()
@@ -125,6 +151,9 @@ func (c *helpCommand) printJSON() error {
 }
 
 func (c *helpCommand) print() {
+=======
+func (c *helpCommand) execute(_ *cobra.Command, _ []string) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	var enabledLCs, disabledLCs []*linter.Config
 	for _, lc := range c.dbManager.GetAllSupportedLinterConfigs() {
 		if lc.Internal {
@@ -184,13 +213,23 @@ func printLinters(lcs []*linter.Config) {
 	})
 
 	for _, lc := range lcs {
+<<<<<<< HEAD
 		desc := formatDescription(lc.Linter.Desc())
+=======
+		// If the linter description spans multiple lines, truncate everything following the first newline
+		linterDescription := lc.Linter.Desc()
+		firstNewline := strings.IndexRune(linterDescription, '\n')
+		if firstNewline > 0 {
+			linterDescription = linterDescription[:firstNewline]
+		}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 		deprecatedMark := ""
 		if lc.IsDeprecated() {
 			deprecatedMark = " [" + color.RedString("deprecated") + "]"
 		}
 
+<<<<<<< HEAD
 		var capabilities []string
 		if !lc.IsSlowLinter() {
 			capabilities = append(capabilities, color.BlueString("fast"))
@@ -227,3 +266,9 @@ func formatDescription(desc string) string {
 
 	return string(rawDesc)
 }
+=======
+		_, _ = fmt.Fprintf(logutils.StdOut, "%s%s: %s [fast: %t, auto-fix: %t]\n",
+			color.YellowString(lc.Name()), deprecatedMark, linterDescription, !lc.IsSlowLinter(), lc.CanAutoFix)
+	}
+}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

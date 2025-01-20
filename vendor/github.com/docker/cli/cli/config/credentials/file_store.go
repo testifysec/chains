@@ -25,6 +25,7 @@ func NewFileStore(file store) Store {
 	return &fileStore{file: file}
 }
 
+<<<<<<< HEAD
 // Erase removes the given credentials from the file store.This function is
 // idempotent and does not update the file if credentials did not change.
 func (c *fileStore) Erase(serverAddress string) error {
@@ -32,6 +33,10 @@ func (c *fileStore) Erase(serverAddress string) error {
 		// nothing to do; no credentials found for the given serverAddress
 		return nil
 	}
+=======
+// Erase removes the given credentials from the file store.
+func (c *fileStore) Erase(serverAddress string) error {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	delete(c.file.GetAuthConfigs(), serverAddress)
 	return c.file.Save()
 }
@@ -57,6 +62,7 @@ func (c *fileStore) GetAll() (map[string]types.AuthConfig, error) {
 	return c.file.GetAuthConfigs(), nil
 }
 
+<<<<<<< HEAD
 // Store saves the given credentials in the file store. This function is
 // idempotent and does not update the file if credentials did not change.
 func (c *fileStore) Store(authConfig types.AuthConfig) error {
@@ -65,6 +71,11 @@ func (c *fileStore) Store(authConfig types.AuthConfig) error {
 		// Credentials didn't change, so skip updating the configuration file.
 		return nil
 	}
+=======
+// Store saves the given credentials in the file store.
+func (c *fileStore) Store(authConfig types.AuthConfig) error {
+	authConfigs := c.file.GetAuthConfigs()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	authConfigs[authConfig.ServerAddress] = authConfig
 	return c.file.Save()
 }

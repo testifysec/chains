@@ -19,7 +19,10 @@ package containers
 import (
 	"fmt"
 	"strings"
+<<<<<<< HEAD
 	"unicode"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"github.com/google/cel-go/common/ast"
 )
@@ -213,6 +216,7 @@ type ContainerOption func(*Container) (*Container, error)
 func Abbrevs(qualifiedNames ...string) ContainerOption {
 	return func(c *Container) (*Container, error) {
 		for _, qn := range qualifiedNames {
+<<<<<<< HEAD
 			qn = strings.TrimSpace(qn)
 			for _, r := range qn {
 				if !isIdentifierChar(r) {
@@ -220,6 +224,8 @@ func Abbrevs(qualifiedNames ...string) ContainerOption {
 						"invalid qualified name: %s, wanted name of the form 'qualified.name'", qn)
 				}
 			}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			ind := strings.LastIndex(qn, ".")
 			if ind <= 0 || ind >= len(qn)-1 {
 				return nil, fmt.Errorf(
@@ -286,10 +292,13 @@ func aliasAs(kind, qualifiedName, alias string) ContainerOption {
 	}
 }
 
+<<<<<<< HEAD
 func isIdentifierChar(r rune) bool {
 	return r <= unicode.MaxASCII && (r == '.' || r == '_' || unicode.IsLetter(r) || unicode.IsNumber(r))
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Name sets the fully-qualified name of the Container.
 func Name(name string) ContainerOption {
 	return func(c *Container) (*Container, error) {

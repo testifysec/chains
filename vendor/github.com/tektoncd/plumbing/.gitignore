@@ -13,9 +13,12 @@
 
 **/.bin
 **/.DS_Store
+<<<<<<< HEAD
 
 # Release
 **/source.tar.gz
 tekton/**/.ko.yaml
 tekton/**/vendor/
 .release-*/
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

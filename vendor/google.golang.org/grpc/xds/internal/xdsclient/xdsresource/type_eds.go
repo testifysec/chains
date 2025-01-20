@@ -49,7 +49,11 @@ const (
 
 // Endpoint contains information of an endpoint.
 type Endpoint struct {
+<<<<<<< HEAD
 	Addresses    []string
+=======
+	Address      string
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	HealthStatus EndpointHealthStatus
 	Weight       uint32
 }

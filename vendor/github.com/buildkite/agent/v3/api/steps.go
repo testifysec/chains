@@ -54,6 +54,7 @@ func (c *Client) StepUpdate(ctx context.Context, stepIdOrKey string, stepUpdate 
 
 	return c.doRequest(req, nil)
 }
+<<<<<<< HEAD
 
 type StepCancel struct {
 	Build                   string `json:"build_id"`
@@ -82,3 +83,5 @@ func (c *Client) StepCancel(ctx context.Context, stepIdOrKey string, stepCancel 
 
 	return stepCancelResponse, resp, nil
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

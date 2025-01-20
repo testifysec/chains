@@ -1,2 +1,5 @@
 bazel-*
+<<<<<<< HEAD
 MODULE.bazel.lock
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

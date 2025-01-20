@@ -160,7 +160,11 @@ type FlagSet struct {
 	args              []string // arguments after flags
 	argsLenAtDash     int      // len(args) when a '--' was located when parsing, or -1 if no --
 	errorHandling     ErrorHandling
+<<<<<<< HEAD
 	output            io.Writer // nil means stderr; use Output() accessor
+=======
+	output            io.Writer // nil means stderr; use out() accessor
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	interspersed      bool      // allow interspersed option/non-option args
 	normalizeNameFunc func(f *FlagSet, name string) NormalizedName
 
@@ -255,20 +259,27 @@ func (f *FlagSet) normalizeFlagName(name string) NormalizedName {
 	return n(f, name)
 }
 
+<<<<<<< HEAD
 // Output returns the destination for usage and error messages. os.Stderr is returned if
 // output was not set or was set to nil.
 func (f *FlagSet) Output() io.Writer {
+=======
+func (f *FlagSet) out() io.Writer {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if f.output == nil {
 		return os.Stderr
 	}
 	return f.output
 }
 
+<<<<<<< HEAD
 // Name returns the name of the flag set.
 func (f *FlagSet) Name() string {
 	return f.name
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // SetOutput sets the destination for usage and error messages.
 // If output is nil, os.Stderr is used.
 func (f *FlagSet) SetOutput(output io.Writer) {
@@ -365,7 +376,11 @@ func (f *FlagSet) ShorthandLookup(name string) *Flag {
 	}
 	if len(name) > 1 {
 		msg := fmt.Sprintf("can not look up shorthand which is more than one ASCII character: %q", name)
+<<<<<<< HEAD
 		fmt.Fprintf(f.Output(), msg)
+=======
+		fmt.Fprintf(f.out(), msg)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		panic(msg)
 	}
 	c := name[0]
@@ -489,7 +504,11 @@ func (f *FlagSet) Set(name, value string) error {
 	}
 
 	if flag.Deprecated != "" {
+<<<<<<< HEAD
 		fmt.Fprintf(f.Output(), "Flag --%s has been deprecated, %s\n", flag.Name, flag.Deprecated)
+=======
+		fmt.Fprintf(f.out(), "Flag --%s has been deprecated, %s\n", flag.Name, flag.Deprecated)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return nil
 }
@@ -530,7 +549,11 @@ func Set(name, value string) error {
 // otherwise, the default values of all defined flags in the set.
 func (f *FlagSet) PrintDefaults() {
 	usages := f.FlagUsages()
+<<<<<<< HEAD
 	fmt.Fprint(f.Output(), usages)
+=======
+	fmt.Fprint(f.out(), usages)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // defaultIsZeroValue returns true if the default value for this flag represents
@@ -765,7 +788,11 @@ func PrintDefaults() {
 
 // defaultUsage is the default function to print a usage message.
 func defaultUsage(f *FlagSet) {
+<<<<<<< HEAD
 	fmt.Fprintf(f.Output(), "Usage of %s:\n", f.name)
+=======
+	fmt.Fprintf(f.out(), "Usage of %s:\n", f.name)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	f.PrintDefaults()
 }
 
@@ -851,7 +878,11 @@ func (f *FlagSet) AddFlag(flag *Flag) {
 	_, alreadyThere := f.formal[normalizedFlagName]
 	if alreadyThere {
 		msg := fmt.Sprintf("%s flag redefined: %s", f.name, flag.Name)
+<<<<<<< HEAD
 		fmt.Fprintln(f.Output(), msg)
+=======
+		fmt.Fprintln(f.out(), msg)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		panic(msg) // Happens only if flags are declared with identical names
 	}
 	if f.formal == nil {
@@ -867,7 +898,11 @@ func (f *FlagSet) AddFlag(flag *Flag) {
 	}
 	if len(flag.Shorthand) > 1 {
 		msg := fmt.Sprintf("%q shorthand is more than one ASCII character", flag.Shorthand)
+<<<<<<< HEAD
 		fmt.Fprintf(f.Output(), msg)
+=======
+		fmt.Fprintf(f.out(), msg)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		panic(msg)
 	}
 	if f.shorthands == nil {
@@ -877,7 +912,11 @@ func (f *FlagSet) AddFlag(flag *Flag) {
 	used, alreadyThere := f.shorthands[c]
 	if alreadyThere {
 		msg := fmt.Sprintf("unable to redefine %q shorthand in %q flagset: it's already used for %q flag", c, f.name, used.Name)
+<<<<<<< HEAD
 		fmt.Fprintf(f.Output(), msg)
+=======
+		fmt.Fprintf(f.out(), msg)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		panic(msg)
 	}
 	f.shorthands[c] = flag
@@ -916,7 +955,11 @@ func VarP(value Value, name, shorthand, usage string) {
 func (f *FlagSet) failf(format string, a ...interface{}) error {
 	err := fmt.Errorf(format, a...)
 	if f.errorHandling != ContinueOnError {
+<<<<<<< HEAD
 		fmt.Fprintln(f.Output(), err)
+=======
+		fmt.Fprintln(f.out(), err)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		f.usage()
 	}
 	return err
@@ -1067,7 +1110,11 @@ func (f *FlagSet) parseSingleShortArg(shorthands string, args []string, fn parse
 	}
 
 	if flag.ShorthandDeprecated != "" {
+<<<<<<< HEAD
 		fmt.Fprintf(f.Output(), "Flag shorthand -%s has been deprecated, %s\n", flag.Shorthand, flag.ShorthandDeprecated)
+=======
+		fmt.Fprintf(f.out(), "Flag shorthand -%s has been deprecated, %s\n", flag.Shorthand, flag.ShorthandDeprecated)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	err = fn(flag, value)

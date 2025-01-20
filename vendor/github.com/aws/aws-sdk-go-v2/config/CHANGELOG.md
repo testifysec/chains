@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # v1.29.2 (2025-01-24)
 
 * **Bug Fix**: Fix env config naming and usage of deprecated ioutil
@@ -47,6 +48,8 @@
 
 * **Dependency Update**: Updated to the latest SDK module versions
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 # v1.28.3 (2024-11-07)
 
 * **Dependency Update**: Updated to the latest SDK module versions

@@ -29,7 +29,11 @@ func (e inexhaustiveError) Error() string {
 // Names returns a sorted list of names corresponding to the missing variant
 // cases.
 func (e inexhaustiveError) Names() []string {
+<<<<<<< HEAD
 	list := make([]string, 0, len(e.Missing))
+=======
+	var list []string
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, o := range e.Missing {
 		list = append(list, o.Name())
 	}
@@ -92,10 +96,13 @@ func missingVariantsInSwitch(
 ) (*sumTypeDef, []types.Object) {
 	asserted := findTypeAssertExpr(swtch)
 	ty := pkg.TypesInfo.TypeOf(asserted)
+<<<<<<< HEAD
 	if ty == nil {
 		panic(fmt.Sprintf("no type found for asserted expression: %v", asserted))
 	}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	def := findDef(defs, ty)
 	if def == nil {
 		// We couldn't find a corresponding sum type, so there's
@@ -107,11 +114,19 @@ func missingVariantsInSwitch(
 		// A catch-all case defeats all exhaustiveness checks.
 		return def, nil
 	}
+<<<<<<< HEAD
 	variantTypes := make([]types.Type, 0, len(variantExprs))
 	for _, expr := range variantExprs {
 		variantTypes = append(variantTypes, pkg.TypesInfo.TypeOf(expr))
 	}
 	return def, def.missing(variantTypes, config.IncludeSharedInterfaces)
+=======
+	var variantTypes []types.Type
+	for _, expr := range variantExprs {
+		variantTypes = append(variantTypes, pkg.TypesInfo.TypeOf(expr))
+	}
+	return def, def.missing(variantTypes)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // switchVariants returns all case expressions found in a type switch. This

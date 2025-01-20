@@ -9,7 +9,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+<<<<<<< HEAD
 	"io"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"strings"
 	"time"
@@ -223,6 +226,7 @@ func DecodeResponse(target interface{}, res *http.Response) error {
 	}
 	return json.NewDecoder(res.Body).Decode(target)
 }
+<<<<<<< HEAD
 
 // DecodeResponseBytes decodes the body of res into target and returns bytes read
 // from the body. If there is no body, target is unchanged.
@@ -239,3 +243,5 @@ func DecodeResponseBytes(target interface{}, res *http.Response) ([]byte, error)
 	}
 	return b, nil
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

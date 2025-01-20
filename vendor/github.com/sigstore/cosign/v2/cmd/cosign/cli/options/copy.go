@@ -35,7 +35,11 @@ func (o *CopyOptions) AddFlags(cmd *cobra.Command) {
 	o.Registry.AddFlags(cmd)
 
 	cmd.Flags().StringVar(&o.CopyOnly, "only", "",
+<<<<<<< HEAD
 		"custom string array to only copy specific items, this flag is comma delimited. ex: --only=sig,att,sbom")
+=======
+		"custom string array to only copy specific items, this flag is comma delimited. ex: --only=sbom,sign,att")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	cmd.Flags().BoolVar(&o.SignatureOnly, "sig-only", false,
 		"[DEPRECATED] only copy the image signature")

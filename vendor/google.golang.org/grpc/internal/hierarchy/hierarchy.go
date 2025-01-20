@@ -48,6 +48,7 @@ func (p pathValue) Equal(o any) bool {
 	return true
 }
 
+<<<<<<< HEAD
 // FromEndpoint returns the hierarchical path of endpoint.
 func FromEndpoint(endpoint resolver.Endpoint) []string {
 	path, _ := endpoint.Attributes.Value(pathKey).(pathValue)
@@ -60,6 +61,8 @@ func SetInEndpoint(endpoint resolver.Endpoint, path []string) resolver.Endpoint 
 	return endpoint
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Get returns the hierarchical path of addr.
 func Get(addr resolver.Address) []string {
 	attrs := addr.BalancerAttributes
@@ -122,6 +125,7 @@ func Group(addrs []resolver.Address) map[string][]resolver.Address {
 	}
 	return ret
 }
+<<<<<<< HEAD
 
 // GroupEndpoints splits a slice of endpoints into groups based on
 // the first hierarchy path. The first hierarchy path will be removed from the
@@ -169,3 +173,5 @@ func GroupEndpoints(endpoints []resolver.Endpoint) map[string][]resolver.Endpoin
 	}
 	return ret
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

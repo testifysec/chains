@@ -20,7 +20,10 @@ import (
 	"crypto/x509"
 	"errors"
 	"log"
+<<<<<<< HEAD
 	"log/slog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net"
 	"net/http"
 	"net/url"
@@ -64,7 +67,10 @@ type Options struct {
 	UniverseDomain          string
 	EnableDirectPath        bool
 	EnableDirectPathXds     bool
+<<<<<<< HEAD
 	Logger                  *slog.Logger
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // getUniverseDomain returns the default service domain for a given Cloud
@@ -265,8 +271,13 @@ func getTransportConfig(opts *Options) (*transportConfig, error) {
 		return &defaultTransportConfig, nil
 	}
 
+<<<<<<< HEAD
 	s2aAddress := GetS2AAddress(opts.Logger)
 	mtlsS2AAddress := GetMTLSS2AAddress(opts.Logger)
+=======
+	s2aAddress := GetS2AAddress()
+	mtlsS2AAddress := GetMTLSS2AAddress()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if s2aAddress == "" && mtlsS2AAddress == "" {
 		return &defaultTransportConfig, nil
 	}

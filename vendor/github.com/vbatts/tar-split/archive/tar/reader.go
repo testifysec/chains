@@ -56,11 +56,14 @@ func (tr *Reader) RawBytes() []byte {
 
 }
 
+<<<<<<< HEAD
 // ExpectedPadding returns the number of bytes of padding expected after the last header returned by Next()
 func (tr *Reader) ExpectedPadding() int64 {
 	return tr.pad
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // NewReader creates a new Reader reading from r.
 func NewReader(r io.Reader) *Reader {
 	return &Reader{r: r, curr: &regFileReader{r, 0}}

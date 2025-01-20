@@ -7,13 +7,19 @@ package packet
 import (
 	"bytes"
 	"crypto/cipher"
+<<<<<<< HEAD
 	"crypto/sha256"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"io"
 	"strconv"
 
 	"github.com/ProtonMail/go-crypto/openpgp/errors"
 	"github.com/ProtonMail/go-crypto/openpgp/s2k"
+<<<<<<< HEAD
 	"golang.org/x/crypto/hkdf"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // This is the largest session key that we'll support. Since at most 256-bit cipher
@@ -41,6 +47,7 @@ func (ske *SymmetricKeyEncrypted) parse(r io.Reader) error {
 		return err
 	}
 	ske.Version = int(buf[0])
+<<<<<<< HEAD
 	if ske.Version != 4 && ske.Version != 5 && ske.Version != 6 {
 		return errors.UnsupportedError("unknown SymmetricKeyEncrypted version")
 	}
@@ -56,6 +63,12 @@ func (ske *SymmetricKeyEncrypted) parse(r io.Reader) error {
 		}
 	}
 
+=======
+	if ske.Version != 4 && ske.Version != 5 {
+		return errors.UnsupportedError("unknown SymmetricKeyEncrypted version")
+	}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Cipher function
 	if _, err := readFull(r, buf[:]); err != nil {
 		return err
@@ -65,7 +78,11 @@ func (ske *SymmetricKeyEncrypted) parse(r io.Reader) error {
 		return errors.UnsupportedError("unknown cipher: " + strconv.Itoa(int(buf[0])))
 	}
 
+<<<<<<< HEAD
 	if ske.Version >= 5 {
+=======
+	if ske.Version == 5 {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// AEAD mode
 		if _, err := readFull(r, buf[:]); err != nil {
 			return errors.StructuralError("cannot read AEAD octet from packet")
@@ -73,6 +90,7 @@ func (ske *SymmetricKeyEncrypted) parse(r io.Reader) error {
 		ske.Mode = AEADMode(buf[0])
 	}
 
+<<<<<<< HEAD
 	if ske.Version > 5 {
 		// Scalar octet count
 		if _, err := readFull(r, buf[:]); err != nil {
@@ -80,6 +98,8 @@ func (ske *SymmetricKeyEncrypted) parse(r io.Reader) error {
 		}
 	}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	var err error
 	if ske.s2k, err = s2k.Parse(r); err != nil {
 		if _, ok := err.(errors.ErrDummyPrivateKey); ok {
@@ -88,7 +108,11 @@ func (ske *SymmetricKeyEncrypted) parse(r io.Reader) error {
 		return err
 	}
 
+<<<<<<< HEAD
 	if ske.Version >= 5 {
+=======
+	if ske.Version == 5 {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// AEAD IV
 		iv := make([]byte, ske.Mode.IvLength())
 		_, err := readFull(r, iv)
@@ -129,8 +153,13 @@ func (ske *SymmetricKeyEncrypted) Decrypt(passphrase []byte) ([]byte, CipherFunc
 	case 4:
 		plaintextKey, cipherFunc, err := ske.decryptV4(key)
 		return plaintextKey, cipherFunc, err
+<<<<<<< HEAD
 	case 5, 6:
 		plaintextKey, err := ske.aeadDecrypt(ske.Version, key)
+=======
+	case 5:
+		plaintextKey, err := ske.decryptV5(key)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return plaintextKey, CipherFunction(0), err
 	}
 	err := errors.UnsupportedError("unknown SymmetricKeyEncrypted version")
@@ -156,9 +185,15 @@ func (ske *SymmetricKeyEncrypted) decryptV4(key []byte) ([]byte, CipherFunction,
 	return plaintextKey, cipherFunc, nil
 }
 
+<<<<<<< HEAD
 func (ske *SymmetricKeyEncrypted) aeadDecrypt(version int, key []byte) ([]byte, error) {
 	adata := []byte{0xc3, byte(version), byte(ske.CipherFunc), byte(ske.Mode)}
 	aead := getEncryptedKeyAeadInstance(ske.CipherFunc, ske.Mode, key, adata, version)
+=======
+func (ske *SymmetricKeyEncrypted) decryptV5(key []byte) ([]byte, error) {
+	adata := []byte{0xc3, byte(5), byte(ske.CipherFunc), byte(ske.Mode)}
+	aead := getEncryptedKeyAeadInstance(ske.CipherFunc, ske.Mode, key, adata)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	plaintextKey, err := aead.Open(nil, ske.iv, ske.encryptedKey, adata)
 	if err != nil {
@@ -195,6 +230,7 @@ func SerializeSymmetricKeyEncrypted(w io.Writer, passphrase []byte, config *Conf
 // the given passphrase. The returned session key must be passed to
 // SerializeSymmetricallyEncrypted.
 // If config is nil, sensible defaults will be used.
+<<<<<<< HEAD
 // Deprecated: Use SerializeSymmetricKeyEncryptedAEADReuseKey instead.
 func SerializeSymmetricKeyEncryptedReuseKey(w io.Writer, sessionKey []byte, passphrase []byte, config *Config) (err error) {
 	return SerializeSymmetricKeyEncryptedAEADReuseKey(w, sessionKey, passphrase, config.AEAD() != nil, config)
@@ -211,6 +247,12 @@ func SerializeSymmetricKeyEncryptedAEADReuseKey(w io.Writer, sessionKey []byte, 
 	var version int
 	if aeadSupported {
 		version = 6
+=======
+func SerializeSymmetricKeyEncryptedReuseKey(w io.Writer, sessionKey []byte, passphrase []byte, config *Config) (err error) {
+	var version int
+	if config.AEAD() != nil {
+		version = 5
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	} else {
 		version = 4
 	}
@@ -235,15 +277,22 @@ func SerializeSymmetricKeyEncryptedAEADReuseKey(w io.Writer, sessionKey []byte, 
 	switch version {
 	case 4:
 		packetLength = 2 /* header */ + len(s2kBytes) + 1 /* cipher type */ + keySize
+<<<<<<< HEAD
 	case 5, 6:
+=======
+	case 5:
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		ivLen := config.AEAD().Mode().IvLength()
 		tagLen := config.AEAD().Mode().TagLength()
 		packetLength = 3 + len(s2kBytes) + ivLen + keySize + tagLen
 	}
+<<<<<<< HEAD
 	if version > 5 {
 		packetLength += 2 // additional octet count fields
 	}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	err = serializeHeader(w, packetTypeSymmetricKeyEncrypted, packetLength)
 	if err != nil {
 		return
@@ -252,6 +301,7 @@ func SerializeSymmetricKeyEncryptedAEADReuseKey(w io.Writer, sessionKey []byte, 
 	// Symmetric Key Encrypted Version
 	buf := []byte{byte(version)}
 
+<<<<<<< HEAD
 	if version > 5 {
 		// Scalar octet count
 		buf = append(buf, byte(3+len(s2kBytes)+config.AEAD().Mode().IvLength()))
@@ -268,6 +318,15 @@ func SerializeSymmetricKeyEncryptedAEADReuseKey(w io.Writer, sessionKey []byte, 
 		// Scalar octet count
 		buf = append(buf, byte(len(s2kBytes)))
 	}
+=======
+	// Cipher function
+	buf = append(buf, byte(cipherFunc))
+
+	if version == 5 {
+		// AEAD mode
+		buf = append(buf, byte(config.AEAD().Mode()))
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	_, err = w.Write(buf)
 	if err != nil {
 		return
@@ -288,10 +347,17 @@ func SerializeSymmetricKeyEncryptedAEADReuseKey(w io.Writer, sessionKey []byte, 
 		if err != nil {
 			return
 		}
+<<<<<<< HEAD
 	case 5, 6:
 		mode := config.AEAD().Mode()
 		adata := []byte{0xc3, byte(version), byte(cipherFunc), byte(mode)}
 		aead := getEncryptedKeyAeadInstance(cipherFunc, mode, keyEncryptingKey, adata, version)
+=======
+	case 5:
+		mode := config.AEAD().Mode()
+		adata := []byte{0xc3, byte(5), byte(cipherFunc), byte(mode)}
+		aead := getEncryptedKeyAeadInstance(cipherFunc, mode, keyEncryptingKey, adata)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 		// Sample iv using random reader
 		iv := make([]byte, config.AEAD().Mode().IvLength())
@@ -315,6 +381,7 @@ func SerializeSymmetricKeyEncryptedAEADReuseKey(w io.Writer, sessionKey []byte, 
 	return
 }
 
+<<<<<<< HEAD
 func getEncryptedKeyAeadInstance(c CipherFunction, mode AEADMode, inputKey, associatedData []byte, version int) (aead cipher.AEAD) {
 	var blockCipher cipher.Block
 	if version > 5 {
@@ -327,5 +394,9 @@ func getEncryptedKeyAeadInstance(c CipherFunction, mode AEADMode, inputKey, asso
 	} else {
 		blockCipher = c.new(inputKey)
 	}
+=======
+func getEncryptedKeyAeadInstance(c CipherFunction, mode AEADMode, inputKey, associatedData []byte) (aead cipher.AEAD) {
+	blockCipher := c.new(inputKey)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return mode.new(blockCipher)
 }

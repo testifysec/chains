@@ -19,11 +19,19 @@ const valueInEventually = "use a function call in %[1]s. This actually checks no
 type AsyncFuncCallRule struct{}
 
 func (r AsyncFuncCallRule) isApplied(gexp *expression.GomegaExpression, config types.Config) bool {
+<<<<<<< HEAD
 	if config.SuppressAsync || !gexp.IsAsync() {
 		return false
 	}
 
 	if asyncArg := gexp.GetAsyncActualArg(); asyncArg != nil {
+=======
+	if bool(config.SuppressAsync) || !gexp.IsAsync() {
+		return false
+	}
+
+	if asyncArg := gexp.GetAsyncActualArg(); asyncRules != nil {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return !asyncArg.IsValid()
 	}
 

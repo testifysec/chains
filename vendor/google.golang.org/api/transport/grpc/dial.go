@@ -22,6 +22,10 @@ import (
 	"cloud.google.com/go/auth/grpctransport"
 	"cloud.google.com/go/auth/oauth2adapt"
 	"cloud.google.com/go/compute/metadata"
+<<<<<<< HEAD
+=======
+	"go.opencensus.io/plugin/ocgrpc"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"golang.org/x/oauth2"
 	"golang.org/x/time/rate"
@@ -235,7 +239,10 @@ func dialPoolNewAuth(ctx context.Context, secure bool, poolSize int, ds *interna
 			Audience:        aud,
 			CredentialsFile: ds.CredentialsFile,
 			CredentialsJSON: ds.CredentialsJSON,
+<<<<<<< HEAD
 			Logger:          ds.Logger,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		},
 		InternalOptions: &grpctransport.InternalOptions{
 			EnableNonDefaultSAForDirectPath: ds.AllowNonDefaultServiceAccount,
@@ -249,7 +256,10 @@ func dialPoolNewAuth(ctx context.Context, secure bool, poolSize int, ds *interna
 			SkipValidation:                  skipValidation,
 		},
 		UniverseDomain: ds.UniverseDomain,
+<<<<<<< HEAD
 		Logger:         ds.Logger,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	})
 	return pool, err
 }
@@ -386,6 +396,10 @@ func dial(ctx context.Context, insecure bool, o *internal.DialSettings) (*grpc.C
 	// Add tracing, but before the other options, so that clients can override the
 	// gRPC stats handler.
 	// This assumes that gRPC options are processed in order, left to right.
+<<<<<<< HEAD
+=======
+	grpcOpts = addOCStatsHandler(grpcOpts, o)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	grpcOpts = addOpenTelemetryStatsHandler(grpcOpts, o)
 	grpcOpts = append(grpcOpts, o.GRPCDialOpts...)
 	if o.UserAgent != "" {
@@ -395,6 +409,16 @@ func dial(ctx context.Context, insecure bool, o *internal.DialSettings) (*grpc.C
 	return dialContext(ctx, endpoint, grpcOpts...)
 }
 
+<<<<<<< HEAD
+=======
+func addOCStatsHandler(opts []grpc.DialOption, settings *internal.DialSettings) []grpc.DialOption {
+	if settings.TelemetryDisabled {
+		return opts
+	}
+	return append(opts, grpc.WithStatsHandler(&ocgrpc.ClientHandler{}))
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func addOpenTelemetryStatsHandler(opts []grpc.DialOption, settings *internal.DialSettings) []grpc.DialOption {
 	if settings.TelemetryDisabled {
 		return opts

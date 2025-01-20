@@ -42,9 +42,15 @@ func (r NilCompareRule) isApplied(gexp *expression.GomegaExpression, config type
 		return false, false
 	}
 
+<<<<<<< HEAD
 	isErr := actl.IsError() && !config.SuppressErr
 
 	if !isErr && config.SuppressNil {
+=======
+	isErr := actl.IsError() && !bool(config.SuppressErr)
+
+	if !isErr && bool(config.SuppressNil) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return isErr, false
 	}
 

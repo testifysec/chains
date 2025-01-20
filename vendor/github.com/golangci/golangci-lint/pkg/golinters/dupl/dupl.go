@@ -54,7 +54,13 @@ func New(settings *config.DuplSettings) *goanalysis.Linter {
 }
 
 func runDupl(pass *analysis.Pass, settings *config.DuplSettings) ([]goanalysis.Issue, error) {
+<<<<<<< HEAD
 	issues, err := duplAPI.Run(internal.GetGoFileNames(pass), settings.Threshold)
+=======
+	fileNames := internal.GetFileNames(pass)
+
+	issues, err := duplAPI.Run(fileNames, settings.Threshold)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}

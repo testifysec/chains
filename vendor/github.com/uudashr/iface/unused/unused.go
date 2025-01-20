@@ -48,8 +48,12 @@ func (r *runner) run(pass *analysis.Pass) (interface{}, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 
 	// Collect all interface type declarations
+<<<<<<< HEAD
 	ifaceDecls := make(map[string]*ast.TypeSpec)
 	genDecls := make(map[string]*ast.GenDecl) // ifaceName -> GenDecl
+=======
+	ifaceDecls := make(map[string]token.Pos)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	nodeFilter := []ast.Node{
 		(*ast.GenDecl)(nil),
@@ -81,7 +85,11 @@ func (r *runner) run(pass *analysis.Pass) (interface{}, error) {
 
 			_, ok = ts.Type.(*ast.InterfaceType)
 			if !ok {
+<<<<<<< HEAD
 				continue
+=======
+				return
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 
 			if r.debug {
@@ -94,8 +102,12 @@ func (r *runner) run(pass *analysis.Pass) (interface{}, error) {
 				continue
 			}
 
+<<<<<<< HEAD
 			ifaceDecls[ts.Name.Name] = ts
 			genDecls[ts.Name.Name] = decl
+=======
+			ifaceDecls[ts.Name.Name] = ts.Pos()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	})
 
@@ -119,24 +131,33 @@ func (r *runner) run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
+<<<<<<< HEAD
 		ts, ok := ifaceDecls[ident.Name]
 		if !ok {
 			return
 		}
 
 		if ts.Pos() == ident.Pos() {
+=======
+		pos := ifaceDecls[ident.Name]
+		if pos == ident.Pos() {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			// The identifier is the interface type declaration
 			return
 		}
 
 		delete(ifaceDecls, ident.Name)
+<<<<<<< HEAD
 		delete(genDecls, ident.Name)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	})
 
 	if r.debug {
 		fmt.Printf("Package %s %s\n", pass.Pkg.Path(), pass.Pkg.Name())
 	}
 
+<<<<<<< HEAD
 	for name, ts := range ifaceDecls {
 		decl := genDecls[name]
 
@@ -164,6 +185,10 @@ func (r *runner) run(pass *analysis.Pass) (interface{}, error) {
 				},
 			},
 		})
+=======
+	for name, pos := range ifaceDecls {
+		pass.Reportf(pos, "interface %s is declared but not used within the package", name)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	return nil, nil

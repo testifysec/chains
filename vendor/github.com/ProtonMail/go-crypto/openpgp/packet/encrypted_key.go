@@ -5,11 +5,17 @@
 package packet
 
 import (
+<<<<<<< HEAD
 	"bytes"
 	"crypto"
 	"crypto/rsa"
 	"encoding/binary"
 	"encoding/hex"
+=======
+	"crypto"
+	"crypto/rsa"
+	"encoding/binary"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"io"
 	"math/big"
 	"strconv"
@@ -18,6 +24,7 @@ import (
 	"github.com/ProtonMail/go-crypto/openpgp/elgamal"
 	"github.com/ProtonMail/go-crypto/openpgp/errors"
 	"github.com/ProtonMail/go-crypto/openpgp/internal/encoding"
+<<<<<<< HEAD
 	"github.com/ProtonMail/go-crypto/openpgp/x25519"
 	"github.com/ProtonMail/go-crypto/openpgp/x448"
 )
@@ -97,6 +104,34 @@ func (e *EncryptedKey) parse(r io.Reader) (err error) {
 	}
 	e.Algo = PublicKeyAlgorithm(buf[0])
 	var cipherFunction byte
+=======
+)
+
+const encryptedKeyVersion = 3
+
+// EncryptedKey represents a public-key encrypted session key. See RFC 4880,
+// section 5.1.
+type EncryptedKey struct {
+	KeyId      uint64
+	Algo       PublicKeyAlgorithm
+	CipherFunc CipherFunction // only valid after a successful Decrypt for a v3 packet
+	Key        []byte         // only valid after a successful Decrypt
+
+	encryptedMPI1, encryptedMPI2 encoding.Field
+}
+
+func (e *EncryptedKey) parse(r io.Reader) (err error) {
+	var buf [10]byte
+	_, err = readFull(r, buf[:])
+	if err != nil {
+		return
+	}
+	if buf[0] != encryptedKeyVersion {
+		return errors.UnsupportedError("unknown EncryptedKey version " + strconv.Itoa(int(buf[0])))
+	}
+	e.KeyId = binary.BigEndian.Uint64(buf[1:9])
+	e.Algo = PublicKeyAlgorithm(buf[9])
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	switch e.Algo {
 	case PubKeyAlgoRSA, PubKeyAlgoRSAEncryptOnly:
 		e.encryptedMPI1 = new(encoding.MPI)
@@ -123,6 +158,7 @@ func (e *EncryptedKey) parse(r io.Reader) (err error) {
 		if _, err = e.encryptedMPI2.ReadFrom(r); err != nil {
 			return
 		}
+<<<<<<< HEAD
 	case PubKeyAlgoX25519:
 		e.ephemeralPublicX25519, e.encryptedSession, cipherFunction, err = x25519.DecodeFields(r, e.Version == 6)
 		if err != nil {
@@ -142,20 +178,40 @@ func (e *EncryptedKey) parse(r io.Reader) (err error) {
 		}
 	}
 
+=======
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	_, err = consumeAll(r)
 	return
 }
 
+<<<<<<< HEAD
+=======
+func checksumKeyMaterial(key []byte) uint16 {
+	var checksum uint16
+	for _, v := range key {
+		checksum += uint16(v)
+	}
+	return checksum
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Decrypt decrypts an encrypted session key with the given private key. The
 // private key must have been decrypted first.
 // If config is nil, sensible defaults will be used.
 func (e *EncryptedKey) Decrypt(priv *PrivateKey, config *Config) error {
+<<<<<<< HEAD
 	if e.Version < 6 && e.KeyId != 0 && e.KeyId != priv.KeyId {
 		return errors.InvalidArgumentError("cannot decrypt encrypted session key for key id " + strconv.FormatUint(e.KeyId, 16) + " with private key id " + strconv.FormatUint(priv.KeyId, 16))
 	}
 	if e.Version == 6 && e.KeyVersion != 0 && !bytes.Equal(e.KeyFingerprint, priv.Fingerprint) {
 		return errors.InvalidArgumentError("cannot decrypt encrypted session key for key fingerprint " + hex.EncodeToString(e.KeyFingerprint) + " with private key fingerprint " + hex.EncodeToString(priv.Fingerprint))
 	}
+=======
+	if e.KeyId != 0 && e.KeyId != priv.KeyId {
+		return errors.InvalidArgumentError("cannot decrypt encrypted session key for key id " + strconv.FormatUint(e.KeyId, 16) + " with private key id " + strconv.FormatUint(priv.KeyId, 16))
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if e.Algo != priv.PubKeyAlgo {
 		return errors.InvalidArgumentError("cannot decrypt encrypted session key of type " + strconv.Itoa(int(e.Algo)) + " with private key of type " + strconv.Itoa(int(priv.PubKeyAlgo)))
 	}
@@ -181,6 +237,7 @@ func (e *EncryptedKey) Decrypt(priv *PrivateKey, config *Config) error {
 		vsG := e.encryptedMPI1.Bytes()
 		m := e.encryptedMPI2.Bytes()
 		oid := priv.PublicKey.oid.EncodedBytes()
+<<<<<<< HEAD
 		fp := priv.PublicKey.Fingerprint[:]
 		if priv.PublicKey.Version == 5 {
 			// For v5 the, the fingerprint must be restricted to 20 bytes
@@ -194,10 +251,18 @@ func (e *EncryptedKey) Decrypt(priv *PrivateKey, config *Config) error {
 	default:
 		err = errors.InvalidArgumentError("cannot decrypt encrypted session key with private key of type " + strconv.Itoa(int(priv.PubKeyAlgo)))
 	}
+=======
+		b, err = ecdh.Decrypt(priv.PrivateKey.(*ecdh.PrivateKey), vsG, m, oid, priv.PublicKey.Fingerprint[:])
+	default:
+		err = errors.InvalidArgumentError("cannot decrypt encrypted session key with private key of type " + strconv.Itoa(int(priv.PubKeyAlgo)))
+	}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return err
 	}
 
+<<<<<<< HEAD
 	var key []byte
 	switch priv.PubKeyAlgo {
 	case PubKeyAlgoRSA, PubKeyAlgoRSAEncryptOnly, PubKeyAlgoElGamal, PubKeyAlgoECDH:
@@ -227,11 +292,26 @@ func (e *EncryptedKey) Decrypt(priv *PrivateKey, config *Config) error {
 		return errors.UnsupportedError("unsupported algorithm for decryption")
 	}
 	e.Key = key
+=======
+	e.CipherFunc = CipherFunction(b[0])
+	if !e.CipherFunc.IsSupported() {
+		return errors.UnsupportedError("unsupported encryption function")
+	}
+
+	e.Key = b[1 : len(b)-2]
+	expectedChecksum := uint16(b[len(b)-2])<<8 | uint16(b[len(b)-1])
+	checksum := checksumKeyMaterial(e.Key)
+	if checksum != expectedChecksum {
+		return errors.StructuralError("EncryptedKey checksum incorrect")
+	}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil
 }
 
 // Serialize writes the encrypted key packet, e, to w.
 func (e *EncryptedKey) Serialize(w io.Writer) error {
+<<<<<<< HEAD
 	var encodedLength int
 	switch e.Algo {
 	case PubKeyAlgoRSA, PubKeyAlgoRSAEncryptOnly:
@@ -244,10 +324,21 @@ func (e *EncryptedKey) Serialize(w io.Writer) error {
 		encodedLength = x25519.EncodedFieldsLength(e.encryptedSession, e.Version == 6)
 	case PubKeyAlgoX448:
 		encodedLength = x448.EncodedFieldsLength(e.encryptedSession, e.Version == 6)
+=======
+	var mpiLen int
+	switch e.Algo {
+	case PubKeyAlgoRSA, PubKeyAlgoRSAEncryptOnly:
+		mpiLen = int(e.encryptedMPI1.EncodedLength())
+	case PubKeyAlgoElGamal:
+		mpiLen = int(e.encryptedMPI1.EncodedLength()) + int(e.encryptedMPI2.EncodedLength())
+	case PubKeyAlgoECDH:
+		mpiLen = int(e.encryptedMPI1.EncodedLength()) + int(e.encryptedMPI2.EncodedLength())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		return errors.InvalidArgumentError("don't know how to serialize encrypted key type " + strconv.Itoa(int(e.Algo)))
 	}
 
+<<<<<<< HEAD
 	packetLen := versionSize /* version */ + keyIdSize /* key id */ + algorithmSize /* algo */ + encodedLength
 	if e.Version == 6 {
 		packetLen = versionSize /* version */ + algorithmSize /* algo */ + encodedLength + keyVersionSize /* key version */
@@ -259,10 +350,14 @@ func (e *EncryptedKey) Serialize(w io.Writer) error {
 	}
 
 	err := serializeHeader(w, packetTypeEncryptedKey, packetLen)
+=======
+	err := serializeHeader(w, packetTypeEncryptedKey, 1 /* version */ +8 /* key id */ +1 /* algo */ +mpiLen)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return err
 	}
 
+<<<<<<< HEAD
 	_, err = w.Write([]byte{byte(e.Version)})
 	if err != nil {
 		return err
@@ -291,6 +386,11 @@ func (e *EncryptedKey) Serialize(w io.Writer) error {
 	if err != nil {
 		return err
 	}
+=======
+	w.Write([]byte{encryptedKeyVersion})
+	binary.Write(w, binary.BigEndian, e.KeyId)
+	w.Write([]byte{byte(e.Algo)})
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	switch e.Algo {
 	case PubKeyAlgoRSA, PubKeyAlgoRSAEncryptOnly:
@@ -308,17 +408,21 @@ func (e *EncryptedKey) Serialize(w io.Writer) error {
 		}
 		_, err := w.Write(e.encryptedMPI2.EncodedBytes())
 		return err
+<<<<<<< HEAD
 	case PubKeyAlgoX25519:
 		err := x25519.EncodeFields(w, e.ephemeralPublicX25519, e.encryptedSession, byte(e.CipherFunc), e.Version == 6)
 		return err
 	case PubKeyAlgoX448:
 		err := x448.EncodeFields(w, e.ephemeralPublicX448, e.encryptedSession, byte(e.CipherFunc), e.Version == 6)
 		return err
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		panic("internal error")
 	}
 }
 
+<<<<<<< HEAD
 // SerializeEncryptedKeyAEAD serializes an encrypted key packet to w that contains
 // key, encrypted to pub.
 // If aeadSupported is set, PKESK v6 is used, otherwise v3.
@@ -417,6 +521,31 @@ func SerializeEncryptedKeyAEADwithHiddenOption(w io.Writer, pub *PublicKey, ciph
 		return serializeEncryptedKeyX25519(w, config.Random(), buf[:lenHeaderWritten], pub.PublicKey.(*x25519.PublicKey), keyBlock, byte(cipherFunc), version)
 	case PubKeyAlgoX448:
 		return serializeEncryptedKeyX448(w, config.Random(), buf[:lenHeaderWritten], pub.PublicKey.(*x448.PublicKey), keyBlock, byte(cipherFunc), version)
+=======
+// SerializeEncryptedKey serializes an encrypted key packet to w that contains
+// key, encrypted to pub.
+// If config is nil, sensible defaults will be used.
+func SerializeEncryptedKey(w io.Writer, pub *PublicKey, cipherFunc CipherFunction, key []byte, config *Config) error {
+	var buf [10]byte
+	buf[0] = encryptedKeyVersion
+	binary.BigEndian.PutUint64(buf[1:9], pub.KeyId)
+	buf[9] = byte(pub.PubKeyAlgo)
+
+	keyBlock := make([]byte, 1 /* cipher type */ +len(key)+2 /* checksum */)
+	keyBlock[0] = byte(cipherFunc)
+	copy(keyBlock[1:], key)
+	checksum := checksumKeyMaterial(key)
+	keyBlock[1+len(key)] = byte(checksum >> 8)
+	keyBlock[1+len(key)+1] = byte(checksum)
+
+	switch pub.PubKeyAlgo {
+	case PubKeyAlgoRSA, PubKeyAlgoRSAEncryptOnly:
+		return serializeEncryptedKeyRSA(w, config.Random(), buf, pub.PublicKey.(*rsa.PublicKey), keyBlock)
+	case PubKeyAlgoElGamal:
+		return serializeEncryptedKeyElGamal(w, config.Random(), buf, pub.PublicKey.(*elgamal.PublicKey), keyBlock)
+	case PubKeyAlgoECDH:
+		return serializeEncryptedKeyECDH(w, config.Random(), buf, pub.PublicKey.(*ecdh.PublicKey), keyBlock, pub.oid, pub.Fingerprint)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case PubKeyAlgoDSA, PubKeyAlgoRSASignOnly:
 		return errors.InvalidArgumentError("cannot encrypt to public key of type " + strconv.Itoa(int(pub.PubKeyAlgo)))
 	}
@@ -424,6 +553,7 @@ func SerializeEncryptedKeyAEADwithHiddenOption(w io.Writer, pub *PublicKey, ciph
 	return errors.UnsupportedError("encrypting a key to public key of type " + strconv.Itoa(int(pub.PubKeyAlgo)))
 }
 
+<<<<<<< HEAD
 // SerializeEncryptedKey serializes an encrypted key packet to w that contains
 // key, encrypted to pub.
 // PKESKv6 is used if config.AEAD() is not nil.
@@ -443,13 +573,20 @@ func SerializeEncryptedKeyWithHiddenOption(w io.Writer, pub *PublicKey, cipherFu
 }
 
 func serializeEncryptedKeyRSA(w io.Writer, rand io.Reader, header []byte, pub *rsa.PublicKey, keyBlock []byte) error {
+=======
+func serializeEncryptedKeyRSA(w io.Writer, rand io.Reader, header [10]byte, pub *rsa.PublicKey, keyBlock []byte) error {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	cipherText, err := rsa.EncryptPKCS1v15(rand, pub, keyBlock)
 	if err != nil {
 		return errors.InvalidArgumentError("RSA encryption failed: " + err.Error())
 	}
 
 	cipherMPI := encoding.NewMPI(cipherText)
+<<<<<<< HEAD
 	packetLen := len(header) /* header length */ + int(cipherMPI.EncodedLength())
+=======
+	packetLen := 10 /* header length */ + int(cipherMPI.EncodedLength())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	err = serializeHeader(w, packetTypeEncryptedKey, packetLen)
 	if err != nil {
@@ -463,13 +600,21 @@ func serializeEncryptedKeyRSA(w io.Writer, rand io.Reader, header []byte, pub *r
 	return err
 }
 
+<<<<<<< HEAD
 func serializeEncryptedKeyElGamal(w io.Writer, rand io.Reader, header []byte, pub *elgamal.PublicKey, keyBlock []byte) error {
+=======
+func serializeEncryptedKeyElGamal(w io.Writer, rand io.Reader, header [10]byte, pub *elgamal.PublicKey, keyBlock []byte) error {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	c1, c2, err := elgamal.Encrypt(rand, pub, keyBlock)
 	if err != nil {
 		return errors.InvalidArgumentError("ElGamal encryption failed: " + err.Error())
 	}
 
+<<<<<<< HEAD
 	packetLen := len(header) /* header length */
+=======
+	packetLen := 10 /* header length */
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	packetLen += 2 /* mpi size */ + (c1.BitLen()+7)/8
 	packetLen += 2 /* mpi size */ + (c2.BitLen()+7)/8
 
@@ -488,7 +633,11 @@ func serializeEncryptedKeyElGamal(w io.Writer, rand io.Reader, header []byte, pu
 	return err
 }
 
+<<<<<<< HEAD
 func serializeEncryptedKeyECDH(w io.Writer, rand io.Reader, header []byte, pub *ecdh.PublicKey, keyBlock []byte, oid encoding.Field, fingerprint []byte) error {
+=======
+func serializeEncryptedKeyECDH(w io.Writer, rand io.Reader, header [10]byte, pub *ecdh.PublicKey, keyBlock []byte, oid encoding.Field, fingerprint []byte) error {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	vsG, c, err := ecdh.Encrypt(rand, pub, keyBlock, oid.EncodedBytes(), fingerprint)
 	if err != nil {
 		return errors.InvalidArgumentError("ECDH encryption failed: " + err.Error())
@@ -497,7 +646,11 @@ func serializeEncryptedKeyECDH(w io.Writer, rand io.Reader, header []byte, pub *
 	g := encoding.NewMPI(vsG)
 	m := encoding.NewOID(c)
 
+<<<<<<< HEAD
 	packetLen := len(header) /* header length */
+=======
+	packetLen := 10 /* header length */
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	packetLen += int(g.EncodedLength()) + int(m.EncodedLength())
 
 	err = serializeHeader(w, packetTypeEncryptedKey, packetLen)
@@ -515,6 +668,7 @@ func serializeEncryptedKeyECDH(w io.Writer, rand io.Reader, header []byte, pub *
 	_, err = w.Write(m.EncodedBytes())
 	return err
 }
+<<<<<<< HEAD
 
 func serializeEncryptedKeyX25519(w io.Writer, rand io.Reader, header []byte, pub *x25519.PublicKey, keyBlock []byte, cipherFunc byte, version int) error {
 	ephemeralPublicX25519, ciphertext, err := x25519.Encrypt(rand, pub, keyBlock)
@@ -582,3 +736,5 @@ func encodeChecksumKey(buffer []byte, key []byte) {
 	buffer[len(key)] = byte(checksum >> 8)
 	buffer[len(key)+1] = byte(checksum)
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

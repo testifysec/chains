@@ -18,6 +18,13 @@ import (
 )
 
 const addField = "AdditionalFields"
+<<<<<<< HEAD
+=======
+const (
+	marshalJSON   = "MarshalJSON"
+	unmarshalJSON = "UnmarshalJSON"
+)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 var (
 	leftBrace  = []byte("{")[0]
@@ -102,6 +109,7 @@ func delimIs(got json.Token, want rune) bool {
 // hasMarshalJSON will determine if the value or a pointer to this value has
 // the MarshalJSON method.
 func hasMarshalJSON(v reflect.Value) bool {
+<<<<<<< HEAD
 	ok := false
 	if _, ok = v.Interface().(json.Marshaler); !ok {
 		var i any
@@ -113,16 +121,43 @@ func hasMarshalJSON(v reflect.Value) bool {
 		_, ok = i.(json.Marshaler)
 	}
 	return ok
+=======
+	if method := v.MethodByName(marshalJSON); method.Kind() != reflect.Invalid {
+		_, ok := v.Interface().(json.Marshaler)
+		return ok
+	}
+
+	if v.Kind() == reflect.Ptr {
+		v = v.Elem()
+	} else {
+		if !v.CanAddr() {
+			return false
+		}
+		v = v.Addr()
+	}
+
+	if method := v.MethodByName(marshalJSON); method.Kind() != reflect.Invalid {
+		_, ok := v.Interface().(json.Marshaler)
+		return ok
+	}
+	return false
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // callMarshalJSON will call MarshalJSON() method on the value or a pointer to this value.
 // This will panic if the method is not defined.
 func callMarshalJSON(v reflect.Value) ([]byte, error) {
+<<<<<<< HEAD
 	if marsh, ok := v.Interface().(json.Marshaler); ok {
+=======
+	if method := v.MethodByName(marshalJSON); method.Kind() != reflect.Invalid {
+		marsh := v.Interface().(json.Marshaler)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return marsh.MarshalJSON()
 	}
 
 	if v.Kind() == reflect.Ptr {
+<<<<<<< HEAD
 		if marsh, ok := v.Elem().Interface().(json.Marshaler); ok {
 			return marsh.MarshalJSON()
 		}
@@ -134,6 +169,20 @@ func callMarshalJSON(v reflect.Value) ([]byte, error) {
 		}
 	}
 
+=======
+		v = v.Elem()
+	} else {
+		if v.CanAddr() {
+			v = v.Addr()
+		}
+	}
+
+	if method := v.MethodByName(unmarshalJSON); method.Kind() != reflect.Invalid {
+		marsh := v.Interface().(json.Marshaler)
+		return marsh.MarshalJSON()
+	}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	panic(fmt.Sprintf("callMarshalJSON called on type %T that does not have MarshalJSON defined", v.Interface()))
 }
 
@@ -148,8 +197,17 @@ func hasUnmarshalJSON(v reflect.Value) bool {
 		v = v.Addr()
 	}
 
+<<<<<<< HEAD
 	_, ok := v.Interface().(json.Unmarshaler)
 	return ok
+=======
+	if method := v.MethodByName(unmarshalJSON); method.Kind() != reflect.Invalid {
+		_, ok := v.Interface().(json.Unmarshaler)
+		return ok
+	}
+
+	return false
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // hasOmitEmpty indicates if the field has instructed us to not output

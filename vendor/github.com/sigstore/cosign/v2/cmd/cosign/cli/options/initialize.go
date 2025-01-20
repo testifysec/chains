@@ -22,9 +22,14 @@ import (
 
 // InitializeOptions is the top level wrapper for the initialize command.
 type InitializeOptions struct {
+<<<<<<< HEAD
 	Mirror       string
 	Root         string
 	RootChecksum string
+=======
+	Mirror string
+	Root   string
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 var _ Interface = (*InitializeOptions)(nil)
@@ -37,7 +42,10 @@ func (o *InitializeOptions) AddFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&o.Root, "root", "",
 		"path to trusted initial root. defaults to embedded root")
 	_ = cmd.Flags().SetAnnotation("root", cobra.BashCompSubdirsInDir, []string{})
+<<<<<<< HEAD
 
 	cmd.Flags().StringVar(&o.RootChecksum, "root-checksum", "",
 		"checksum of the initial root, required if root is downloaded via http(s). expects sha256 by default, can be changed to sha512 by providing sha512:<checksum>")
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

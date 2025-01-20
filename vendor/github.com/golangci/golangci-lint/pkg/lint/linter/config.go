@@ -164,6 +164,7 @@ func (lc *Config) WithNoopFallback(cfg *config.Config, cond func(cfg *config.Con
 }
 
 func IsGoLowerThanGo122() func(cfg *config.Config) error {
+<<<<<<< HEAD
 	return isGoLowerThanGo("1.22")
 }
 
@@ -178,6 +179,14 @@ func isGoLowerThanGo(v string) func(cfg *config.Config) error {
 		}
 
 		return fmt.Errorf("this linter is disabled because the Go version (%s) of your project is lower than Go %s", cfg.Run.Go, v)
+=======
+	return func(cfg *config.Config) error {
+		if cfg == nil || config.IsGoGreaterThanOrEqual(cfg.Run.Go, "1.22") {
+			return nil
+		}
+
+		return fmt.Errorf("this linter is disabled because the Go version (%s) of your project is lower than Go 1.22", cfg.Run.Go)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 

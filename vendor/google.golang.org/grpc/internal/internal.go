@@ -29,12 +29,19 @@ import (
 )
 
 var (
+<<<<<<< HEAD
 	// HealthCheckFunc is used to provide client-side LB channel health checking
 	HealthCheckFunc HealthChecker
 	// RegisterClientHealthCheckListener is used to provide a listener for
 	// updates from the client-side health checking service. It returns a
 	// function that can be called to stop the health producer.
 	RegisterClientHealthCheckListener any // func(ctx context.Context, sc balancer.SubConn, serviceName string, listener func(balancer.SubConnState)) func()
+=======
+	// WithHealthCheckFunc is set by dialoptions.go
+	WithHealthCheckFunc any // func (HealthChecker) DialOption
+	// HealthCheckFunc is used to provide client-side LB channel health checking
+	HealthCheckFunc HealthChecker
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// BalancerUnregister is exported by package balancer to unregister a balancer.
 	BalancerUnregister func(name string)
 	// KeepaliveMinPingTime is the minimum ping interval.  This must be 10s by
@@ -151,6 +158,7 @@ var (
 	// other features, including the CSDS service.
 	NewXDSResolverWithConfigForTesting any // func([]byte) (resolver.Builder, error)
 
+<<<<<<< HEAD
 	// NewXDSResolverWithClientForTesting creates a new xDS resolver builder
 	// using the provided xDS client instead of creating a new one using the
 	// bootstrap configuration specified by the supported environment variables.
@@ -165,6 +173,8 @@ var (
 	// other features, including the CSDS service.
 	NewXDSResolverWithClientForTesting any // func(xdsclient.XDSClient) (resolver.Builder, error)
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// RegisterRLSClusterSpecifierPluginForTesting registers the RLS Cluster
 	// Specifier Plugin for testing purposes, regardless of the XDSRLS environment
 	// variable.
@@ -271,9 +281,12 @@ const (
 // It currently has an experimental suffix which would be removed once
 // end-to-end testing of the policy is completed.
 const RLSLoadBalancingPolicyName = "rls_experimental"
+<<<<<<< HEAD
 
 // EnforceSubConnEmbedding is used to enforce proper SubConn implementation
 // embedding.
 type EnforceSubConnEmbedding interface {
 	enforceSubConnEmbedding()
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

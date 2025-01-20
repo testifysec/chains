@@ -15,12 +15,19 @@
       "enabled": true
     },
     {
+<<<<<<< HEAD
       "matchPackageNames": ["google.golang.org/genproto/googleapis/**"],
       "groupName": "googleapis"
     },
     {
       "matchPackageNames": ["golang.org/x/**"],
       "groupName": "golang.org/x"
+=======
+      "matchFileNames": ["internal/tools/**"],
+      "matchManagers": ["gomod"],
+      "matchDepTypes": ["indirect"],
+      "enabled": false
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     }
   ]
 }

@@ -170,12 +170,20 @@ type ExprHelper interface {
 	// NewStructField creates a new struct field initializer from the field name and value.
 	NewStructField(field string, init ast.Expr, optional bool) ast.EntryExpr
 
+<<<<<<< HEAD
 	// NewComprehension creates a new one-variable comprehension instruction.
 	//
 	// - iterRange represents the expression that resolves to a list or map where the elements or
 	//   keys (respectively) will be iterated over.
 	// - iterVar is the variable name for the list element value, or the map key, depending on the
 	//   range type.
+=======
+	// NewComprehension creates a new comprehension instruction.
+	//
+	// - iterRange represents the expression that resolves to a list or map where the elements or
+	//   keys (respectively) will be iterated over.
+	// - iterVar is the iteration variable name.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// - accuVar is the accumulation variable name, typically parser.AccumulatorName.
 	// - accuInit is the initial expression whose value will be set for the accuVar prior to
 	//   folding.
@@ -187,6 +195,7 @@ type ExprHelper interface {
 	// environment in the step and condition expressions. Presently, the name __result__ is commonly
 	// used by built-in macros but this may change in the future.
 	NewComprehension(iterRange ast.Expr,
+<<<<<<< HEAD
 		iterVar,
 		accuVar string,
 		accuInit,
@@ -217,6 +226,13 @@ type ExprHelper interface {
 		accuInit,
 		condition,
 		step,
+=======
+		iterVar string,
+		accuVar string,
+		accuInit ast.Expr,
+		condition ast.Expr,
+		step ast.Expr,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		result ast.Expr) ast.Expr
 
 	// NewIdent creates an identifier Expr value.
@@ -225,9 +241,12 @@ type ExprHelper interface {
 	// NewAccuIdent returns an accumulator identifier for use with comprehension results.
 	NewAccuIdent() ast.Expr
 
+<<<<<<< HEAD
 	// AccuIdentName returns the name of the accumulator identifier.
 	AccuIdentName() string
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// NewCall creates a function call Expr value for a global (free) function.
 	NewCall(function string, args ...ast.Expr) ast.Expr
 
@@ -262,6 +281,7 @@ var (
 
 	// ExistsOneMacro expands "range.exists_one(var, predicate)", which is true if for exactly one
 	// element in range the predicate holds.
+<<<<<<< HEAD
 	// Deprecated: Use ExistsOneMacroNew
 	ExistsOneMacro = NewReceiverMacro(operators.ExistsOne, 2, MakeExistsOne)
 
@@ -269,6 +289,10 @@ var (
 	// element in range the predicate holds.
 	ExistsOneMacroNew = NewReceiverMacro("existsOne", 2, MakeExistsOne)
 
+=======
+	ExistsOneMacro = NewReceiverMacro(operators.ExistsOne, 2, MakeExistsOne)
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// MapMacro expands "range.map(var, function)" into a comprehension which applies the function
 	// to each element in the range to produce a new list.
 	MapMacro = NewReceiverMacro(operators.Map, 2, MakeMap)
@@ -288,7 +312,10 @@ var (
 		AllMacro,
 		ExistsMacro,
 		ExistsOneMacro,
+<<<<<<< HEAD
 		ExistsOneMacroNew,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		MapMacro,
 		MapFilterMacro,
 		FilterMacro,
@@ -301,11 +328,14 @@ var (
 // AccumulatorName is the traditional variable name assigned to the fold accumulator variable.
 const AccumulatorName = "__result__"
 
+<<<<<<< HEAD
 // HiddenAccumulatorName is a proposed update to the default fold accumlator variable.
 // @result is not normally accessible from source, preventing accidental or intentional collisions
 // in user expressions.
 const HiddenAccumulatorName = "@result"
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type quantifierKind int
 
 const (
@@ -350,10 +380,13 @@ func MakeMap(eh ExprHelper, target ast.Expr, args []ast.Expr) (ast.Expr, *common
 	if !found {
 		return nil, eh.NewError(args[0].ID(), "argument is not an identifier")
 	}
+<<<<<<< HEAD
 	accu := eh.AccuIdentName()
 	if v == accu || v == AccumulatorName {
 		return nil, eh.NewError(args[0].ID(), "iteration variable overwrites accumulator variable")
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	var fn ast.Expr
 	var filter ast.Expr
@@ -373,7 +406,11 @@ func MakeMap(eh ExprHelper, target ast.Expr, args []ast.Expr) (ast.Expr, *common
 	if filter != nil {
 		step = eh.NewCall(operators.Conditional, filter, step, eh.NewAccuIdent())
 	}
+<<<<<<< HEAD
 	return eh.NewComprehension(target, v, accu, init, condition, step, eh.NewAccuIdent()), nil
+=======
+	return eh.NewComprehension(target, v, AccumulatorName, init, condition, step, eh.NewAccuIdent()), nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // MakeFilter expands the input call arguments into a comprehension which produces a list which contains
@@ -384,17 +421,24 @@ func MakeFilter(eh ExprHelper, target ast.Expr, args []ast.Expr) (ast.Expr, *com
 	if !found {
 		return nil, eh.NewError(args[0].ID(), "argument is not an identifier")
 	}
+<<<<<<< HEAD
 	accu := eh.AccuIdentName()
 	if v == accu || v == AccumulatorName {
 		return nil, eh.NewError(args[0].ID(), "iteration variable overwrites accumulator variable")
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	filter := args[1]
 	init := eh.NewList()
 	condition := eh.NewLiteral(types.True)
 	step := eh.NewCall(operators.Add, eh.NewAccuIdent(), eh.NewList(args[0]))
 	step = eh.NewCall(operators.Conditional, filter, step, eh.NewAccuIdent())
+<<<<<<< HEAD
 	return eh.NewComprehension(target, v, accu, init, condition, step, eh.NewAccuIdent()), nil
+=======
+	return eh.NewComprehension(target, v, AccumulatorName, init, condition, step, eh.NewAccuIdent()), nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // MakeHas expands the input call arguments into a presence test, e.g. has(<operand>.field)
@@ -411,10 +455,13 @@ func makeQuantifier(kind quantifierKind, eh ExprHelper, target ast.Expr, args []
 	if !found {
 		return nil, eh.NewError(args[0].ID(), "argument must be a simple name")
 	}
+<<<<<<< HEAD
 	accu := eh.AccuIdentName()
 	if v == accu || v == AccumulatorName {
 		return nil, eh.NewError(args[0].ID(), "iteration variable overwrites accumulator variable")
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	var init ast.Expr
 	var condition ast.Expr
@@ -434,6 +481,7 @@ func makeQuantifier(kind quantifierKind, eh ExprHelper, target ast.Expr, args []
 		step = eh.NewCall(operators.LogicalOr, eh.NewAccuIdent(), args[1])
 		result = eh.NewAccuIdent()
 	case quantifierExistsOne:
+<<<<<<< HEAD
 		init = eh.NewLiteral(types.Int(0))
 		condition = eh.NewLiteral(types.True)
 		step = eh.NewCall(operators.Conditional, args[1],
@@ -443,6 +491,19 @@ func makeQuantifier(kind quantifierKind, eh ExprHelper, target ast.Expr, args []
 		return nil, eh.NewError(args[0].ID(), fmt.Sprintf("unrecognized quantifier '%v'", kind))
 	}
 	return eh.NewComprehension(target, v, accu, init, condition, step, result), nil
+=======
+		zeroExpr := eh.NewLiteral(types.Int(0))
+		oneExpr := eh.NewLiteral(types.Int(1))
+		init = zeroExpr
+		condition = eh.NewLiteral(types.True)
+		step = eh.NewCall(operators.Conditional, args[1],
+			eh.NewCall(operators.Add, eh.NewAccuIdent(), oneExpr), eh.NewAccuIdent())
+		result = eh.NewCall(operators.Equals, eh.NewAccuIdent(), oneExpr)
+	default:
+		return nil, eh.NewError(args[0].ID(), fmt.Sprintf("unrecognized quantifier '%v'", kind))
+	}
+	return eh.NewComprehension(target, v, AccumulatorName, init, condition, step, result), nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func extractIdent(e ast.Expr) (string, bool) {

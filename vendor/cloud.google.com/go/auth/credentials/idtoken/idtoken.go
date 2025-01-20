@@ -22,7 +22,10 @@ package idtoken
 
 import (
 	"errors"
+<<<<<<< HEAD
 	"log/slog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"os"
 
@@ -86,6 +89,7 @@ type Options struct {
 	// when fetching tokens. If provided this should be a fully-authenticated
 	// client. Optional.
 	Client *http.Client
+<<<<<<< HEAD
 	// UniverseDomain is the default service domain for a given Cloud universe.
 	// The default value is "googleapis.com". This is the universe domain
 	// configured for the client, which will be compared to the universe domain
@@ -96,6 +100,8 @@ type Options struct {
 	// enabled by setting GOOGLE_SDK_GO_LOGGING_LEVEL in which case a default
 	// logger will be used. Optional.
 	Logger *slog.Logger
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (o *Options) client() *http.Client {

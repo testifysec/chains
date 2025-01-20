@@ -48,8 +48,14 @@ const (
 	// (Envoy does not require HTTP/2 to take place over TLS or to use ALPN.
 	// Prior knowledge is allowed).
 	HttpConnectionManager_HTTP2 HttpConnectionManager_CodecType = 2
+<<<<<<< HEAD
 	// The connection manager will assume that the client is speaking HTTP/3.
 	// This needs to be consistent with listener and transport socket config.
+=======
+	// [#not-implemented-hide:] QUIC implementation is not production ready yet. Use this enum with
+	// caution to prevent accidental execution of QUIC code. I.e. `!= HTTP2` is no longer sufficient
+	// to distinguish HTTP1 and HTTP2 traffic.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	HttpConnectionManager_HTTP3 HttpConnectionManager_CodecType = 3
 )
 
@@ -393,6 +399,10 @@ type HttpConnectionManager struct {
 	// Additional HTTP/2 settings that are passed directly to the HTTP/2 codec.
 	Http2ProtocolOptions *v3.Http2ProtocolOptions `protobuf:"bytes,9,opt,name=http2_protocol_options,json=http2ProtocolOptions,proto3" json:"http2_protocol_options,omitempty"`
 	// Additional HTTP/3 settings that are passed directly to the HTTP/3 codec.
+<<<<<<< HEAD
+=======
+	// [#not-implemented-hide:]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	Http3ProtocolOptions *v3.Http3ProtocolOptions `protobuf:"bytes,44,opt,name=http3_protocol_options,json=http3ProtocolOptions,proto3" json:"http3_protocol_options,omitempty"`
 	// An optional override that the connection manager will write to the server
 	// header in responses. If not set, the default is “envoy“.
@@ -407,6 +417,7 @@ type HttpConnectionManager struct {
 	SchemeHeaderTransformation *v3.SchemeHeaderTransformation `protobuf:"bytes,48,opt,name=scheme_header_transformation,json=schemeHeaderTransformation,proto3" json:"scheme_header_transformation,omitempty"`
 	// The maximum request headers size for incoming connections.
 	// If unconfigured, the default max request headers allowed is 60 KiB.
+<<<<<<< HEAD
 	// The default value can be overridden by setting runtime key “envoy.reloadable_features.max_request_headers_size_kb“.
 	// Requests that exceed this limit will receive a 431 response.
 	//
@@ -414,6 +425,9 @@ type HttpConnectionManager struct {
 	//
 	//	HTTP/2 (when using nghttp2) limits a single header to around 100kb.
 	//	HTTP/3 limits a single header to around 1024kb.
+=======
+	// Requests that exceed this limit will receive a 431 response.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	MaxRequestHeadersKb *wrapperspb.UInt32Value `protobuf:"bytes,29,opt,name=max_request_headers_kb,json=maxRequestHeadersKb,proto3" json:"max_request_headers_kb,omitempty"`
 	// The stream idle timeout for connections managed by the connection manager.
 	// If not specified, this defaults to 5 minutes. The default value was selected
@@ -585,6 +599,7 @@ type HttpConnectionManager struct {
 	// purposes. If unspecified, only RFC1918 IP addresses will be considered internal.
 	// See the documentation for :ref:`config_http_conn_man_headers_x-envoy-internal` for more
 	// information about internal/external addresses.
+<<<<<<< HEAD
 	//
 	// .. warning::
 	//
@@ -614,6 +629,8 @@ type HttpConnectionManager struct {
 	//	cidr_ranges:
 	//	    address_prefix: ::1
 	//	    prefix_len: 128
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	InternalAddressConfig *HttpConnectionManager_InternalAddressConfig `protobuf:"bytes,25,opt,name=internal_address_config,json=internalAddressConfig,proto3" json:"internal_address_config,omitempty"`
 	// If set, Envoy will not append the remote address to the
 	// :ref:`config_http_conn_man_headers_x-forwarded-for` HTTP header. This may be used in

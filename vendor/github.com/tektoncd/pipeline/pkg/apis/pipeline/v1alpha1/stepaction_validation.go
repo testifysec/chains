@@ -15,7 +15,10 @@ package v1alpha1
 
 import (
 	"context"
+<<<<<<< HEAD
 	"fmt"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 
 	"github.com/tektoncd/pipeline/pkg/apis/config"
@@ -129,6 +132,7 @@ func validateParameterVariables(ctx context.Context, sas StepActionSpec, params 
 	stringParameterNames := sets.NewString(stringParams.GetNames()...)
 	arrayParameterNames := sets.NewString(arrayParams.GetNames()...)
 	errs = errs.Also(v1.ValidateNameFormat(stringParameterNames.Insert(arrayParameterNames.List()...), objectParams))
+<<<<<<< HEAD
 	errs = errs.Also(validateStepActionArrayUsage(sas, "params", arrayParameterNames))
 	return errs.Also(validateDefaultParameterReferences(params))
 }
@@ -203,6 +207,9 @@ func validateDefaultParameterReferences(params v1.ParamSpecs) *apis.FieldError {
 	}
 
 	return errs
+=======
+	return errs.Also(validateStepActionArrayUsage(sas, "params", arrayParameterNames))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // validateObjectUsage validates the usage of individual attributes of an object param and the usage of the entire object

@@ -9,12 +9,20 @@ import (
 	"strings"
 )
 
+<<<<<<< HEAD
 // Checker will perform standard check on package and its methods.
+=======
+// Checker will perform standart check on package and its methods.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type Checker struct {
 	Violations []Violation           // List of available violations
 	Packages   map[string][]int      // Storing indexes of Violations per pkg/kg.Struct
 	Type       func(ast.Expr) string // Type Checker closure.
+<<<<<<< HEAD
 	Print      func(ast.Node) []byte // String representation of the expression.
+=======
+	Print      func(ast.Node) []byte // String representation of the expresion.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func New(violations ...[]Violation) Checker {
@@ -76,7 +84,11 @@ func (c *Checker) Handle(v *Violation, ce *ast.CallExpr) (map[int]ast.Expr, bool
 			continue
 		}
 
+<<<<<<< HEAD
 		// is it conversion call
+=======
+		// is it convertsion call
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if !c.callConverts(call) {
 			continue
 		}

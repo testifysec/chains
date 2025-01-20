@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
     "v2": "2.14.1"
+=======
+    "v2": "2.14.0"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

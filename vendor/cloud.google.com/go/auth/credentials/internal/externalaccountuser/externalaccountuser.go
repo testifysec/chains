@@ -17,14 +17,20 @@ package externalaccountuser
 import (
 	"context"
 	"errors"
+<<<<<<< HEAD
 	"log/slog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"time"
 
 	"cloud.google.com/go/auth"
 	"cloud.google.com/go/auth/credentials/internal/stsexchange"
 	"cloud.google.com/go/auth/internal"
+<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // Options stores the configuration for fetching tokens with external authorized
@@ -53,8 +59,11 @@ type Options struct {
 
 	// Client for token request.
 	Client *http.Client
+<<<<<<< HEAD
 	// Logger for logging.
 	Logger *slog.Logger
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (c *Options) validate() bool {
@@ -94,7 +103,10 @@ func (tp *tokenProvider) Token(ctx context.Context) (*auth.Token, error) {
 		RefreshToken:   opts.RefreshToken,
 		Authentication: clientAuth,
 		Headers:        headers,
+<<<<<<< HEAD
 		Logger:         internallog.New(tp.o.Logger),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	})
 	if err != nil {
 		return nil, err

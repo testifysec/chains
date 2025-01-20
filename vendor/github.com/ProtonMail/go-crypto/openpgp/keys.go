@@ -6,7 +6,10 @@ package openpgp
 
 import (
 	goerrors "errors"
+<<<<<<< HEAD
 	"fmt"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"io"
 	"time"
 
@@ -25,6 +28,7 @@ var PrivateKeyType = "PGP PRIVATE KEY BLOCK"
 // (which must be a signing key), one or more identities claimed by that key,
 // and zero or more subkeys, which may be encryption keys.
 type Entity struct {
+<<<<<<< HEAD
 	PrimaryKey    *packet.PublicKey
 	PrivateKey    *packet.PrivateKey
 	Identities    map[string]*Identity // indexed by Identity.Name
@@ -32,6 +36,13 @@ type Entity struct {
 	Subkeys       []Subkey
 	SelfSignature *packet.Signature   // Direct-key self signature of the PrimaryKey (contains primary key properties in v6)
 	Signatures    []*packet.Signature // all (potentially unverified) self-signatures, revocations, and third-party signatures
+=======
+	PrimaryKey  *packet.PublicKey
+	PrivateKey  *packet.PrivateKey
+	Identities  map[string]*Identity // indexed by Identity.Name
+	Revocations []*packet.Signature
+	Subkeys     []Subkey
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // An Identity represents an identity claimed by an Entity and zero or more
@@ -123,12 +134,21 @@ func shouldPreferIdentity(existingId, potentialNewId *Identity) bool {
 // given Entity.
 func (e *Entity) EncryptionKey(now time.Time) (Key, bool) {
 	// Fail to find any encryption key if the...
+<<<<<<< HEAD
 	primarySelfSignature, primaryIdentity := e.PrimarySelfSignature()
 	if primarySelfSignature == nil || // no self-signature found
 		e.PrimaryKey.KeyExpired(primarySelfSignature, now) || // primary key has expired
 		e.Revoked(now) || // primary key has been revoked
 		primarySelfSignature.SigExpired(now) || // user ID or or direct self-signature has expired
 		(primaryIdentity != nil && primaryIdentity.Revoked(now)) { // user ID has been revoked (for v4 keys)
+=======
+	i := e.PrimaryIdentity()
+	if e.PrimaryKey.KeyExpired(i.SelfSignature, now) || // primary key has expired
+		i.SelfSignature == nil || // user ID has no self-signature
+		i.SelfSignature.SigExpired(now) || // user ID self-signature has expired
+		e.Revoked(now) || // primary key has been revoked
+		i.Revoked(now) { // user ID has been revoked
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return Key{}, false
 	}
 
@@ -155,9 +175,15 @@ func (e *Entity) EncryptionKey(now time.Time) (Key, bool) {
 
 	// If we don't have any subkeys for encryption and the primary key
 	// is marked as OK to encrypt with, then we can use it.
+<<<<<<< HEAD
 	if primarySelfSignature.FlagsValid && primarySelfSignature.FlagEncryptCommunications &&
 		e.PrimaryKey.PubKeyAlgo.CanEncrypt() {
 		return Key{e, e.PrimaryKey, e.PrivateKey, primarySelfSignature, e.Revocations}, true
+=======
+	if i.SelfSignature.FlagsValid && i.SelfSignature.FlagEncryptCommunications &&
+		e.PrimaryKey.PubKeyAlgo.CanEncrypt() {
+		return Key{e, e.PrimaryKey, e.PrivateKey, i.SelfSignature, e.Revocations}, true
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	return Key{}, false
@@ -189,12 +215,21 @@ func (e *Entity) SigningKeyById(now time.Time, id uint64) (Key, bool) {
 
 func (e *Entity) signingKeyByIdUsage(now time.Time, id uint64, flags int) (Key, bool) {
 	// Fail to find any signing key if the...
+<<<<<<< HEAD
 	primarySelfSignature, primaryIdentity := e.PrimarySelfSignature()
 	if primarySelfSignature == nil || // no self-signature found
 		e.PrimaryKey.KeyExpired(primarySelfSignature, now) || // primary key has expired
 		e.Revoked(now) || // primary key has been revoked
 		primarySelfSignature.SigExpired(now) || // user ID or direct self-signature has expired
 		(primaryIdentity != nil && primaryIdentity.Revoked(now)) { // user ID has been revoked (for v4 keys)
+=======
+	i := e.PrimaryIdentity()
+	if e.PrimaryKey.KeyExpired(i.SelfSignature, now) || // primary key has expired
+		i.SelfSignature == nil || // user ID has no self-signature
+		i.SelfSignature.SigExpired(now) || // user ID self-signature has expired
+		e.Revoked(now) || // primary key has been revoked
+		i.Revoked(now) { // user ID has been revoked
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return Key{}, false
 	}
 
@@ -223,12 +258,21 @@ func (e *Entity) signingKeyByIdUsage(now time.Time, id uint64, flags int) (Key, 
 
 	// If we don't have any subkeys for signing and the primary key
 	// is marked as OK to sign with, then we can use it.
+<<<<<<< HEAD
 	if primarySelfSignature.FlagsValid &&
 		(flags&packet.KeyFlagCertify == 0 || primarySelfSignature.FlagCertify) &&
 		(flags&packet.KeyFlagSign == 0 || primarySelfSignature.FlagSign) &&
 		e.PrimaryKey.PubKeyAlgo.CanSign() &&
 		(id == 0 || e.PrimaryKey.KeyId == id) {
 		return Key{e, e.PrimaryKey, e.PrivateKey, primarySelfSignature, e.Revocations}, true
+=======
+	if i.SelfSignature.FlagsValid &&
+		(flags&packet.KeyFlagCertify == 0 || i.SelfSignature.FlagCertify) &&
+		(flags&packet.KeyFlagSign == 0 || i.SelfSignature.FlagSign) &&
+		e.PrimaryKey.PubKeyAlgo.CanSign() &&
+		(id == 0 || e.PrimaryKey.KeyId == id) {
+		return Key{e, e.PrimaryKey, e.PrivateKey, i.SelfSignature, e.Revocations}, true
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// No keys with a valid Signing Flag or no keys matched the id passed in
@@ -262,7 +306,11 @@ func (e *Entity) EncryptPrivateKeys(passphrase []byte, config *packet.Config) er
 	var keysToEncrypt []*packet.PrivateKey
 	// Add entity private key to encrypt.
 	if e.PrivateKey != nil && !e.PrivateKey.Dummy() && !e.PrivateKey.Encrypted {
+<<<<<<< HEAD
 		keysToEncrypt = append(keysToEncrypt, e.PrivateKey)
+=======
+		keysToEncrypt = append(keysToEncrypt,  e.PrivateKey)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Add subkeys to encrypt.
@@ -274,7 +322,11 @@ func (e *Entity) EncryptPrivateKeys(passphrase []byte, config *packet.Config) er
 	return packet.EncryptPrivateKeys(keysToEncrypt, passphrase, config)
 }
 
+<<<<<<< HEAD
 // DecryptPrivateKeys decrypts all encrypted keys in the entity with the given passphrase.
+=======
+// DecryptPrivateKeys decrypts all encrypted keys in the entitiy with the given passphrase.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Avoids recomputation of similar s2k key derivations. Public keys and dummy keys are ignored,
 // and don't cause an error to be returned.
 func (e *Entity) DecryptPrivateKeys(passphrase []byte) error {
@@ -287,7 +339,11 @@ func (e *Entity) DecryptPrivateKeys(passphrase []byte) error {
 	// Add subkeys to decrypt.
 	for _, sub := range e.Subkeys {
 		if sub.PrivateKey != nil && !sub.PrivateKey.Dummy() && sub.PrivateKey.Encrypted {
+<<<<<<< HEAD
 			keysToDecrypt = append(keysToDecrypt, sub.PrivateKey)
+=======
+			keysToDecrypt = append(keysToDecrypt,  sub.PrivateKey)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 	return packet.DecryptPrivateKeys(keysToDecrypt, passphrase)
@@ -321,7 +377,12 @@ type EntityList []*Entity
 func (el EntityList) KeysById(id uint64) (keys []Key) {
 	for _, e := range el {
 		if e.PrimaryKey.KeyId == id {
+<<<<<<< HEAD
 			selfSig, _ := e.PrimarySelfSignature()
+=======
+			ident := e.PrimaryIdentity()
+			selfSig := ident.SelfSignature
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			keys = append(keys, Key{e, e.PrimaryKey, e.PrivateKey, selfSig, e.Revocations})
 		}
 
@@ -443,6 +504,10 @@ func readToNextPublicKey(packets *packet.Reader) (err error) {
 			return
 		} else if err != nil {
 			if _, ok := err.(errors.UnsupportedError); ok {
+<<<<<<< HEAD
+=======
+				err = nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				continue
 			}
 			return
@@ -480,7 +545,10 @@ func ReadEntity(packets *packet.Reader) (*Entity, error) {
 	}
 
 	var revocations []*packet.Signature
+<<<<<<< HEAD
 	var directSignatures []*packet.Signature
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 EachPacket:
 	for {
 		p, err := packets.Next()
@@ -499,7 +567,13 @@ EachPacket:
 			if pkt.SigType == packet.SigTypeKeyRevocation {
 				revocations = append(revocations, pkt)
 			} else if pkt.SigType == packet.SigTypeDirectSignature {
+<<<<<<< HEAD
 				directSignatures = append(directSignatures, pkt)
+=======
+				// TODO: RFC4880 5.2.1 permits signatures
+				// directly on keys (eg. to bind additional
+				// revocation keys).
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 			// Else, ignoring the signature as it does not follow anything
 			// we would know to attach it to.
@@ -522,6 +596,7 @@ EachPacket:
 				return nil, err
 			}
 		default:
+<<<<<<< HEAD
 			// we ignore unknown packets.
 		}
 	}
@@ -555,6 +630,14 @@ EachPacket:
 		}
 		e.SelfSignature = mainDirectKeySelfSignature
 		e.Signatures = directSignatures
+=======
+			// we ignore unknown packets
+		}
+	}
+
+	if len(e.Identities) == 0 {
+		return nil, errors.StructuralError("entity without any identities")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	for _, revocation := range revocations {
@@ -699,12 +782,15 @@ func (e *Entity) serializePrivate(w io.Writer, config *packet.Config, reSign boo
 			return err
 		}
 	}
+<<<<<<< HEAD
 	for _, directSignature := range e.Signatures {
 		err := directSignature.Serialize(w)
 		if err != nil {
 			return err
 		}
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, ident := range e.Identities {
 		err = ident.UserId.Serialize(w)
 		if err != nil {
@@ -771,12 +857,15 @@ func (e *Entity) Serialize(w io.Writer) error {
 			return err
 		}
 	}
+<<<<<<< HEAD
 	for _, directSignature := range e.Signatures {
 		err := directSignature.Serialize(w)
 		if err != nil {
 			return err
 		}
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, ident := range e.Identities {
 		err = ident.UserId.Serialize(w)
 		if err != nil {
@@ -879,6 +968,7 @@ func (e *Entity) RevokeSubkey(sk *Subkey, reason packet.ReasonForRevocation, rea
 	sk.Revocations = append(sk.Revocations, revSig)
 	return nil
 }
+<<<<<<< HEAD
 
 func (e *Entity) primaryDirectSignature() *packet.Signature {
 	return e.SelfSignature
@@ -899,3 +989,5 @@ func (e *Entity) PrimarySelfSignature() (*packet.Signature, *Identity) {
 	}
 	return primaryIdentity.SelfSignature, primaryIdentity
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

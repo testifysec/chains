@@ -2,8 +2,11 @@ package goanalysis
 
 import (
 	"fmt"
+<<<<<<< HEAD
 	"go/token"
 	"strings"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/packages"
@@ -83,7 +86,10 @@ func runAnalyzers(cfg runAnalyzersConfig, lintCtx *linter.Context) ([]result.Iss
 
 func buildIssues(diags []Diagnostic, linterNameBuilder func(diag *Diagnostic) string) []result.Issue {
 	var issues []result.Issue
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for i := range diags {
 		diag := &diags[i]
 		linterName := linterNameBuilder(diag)
@@ -95,6 +101,7 @@ func buildIssues(diags []Diagnostic, linterNameBuilder func(diag *Diagnostic) st
 			text = fmt.Sprintf("%s: %s", diag.Analyzer.Name, diag.Message)
 		}
 
+<<<<<<< HEAD
 		var suggestedFixes []analysis.SuggestedFix
 
 		for _, sf := range diag.SuggestedFixes {
@@ -132,6 +139,13 @@ func buildIssues(diags []Diagnostic, linterNameBuilder func(diag *Diagnostic) st
 			Pos:            diag.Position,
 			Pkg:            diag.Pkg,
 			SuggestedFixes: suggestedFixes,
+=======
+		issues = append(issues, result.Issue{
+			FromLinter: linterName,
+			Text:       text,
+			Pos:        diag.Position,
+			Pkg:        diag.Pkg,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		})
 
 		if len(diag.Related) > 0 {

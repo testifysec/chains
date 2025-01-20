@@ -5,12 +5,23 @@ linters:
     - bodyclose
     - decorder
     - durationcheck
+<<<<<<< HEAD
     - err113
     - errchkjson
     - errname
     - errorlint
     - exhaustive
     - gocritic
+=======
+    - errchkjson
+    - errname
+    - errorlint
+    - execinquery
+    - exhaustive
+    - exportloopref
+    - gocritic
+    - goerr113
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     - gofmt
     - goimports
     - goprintffuncname
@@ -18,6 +29,10 @@ linters:
     - importas
     - misspell
     - nolintlint
+<<<<<<< HEAD
+=======
+    - nosnakecase
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     - prealloc
     - predeclared
     - promlinter

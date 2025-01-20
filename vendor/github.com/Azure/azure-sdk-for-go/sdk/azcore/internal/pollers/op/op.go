@@ -40,13 +40,20 @@ type Poller[T any] struct {
 	OrigURL    string                `json:"origURL"`
 	Method     string                `json:"method"`
 	FinalState pollers.FinalStateVia `json:"finalState"`
+<<<<<<< HEAD
 	ResultPath string                `json:"resultPath"`
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	CurState   string                `json:"state"`
 }
 
 // New creates a new Poller from the provided initial response.
 // Pass nil for response to create an empty Poller for rehydration.
+<<<<<<< HEAD
 func New[T any](pl exported.Pipeline, resp *http.Response, finalState pollers.FinalStateVia, resultPath string) (*Poller[T], error) {
+=======
+func New[T any](pl exported.Pipeline, resp *http.Response, finalState pollers.FinalStateVia) (*Poller[T], error) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if resp == nil {
 		log.Write(log.EventLRO, "Resuming Operation-Location poller.")
 		return &Poller[T]{pl: pl}, nil
@@ -83,7 +90,10 @@ func New[T any](pl exported.Pipeline, resp *http.Response, finalState pollers.Fi
 		OrigURL:    resp.Request.URL.String(),
 		Method:     resp.Request.Method,
 		FinalState: finalState,
+<<<<<<< HEAD
 		ResultPath: resultPath,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		CurState:   curState,
 	}, nil
 }
@@ -118,6 +128,13 @@ func (p *Poller[T]) Result(ctx context.Context, out *T) error {
 	var req *exported.Request
 	var err error
 
+<<<<<<< HEAD
+=======
+	// when the payload is included with the status monitor on
+	// terminal success it's in the "result" JSON property
+	payloadPath := "result"
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if p.FinalState == pollers.FinalStateViaLocation && p.LocURL != "" {
 		req, err = exported.NewRequest(ctx, http.MethodGet, p.LocURL)
 	} else if rl, rlErr := poller.GetResourceLocation(p.resp); rlErr != nil && !errors.Is(rlErr, poller.ErrNoBody) {
@@ -136,7 +153,11 @@ func (p *Poller[T]) Result(ctx context.Context, out *T) error {
 	// if a final GET request has been created, execute it
 	if req != nil {
 		// no JSON path when making a final GET request
+<<<<<<< HEAD
 		p.ResultPath = ""
+=======
+		payloadPath = ""
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		resp, err := p.pl.Do(req)
 		if err != nil {
 			return err
@@ -144,5 +165,9 @@ func (p *Poller[T]) Result(ctx context.Context, out *T) error {
 		p.resp = resp
 	}
 
+<<<<<<< HEAD
 	return pollers.ResultHelper(p.resp, poller.Failed(p.CurState), p.ResultPath, out)
+=======
+	return pollers.ResultHelper(p.resp, poller.Failed(p.CurState), payloadPath, out)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

@@ -70,6 +70,7 @@ func (m *validateOpAssumeRoleWithWebIdentity) HandleInitialize(ctx context.Conte
 	return next.HandleInitialize(ctx, in)
 }
 
+<<<<<<< HEAD
 type validateOpAssumeRoot struct {
 }
 
@@ -90,6 +91,8 @@ func (m *validateOpAssumeRoot) HandleInitialize(ctx context.Context, in middlewa
 	return next.HandleInitialize(ctx, in)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type validateOpDecodeAuthorizationMessage struct {
 }
 
@@ -162,10 +165,13 @@ func addOpAssumeRoleWithWebIdentityValidationMiddleware(stack *middleware.Stack)
 	return stack.Initialize.Add(&validateOpAssumeRoleWithWebIdentity{}, middleware.After)
 }
 
+<<<<<<< HEAD
 func addOpAssumeRootValidationMiddleware(stack *middleware.Stack) error {
 	return stack.Initialize.Add(&validateOpAssumeRoot{}, middleware.After)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func addOpDecodeAuthorizationMessageValidationMiddleware(stack *middleware.Stack) error {
 	return stack.Initialize.Add(&validateOpDecodeAuthorizationMessage{}, middleware.After)
 }
@@ -278,6 +284,7 @@ func validateOpAssumeRoleWithWebIdentityInput(v *AssumeRoleWithWebIdentityInput)
 	}
 }
 
+<<<<<<< HEAD
 func validateOpAssumeRootInput(v *AssumeRootInput) error {
 	if v == nil {
 		return nil
@@ -296,6 +303,8 @@ func validateOpAssumeRootInput(v *AssumeRootInput) error {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func validateOpDecodeAuthorizationMessageInput(v *DecodeAuthorizationMessageInput) error {
 	if v == nil {
 		return nil

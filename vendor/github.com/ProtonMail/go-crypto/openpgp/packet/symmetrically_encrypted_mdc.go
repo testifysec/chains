@@ -148,7 +148,11 @@ const mdcPacketTagByte = byte(0x80) | 0x40 | 19
 
 func (ser *seMDCReader) Close() error {
 	if ser.error {
+<<<<<<< HEAD
 		return errors.ErrMDCHashMismatch
+=======
+		return errors.ErrMDCMissing
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	for !ser.eof {
@@ -159,7 +163,11 @@ func (ser *seMDCReader) Close() error {
 			break
 		}
 		if err != nil {
+<<<<<<< HEAD
 			return errors.ErrMDCHashMismatch
+=======
+			return errors.ErrMDCMissing
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 
@@ -172,7 +180,11 @@ func (ser *seMDCReader) Close() error {
 	// The hash already includes the MDC header, but we still check its value
 	// to confirm encryption correctness
 	if ser.trailer[0] != mdcPacketTagByte || ser.trailer[1] != sha1.Size {
+<<<<<<< HEAD
 		return errors.ErrMDCHashMismatch
+=======
+		return errors.ErrMDCMissing
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return nil
 }
@@ -237,9 +249,15 @@ func serializeSymmetricallyEncryptedMdc(ciphertext io.WriteCloser, c CipherFunct
 	block := c.new(key)
 	blockSize := block.BlockSize()
 	iv := make([]byte, blockSize)
+<<<<<<< HEAD
 	_, err = io.ReadFull(config.Random(), iv)
 	if err != nil {
 		return nil, err
+=======
+	_, err = config.Random().Read(iv)
+	if err != nil {
+		return
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	s, prefix := NewOCFBEncrypter(block, iv, OCFBNoResync)
 	_, err = ciphertext.Write(prefix)

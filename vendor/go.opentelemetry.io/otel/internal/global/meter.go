@@ -5,9 +5,14 @@ package global // import "go.opentelemetry.io/otel/internal/global"
 
 import (
 	"container/list"
+<<<<<<< HEAD
 	"context"
 	"reflect"
 	"sync"
+=======
+	"sync"
+	"sync/atomic"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"go.opentelemetry.io/otel/metric"
 	"go.opentelemetry.io/otel/metric/embedded"
@@ -67,7 +72,10 @@ func (p *meterProvider) Meter(name string, opts ...metric.MeterOption) metric.Me
 		name:    name,
 		version: c.InstrumentationVersion(),
 		schema:  c.SchemaURL(),
+<<<<<<< HEAD
 		attrs:   c.InstrumentationAttributes(),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	if p.meters == nil {
@@ -78,7 +86,11 @@ func (p *meterProvider) Meter(name string, opts ...metric.MeterOption) metric.Me
 		return val
 	}
 
+<<<<<<< HEAD
 	t := &meter{name: name, opts: opts, instruments: make(map[instID]delegatedInstrument)}
+=======
+	t := &meter{name: name, opts: opts}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	p.meters[key] = t
 	return t
 }
@@ -94,17 +106,26 @@ type meter struct {
 	opts []metric.MeterOption
 
 	mtx         sync.Mutex
+<<<<<<< HEAD
 	instruments map[instID]delegatedInstrument
 
 	registry list.List
 
 	delegate metric.Meter
+=======
+	instruments []delegatedInstrument
+
+	registry list.List
+
+	delegate atomic.Value // metric.Meter
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type delegatedInstrument interface {
 	setDelegate(metric.Meter)
 }
 
+<<<<<<< HEAD
 // instID are the identifying properties of a instrument.
 type instID struct {
 	// name is the name of the stream.
@@ -117,6 +138,8 @@ type instID struct {
 	unit string
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // setDelegate configures m to delegate all Meter functionality to Meters
 // created by provider.
 //
@@ -124,12 +147,21 @@ type instID struct {
 //
 // It is guaranteed by the caller that this happens only once.
 func (m *meter) setDelegate(provider metric.MeterProvider) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
 	meter := provider.Meter(m.name, m.opts...)
 	m.delegate = meter
 
+=======
+	meter := provider.Meter(m.name, m.opts...)
+	m.delegate.Store(meter)
+
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, inst := range m.instruments {
 		inst.setDelegate(meter)
 	}
@@ -147,6 +179,7 @@ func (m *meter) setDelegate(provider metric.MeterProvider) {
 }
 
 func (m *meter) Int64Counter(name string, options ...metric.Int64CounterOption) (metric.Int64Counter, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -166,10 +199,20 @@ func (m *meter) Int64Counter(name string, options ...metric.Int64CounterOption) 
 	}
 	i := &siCounter{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Int64Counter(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &siCounter{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Int64UpDownCounter(name string, options ...metric.Int64UpDownCounterOption) (metric.Int64UpDownCounter, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -189,10 +232,20 @@ func (m *meter) Int64UpDownCounter(name string, options ...metric.Int64UpDownCou
 	}
 	i := &siUpDownCounter{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Int64UpDownCounter(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &siUpDownCounter{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Int64Histogram(name string, options ...metric.Int64HistogramOption) (metric.Int64Histogram, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -212,10 +265,20 @@ func (m *meter) Int64Histogram(name string, options ...metric.Int64HistogramOpti
 	}
 	i := &siHistogram{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Int64Histogram(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &siHistogram{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Int64Gauge(name string, options ...metric.Int64GaugeOption) (metric.Int64Gauge, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -235,10 +298,20 @@ func (m *meter) Int64Gauge(name string, options ...metric.Int64GaugeOption) (met
 	}
 	i := &siGauge{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Int64Gauge(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &siGauge{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Int64ObservableCounter(name string, options ...metric.Int64ObservableCounterOption) (metric.Int64ObservableCounter, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -258,10 +331,20 @@ func (m *meter) Int64ObservableCounter(name string, options ...metric.Int64Obser
 	}
 	i := &aiCounter{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Int64ObservableCounter(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &aiCounter{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Int64ObservableUpDownCounter(name string, options ...metric.Int64ObservableUpDownCounterOption) (metric.Int64ObservableUpDownCounter, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -281,10 +364,20 @@ func (m *meter) Int64ObservableUpDownCounter(name string, options ...metric.Int6
 	}
 	i := &aiUpDownCounter{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Int64ObservableUpDownCounter(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &aiUpDownCounter{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Int64ObservableGauge(name string, options ...metric.Int64ObservableGaugeOption) (metric.Int64ObservableGauge, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -304,10 +397,20 @@ func (m *meter) Int64ObservableGauge(name string, options ...metric.Int64Observa
 	}
 	i := &aiGauge{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Int64ObservableGauge(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &aiGauge{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Float64Counter(name string, options ...metric.Float64CounterOption) (metric.Float64Counter, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -327,10 +430,20 @@ func (m *meter) Float64Counter(name string, options ...metric.Float64CounterOpti
 	}
 	i := &sfCounter{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Float64Counter(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &sfCounter{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Float64UpDownCounter(name string, options ...metric.Float64UpDownCounterOption) (metric.Float64UpDownCounter, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -350,10 +463,20 @@ func (m *meter) Float64UpDownCounter(name string, options ...metric.Float64UpDow
 	}
 	i := &sfUpDownCounter{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Float64UpDownCounter(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &sfUpDownCounter{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Float64Histogram(name string, options ...metric.Float64HistogramOption) (metric.Float64Histogram, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -373,10 +496,20 @@ func (m *meter) Float64Histogram(name string, options ...metric.Float64Histogram
 	}
 	i := &sfHistogram{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Float64Histogram(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &sfHistogram{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Float64Gauge(name string, options ...metric.Float64GaugeOption) (metric.Float64Gauge, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -396,10 +529,20 @@ func (m *meter) Float64Gauge(name string, options ...metric.Float64GaugeOption) 
 	}
 	i := &sfGauge{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Float64Gauge(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &sfGauge{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Float64ObservableCounter(name string, options ...metric.Float64ObservableCounterOption) (metric.Float64ObservableCounter, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -419,10 +562,20 @@ func (m *meter) Float64ObservableCounter(name string, options ...metric.Float64O
 	}
 	i := &afCounter{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Float64ObservableCounter(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &afCounter{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Float64ObservableUpDownCounter(name string, options ...metric.Float64ObservableUpDownCounterOption) (metric.Float64ObservableUpDownCounter, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -442,10 +595,20 @@ func (m *meter) Float64ObservableUpDownCounter(name string, options ...metric.Fl
 	}
 	i := &afUpDownCounter{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Float64ObservableUpDownCounter(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &afUpDownCounter{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 func (m *meter) Float64ObservableGauge(name string, options ...metric.Float64ObservableGaugeOption) (metric.Float64ObservableGauge, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -465,11 +628,21 @@ func (m *meter) Float64ObservableGauge(name string, options ...metric.Float64Obs
 	}
 	i := &afGauge{name: name, opts: options}
 	m.instruments[id] = i
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		return del.Float64ObservableGauge(name, options...)
+	}
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+	i := &afGauge{name: name, opts: options}
+	m.instruments = append(m.instruments, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return i, nil
 }
 
 // RegisterCallback captures the function that will be called during Collect.
 func (m *meter) RegisterCallback(f metric.Callback, insts ...metric.Observable) (metric.Registration, error) {
+<<<<<<< HEAD
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 
@@ -477,6 +650,16 @@ func (m *meter) RegisterCallback(f metric.Callback, insts ...metric.Observable) 
 		return m.delegate.RegisterCallback(unwrapCallback(f), unwrapInstruments(insts)...)
 	}
 
+=======
+	if del, ok := m.delegate.Load().(metric.Meter); ok {
+		insts = unwrapInstruments(insts)
+		return del.RegisterCallback(f, insts...)
+	}
+
+	m.mtx.Lock()
+	defer m.mtx.Unlock()
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	reg := &registration{instruments: insts, function: f}
 	e := m.registry.PushBack(reg)
 	reg.unreg = func() error {
@@ -488,11 +671,22 @@ func (m *meter) RegisterCallback(f metric.Callback, insts ...metric.Observable) 
 	return reg, nil
 }
 
+<<<<<<< HEAD
+=======
+type wrapped interface {
+	unwrap() metric.Observable
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func unwrapInstruments(instruments []metric.Observable) []metric.Observable {
 	out := make([]metric.Observable, 0, len(instruments))
 
 	for _, inst := range instruments {
+<<<<<<< HEAD
 		if in, ok := inst.(unwrapper); ok {
+=======
+		if in, ok := inst.(wrapped); ok {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			out = append(out, in.unwrap())
 		} else {
 			out = append(out, inst)
@@ -512,6 +706,7 @@ type registration struct {
 	unregMu sync.Mutex
 }
 
+<<<<<<< HEAD
 type unwrapObs struct {
 	embedded.Observer
 	obs metric.Observer
@@ -567,6 +762,11 @@ func unwrapCallback(f metric.Callback) metric.Callback {
 }
 
 func (c *registration) setDelegate(m metric.Meter) {
+=======
+func (c *registration) setDelegate(m metric.Meter) {
+	insts := unwrapInstruments(c.instruments)
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	c.unregMu.Lock()
 	defer c.unregMu.Unlock()
 
@@ -575,10 +775,16 @@ func (c *registration) setDelegate(m metric.Meter) {
 		return
 	}
 
+<<<<<<< HEAD
 	reg, err := m.RegisterCallback(unwrapCallback(c.function), unwrapInstruments(c.instruments)...)
 	if err != nil {
 		GetErrorHandler().Handle(err)
 		return
+=======
+	reg, err := m.RegisterCallback(c.function, insts...)
+	if err != nil {
+		GetErrorHandler().Handle(err)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	c.unreg = reg.Unregister

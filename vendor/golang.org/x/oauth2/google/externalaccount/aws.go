@@ -28,7 +28,11 @@ import (
 
 // AwsSecurityCredentials models AWS security credentials.
 type AwsSecurityCredentials struct {
+<<<<<<< HEAD
 	// AccessKeyID is the AWS Access Key ID - Required.
+=======
+	// AccessKeyId is the AWS Access Key ID - Required.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	AccessKeyID string `json:"AccessKeyID"`
 	// SecretAccessKey is the AWS Secret Access Key - Required.
 	SecretAccessKey string `json:"SecretAccessKey"`

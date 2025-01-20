@@ -43,8 +43,12 @@ func (ev *EnvelopeVerifier) Verify(ctx context.Context, e *Envelope) ([]Accepted
 	// If *any* signature is found to be incorrect, it is skipped
 	var acceptedKeys []AcceptedKey
 	usedKeyids := make(map[string]string)
+<<<<<<< HEAD
 	unverified_providers := make([]Verifier, len(ev.providers))
 	copy(unverified_providers, ev.providers)
+=======
+	unverified_providers := ev.providers
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, s := range e.Signatures {
 		sig, err := b64Decode(s.Sig)
 		if err != nil {

@@ -152,7 +152,11 @@ func checkForNeatThings() {
 }
 ```
 
+<<<<<<< HEAD
 It knows about both the `Unwrap() error` and `Unwrap() []error` methods that are
+=======
+It knows about both the `Cause() error` and `Unwrap() error` methods that are
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 often used in the community, and will call them as many times as possible.
 
 ### Defer

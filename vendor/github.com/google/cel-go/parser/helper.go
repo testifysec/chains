@@ -115,7 +115,11 @@ func (p *parserHelper) newObjectField(fieldID int64, field string, value ast.Exp
 
 func (p *parserHelper) newComprehension(ctx any,
 	iterRange ast.Expr,
+<<<<<<< HEAD
 	iterVar,
+=======
+	iterVar string,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	accuVar string,
 	accuInit ast.Expr,
 	condition ast.Expr,
@@ -125,6 +129,7 @@ func (p *parserHelper) newComprehension(ctx any,
 		p.newID(ctx), iterRange, iterVar, accuVar, accuInit, condition, step, result)
 }
 
+<<<<<<< HEAD
 func (p *parserHelper) newComprehensionTwoVar(ctx any,
 	iterRange ast.Expr,
 	iterVar, iterVar2,
@@ -137,6 +142,8 @@ func (p *parserHelper) newComprehensionTwoVar(ctx any,
 		p.newID(ctx), iterRange, iterVar, iterVar2, accuVar, accuInit, condition, step, result)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (p *parserHelper) newID(ctx any) int64 {
 	if id, isID := ctx.(int64); isID {
 		return id
@@ -152,12 +159,24 @@ func (p *parserHelper) id(ctx any) int64 {
 	var offset ast.OffsetRange
 	switch c := ctx.(type) {
 	case antlr.ParserRuleContext:
+<<<<<<< HEAD
 		start := c.GetStart()
 		offset.Start = p.sourceInfo.ComputeOffset(int32(start.GetLine()), int32(start.GetColumn()))
 		offset.Stop = offset.Start + int32(len(c.GetText()))
 	case antlr.Token:
 		offset.Start = p.sourceInfo.ComputeOffset(int32(c.GetLine()), int32(c.GetColumn()))
 		offset.Stop = offset.Start + int32(len(c.GetText()))
+=======
+		start, stop := c.GetStart(), c.GetStop()
+		if stop == nil {
+			stop = start
+		}
+		offset.Start = p.sourceInfo.ComputeOffset(int32(start.GetLine()), int32(start.GetColumn()))
+		offset.Stop = p.sourceInfo.ComputeOffset(int32(stop.GetLine()), int32(stop.GetColumn()))
+	case antlr.Token:
+		offset.Start = p.sourceInfo.ComputeOffset(int32(c.GetLine()), int32(c.GetColumn()))
+		offset.Stop = offset.Start
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case common.Location:
 		offset.Start = p.sourceInfo.ComputeOffset(int32(c.Line()), int32(c.Column()))
 		offset.Stop = offset.Start
@@ -173,6 +192,7 @@ func (p *parserHelper) id(ctx any) int64 {
 	return id
 }
 
+<<<<<<< HEAD
 func (p *parserHelper) deleteID(id int64) {
 	p.sourceInfo.ClearOffsetRange(id)
 	if id == p.nextID-1 {
@@ -180,14 +200,19 @@ func (p *parserHelper) deleteID(id int64) {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (p *parserHelper) getLocation(id int64) common.Location {
 	return p.sourceInfo.GetStartLocation(id)
 }
 
+<<<<<<< HEAD
 func (p *parserHelper) getLocationByOffset(offset int32) common.Location {
 	return p.getSourceInfo().GetLocationByOffset(offset)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // buildMacroCallArg iterates the expression and returns a new expression
 // where all macros have been replaced by their IDs in MacroCalls
 func (p *parserHelper) buildMacroCallArg(expr ast.Expr) ast.Expr {
@@ -395,10 +420,15 @@ func (e *exprHelper) Copy(expr ast.Expr) ast.Expr {
 		cond := e.Copy(compre.LoopCondition())
 		step := e.Copy(compre.LoopStep())
 		result := e.Copy(compre.Result())
+<<<<<<< HEAD
 		// All comprehensions can be represented by the two-variable comprehension since the
 		// differentiation between one and two-variable is whether the iterVar2 value is non-empty.
 		return e.exprFactory.NewComprehensionTwoVar(copyID,
 			iterRange, compre.IterVar(), compre.IterVar2(), compre.AccuVar(), accuInit, cond, step, result)
+=======
+		return e.exprFactory.NewComprehension(copyID,
+			iterRange, compre.IterVar(), compre.AccuVar(), accuInit, cond, step, result)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return e.exprFactory.NewUnspecifiedExpr(copyID)
 }
@@ -446,6 +476,7 @@ func (e *exprHelper) NewComprehension(
 		e.nextMacroID(), iterRange, iterVar, accuVar, accuInit, condition, step, result)
 }
 
+<<<<<<< HEAD
 // NewComprehensionTwoVar implements the ExprHelper interface method.
 func (e *exprHelper) NewComprehensionTwoVar(
 	iterRange ast.Expr,
@@ -460,6 +491,8 @@ func (e *exprHelper) NewComprehensionTwoVar(
 		e.nextMacroID(), iterRange, iterVar, iterVar2, accuVar, accuInit, condition, step, result)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // NewIdent implements the ExprHelper interface method.
 func (e *exprHelper) NewIdent(name string) ast.Expr {
 	return e.exprFactory.NewIdent(e.nextMacroID(), name)
@@ -470,11 +503,14 @@ func (e *exprHelper) NewAccuIdent() ast.Expr {
 	return e.exprFactory.NewAccuIdent(e.nextMacroID())
 }
 
+<<<<<<< HEAD
 // AccuIdentName implements the ExprHelper interface method.
 func (e *exprHelper) AccuIdentName() string {
 	return e.exprFactory.AccuIdentName()
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // NewGlobalCall implements the ExprHelper interface method.
 func (e *exprHelper) NewCall(function string, args ...ast.Expr) ast.Expr {
 	return e.exprFactory.NewCall(e.nextMacroID(), function, args...)

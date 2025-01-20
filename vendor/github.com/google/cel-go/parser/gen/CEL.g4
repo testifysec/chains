@@ -52,14 +52,22 @@ unary
 
 member
     : primary                                                       # PrimaryExpr
+<<<<<<< HEAD
     | member op='.' (opt='?')? id=escapeIdent                       # Select
+=======
+    | member op='.' (opt='?')? id=IDENTIFIER                        # Select
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     | member op='.' id=IDENTIFIER open='(' args=exprList? ')'       # MemberCall
     | member op='[' (opt='?')? index=expr ']'                       # Index
     ;
 
 primary
+<<<<<<< HEAD
     : leadingDot='.'? id=IDENTIFIER                                # Ident
     | leadingDot='.'? id=IDENTIFIER (op='(' args=exprList? ')')     # GlobalCall
+=======
+    : leadingDot='.'? id=IDENTIFIER (op='(' args=exprList? ')')?    # IdentOrGlobalCall
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     | '(' e=expr ')'                                                # Nested
     | op='[' elems=listInit? ','? ']'                               # CreateList
     | op='{' entries=mapInitializerList? ','? '}'                   # CreateStruct
@@ -81,18 +89,25 @@ fieldInitializerList
     ;
 
 optField
+<<<<<<< HEAD
     : (opt='?')? escapeIdent
+=======
+    : (opt='?')? IDENTIFIER
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     ;
 
 mapInitializerList
     : keys+=optExpr cols+=':' values+=expr (',' keys+=optExpr cols+=':' values+=expr)*
     ;
 
+<<<<<<< HEAD
 escapeIdent
     : id=IDENTIFIER      # SimpleIdentifier
     | id=ESC_IDENTIFIER  # EscapedIdentifier
 ;
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 optExpr
     : (opt='?')? e=expr
     ;
@@ -204,4 +219,7 @@ STRING
 BYTES : ('b' | 'B') STRING;
 
 IDENTIFIER : (LETTER | '_') ( LETTER | DIGIT | '_')*;
+<<<<<<< HEAD
 ESC_IDENTIFIER : '`' (LETTER | DIGIT | '_' | '.' | '-' | '/' | ' ')+ '`';
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

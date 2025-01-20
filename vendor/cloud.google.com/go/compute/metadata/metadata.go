@@ -24,7 +24,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+<<<<<<< HEAD
 	"log/slog"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net"
 	"net/http"
 	"net/url"
@@ -61,10 +64,14 @@ var (
 	instID  = &cachedValue{k: "instance/id", trim: true}
 )
 
+<<<<<<< HEAD
 var defaultClient = &Client{
 	hc:     newDefaultHTTPClient(),
 	logger: slog.New(noOpHandler{}),
 }
+=======
+var defaultClient = &Client{hc: newDefaultHTTPClient()}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 func newDefaultHTTPClient() *http.Client {
 	return &http.Client{
@@ -412,6 +419,7 @@ func strsContains(ss []string, s string) bool {
 
 // A Client provides metadata.
 type Client struct {
+<<<<<<< HEAD
 	hc     *http.Client
 	logger *slog.Logger
 }
@@ -423,12 +431,16 @@ type Options struct {
 	// Logger is used to log information about HTTP request and responses.
 	// If not provided, nothing will be logged. Optional.
 	Logger *slog.Logger
+=======
+	hc *http.Client
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewClient returns a Client that can be used to fetch metadata.
 // Returns the client that uses the specified http.Client for HTTP requests.
 // If nil is specified, returns the default client.
 func NewClient(c *http.Client) *Client {
+<<<<<<< HEAD
 	return NewWithOptions(&Options{
 		Client: c,
 	})
@@ -448,6 +460,12 @@ func NewWithOptions(opts *Options) *Client {
 		logger = slog.New(noOpHandler{})
 	}
 	return &Client{hc: client, logger: logger}
+=======
+	if c == nil {
+		return defaultClient
+	}
+	return &Client{hc: c}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // getETag returns a value from the metadata service as well as the associated ETag.
@@ -477,14 +495,20 @@ func (c *Client) getETag(ctx context.Context, suffix string) (value, etag string
 	req.Header.Set("User-Agent", userAgent)
 	var res *http.Response
 	var reqErr error
+<<<<<<< HEAD
 	var body []byte
 	retryer := newRetryer()
 	for {
 		c.logger.DebugContext(ctx, "metadata request", "request", httpRequest(req, nil))
+=======
+	retryer := newRetryer()
+	for {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		res, reqErr = c.hc.Do(req)
 		var code int
 		if res != nil {
 			code = res.StatusCode
+<<<<<<< HEAD
 			body, err = io.ReadAll(res.Body)
 			if err != nil {
 				res.Body.Close()
@@ -492,6 +516,8 @@ func (c *Client) getETag(ctx context.Context, suffix string) (value, etag string
 			}
 			c.logger.DebugContext(ctx, "metadata response", "response", httpResponse(res, body))
 			res.Body.Close()
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		if delay, shouldRetry := retryer.Retry(code, reqErr); shouldRetry {
 			if res != nil && res.Body != nil {
@@ -507,6 +533,7 @@ func (c *Client) getETag(ctx context.Context, suffix string) (value, etag string
 	if reqErr != nil {
 		return "", "", reqErr
 	}
+<<<<<<< HEAD
 	if res.StatusCode == http.StatusNotFound {
 		return "", "", NotDefinedError(suffix)
 	}
@@ -514,6 +541,20 @@ func (c *Client) getETag(ctx context.Context, suffix string) (value, etag string
 		return "", "", &Error{Code: res.StatusCode, Message: string(body)}
 	}
 	return string(body), res.Header.Get("Etag"), nil
+=======
+	defer res.Body.Close()
+	if res.StatusCode == http.StatusNotFound {
+		return "", "", NotDefinedError(suffix)
+	}
+	all, err := io.ReadAll(res.Body)
+	if err != nil {
+		return "", "", err
+	}
+	if res.StatusCode != 200 {
+		return "", "", &Error{Code: res.StatusCode, Message: string(all)}
+	}
+	return string(all), res.Header.Get("Etag"), nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // Get returns a value from the metadata service.

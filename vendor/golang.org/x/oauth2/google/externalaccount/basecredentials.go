@@ -278,6 +278,7 @@ type Format struct {
 type CredentialSource struct {
 	// File is the location for file sourced credentials.
 	// One field amongst File, URL, Executable, or EnvironmentID should be provided, depending on the kind of credential in question.
+<<<<<<< HEAD
 	//
 	// Important: If you accept a credential configuration (credential
 	// JSON/File/Stream) from an external source for authentication to Google
@@ -286,10 +287,13 @@ type CredentialSource struct {
 	// Google APIs can compromise the security of your systems and data. For
 	// more information, refer to [Validate credential configurations from
 	// external sources](https://cloud.google.com/docs/authentication/external/externally-sourced-credentials).
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	File string `json:"file"`
 
 	// Url is the URL to call for URL sourced credentials.
 	// One field amongst File, URL, Executable, or EnvironmentID should be provided, depending on the kind of credential in question.
+<<<<<<< HEAD
 	//
 	// Important: If you accept a credential configuration (credential
 	// JSON/File/Stream) from an external source for authentication to Google
@@ -298,12 +302,15 @@ type CredentialSource struct {
 	// Google APIs can compromise the security of your systems and data. For
 	// more information, refer to [Validate credential configurations from
 	// external sources](https://cloud.google.com/docs/authentication/external/externally-sourced-credentials).
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	URL string `json:"url"`
 	// Headers are the headers to attach to the request for URL sourced credentials.
 	Headers map[string]string `json:"headers"`
 
 	// Executable is the configuration object for executable sourced credentials.
 	// One field amongst File, URL, Executable, or EnvironmentID should be provided, depending on the kind of credential in question.
+<<<<<<< HEAD
 	//
 	// Important: If you accept a credential configuration (credential
 	// JSON/File/Stream) from an external source for authentication to Google
@@ -312,10 +319,13 @@ type CredentialSource struct {
 	// Google APIs can compromise the security of your systems and data. For
 	// more information, refer to [Validate credential configurations from
 	// external sources](https://cloud.google.com/docs/authentication/external/externally-sourced-credentials).
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	Executable *ExecutableConfig `json:"executable"`
 
 	// EnvironmentID is the EnvironmentID used for AWS sourced credentials. This should start with "AWS".
 	// One field amongst File, URL, Executable, or EnvironmentID should be provided, depending on the kind of credential in question.
+<<<<<<< HEAD
 	//
 	// Important: If you accept a credential configuration (credential
 	// JSON/File/Stream) from an external source for authentication to Google
@@ -324,6 +334,8 @@ type CredentialSource struct {
 	// Google APIs can compromise the security of your systems and data. For
 	// more information, refer to [Validate credential configurations from
 	// external sources](https://cloud.google.com/docs/authentication/external/externally-sourced-credentials).
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	EnvironmentID string `json:"environment_id"`
 	// RegionURL is the metadata URL to retrieve the region from for EC2 AWS credentials.
 	RegionURL string `json:"region_url"`
@@ -361,7 +373,11 @@ type SubjectTokenSupplier interface {
 type AwsSecurityCredentialsSupplier interface {
 	// AwsRegion should return the AWS region or an error.
 	AwsRegion(ctx context.Context, options SupplierOptions) (string, error)
+<<<<<<< HEAD
 	// AwsSecurityCredentials should return a valid set of AwsSecurityCredentials or an error.
+=======
+	// GetAwsSecurityCredentials should return a valid set of AwsSecurityCredentials or an error.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// The external account token source does not cache the returned security credentials, so caching
 	// logic should be implemented in the supplier to prevent multiple requests for the same security credentials.
 	AwsSecurityCredentials(ctx context.Context, options SupplierOptions) (*AwsSecurityCredentials, error)

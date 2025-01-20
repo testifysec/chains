@@ -3,6 +3,7 @@ package internal
 import (
 	"bytes"
 	"fmt"
+<<<<<<< HEAD
 	"go/ast"
 	"go/token"
 	"slices"
@@ -19,6 +20,22 @@ import (
 type Change struct {
 	From, To int
 	NewLines []string
+=======
+	"go/token"
+	"strings"
+
+	diffpkg "github.com/sourcegraph/go-diff/diff"
+
+	"github.com/golangci/golangci-lint/pkg/config"
+	"github.com/golangci/golangci-lint/pkg/lint/linter"
+	"github.com/golangci/golangci-lint/pkg/logutils"
+	"github.com/golangci/golangci-lint/pkg/result"
+)
+
+type Change struct {
+	LineRange   result.Range
+	Replacement result.Replacement
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type diffLineType string
@@ -29,6 +46,11 @@ const (
 	diffLineDeleted  diffLineType = "deleted"
 )
 
+<<<<<<< HEAD
+=======
+type fmtTextFormatter func(settings *config.LintersSettings) string
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type diffLine struct {
 	originalNumber int // 1-based original line number
 	typ            diffLineType
@@ -44,6 +66,7 @@ type hunkChangesParser struct {
 
 	log logutils.Log
 
+<<<<<<< HEAD
 	changes []Change
 }
 
@@ -86,6 +109,60 @@ func (p *hunkChangesParser) parse(h *diffpkg.Hunk) []Change {
 }
 
 func (p *hunkChangesParser) handleOriginalLine(lines []diffLine, line diffLine, i *int) {
+=======
+	lines []diffLine
+
+	ret []Change
+}
+
+func (p *hunkChangesParser) parseDiffLines(h *diffpkg.Hunk) {
+	lines := bytes.Split(h.Body, []byte{'\n'})
+	currentOriginalLineNumber := int(h.OrigStartLine)
+	var ret []diffLine
+
+	for i, line := range lines {
+		dl := diffLine{
+			originalNumber: currentOriginalLineNumber,
+		}
+
+		lineStr := string(line)
+
+		if strings.HasPrefix(lineStr, "-") {
+			dl.typ = diffLineDeleted
+			dl.data = strings.TrimPrefix(lineStr, "-")
+			currentOriginalLineNumber++
+		} else if strings.HasPrefix(lineStr, "+") {
+			dl.typ = diffLineAdded
+			dl.data = strings.TrimPrefix(lineStr, "+")
+		} else {
+			if i == len(lines)-1 && lineStr == "" {
+				// handle last \n: don't add an empty original line
+				break
+			}
+
+			dl.typ = diffLineOriginal
+			dl.data = strings.TrimPrefix(lineStr, " ")
+			currentOriginalLineNumber++
+		}
+
+		ret = append(ret, dl)
+	}
+
+	// if > 0, then the original file had a 'No newline at end of file' mark
+	if h.OrigNoNewlineAt > 0 {
+		dl := diffLine{
+			originalNumber: currentOriginalLineNumber + 1,
+			typ:            diffLineAdded,
+			data:           "",
+		}
+		ret = append(ret, dl)
+	}
+
+	p.lines = ret
+}
+
+func (p *hunkChangesParser) handleOriginalLine(line diffLine, i *int) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(p.replacementLinesToPrepend) == 0 {
 		p.lastOriginalLine = &line
 		*i++
@@ -99,6 +176,7 @@ func (p *hunkChangesParser) handleOriginalLine(lines []diffLine, line diffLine, 
 
 	*i++
 	var followingAddedLines []string
+<<<<<<< HEAD
 	for ; *i < len(lines) && lines[*i].typ == diffLineAdded; *i++ {
 		followingAddedLines = append(followingAddedLines, lines[*i].data)
 	}
@@ -110,12 +188,28 @@ func (p *hunkChangesParser) handleOriginalLine(lines []diffLine, line diffLine, 
 	}
 	p.changes = append(p.changes, change)
 
+=======
+	for ; *i < len(p.lines) && p.lines[*i].typ == diffLineAdded; *i++ {
+		followingAddedLines = append(followingAddedLines, p.lines[*i].data)
+	}
+
+	p.ret = append(p.ret, Change{
+		LineRange: result.Range{
+			From: line.originalNumber,
+			To:   line.originalNumber,
+		},
+		Replacement: result.Replacement{
+			NewLines: append(p.replacementLinesToPrepend, append([]string{line.data}, followingAddedLines...)...),
+		},
+	})
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	p.replacementLinesToPrepend = nil
 	p.lastOriginalLine = &line
 }
 
 func (p *hunkChangesParser) handleDeletedLines(deletedLines []diffLine, addedLines []string) {
 	change := Change{
+<<<<<<< HEAD
 		From: deletedLines[0].originalNumber,
 		To:   deletedLines[len(deletedLines)-1].originalNumber,
 	}
@@ -132,6 +226,34 @@ func (p *hunkChangesParser) handleDeletedLines(deletedLines []diffLine, addedLin
 	}
 
 	p.changes = append(p.changes, change)
+=======
+		LineRange: result.Range{
+			From: deletedLines[0].originalNumber,
+			To:   deletedLines[len(deletedLines)-1].originalNumber,
+		},
+	}
+
+	if len(addedLines) != 0 {
+		change.Replacement.NewLines = append([]string{}, p.replacementLinesToPrepend...)
+		change.Replacement.NewLines = append(change.Replacement.NewLines, addedLines...)
+		if len(p.replacementLinesToPrepend) != 0 {
+			p.replacementLinesToPrepend = nil
+		}
+
+		p.ret = append(p.ret, change)
+		return
+	}
+
+	// delete-only change with possible prepending
+	if len(p.replacementLinesToPrepend) != 0 {
+		change.Replacement.NewLines = p.replacementLinesToPrepend
+		p.replacementLinesToPrepend = nil
+	} else {
+		change.Replacement.NeedOnlyDelete = true
+	}
+
+	p.ret = append(p.ret, change)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (p *hunkChangesParser) handleAddedOnlyLines(addedLines []string) {
@@ -144,11 +266,15 @@ func (p *hunkChangesParser) handleAddedOnlyLines(addedLines []string) {
 		// 2. ...
 
 		p.replacementLinesToPrepend = addedLines
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return
 	}
 
 	// add-only change merged into the last original line with possible prepending
+<<<<<<< HEAD
 	change := Change{
 		From:     p.lastOriginalLine.originalNumber,
 		To:       p.lastOriginalLine.originalNumber,
@@ -230,6 +356,68 @@ func ExtractDiagnosticFromPatch(
 
 	adjLine := pass.Fset.PositionFor(file.Pos(), false).Line - pass.Fset.PositionFor(file.Pos(), true).Line
 
+=======
+	p.ret = append(p.ret, Change{
+		LineRange: result.Range{
+			From: p.lastOriginalLine.originalNumber,
+			To:   p.lastOriginalLine.originalNumber,
+		},
+		Replacement: result.Replacement{
+			NewLines: append(p.replacementLinesToPrepend, append([]string{p.lastOriginalLine.data}, addedLines...)...),
+		},
+	})
+	p.replacementLinesToPrepend = nil
+}
+
+func (p *hunkChangesParser) parse(h *diffpkg.Hunk) []Change {
+	p.parseDiffLines(h)
+
+	for i := 0; i < len(p.lines); {
+		line := p.lines[i]
+		if line.typ == diffLineOriginal {
+			p.handleOriginalLine(line, &i)
+			continue
+		}
+
+		var deletedLines []diffLine
+		for ; i < len(p.lines) && p.lines[i].typ == diffLineDeleted; i++ {
+			deletedLines = append(deletedLines, p.lines[i])
+		}
+
+		var addedLines []string
+		for ; i < len(p.lines) && p.lines[i].typ == diffLineAdded; i++ {
+			addedLines = append(addedLines, p.lines[i].data)
+		}
+
+		if len(deletedLines) != 0 {
+			p.handleDeletedLines(deletedLines, addedLines)
+			continue
+		}
+
+		// no deletions, only additions
+		p.handleAddedOnlyLines(addedLines)
+	}
+
+	if len(p.replacementLinesToPrepend) != 0 {
+		p.log.Infof("The diff contains only additions: no original or deleted lines: %#v", p.lines)
+		return nil
+	}
+
+	return p.ret
+}
+
+func ExtractIssuesFromPatch(patch string, lintCtx *linter.Context, linterName string, formatter fmtTextFormatter) ([]result.Issue, error) {
+	diffs, err := diffpkg.ParseMultiFileDiff([]byte(patch))
+	if err != nil {
+		return nil, fmt.Errorf("can't parse patch: %w", err)
+	}
+
+	if len(diffs) == 0 {
+		return nil, fmt.Errorf("got no diffs from patch parser: %v", patch)
+	}
+
+	var issues []result.Issue
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, d := range diffs {
 		if len(d.Hunks) == 0 {
 			lintCtx.Log.Warnf("Got no hunks in diff %+v", d)
@@ -242,11 +430,29 @@ func ExtractDiagnosticFromPatch(
 			changes := p.parse(hunk)
 
 			for _, change := range changes {
+<<<<<<< HEAD
 				pass.Report(toDiagnostic(ft, change, adjLine))
+=======
+				i := result.Issue{
+					FromLinter: linterName,
+					Pos: token.Position{
+						Filename: d.NewName,
+						Line:     change.LineRange.From,
+					},
+					Text:        formatter(lintCtx.Settings()),
+					Replacement: &change.Replacement,
+				}
+				if change.LineRange.From != change.LineRange.To {
+					i.LineRange = &change.LineRange
+				}
+
+				issues = append(issues, i)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 		}
 	}
 
+<<<<<<< HEAD
 	return nil
 }
 
@@ -272,4 +478,7 @@ func toDiagnostic(ft *token.File, change Change, adjLine int) analysis.Diagnosti
 			}},
 		}},
 	}
+=======
+	return issues, nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

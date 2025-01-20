@@ -86,8 +86,13 @@ type ClusterResourceData struct {
 	Resource ClusterUpdate
 }
 
+<<<<<<< HEAD
 // RawEqual returns true if other is equal to r.
 func (c *ClusterResourceData) RawEqual(other ResourceData) bool {
+=======
+// Equal returns true if other is equal to r.
+func (c *ClusterResourceData) Equal(other ResourceData) bool {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if c == nil && other == nil {
 		return true
 	}

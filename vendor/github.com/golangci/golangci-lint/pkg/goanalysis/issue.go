@@ -26,7 +26,11 @@ type EncodingIssue struct {
 	Severity             string
 	Pos                  token.Position
 	LineRange            *result.Range
+<<<<<<< HEAD
 	SuggestedFixes       []analysis.SuggestedFix
+=======
+	Replacement          *result.Replacement
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	ExpectNoLint         bool
 	ExpectedNoLintLinter string
 }

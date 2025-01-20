@@ -17,7 +17,10 @@
 *.test
 
 .vscode
+<<<<<<< HEAD
 .idea/
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out

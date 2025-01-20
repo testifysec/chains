@@ -8,7 +8,10 @@ This troubleshooting guide covers failure investigation techniques, common error
   - [Permission issues](#permission-issues)
 - [Find relevant information in errors](#find-relevant-information-in-errors)
 - [Enable and configure logging](#enable-and-configure-logging)
+<<<<<<< HEAD
 - [Troubleshoot persistent token caching issues](#troubleshoot-persistent-token-caching-issues)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 - [Troubleshoot AzureCLICredential authentication issues](#troubleshoot-azureclicredential-authentication-issues)
 - [Troubleshoot AzureDeveloperCLICredential authentication issues](#troubleshoot-azuredeveloperclicredential-authentication-issues)
 - [Troubleshoot AzurePipelinesCredential authentication issues](#troubleshoot-azurepipelinescredential-authentication-issues)
@@ -237,6 +240,7 @@ azd auth token --output json --scope https://management.core.windows.net/.defaul
 | No service connection found with identifier |The `serviceConnectionID` argument to `NewAzurePipelinesCredential` is incorrect| Verify the service connection ID. This parameter refers to the `resourceId` of the Azure Service Connection. It can also be found in the query string of the service connection's configuration in Azure DevOps. [Azure Pipelines documentation](https://learn.microsoft.com/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml) has more information about service connections.|
 |401 (Unauthorized) response from OIDC endpoint|The `systemAccessToken` argument to `NewAzurePipelinesCredential` is incorrect|Check pipeline configuration. This value comes from the predefined variable `System.AccessToken` [as described in Azure Pipelines documentation](https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#systemaccesstoken).|
 
+<<<<<<< HEAD
 ## Troubleshoot persistent token caching issues
 
 ### macOS
@@ -260,6 +264,8 @@ Try `go build` again with `CGO_ENABLED=1`. You may need to install native build 
 macOS prohibits Keychain access from environments without a GUI such as SSH sessions. If your application calls the persistent cache constructor ([cache.New](https://pkg.go.dev/github.com/Azure/azure-sdk-for-go/sdk/azidentity/cache#New)) from an SSH session on a macOS host, you'll see an error like
 `persistent storage isn't available due to error "User interaction is not allowed. (-25308)"`. This doesn't mean authentication is impossible, only that credentials can't persist data and the application must reauthenticate the next time it runs.
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## Get additional help
 
 Additional information on ways to reach out for support can be found in [SUPPORT.md](https://github.com/Azure/azure-sdk-for-go/blob/main/SUPPORT.md).

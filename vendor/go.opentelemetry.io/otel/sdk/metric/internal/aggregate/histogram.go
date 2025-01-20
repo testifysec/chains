@@ -11,12 +11,20 @@ import (
 	"time"
 
 	"go.opentelemetry.io/otel/attribute"
+<<<<<<< HEAD
+=======
+	"go.opentelemetry.io/otel/sdk/metric/internal/exemplar"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/otel/sdk/metric/metricdata"
 )
 
 type buckets[N int64 | float64] struct {
 	attrs attribute.Set
+<<<<<<< HEAD
 	res   FilteredExemplarReservoir[N]
+=======
+	res   exemplar.FilteredReservoir[N]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	counts   []uint64
 	count    uint64
@@ -47,13 +55,21 @@ type histValues[N int64 | float64] struct {
 	noSum  bool
 	bounds []float64
 
+<<<<<<< HEAD
 	newRes   func(attribute.Set) FilteredExemplarReservoir[N]
+=======
+	newRes   func() exemplar.FilteredReservoir[N]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	limit    limiter[*buckets[N]]
 	values   map[attribute.Distinct]*buckets[N]
 	valuesMu sync.Mutex
 }
 
+<<<<<<< HEAD
 func newHistValues[N int64 | float64](bounds []float64, noSum bool, limit int, r func(attribute.Set) FilteredExemplarReservoir[N]) *histValues[N] {
+=======
+func newHistValues[N int64 | float64](bounds []float64, noSum bool, limit int, r func() exemplar.FilteredReservoir[N]) *histValues[N] {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// The responsibility of keeping all buckets correctly associated with the
 	// passed boundaries is ultimately this type's responsibility. Make a copy
 	// here so we can always guarantee this. Or, in the case of failure, have
@@ -93,7 +109,11 @@ func (s *histValues[N]) measure(ctx context.Context, value N, fltrAttr attribute
 		//
 		//   buckets = (-∞, 0], (0, 5.0], (5.0, 10.0], (10.0, +∞)
 		b = newBuckets[N](attr, len(s.bounds)+1)
+<<<<<<< HEAD
 		b.res = s.newRes(attr)
+=======
+		b.res = s.newRes()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 		// Ensure min and max are recorded values (not zero), for new buckets.
 		b.min, b.max = value, value
@@ -108,7 +128,11 @@ func (s *histValues[N]) measure(ctx context.Context, value N, fltrAttr attribute
 
 // newHistogram returns an Aggregator that summarizes a set of measurements as
 // an histogram.
+<<<<<<< HEAD
 func newHistogram[N int64 | float64](boundaries []float64, noMinMax, noSum bool, limit int, r func(attribute.Set) FilteredExemplarReservoir[N]) *histogram[N] {
+=======
+func newHistogram[N int64 | float64](boundaries []float64, noMinMax, noSum bool, limit int, r func() exemplar.FilteredReservoir[N]) *histogram[N] {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return &histogram[N]{
 		histValues: newHistValues[N](boundaries, noSum, limit, r),
 		noMinMax:   noMinMax,

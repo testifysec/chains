@@ -34,3 +34,10 @@ func prefixLogger(p *clientImpl) *internalgrpclog.PrefixLogger {
 func clientPrefix(p *clientImpl) string {
 	return fmt.Sprintf("[xds-client %p] ", p)
 }
+<<<<<<< HEAD
+=======
+
+func authorityPrefix(p *clientImpl, serverURI string) string {
+	return fmt.Sprintf("%s[%s] ", clientPrefix(p), serverURI)
+}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

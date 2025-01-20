@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # v1.17.55 (2025-01-24)
 
 * **Dependency Update**: Updated to the latest SDK module versions
@@ -45,6 +46,8 @@
 
 * **Dependency Update**: Updated to the latest SDK module versions
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 # v1.17.44 (2024-11-07)
 
 * **Dependency Update**: Updated to the latest SDK module versions

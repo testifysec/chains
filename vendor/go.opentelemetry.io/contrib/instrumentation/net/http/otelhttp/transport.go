@@ -13,9 +13,17 @@ import (
 
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp/internal/request"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp/internal/semconv"
+<<<<<<< HEAD
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
+=======
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp/internal/semconvutil"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/otel/propagation"
 
 	"go.opentelemetry.io/otel/trace"
@@ -27,6 +35,10 @@ type Transport struct {
 	rt http.RoundTripper
 
 	tracer             trace.Tracer
+<<<<<<< HEAD
+=======
+	meter              metric.Meter
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	propagators        propagation.TextMapPropagator
 	spanStartOptions   []trace.SpanStartOption
 	filters            []Filter
@@ -34,7 +46,14 @@ type Transport struct {
 	clientTrace        func(context.Context) *httptrace.ClientTrace
 	metricAttributesFn func(*http.Request) []attribute.KeyValue
 
+<<<<<<< HEAD
 	semconv semconv.HTTPClient
+=======
+	semconv              semconv.HTTPClient
+	requestBytesCounter  metric.Int64Counter
+	responseBytesCounter metric.Int64Counter
+	latencyMeasure       metric.Float64Histogram
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 var _ http.RoundTripper = &Transport{}
@@ -51,7 +70,12 @@ func NewTransport(base http.RoundTripper, opts ...Option) *Transport {
 	}
 
 	t := Transport{
+<<<<<<< HEAD
 		rt: base,
+=======
+		rt:      base,
+		semconv: semconv.NewHTTPClient(),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	defaultOpts := []Option{
@@ -61,21 +85,59 @@ func NewTransport(base http.RoundTripper, opts ...Option) *Transport {
 
 	c := newConfig(append(defaultOpts, opts...)...)
 	t.applyConfig(c)
+<<<<<<< HEAD
+=======
+	t.createMeasures()
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	return &t
 }
 
 func (t *Transport) applyConfig(c *config) {
 	t.tracer = c.Tracer
+<<<<<<< HEAD
+=======
+	t.meter = c.Meter
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	t.propagators = c.Propagators
 	t.spanStartOptions = c.SpanStartOptions
 	t.filters = c.Filters
 	t.spanNameFormatter = c.SpanNameFormatter
 	t.clientTrace = c.ClientTrace
+<<<<<<< HEAD
 	t.semconv = semconv.NewHTTPClient(c.Meter)
 	t.metricAttributesFn = c.MetricAttributesFn
 }
 
+=======
+	t.metricAttributesFn = c.MetricAttributesFn
+}
+
+func (t *Transport) createMeasures() {
+	var err error
+	t.requestBytesCounter, err = t.meter.Int64Counter(
+		clientRequestSize,
+		metric.WithUnit("By"),
+		metric.WithDescription("Measures the size of HTTP request messages."),
+	)
+	handleErr(err)
+
+	t.responseBytesCounter, err = t.meter.Int64Counter(
+		clientResponseSize,
+		metric.WithUnit("By"),
+		metric.WithDescription("Measures the size of HTTP response messages."),
+	)
+	handleErr(err)
+
+	t.latencyMeasure, err = t.meter.Float64Histogram(
+		clientDuration,
+		metric.WithUnit("ms"),
+		metric.WithDescription("Measures the duration of outbound HTTP requests."),
+	)
+	handleErr(err)
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func defaultTransportFormatter(_ string, r *http.Request) string {
 	return "HTTP " + r.Method
 }
@@ -145,6 +207,7 @@ func (t *Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 	}
 
 	// metrics
+<<<<<<< HEAD
 	metricOpts := t.semconv.MetricOptions(semconv.MetricAttributes{
 		Req:                  r,
 		StatusCode:           res.StatusCode,
@@ -154,6 +217,18 @@ func (t *Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 	// For handling response bytes we leverage a callback when the client reads the http response
 	readRecordFunc := func(n int64) {
 		t.semconv.RecordResponseSize(ctx, n, metricOpts)
+=======
+	metricAttrs := append(append(labeler.Get(), semconvutil.HTTPClientRequestMetrics(r)...), t.metricAttributesFromRequest(r)...)
+	if res.StatusCode > 0 {
+		metricAttrs = append(metricAttrs, semconv.HTTPStatusCode(res.StatusCode))
+	}
+	o := metric.WithAttributeSet(attribute.NewSet(metricAttrs...))
+
+	t.requestBytesCounter.Add(ctx, bw.BytesRead(), o)
+	// For handling response bytes we leverage a callback when the client reads the http response
+	readRecordFunc := func(n int64) {
+		t.responseBytesCounter.Add(ctx, n, o)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// traces
@@ -165,12 +240,18 @@ func (t *Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 	// Use floating point division here for higher precision (instead of Millisecond method).
 	elapsedTime := float64(time.Since(requestStartTime)) / float64(time.Millisecond)
 
+<<<<<<< HEAD
 	t.semconv.RecordMetrics(ctx, semconv.MetricData{
 		RequestSize: bw.BytesRead(),
 		ElapsedTime: elapsedTime,
 	}, metricOpts)
 
 	return res, nil
+=======
+	t.latencyMeasure.Record(ctx, elapsedTime, o)
+
+	return res, err
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (t *Transport) metricAttributesFromRequest(r *http.Request) []attribute.KeyValue {

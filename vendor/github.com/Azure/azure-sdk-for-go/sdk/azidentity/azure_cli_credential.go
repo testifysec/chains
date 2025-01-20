@@ -30,9 +30,15 @@ type azTokenProvider func(ctx context.Context, scopes []string, tenant, subscrip
 
 // AzureCLICredentialOptions contains optional parameters for AzureCLICredential.
 type AzureCLICredentialOptions struct {
+<<<<<<< HEAD
 	// AdditionallyAllowedTenants specifies tenants to which the credential may authenticate, in addition to
 	// TenantID. When TenantID is empty, this option has no effect and the credential will authenticate to
 	// any requested tenant. Add the wildcard value "*" to allow the credential to authenticate to any tenant.
+=======
+	// AdditionallyAllowedTenants specifies tenants for which the credential may acquire tokens, in addition
+	// to TenantID. Add the wildcard value "*" to allow the credential to acquire tokens for any tenant the
+	// logged in account can access.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	AdditionallyAllowedTenants []string
 
 	// Subscription is the name or ID of a subscription. Set this to acquire tokens for an account other

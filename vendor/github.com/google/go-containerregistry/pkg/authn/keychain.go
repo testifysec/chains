@@ -84,7 +84,11 @@ func (dk *defaultKeychain) Resolve(target Resource) (Authenticator, error) {
 }
 
 // Resolve implements Keychain.
+<<<<<<< HEAD
 func (dk *defaultKeychain) ResolveContext(_ context.Context, target Resource) (Authenticator, error) {
+=======
+func (dk *defaultKeychain) ResolveContext(ctx context.Context, target Resource) (Authenticator, error) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	dk.mu.Lock()
 	defer dk.mu.Unlock()
 
@@ -204,7 +208,11 @@ func (w wrapper) Resolve(r Resource) (Authenticator, error) {
 	return w.ResolveContext(context.Background(), r)
 }
 
+<<<<<<< HEAD
 func (w wrapper) ResolveContext(_ context.Context, r Resource) (Authenticator, error) {
+=======
+func (w wrapper) ResolveContext(ctx context.Context, r Resource) (Authenticator, error) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	u, p, err := w.h.Get(r.RegistryStr())
 	if err != nil {
 		return Anonymous, nil

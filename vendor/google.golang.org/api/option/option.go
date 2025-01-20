@@ -44,6 +44,7 @@ func (w withCredFile) Apply(o *internal.DialSettings) {
 // WithCredentialsFile returns a ClientOption that authenticates
 // API calls with the given service account or refresh token JSON
 // credentials file.
+<<<<<<< HEAD
 //
 // Important: If you accept a credential configuration (credential
 // JSON/File/Stream) from an external source for authentication to Google
@@ -52,6 +53,8 @@ func (w withCredFile) Apply(o *internal.DialSettings) {
 // Google APIs can compromise the security of your systems and data. For
 // more information, refer to [Validate credential configurations from
 // external sources](https://cloud.google.com/docs/authentication/external/externally-sourced-credentials).
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func WithCredentialsFile(filename string) ClientOption {
 	return withCredFile(filename)
 }
@@ -59,6 +62,7 @@ func WithCredentialsFile(filename string) ClientOption {
 // WithServiceAccountFile returns a ClientOption that uses a Google service
 // account credentials file to authenticate.
 //
+<<<<<<< HEAD
 // Important: If you accept a credential configuration (credential
 // JSON/File/Stream) from an external source for authentication to Google
 // Cloud Platform, you must validate it before providing it to any Google
@@ -67,6 +71,8 @@ func WithCredentialsFile(filename string) ClientOption {
 // more information, refer to [Validate credential configurations from
 // external sources](https://cloud.google.com/docs/authentication/external/externally-sourced-credentials).
 //
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Deprecated: Use WithCredentialsFile instead.
 func WithServiceAccountFile(filename string) ClientOption {
 	return WithCredentialsFile(filename)
@@ -75,6 +81,7 @@ func WithServiceAccountFile(filename string) ClientOption {
 // WithCredentialsJSON returns a ClientOption that authenticates
 // API calls with the given service account or refresh token JSON
 // credentials.
+<<<<<<< HEAD
 //
 // Important: If you accept a credential configuration (credential
 // JSON/File/Stream) from an external source for authentication to Google
@@ -83,6 +90,8 @@ func WithServiceAccountFile(filename string) ClientOption {
 // Google APIs can compromise the security of your systems and data. For
 // more information, refer to [Validate credential configurations from
 // external sources](https://cloud.google.com/docs/authentication/external/externally-sourced-credentials).
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func WithCredentialsJSON(p []byte) ClientOption {
 	return withCredentialsJSON(p)
 }

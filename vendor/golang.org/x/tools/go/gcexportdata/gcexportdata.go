@@ -106,11 +106,16 @@ func Find(importPath, srcDir string) (filename, path string) {
 // additional trailing data beyond the end of the export data.
 func NewReader(r io.Reader) (io.Reader, error) {
 	buf := bufio.NewReader(r)
+<<<<<<< HEAD
 	size, err := gcimporter.FindExportData(buf)
+=======
+	_, size, err := gcimporter.FindExportData(buf)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}
 
+<<<<<<< HEAD
 	// We were given an archive and found the __.PKGDEF in it.
 	// This tells us the size of the export data, and we don't
 	// need to return the entire file.
@@ -118,6 +123,21 @@ func NewReader(r io.Reader) (io.Reader, error) {
 		R: buf,
 		N: size,
 	}, nil
+=======
+	if size >= 0 {
+		// We were given an archive and found the __.PKGDEF in it.
+		// This tells us the size of the export data, and we don't
+		// need to return the entire file.
+		return &io.LimitedReader{
+			R: buf,
+			N: size,
+		}, nil
+	} else {
+		// We were given an object file. As such, we don't know how large
+		// the export data is and must return the entire file.
+		return buf, nil
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // readAll works the same way as io.ReadAll, but avoids allocations and copies

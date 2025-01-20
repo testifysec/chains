@@ -2,7 +2,10 @@ package revive
 
 import (
 	"bytes"
+<<<<<<< HEAD
 	"cmp"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"encoding/json"
 	"fmt"
 	"go/token"
@@ -115,7 +118,11 @@ func newWrapper(settings *config.ReviveSettings) (*wrapper, error) {
 }
 
 func (w *wrapper) run(lintCtx *linter.Context, pass *analysis.Pass) ([]goanalysis.Issue, error) {
+<<<<<<< HEAD
 	packages := [][]string{internal.GetGoFileNames(pass)}
+=======
+	packages := [][]string{internal.GetFileNames(pass)}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	failures, err := w.revive.Lint(packages, w.lintingRules, *w.conf)
 	if err != nil {
@@ -165,7 +172,11 @@ func toIssue(pass *analysis.Pass, object *jsonObject) goanalysis.Issue {
 		lineRangeTo = object.Position.Start.Line
 	}
 
+<<<<<<< HEAD
 	issue := &result.Issue{
+=======
+	return goanalysis.NewIssue(&result.Issue{
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		Severity: string(object.Severity),
 		Text:     fmt.Sprintf("%s: %s", object.RuleName, object.Failure.Failure),
 		Pos: token.Position{
@@ -179,6 +190,7 @@ func toIssue(pass *analysis.Pass, object *jsonObject) goanalysis.Issue {
 			To:   lineRangeTo,
 		},
 		FromLinter: linterName,
+<<<<<<< HEAD
 	}
 
 	if object.ReplacementLine != "" {
@@ -197,6 +209,9 @@ func toIssue(pass *analysis.Pass, object *jsonObject) goanalysis.Issue {
 	}
 
 	return goanalysis.NewIssue(issue, pass)
+=======
+	}, pass)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // This function mimics the GetConfig function of revive.
@@ -397,8 +412,17 @@ const defaultConfidence = 0.8
 func normalizeConfig(cfg *lint.Config) {
 	// NOTE(ldez): this custom section for golangci-lint should be kept.
 	// ---
+<<<<<<< HEAD
 	cfg.Confidence = cmp.Or(cfg.Confidence, defaultConfidence)
 	cfg.Severity = cmp.Or(cfg.Severity, lint.SeverityWarning)
+=======
+	if cfg.Confidence == 0 {
+		cfg.Confidence = defaultConfidence
+	}
+	if cfg.Severity == "" {
+		cfg.Severity = lint.SeverityWarning
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// ---
 
 	if len(cfg.Rules) == 0 {

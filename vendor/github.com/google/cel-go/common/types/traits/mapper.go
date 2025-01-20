@@ -31,6 +31,7 @@ type Mapper interface {
 	// (Unknown|Err, false).
 	Find(key ref.Val) (ref.Val, bool)
 }
+<<<<<<< HEAD
 
 // MutableMapper interface which emits an immutable result after an intermediate computation.
 //
@@ -46,3 +47,5 @@ type MutableMapper interface {
 	// ToImmutableMap converts a mutable map into an immutable map.
 	ToImmutableMap() Mapper
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

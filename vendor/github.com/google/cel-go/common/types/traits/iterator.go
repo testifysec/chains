@@ -34,6 +34,7 @@ type Iterator interface {
 	// Next returns the next element.
 	Next() ref.Val
 }
+<<<<<<< HEAD
 
 // Foldable aggregate types support iteration over (key, value) or (index, value) pairs.
 type Foldable interface {
@@ -47,3 +48,5 @@ type Folder interface {
 	// If the output is true, continue folding. Otherwise, terminate the fold.
 	FoldEntry(key, val any) bool
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

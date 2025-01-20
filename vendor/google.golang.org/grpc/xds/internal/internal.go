@@ -86,12 +86,15 @@ func SetLocalityID(addr resolver.Address, l LocalityID) resolver.Address {
 	return addr
 }
 
+<<<<<<< HEAD
 // SetLocalityIDInEndpoint sets locality ID in endpoint to l.
 func SetLocalityIDInEndpoint(endpoint resolver.Endpoint, l LocalityID) resolver.Endpoint {
 	endpoint.Attributes = endpoint.Attributes.WithValue(localityKey, l)
 	return endpoint
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // ResourceTypeMapForTesting maps TypeUrl to corresponding ResourceType.
 var ResourceTypeMapForTesting map[string]any
 

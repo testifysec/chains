@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 ## 1.5.1
 
 * Wrap errors so they're compatible with `errors.Is` and `errors.As` [GH-282]
 * Fix map of slices not decoding properly in certain cases. [GH-266]
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## 1.5.0
 
 * New option `IgnoreUntaggedFields` to ignore decoding to any fields

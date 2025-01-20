@@ -89,6 +89,7 @@ type AuthResult struct {
 	ExpiresOn      time.Time
 	GrantedScopes  []string
 	DeclinedScopes []string
+<<<<<<< HEAD
 	Metadata       AuthResultMetadata
 }
 
@@ -106,6 +107,10 @@ const (
 	Cache            TokenSource = 2
 )
 
+=======
+}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // AuthResultFromStorage creates an AuthResult from a storage token response (which is generated from the cache).
 func AuthResultFromStorage(storageTokenResponse storage.TokenResponse) (AuthResult, error) {
 	if err := storageTokenResponse.AccessToken.Validate(); err != nil {
@@ -124,6 +129,7 @@ func AuthResultFromStorage(storageTokenResponse storage.TokenResponse) (AuthResu
 			return AuthResult{}, fmt.Errorf("problem decoding JWT token: %w", err)
 		}
 	}
+<<<<<<< HEAD
 	return AuthResult{
 		Account:        account,
 		IDToken:        idToken,
@@ -135,6 +141,9 @@ func AuthResultFromStorage(storageTokenResponse storage.TokenResponse) (AuthResu
 			TokenSource: Cache,
 		},
 	}, nil
+=======
+	return AuthResult{account, idToken, accessToken, storageTokenResponse.AccessToken.ExpiresOn.T, grantedScopes, nil}, nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewAuthResult creates an AuthResult.
@@ -148,9 +157,12 @@ func NewAuthResult(tokenResponse accesstokens.TokenResponse, account shared.Acco
 		AccessToken:   tokenResponse.AccessToken,
 		ExpiresOn:     tokenResponse.ExpiresOn.T,
 		GrantedScopes: tokenResponse.GrantedScopes.Slice,
+<<<<<<< HEAD
 		Metadata: AuthResultMetadata{
 			TokenSource: IdentityProvider,
 		},
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}, nil
 }
 

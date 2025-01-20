@@ -5,6 +5,10 @@
 // Package packagesinternal exposes internal-only fields from go/packages.
 package packagesinternal
 
+<<<<<<< HEAD
+=======
+var GetForTest = func(p interface{}) string { return "" }
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 var GetDepsErrors = func(p interface{}) []*PackageError { return nil }
 
 type PackageError struct {
@@ -15,6 +19,10 @@ type PackageError struct {
 
 var TypecheckCgo int
 var DepsErrors int // must be set as a LoadMode to call GetDepsErrors
+<<<<<<< HEAD
+=======
+var ForTest int    // must be set as a LoadMode to call GetForTest
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 var SetModFlag = func(config interface{}, value string) {}
 var SetModFile = func(config interface{}, value string) {}

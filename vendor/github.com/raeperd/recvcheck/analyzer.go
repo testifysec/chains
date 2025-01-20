@@ -8,6 +8,7 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 )
 
+<<<<<<< HEAD
 // NewAnalyzer returns a new analyzer to check for receiver type consistency.
 func NewAnalyzer(s Settings) *analysis.Analyzer {
 	a := &analyzer{
@@ -60,6 +61,16 @@ type analyzer struct {
 }
 
 func (r *analyzer) run(pass *analysis.Pass) (any, error) {
+=======
+var Analyzer = &analysis.Analyzer{
+	Name:     "recvcheck",
+	Doc:      "checks for receiver type consistency",
+	Run:      run,
+	Requires: []*analysis.Analyzer{inspect.Analyzer},
+}
+
+func run(pass *analysis.Pass) (any, error) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	inspector := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 
 	structs := map[string]*structType{}
@@ -69,6 +80,7 @@ func (r *analyzer) run(pass *analysis.Pass) (any, error) {
 			return
 		}
 
+<<<<<<< HEAD
 		recv, isStar := recvTypeIdent(funcDecl.Recv.List[0].Type)
 		if recv == nil {
 			return
@@ -81,10 +93,31 @@ func (r *analyzer) run(pass *analysis.Pass) (any, error) {
 		st, ok := structs[recv.Name]
 		if !ok {
 			structs[recv.Name] = &structType{}
+=======
+		var recv *ast.Ident
+		var isStar bool
+		switch recvType := funcDecl.Recv.List[0].Type.(type) {
+		case *ast.StarExpr:
+			isStar = true
+			if recv, ok = recvType.X.(*ast.Ident); !ok {
+				return
+			}
+		case *ast.Ident:
+			recv = recvType
+		default:
+			return
+		}
+
+		var st *structType
+		st, ok = structs[recv.Name]
+		if !ok {
+			structs[recv.Name] = &structType{recv: recv.Name}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			st = structs[recv.Name]
 		}
 
 		if isStar {
+<<<<<<< HEAD
 			st.starUsed = true
 		} else {
 			st.typeUsed = true
@@ -94,12 +127,24 @@ func (r *analyzer) run(pass *analysis.Pass) (any, error) {
 	for recv, st := range structs {
 		if st.starUsed && st.typeUsed {
 			pass.Reportf(pass.Pkg.Scope().Lookup(recv).Pos(), "the methods of %q use pointer receiver and non-pointer receiver.", recv)
+=======
+			st.numStarMethod++
+		} else {
+			st.numTypeMethod++
+		}
+	})
+
+	for _, st := range structs {
+		if st.numStarMethod > 0 && st.numTypeMethod > 0 {
+			pass.Reportf(pass.Pkg.Scope().Lookup(st.recv).Pos(), "the methods of %q use pointer receiver and non-pointer receiver.", st.recv)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 
 	return nil, nil
 }
 
+<<<<<<< HEAD
 func (r *analyzer) isExcluded(recv *ast.Ident, f *ast.FuncDecl) bool {
 	if f.Name == nil || f.Name.Name == "" {
 		return true
@@ -132,4 +177,10 @@ func recvTypeIdent(r ast.Expr) (*ast.Ident, bool) {
 	}
 
 	return nil, false
+=======
+type structType struct {
+	recv          string
+	numStarMethod int
+	numTypeMethod int
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

@@ -20,11 +20,19 @@ const (
 func handleGinkgoSpecs(expr ast.Expr, config types.Config, pass *analysis.Pass, ginkgoHndlr Handler) bool {
 	goDeeper := false
 	if exp, ok := expr.(*ast.CallExpr); ok {
+<<<<<<< HEAD
 		if config.ForbidFocus && checkFocusContainer(pass, ginkgoHndlr, exp) {
 			goDeeper = true
 		}
 
 		if config.ForbidSpecPollution && checkAssignmentsInContainer(pass, ginkgoHndlr, exp) {
+=======
+		if bool(config.ForbidFocus) && checkFocusContainer(pass, ginkgoHndlr, exp) {
+			goDeeper = true
+		}
+
+		if bool(config.ForbidSpecPollution) && checkAssignmentsInContainer(pass, ginkgoHndlr, exp) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			goDeeper = true
 		}
 	}

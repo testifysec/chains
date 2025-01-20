@@ -49,16 +49,28 @@ func ShiftNBytesLeft(dst, x []byte, n int) {
 	dst = append(dst, make([]byte, n/8)...)
 }
 
+<<<<<<< HEAD
 // XorBytesMut replaces X with X XOR Y. len(X) must be >= len(Y).
 func XorBytesMut(X, Y []byte) {
 	for i := 0; i < len(Y); i++ {
+=======
+// XorBytesMut assumes equal input length, replaces X with X XOR Y
+func XorBytesMut(X, Y []byte) {
+	for i := 0; i < len(X); i++ {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		X[i] ^= Y[i]
 	}
 }
 
+<<<<<<< HEAD
 // XorBytes puts X XOR Y into Z. len(Z) and len(X) must be >= len(Y).
 func XorBytes(Z, X, Y []byte) {
 	for i := 0; i < len(Y); i++ {
+=======
+// XorBytes assumes equal input length, puts X XOR Y into Z
+func XorBytes(Z, X, Y []byte) {
+	for i := 0; i < len(X); i++ {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		Z[i] = X[i] ^ Y[i]
 	}
 }

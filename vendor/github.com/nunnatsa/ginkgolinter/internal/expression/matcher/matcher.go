@@ -41,13 +41,22 @@ func New(origMatcher, matcherClone *ast.CallExpr, pass *analysis.Pass, handler g
 	reverse := false
 	var assertFuncName string
 	for {
+<<<<<<< HEAD
 		info, ok := handler.GetGomegaBasicInfo(origMatcher)
+=======
+		ok := false
+		assertFuncName, ok = handler.GetActualFuncName(origMatcher)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if !ok {
 			return nil, false
 		}
 
+<<<<<<< HEAD
 		if info.MethodName != "Not" {
 			assertFuncName = info.MethodName
+=======
+		if assertFuncName != "Not" {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			break
 		}
 

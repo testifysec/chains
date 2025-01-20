@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"go/ast"
 	"go/types"
+<<<<<<< HEAD
+=======
+	"path/filepath"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"reflect"
 	"runtime"
 	"slices"
@@ -22,6 +26,10 @@ import (
 	"github.com/golangci/golangci-lint/pkg/goanalysis"
 	"github.com/golangci/golangci-lint/pkg/lint/linter"
 	"github.com/golangci/golangci-lint/pkg/logutils"
+<<<<<<< HEAD
+=======
+	"github.com/golangci/golangci-lint/pkg/result"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const linterName = "gocritic"
@@ -32,6 +40,12 @@ var (
 )
 
 func New(settings *config.GoCriticSettings) *goanalysis.Linter {
+<<<<<<< HEAD
+=======
+	var mu sync.Mutex
+	var resIssues []goanalysis.Issue
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	wrapper := &goCriticWrapper{
 		sizes: types.SizesFor("gc", runtime.GOARCH),
 	}
@@ -40,11 +54,26 @@ func New(settings *config.GoCriticSettings) *goanalysis.Linter {
 		Name: linterName,
 		Doc:  goanalysis.TheOnlyanalyzerDoc,
 		Run: func(pass *analysis.Pass) (any, error) {
+<<<<<<< HEAD
 			err := wrapper.run(pass)
+=======
+			issues, err := wrapper.run(pass)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err != nil {
 				return nil, err
 			}
 
+<<<<<<< HEAD
+=======
+			if len(issues) == 0 {
+				return nil, nil
+			}
+
+			mu.Lock()
+			resIssues = append(resIssues, issues...)
+			mu.Unlock()
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return nil, nil
 		},
 	}
@@ -62,6 +91,12 @@ Dynamic rules are written declaratively with AST patterns, filters, report messa
 
 			wrapper.init(context.Log, settings)
 		}).
+<<<<<<< HEAD
+=======
+		WithIssuesReporter(func(*linter.Context) []goanalysis.Issue {
+			return resIssues
+		}).
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		WithLoadMode(goanalysis.LoadModeTypesInfo)
 }
 
@@ -95,9 +130,15 @@ func (w *goCriticWrapper) init(logger logutils.Log, settings *config.GoCriticSet
 	w.settingsWrapper = settingsWrapper
 }
 
+<<<<<<< HEAD
 func (w *goCriticWrapper) run(pass *analysis.Pass) error {
 	if w.settingsWrapper == nil {
 		return errors.New("the settings wrapper is nil")
+=======
+func (w *goCriticWrapper) run(pass *analysis.Pass) ([]goanalysis.Issue, error) {
+	if w.settingsWrapper == nil {
+		return nil, errors.New("the settings wrapper is nil")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	linterCtx := gocriticlinter.NewContext(pass.Fset, w.sizes)
@@ -106,14 +147,29 @@ func (w *goCriticWrapper) run(pass *analysis.Pass) error {
 
 	enabledCheckers, err := w.buildEnabledCheckers(linterCtx)
 	if err != nil {
+<<<<<<< HEAD
 		return err
+=======
+		return nil, err
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	linterCtx.SetPackageInfo(pass.TypesInfo, pass.Pkg)
 
+<<<<<<< HEAD
 	runOnPackage(pass, enabledCheckers, pass.Files)
 
 	return nil
+=======
+	pkgIssues := runOnPackage(linterCtx, enabledCheckers, pass.Files)
+
+	issues := make([]goanalysis.Issue, 0, len(pkgIssues))
+	for i := range pkgIssues {
+		issues = append(issues, goanalysis.NewIssue(&pkgIssues[i], pass))
+	}
+
+	return issues, nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (w *goCriticWrapper) buildEnabledCheckers(linterCtx *gocriticlinter.Context) ([]*gocriticlinter.Checker, error) {
@@ -193,6 +249,7 @@ func (w *goCriticWrapper) normalizeCheckerParamsValue(p any) any {
 	}
 }
 
+<<<<<<< HEAD
 func runOnPackage(pass *analysis.Pass, checks []*gocriticlinter.Checker, files []*ast.File) {
 	for _, f := range files {
 		runOnFile(pass, f, checks)
@@ -200,10 +257,28 @@ func runOnPackage(pass *analysis.Pass, checks []*gocriticlinter.Checker, files [
 }
 
 func runOnFile(pass *analysis.Pass, f *ast.File, checks []*gocriticlinter.Checker) {
+=======
+func runOnPackage(linterCtx *gocriticlinter.Context, checks []*gocriticlinter.Checker, files []*ast.File) []result.Issue {
+	var res []result.Issue
+	for _, f := range files {
+		filename := filepath.Base(linterCtx.FileSet.Position(f.Pos()).Filename)
+		linterCtx.SetFileInfo(filename, f)
+
+		issues := runOnFile(linterCtx, f, checks)
+		res = append(res, issues...)
+	}
+	return res
+}
+
+func runOnFile(linterCtx *gocriticlinter.Context, f *ast.File, checks []*gocriticlinter.Checker) []result.Issue {
+	var res []result.Issue
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, c := range checks {
 		// All checkers are expected to use *lint.Context
 		// as read-only structure, so no copying is required.
 		for _, warn := range c.Check(f) {
+<<<<<<< HEAD
 			diag := analysis.Diagnostic{
 				Pos:      warn.Pos,
 				Category: c.Info.Name,
@@ -223,6 +298,30 @@ func runOnFile(pass *analysis.Pass, f *ast.File, checks []*gocriticlinter.Checke
 			pass.Report(diag)
 		}
 	}
+=======
+			pos := linterCtx.FileSet.Position(warn.Pos)
+			issue := result.Issue{
+				Pos:        pos,
+				Text:       fmt.Sprintf("%s: %s", c.Info.Name, warn.Text),
+				FromLinter: linterName,
+			}
+
+			if warn.HasQuickFix() {
+				issue.Replacement = &result.Replacement{
+					Inline: &result.InlineFix{
+						StartCol:  pos.Column - 1,
+						Length:    int(warn.Suggestion.To - warn.Suggestion.From),
+						NewString: string(warn.Suggestion.Replacement),
+					},
+				}
+			}
+
+			res = append(res, issue)
+		}
+	}
+
+	return res
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type goCriticChecks[T any] map[string]T

@@ -10,8 +10,12 @@ endef
 
 # Generate Artifacts ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 generate: ## Generate Assets
+<<<<<<< HEAD
 	$(MAKE) generate-tests
 	$(MAKE) generate-mirror-table
+=======
+	$(MAKE)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 generate-tests: ## Generates Assets at testdata
 	go run ./cmd/internal/tests/ "$(PWD)/testdata"
@@ -53,7 +57,11 @@ tests-summary: bin/tparse
 lints: ## Run golangci-lint
 lints: bin/golangci-lint
 lints:
+<<<<<<< HEAD
 	golangci-lint run --no-config ./... --exclude-dirs "^(cmd|testdata)"
+=======
+	golangci-lint run --no-config ./... --skip-dirs "^(cmd|testdata)"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 
 cover: ## Run Coverage
@@ -72,8 +80,13 @@ bin/tparse: INSTALL_URL=github.com/mfridman/tparse@v0.13.2
 bin/tparse:
 	$(call install_go_bin, tparse, $(INSTALL_URL))
 
+<<<<<<< HEAD
 bin/golangci-lint: ## Installs golangci-lint@v1.62.0 (if not exists)
 bin/golangci-lint: INSTALL_URL=github.com/golangci/golangci-lint@v1.62.0
+=======
+bin/golangci-lint: ## Installs golangci-lint@v1.55.2 (if not exists)
+bin/golangci-lint: INSTALL_URL=github.com/golangci/golangci-lint@v1.55.2
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 bin/golangci-lint:
 	$(call install_go_bin, golangci-lint, $(INSTALL_URL))
 
@@ -100,7 +113,11 @@ help: dep-gawk
 	@ echo ""
 
 
+<<<<<<< HEAD
 # Helper Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======
+# Helper Mehtods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 dep-gawk:
 	@ if [ -z "$(shell command -v gawk)" ]; then  \
 		if [ -x /usr/local/bin/brew ]; then $(MAKE) _brew_gawk_install; exit 0; fi; \
@@ -112,21 +129,37 @@ dep-gawk:
 	fi
 
 _brew_gawk_install:
+<<<<<<< HEAD
 	@ echo "Installing gawk using brew... "
+=======
+	@ echo "Instaling gawk using brew... "
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	@ brew install gawk --quiet
 	@ echo "done"
 
 _ubuntu_gawk_install:
+<<<<<<< HEAD
 	@ echo "Installing gawk using apt-get... "
+=======
+	@ echo "Instaling gawk using apt-get... "
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	@ apt-get -q install gawk -y
 	@ echo "done"
 
 _alpine_gawk_install:
+<<<<<<< HEAD
 	@ echo "Installing gawk using yum... "
+=======
+	@ echo "Instaling gawk using yum... "
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	@ apk add --update --no-cache gawk
 	@ echo "done"
 
 _centos_gawk_install:
+<<<<<<< HEAD
 	@ echo "Installing gawk using yum... "
+=======
+	@ echo "Instaling gawk using yum... "
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	@ yum install -q -y gawk;
 	@ echo "done"

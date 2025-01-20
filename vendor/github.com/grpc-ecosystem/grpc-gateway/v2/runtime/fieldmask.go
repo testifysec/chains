@@ -155,7 +155,11 @@ func buildPathsBlindly(name string, in interface{}) []string {
 	return paths
 }
 
+<<<<<<< HEAD
 // fieldMaskPathItem stores an in-progress deconstruction of a path for a fieldmask
+=======
+// fieldMaskPathItem stores a in-progress deconstruction of a path for a fieldmask
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type fieldMaskPathItem struct {
 	// the list of prior fields leading up to node connected by dots
 	path string

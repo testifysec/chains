@@ -24,7 +24,14 @@ import (
 
 // dumpResources returns the status and contents of all xDS resources.
 func (c *clientImpl) dumpResources() *v3statuspb.ClientConfig {
+<<<<<<< HEAD
 	retCfg := c.topLevelAuthority.dumpResources()
+=======
+	c.authorityMu.Lock()
+	defer c.authorityMu.Unlock()
+
+	var retCfg []*v3statuspb.ClientConfig_GenericXdsConfig
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, a := range c.authorities {
 		retCfg = append(retCfg, a.dumpResources()...)
 	}

@@ -9,28 +9,42 @@ import (
 	"crypto"
 	"crypto/cipher"
 	"crypto/dsa"
+<<<<<<< HEAD
 	"crypto/rsa"
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/subtle"
 	"fmt"
 	"io"
+=======
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/sha1"
+	"io"
+	"io/ioutil"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"math/big"
 	"strconv"
 	"time"
 
 	"github.com/ProtonMail/go-crypto/openpgp/ecdh"
 	"github.com/ProtonMail/go-crypto/openpgp/ecdsa"
+<<<<<<< HEAD
 	"github.com/ProtonMail/go-crypto/openpgp/ed25519"
 	"github.com/ProtonMail/go-crypto/openpgp/ed448"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/ProtonMail/go-crypto/openpgp/eddsa"
 	"github.com/ProtonMail/go-crypto/openpgp/elgamal"
 	"github.com/ProtonMail/go-crypto/openpgp/errors"
 	"github.com/ProtonMail/go-crypto/openpgp/internal/encoding"
 	"github.com/ProtonMail/go-crypto/openpgp/s2k"
+<<<<<<< HEAD
 	"github.com/ProtonMail/go-crypto/openpgp/x25519"
 	"github.com/ProtonMail/go-crypto/openpgp/x448"
 	"golang.org/x/crypto/hkdf"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // PrivateKey represents a possibly encrypted private key. See RFC 4880,
@@ -41,6 +55,7 @@ type PrivateKey struct {
 	encryptedData []byte
 	cipher        CipherFunction
 	s2k           func(out, in []byte)
+<<<<<<< HEAD
 	aead          AEADMode // only relevant if S2KAEAD is enabled
 	// An *{rsa|dsa|elgamal|ecdh|ecdsa|ed25519|ed448}.PrivateKey or
 	// crypto.Signer/crypto.Decrypter (Decryptor RSA only).
@@ -49,6 +64,16 @@ type PrivateKey struct {
 
 	// Type of encryption of the S2K packet
 	// Allowed values are 0 (Not encrypted), 253 (AEAD), 254 (SHA1), or
+=======
+	// An *{rsa|dsa|elgamal|ecdh|ecdsa|ed25519}.PrivateKey or
+	// crypto.Signer/crypto.Decrypter (Decryptor RSA only).
+	PrivateKey   interface{}
+	sha1Checksum bool
+	iv           []byte
+
+	// Type of encryption of the S2K packet
+	// Allowed values are 0 (Not encrypted), 254 (SHA1), or
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// 255 (2-byte checksum)
 	s2kType S2KType
 	// Full parameters of the S2K packet
@@ -61,8 +86,11 @@ type S2KType uint8
 const (
 	// S2KNON unencrypt
 	S2KNON S2KType = 0
+<<<<<<< HEAD
 	// S2KAEAD use authenticated encryption
 	S2KAEAD S2KType = 253
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// S2KSHA1 sha1 sum check
 	S2KSHA1 S2KType = 254
 	// S2KCHECKSUM sum check
@@ -111,6 +139,7 @@ func NewECDHPrivateKey(creationTime time.Time, priv *ecdh.PrivateKey) *PrivateKe
 	return pk
 }
 
+<<<<<<< HEAD
 func NewX25519PrivateKey(creationTime time.Time, priv *x25519.PrivateKey) *PrivateKey {
 	pk := new(PrivateKey)
 	pk.PublicKey = *NewX25519PublicKey(creationTime, &priv.PublicKey)
@@ -139,6 +168,8 @@ func NewEd448PrivateKey(creationTime time.Time, priv *ed448.PrivateKey) *Private
 	return pk
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // NewSignerPrivateKey creates a PrivateKey from a crypto.Signer that
 // implements RSA, ECDSA or EdDSA.
 func NewSignerPrivateKey(creationTime time.Time, signer interface{}) *PrivateKey {
@@ -158,6 +189,7 @@ func NewSignerPrivateKey(creationTime time.Time, signer interface{}) *PrivateKey
 		pk.PublicKey = *NewEdDSAPublicKey(creationTime, &pubkey.PublicKey)
 	case eddsa.PrivateKey:
 		pk.PublicKey = *NewEdDSAPublicKey(creationTime, &pubkey.PublicKey)
+<<<<<<< HEAD
 	case *ed25519.PrivateKey:
 		pk.PublicKey = *NewEd25519PublicKey(creationTime, &pubkey.PublicKey)
 	case ed25519.PrivateKey:
@@ -166,6 +198,8 @@ func NewSignerPrivateKey(creationTime time.Time, signer interface{}) *PrivateKey
 		pk.PublicKey = *NewEd448PublicKey(creationTime, &pubkey.PublicKey)
 	case ed448.PrivateKey:
 		pk.PublicKey = *NewEd448PublicKey(creationTime, &pubkey.PublicKey)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		panic("openpgp: unknown signer type in NewSignerPrivateKey")
 	}
@@ -173,7 +207,11 @@ func NewSignerPrivateKey(creationTime time.Time, signer interface{}) *PrivateKey
 	return pk
 }
 
+<<<<<<< HEAD
 // NewDecrypterPrivateKey creates a PrivateKey from a *{rsa|elgamal|ecdh|x25519|x448}.PrivateKey.
+=======
+// NewDecrypterPrivateKey creates a PrivateKey from a *{rsa|elgamal|ecdh}.PrivateKey.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func NewDecrypterPrivateKey(creationTime time.Time, decrypter interface{}) *PrivateKey {
 	pk := new(PrivateKey)
 	switch priv := decrypter.(type) {
@@ -183,10 +221,13 @@ func NewDecrypterPrivateKey(creationTime time.Time, decrypter interface{}) *Priv
 		pk.PublicKey = *NewElGamalPublicKey(creationTime, &priv.PublicKey)
 	case *ecdh.PrivateKey:
 		pk.PublicKey = *NewECDHPublicKey(creationTime, &priv.PublicKey)
+<<<<<<< HEAD
 	case *x25519.PrivateKey:
 		pk.PublicKey = *NewX25519PublicKey(creationTime, &priv.PublicKey)
 	case *x448.PrivateKey:
 		pk.PublicKey = *NewX448PublicKey(creationTime, &priv.PublicKey)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		panic("openpgp: unknown decrypter type in NewDecrypterPrivateKey")
 	}
@@ -200,11 +241,14 @@ func (pk *PrivateKey) parse(r io.Reader) (err error) {
 		return
 	}
 	v5 := pk.PublicKey.Version == 5
+<<<<<<< HEAD
 	v6 := pk.PublicKey.Version == 6
 
 	if V5Disabled && v5 {
 		return errors.UnsupportedError("support for parsing v5 entities is disabled; build with `-tags v5` if needed")
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	var buf [1]byte
 	_, err = readFull(r, buf[:])
@@ -213,7 +257,11 @@ func (pk *PrivateKey) parse(r io.Reader) (err error) {
 	}
 	pk.s2kType = S2KType(buf[0])
 	var optCount [1]byte
+<<<<<<< HEAD
 	if v5 || (v6 && pk.s2kType != S2KNON) {
+=======
+	if v5 {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if _, err = readFull(r, optCount[:]); err != nil {
 			return
 		}
@@ -223,9 +271,15 @@ func (pk *PrivateKey) parse(r io.Reader) (err error) {
 	case S2KNON:
 		pk.s2k = nil
 		pk.Encrypted = false
+<<<<<<< HEAD
 	case S2KSHA1, S2KCHECKSUM, S2KAEAD:
 		if (v5 || v6) && pk.s2kType == S2KCHECKSUM {
 			return errors.StructuralError(fmt.Sprintf("wrong s2k identifier for version %d", pk.Version))
+=======
+	case S2KSHA1, S2KCHECKSUM:
+		if v5 && pk.s2kType == S2KCHECKSUM {
+			return errors.StructuralError("wrong s2k identifier for version 5")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		_, err = readFull(r, buf[:])
 		if err != nil {
@@ -235,6 +289,7 @@ func (pk *PrivateKey) parse(r io.Reader) (err error) {
 		if pk.cipher != 0 && !pk.cipher.IsSupported() {
 			return errors.UnsupportedError("unsupported cipher function in private key")
 		}
+<<<<<<< HEAD
 		// [Optional] If string-to-key usage octet was 253,
 		// a one-octet AEAD algorithm.
 		if pk.s2kType == S2KAEAD {
@@ -258,6 +313,8 @@ func (pk *PrivateKey) parse(r io.Reader) (err error) {
 			}
 		}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		pk.s2kParams, err = s2k.ParseIntoParams(r)
 		if err != nil {
 			return
@@ -265,22 +322,32 @@ func (pk *PrivateKey) parse(r io.Reader) (err error) {
 		if pk.s2kParams.Dummy() {
 			return
 		}
+<<<<<<< HEAD
 		if pk.s2kParams.Mode() == s2k.Argon2S2K && pk.s2kType != S2KAEAD {
 			return errors.StructuralError("using Argon2 S2K without AEAD is not allowed")
 		}
 		if pk.s2kParams.Mode() == s2k.SimpleS2K && pk.Version == 6 {
 			return errors.StructuralError("using Simple S2K with version 6 keys is not allowed")
 		}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		pk.s2k, err = pk.s2kParams.Function()
 		if err != nil {
 			return
 		}
 		pk.Encrypted = true
+<<<<<<< HEAD
+=======
+		if pk.s2kType == S2KSHA1 {
+			pk.sha1Checksum = true
+		}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		return errors.UnsupportedError("deprecated s2k function in private key")
 	}
 
 	if pk.Encrypted {
+<<<<<<< HEAD
 		var ivSize int
 		// If the S2K usage octet was 253, the IV is of the size expected by the AEAD mode,
 		// unless it's a version 5 key, in which case it's the size of the symmetric cipher's block size.
@@ -295,13 +362,23 @@ func (pk *PrivateKey) parse(r io.Reader) (err error) {
 			return errors.UnsupportedError("unsupported cipher in private key: " + strconv.Itoa(int(pk.cipher)))
 		}
 		pk.iv = make([]byte, ivSize)
+=======
+		blockSize := pk.cipher.blockSize()
+		if blockSize == 0 {
+			return errors.UnsupportedError("unsupported cipher in private key: " + strconv.Itoa(int(pk.cipher)))
+		}
+		pk.iv = make([]byte, blockSize)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		_, err = readFull(r, pk.iv)
 		if err != nil {
 			return
 		}
+<<<<<<< HEAD
 		if v5 && pk.s2kType == S2KAEAD {
 			pk.iv = pk.iv[:pk.aead.IvLength()]
 		}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	var privateKeyData []byte
@@ -321,7 +398,11 @@ func (pk *PrivateKey) parse(r io.Reader) (err error) {
 			return
 		}
 	} else {
+<<<<<<< HEAD
 		privateKeyData, err = io.ReadAll(r)
+=======
+		privateKeyData, err = ioutil.ReadAll(r)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return
 		}
@@ -330,6 +411,7 @@ func (pk *PrivateKey) parse(r io.Reader) (err error) {
 		if len(privateKeyData) < 2 {
 			return errors.StructuralError("truncated private key data")
 		}
+<<<<<<< HEAD
 		if pk.Version != 6 {
 			// checksum
 			var sum uint16
@@ -346,6 +428,18 @@ func (pk *PrivateKey) parse(r io.Reader) (err error) {
 			// No checksum
 			return pk.parsePrivateKey(privateKeyData)
 		}
+=======
+		var sum uint16
+		for i := 0; i < len(privateKeyData)-2; i++ {
+			sum += uint16(privateKeyData[i])
+		}
+		if privateKeyData[len(privateKeyData)-2] != uint8(sum>>8) ||
+			privateKeyData[len(privateKeyData)-1] != uint8(sum) {
+			return errors.StructuralError("private key checksum failure")
+		}
+		privateKeyData = privateKeyData[:len(privateKeyData)-2]
+		return pk.parsePrivateKey(privateKeyData)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	pk.encryptedData = privateKeyData
@@ -377,6 +471,7 @@ func (pk *PrivateKey) Serialize(w io.Writer) (err error) {
 
 	optional := bytes.NewBuffer(nil)
 	if pk.Encrypted || pk.Dummy() {
+<<<<<<< HEAD
 		// [Optional] If string-to-key usage octet was 255, 254, or 253,
 		// a one-octet symmetric encryption algorithm.
 		if _, err = optional.Write([]byte{uint8(pk.cipher)}); err != nil {
@@ -430,6 +525,20 @@ func (pk *PrivateKey) Serialize(w io.Writer) (err error) {
 	if _, err := io.Copy(contents, optional); err != nil {
 		return err
 	}
+=======
+		optional.Write([]byte{uint8(pk.cipher)})
+		if err := pk.s2kParams.Serialize(optional); err != nil {
+			return err
+		}
+		if pk.Encrypted {
+			optional.Write(pk.iv)
+		}
+	}
+	if pk.Version == 5 {
+		contents.Write([]byte{uint8(optional.Len())})
+	}
+	io.Copy(contents, optional)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if !pk.Dummy() {
 		l := 0
@@ -441,10 +550,15 @@ func (pk *PrivateKey) Serialize(w io.Writer) (err error) {
 				return err
 			}
 			l = buf.Len()
+<<<<<<< HEAD
 			if pk.Version != 6 {
 				checksum := mod64kHash(buf.Bytes())
 				buf.Write([]byte{byte(checksum >> 8), byte(checksum)})
 			}
+=======
+			checksum := mod64kHash(buf.Bytes())
+			buf.Write([]byte{byte(checksum >> 8), byte(checksum)})
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			priv = buf.Bytes()
 		} else {
 			priv, l = pk.encryptedData, len(pk.encryptedData)
@@ -510,6 +624,7 @@ func serializeECDHPrivateKey(w io.Writer, priv *ecdh.PrivateKey) error {
 	return err
 }
 
+<<<<<<< HEAD
 func serializeX25519PrivateKey(w io.Writer, priv *x25519.PrivateKey) error {
 	_, err := w.Write(priv.Secret)
 	return err
@@ -530,6 +645,8 @@ func serializeEd448PrivateKey(w io.Writer, priv *ed448.PrivateKey) error {
 	return err
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // decrypt decrypts an encrypted private key using a decryption key.
 func (pk *PrivateKey) decrypt(decryptionKey []byte) error {
 	if pk.Dummy() {
@@ -538,6 +655,7 @@ func (pk *PrivateKey) decrypt(decryptionKey []byte) error {
 	if !pk.Encrypted {
 		return nil
 	}
+<<<<<<< HEAD
 	block := pk.cipher.new(decryptionKey)
 	var data []byte
 	switch pk.s2kType {
@@ -583,6 +701,39 @@ func (pk *PrivateKey) decrypt(decryptionKey []byte) error {
 		}
 	default:
 		return errors.InvalidArgumentError("invalid s2k type")
+=======
+
+	block := pk.cipher.new(decryptionKey)
+	cfb := cipher.NewCFBDecrypter(block, pk.iv)
+
+	data := make([]byte, len(pk.encryptedData))
+	cfb.XORKeyStream(data, pk.encryptedData)
+
+	if pk.sha1Checksum {
+		if len(data) < sha1.Size {
+			return errors.StructuralError("truncated private key data")
+		}
+		h := sha1.New()
+		h.Write(data[:len(data)-sha1.Size])
+		sum := h.Sum(nil)
+		if !bytes.Equal(sum, data[len(data)-sha1.Size:]) {
+			return errors.StructuralError("private key checksum failure")
+		}
+		data = data[:len(data)-sha1.Size]
+	} else {
+		if len(data) < 2 {
+			return errors.StructuralError("truncated private key data")
+		}
+		var sum uint16
+		for i := 0; i < len(data)-2; i++ {
+			sum += uint16(data[i])
+		}
+		if data[len(data)-2] != uint8(sum>>8) ||
+			data[len(data)-1] != uint8(sum) {
+			return errors.StructuralError("private key checksum failure")
+		}
+		data = data[:len(data)-2]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	err := pk.parsePrivateKey(data)
@@ -598,6 +749,10 @@ func (pk *PrivateKey) decrypt(decryptionKey []byte) error {
 	pk.s2k = nil
 	pk.Encrypted = false
 	pk.encryptedData = nil
+<<<<<<< HEAD
+=======
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil
 }
 
@@ -613,9 +768,12 @@ func (pk *PrivateKey) decryptWithCache(passphrase []byte, keyCache *s2k.Cache) e
 	if err != nil {
 		return err
 	}
+<<<<<<< HEAD
 	if pk.s2kType == S2KAEAD {
 		key = pk.applyHKDF(key)
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return pk.decrypt(key)
 }
 
@@ -630,14 +788,21 @@ func (pk *PrivateKey) Decrypt(passphrase []byte) error {
 
 	key := make([]byte, pk.cipher.KeySize())
 	pk.s2k(key, passphrase)
+<<<<<<< HEAD
 	if pk.s2kType == S2KAEAD {
 		key = pk.applyHKDF(key)
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return pk.decrypt(key)
 }
 
 // DecryptPrivateKeys decrypts all encrypted keys with the given config and passphrase.
+<<<<<<< HEAD
 // Avoids recomputation of similar s2k key derivations.
+=======
+// Avoids recomputation of similar s2k key derivations. 
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func DecryptPrivateKeys(keys []*PrivateKey, passphrase []byte) error {
 	// Create a cache to avoid recomputation of key derviations for the same passphrase.
 	s2kCache := &s2k.Cache{}
@@ -653,7 +818,11 @@ func DecryptPrivateKeys(keys []*PrivateKey, passphrase []byte) error {
 }
 
 // encrypt encrypts an unencrypted private key.
+<<<<<<< HEAD
 func (pk *PrivateKey) encrypt(key []byte, params *s2k.Params, s2kType S2KType, cipherFunction CipherFunction, rand io.Reader) error {
+=======
+func (pk *PrivateKey) encrypt(key []byte, params *s2k.Params, cipherFunction CipherFunction) error {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if pk.Dummy() {
 		return errors.ErrDummyPrivateKey("dummy key found")
 	}
@@ -664,6 +833,7 @@ func (pk *PrivateKey) encrypt(key []byte, params *s2k.Params, s2kType S2KType, c
 	if len(key) != cipherFunction.KeySize() {
 		return errors.InvalidArgumentError("supplied encryption key has the wrong size")
 	}
+<<<<<<< HEAD
 
 	if params.Mode() == s2k.Argon2S2K && s2kType != S2KAEAD {
 		return errors.InvalidArgumentError("using Argon2 S2K without AEAD is not allowed")
@@ -673,6 +843,9 @@ func (pk *PrivateKey) encrypt(key []byte, params *s2k.Params, s2kType S2KType, c
 		return errors.InvalidArgumentError("insecure S2K mode")
 	}
 
+=======
+	
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	priv := bytes.NewBuffer(nil)
 	err := pk.serializePrivateKey(priv)
 	if err != nil {
@@ -684,6 +857,7 @@ func (pk *PrivateKey) encrypt(key []byte, params *s2k.Params, s2kType S2KType, c
 	pk.s2k, err = pk.s2kParams.Function()
 	if err != nil {
 		return err
+<<<<<<< HEAD
 	}
 
 	privateKeyBytes := priv.Bytes()
@@ -731,6 +905,37 @@ func (pk *PrivateKey) encrypt(key []byte, params *s2k.Params, s2kType S2KType, c
 		return errors.InvalidArgumentError("invalid s2k type for encryption")
 	}
 
+=======
+	} 
+
+	privateKeyBytes := priv.Bytes()
+	pk.sha1Checksum = true
+	block := pk.cipher.new(key)
+	pk.iv = make([]byte, pk.cipher.blockSize())
+	_, err = rand.Read(pk.iv)
+	if err != nil {
+		return err
+	}
+	cfb := cipher.NewCFBEncrypter(block, pk.iv)
+
+	if pk.sha1Checksum {
+		pk.s2kType = S2KSHA1
+		h := sha1.New()
+		h.Write(privateKeyBytes)
+		sum := h.Sum(nil)
+		privateKeyBytes = append(privateKeyBytes, sum...)
+	} else {
+		pk.s2kType = S2KCHECKSUM
+		var sum uint16
+		for _, b := range privateKeyBytes {
+			sum += uint16(b)
+		}
+		priv.Write([]byte{uint8(sum >> 8), uint8(sum)})
+	}
+
+	pk.encryptedData = make([]byte, len(privateKeyBytes))
+	cfb.XORKeyStream(pk.encryptedData, privateKeyBytes)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	pk.Encrypted = true
 	pk.PrivateKey = nil
 	return err
@@ -749,6 +954,7 @@ func (pk *PrivateKey) EncryptWithConfig(passphrase []byte, config *Config) error
 		return err
 	}
 	s2k(key, passphrase)
+<<<<<<< HEAD
 	s2kType := S2KSHA1
 	if config.AEAD() != nil {
 		s2kType = S2KAEAD
@@ -758,6 +964,10 @@ func (pk *PrivateKey) EncryptWithConfig(passphrase []byte, config *Config) error
 	}
 	// Encrypt the private key with the derived encryption key.
 	return pk.encrypt(key, params, s2kType, config.Cipher(), config.Random())
+=======
+	// Encrypt the private key with the derived encryption key.
+	return pk.encrypt(key, params, config.Cipher())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // EncryptPrivateKeys encrypts all unencrypted keys with the given config and passphrase.
@@ -776,6 +986,7 @@ func EncryptPrivateKeys(keys []*PrivateKey, passphrase []byte, config *Config) e
 	s2k(encryptionKey, passphrase)
 	for _, key := range keys {
 		if key != nil && !key.Dummy() && !key.Encrypted {
+<<<<<<< HEAD
 			s2kType := S2KSHA1
 			if config.AEAD() != nil {
 				s2kType = S2KAEAD
@@ -786,6 +997,9 @@ func EncryptPrivateKeys(keys []*PrivateKey, passphrase []byte, config *Config) e
 			} else {
 				err = key.encrypt(encryptionKey, params, s2kType, config.Cipher(), config.Random())
 			}
+=======
+			err = key.encrypt(encryptionKey, params, config.Cipher())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err != nil {
 				return err
 			}
@@ -802,7 +1016,11 @@ func (pk *PrivateKey) Encrypt(passphrase []byte) error {
 			S2KMode:  s2k.IteratedSaltedS2K,
 			S2KCount: 65536,
 			Hash:     crypto.SHA256,
+<<<<<<< HEAD
 		},
+=======
+		} ,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		DefaultCipher: CipherAES256,
 	}
 	return pk.EncryptWithConfig(passphrase, config)
@@ -822,6 +1040,7 @@ func (pk *PrivateKey) serializePrivateKey(w io.Writer) (err error) {
 		err = serializeEdDSAPrivateKey(w, priv)
 	case *ecdh.PrivateKey:
 		err = serializeECDHPrivateKey(w, priv)
+<<<<<<< HEAD
 	case *x25519.PrivateKey:
 		err = serializeX25519PrivateKey(w, priv)
 	case *x448.PrivateKey:
@@ -830,6 +1049,8 @@ func (pk *PrivateKey) serializePrivateKey(w io.Writer) (err error) {
 		err = serializeEd25519PrivateKey(w, priv)
 	case *ed448.PrivateKey:
 		err = serializeEd448PrivateKey(w, priv)
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		err = errors.InvalidArgumentError("unknown private key type")
 	}
@@ -850,6 +1071,7 @@ func (pk *PrivateKey) parsePrivateKey(data []byte) (err error) {
 		return pk.parseECDHPrivateKey(data)
 	case PubKeyAlgoEdDSA:
 		return pk.parseEdDSAPrivateKey(data)
+<<<<<<< HEAD
 	case PubKeyAlgoX25519:
 		return pk.parseX25519PrivateKey(data)
 	case PubKeyAlgoX448:
@@ -862,6 +1084,10 @@ func (pk *PrivateKey) parsePrivateKey(data []byte) (err error) {
 		err = errors.StructuralError("unknown private key type")
 		return
 	}
+=======
+	}
+	panic("impossible")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (pk *PrivateKey) parseRSAPrivateKey(data []byte) (err error) {
@@ -982,6 +1208,7 @@ func (pk *PrivateKey) parseECDHPrivateKey(data []byte) (err error) {
 	return nil
 }
 
+<<<<<<< HEAD
 func (pk *PrivateKey) parseX25519PrivateKey(data []byte) (err error) {
 	publicKey := pk.PublicKey.PublicKey.(*x25519.PublicKey)
 	privateKey := x25519.NewPrivateKey(*publicKey)
@@ -1062,6 +1289,8 @@ func (pk *PrivateKey) parseEd448PrivateKey(data []byte) (err error) {
 	return nil
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (pk *PrivateKey) parseEdDSAPrivateKey(data []byte) (err error) {
 	eddsaPub := pk.PublicKey.PublicKey.(*eddsa.PublicKey)
 	eddsaPriv := eddsa.NewPrivateKey(*eddsaPub)
@@ -1086,6 +1315,7 @@ func (pk *PrivateKey) parseEdDSAPrivateKey(data []byte) (err error) {
 	return nil
 }
 
+<<<<<<< HEAD
 func (pk *PrivateKey) additionalData() ([]byte, error) {
 	additionalData := bytes.NewBuffer(nil)
 	// Write additional data prefix based on packet type
@@ -1121,6 +1351,8 @@ func (pk *PrivateKey) applyHKDF(inputKey []byte) []byte {
 	return encryptionKey
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func validateDSAParameters(priv *dsa.PrivateKey) error {
 	p := priv.P // group prime
 	q := priv.Q // subgroup order

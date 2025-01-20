@@ -7,9 +7,13 @@ package packet
 import (
 	"crypto/cipher"
 	"crypto/sha256"
+<<<<<<< HEAD
 	"fmt"
 	"io"
 	"strconv"
+=======
+	"io"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"github.com/ProtonMail/go-crypto/openpgp/errors"
 	"golang.org/x/crypto/hkdf"
@@ -27,19 +31,31 @@ func (se *SymmetricallyEncrypted) parseAead(r io.Reader) error {
 	se.Cipher = CipherFunction(headerData[0])
 	// cipherFunc must have block size 16 to use AEAD
 	if se.Cipher.blockSize() != 16 {
+<<<<<<< HEAD
 		return errors.UnsupportedError("invalid aead cipher: " + strconv.Itoa(int(se.Cipher)))
+=======
+		return errors.UnsupportedError("invalid aead cipher: " + string(se.Cipher))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Mode
 	se.Mode = AEADMode(headerData[1])
 	if se.Mode.TagLength() == 0 {
+<<<<<<< HEAD
 		return errors.UnsupportedError("unknown aead mode: " + strconv.Itoa(int(se.Mode)))
+=======
+		return errors.UnsupportedError("unknown aead mode: " + string(se.Mode))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Chunk size
 	se.ChunkSizeByte = headerData[2]
 	if se.ChunkSizeByte > 16 {
+<<<<<<< HEAD
 		return errors.UnsupportedError("invalid aead chunk size byte: " + strconv.Itoa(int(se.ChunkSizeByte)))
+=======
+		return errors.UnsupportedError("invalid aead chunk size byte: " + string(se.ChunkSizeByte))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Salt
@@ -64,6 +80,7 @@ func (se *SymmetricallyEncrypted) associatedData() []byte {
 // decryptAead decrypts a V2 SEIPD packet (AEAD) as specified in
 // https://www.ietf.org/archive/id/draft-ietf-openpgp-crypto-refresh-07.html#section-5.13.2
 func (se *SymmetricallyEncrypted) decryptAead(inputKey []byte) (io.ReadCloser, error) {
+<<<<<<< HEAD
 	if se.Cipher.KeySize() != len(inputKey) {
 		return nil, errors.StructuralError(fmt.Sprintf("invalid session key length for cipher: got %d bytes, but expected %d bytes", len(inputKey), se.Cipher.KeySize()))
 	}
@@ -74,6 +91,13 @@ func (se *SymmetricallyEncrypted) decryptAead(inputKey []byte) (io.ReadCloser, e
 	tagLen := se.Mode.TagLength()
 	chunkBytes := make([]byte, chunkSize+tagLen*2)
 	peekedBytes := chunkBytes[chunkSize+tagLen:]
+=======
+	aead, nonce := getSymmetricallyEncryptedAeadInstance(se.Cipher, se.Mode, inputKey, se.Salt[:], se.associatedData())
+
+	// Carry the first tagLen bytes
+	tagLen := se.Mode.TagLength()
+	peekedBytes := make([]byte, tagLen)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	n, err := io.ReadFull(se.Contents, peekedBytes)
 	if n < tagLen || (err != nil && err != io.EOF) {
 		return nil, errors.StructuralError("not enough data to decrypt:" + err.Error())
@@ -83,6 +107,7 @@ func (se *SymmetricallyEncrypted) decryptAead(inputKey []byte) (io.ReadCloser, e
 		aeadCrypter: aeadCrypter{
 			aead:           aead,
 			chunkSize:      decodeAEADChunkSize(se.ChunkSizeByte),
+<<<<<<< HEAD
 			nonce:          nonce,
 			associatedData: se.associatedData(),
 			chunkIndex:     nonce[len(nonce)-8:],
@@ -90,6 +115,14 @@ func (se *SymmetricallyEncrypted) decryptAead(inputKey []byte) (io.ReadCloser, e
 		},
 		reader:      se.Contents,
 		chunkBytes:  chunkBytes,
+=======
+			initialNonce:   nonce,
+			associatedData: se.associatedData(),
+			chunkIndex:     make([]byte, 8),
+			packetTag:      packetTypeSymmetricallyEncryptedIntegrityProtected,
+		},
+		reader:      se.Contents,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		peekedBytes: peekedBytes,
 	}, nil
 }
@@ -123,7 +156,11 @@ func serializeSymmetricallyEncryptedAead(ciphertext io.WriteCloser, cipherSuite 
 
 	// Random salt
 	salt := make([]byte, aeadSaltSize)
+<<<<<<< HEAD
 	if _, err := io.ReadFull(rand, salt); err != nil {
+=======
+	if _, err := rand.Read(salt); err != nil {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return nil, err
 	}
 
@@ -133,6 +170,7 @@ func serializeSymmetricallyEncryptedAead(ciphertext io.WriteCloser, cipherSuite 
 
 	aead, nonce := getSymmetricallyEncryptedAeadInstance(cipherSuite.Cipher, cipherSuite.Mode, inputKey, salt, prefix)
 
+<<<<<<< HEAD
 	chunkSize := decodeAEADChunkSize(chunkSizeByte)
 	tagLen := aead.Overhead()
 	chunkBytes := make([]byte, chunkSize+tagLen)
@@ -147,6 +185,18 @@ func serializeSymmetricallyEncryptedAead(ciphertext io.WriteCloser, cipherSuite 
 		},
 		writer:     ciphertext,
 		chunkBytes: chunkBytes,
+=======
+	return &aeadEncrypter{
+		aeadCrypter: aeadCrypter{
+			aead:           aead,
+			chunkSize:      decodeAEADChunkSize(chunkSizeByte),
+			associatedData: prefix,
+			chunkIndex:     make([]byte, 8),
+			initialNonce:   nonce,
+			packetTag:      packetTypeSymmetricallyEncryptedIntegrityProtected,
+		},
+		writer: ciphertext,
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}, nil
 }
 
@@ -156,10 +206,17 @@ func getSymmetricallyEncryptedAeadInstance(c CipherFunction, mode AEADMode, inpu
 	encryptionKey := make([]byte, c.KeySize())
 	_, _ = readFull(hkdfReader, encryptionKey)
 
+<<<<<<< HEAD
 	nonce = make([]byte, mode.IvLength())
 
 	// Last 64 bits of nonce are the counter
 	_, _ = readFull(hkdfReader, nonce[:len(nonce)-8])
+=======
+	// Last 64 bits of nonce are the counter
+	nonce = make([]byte, mode.IvLength()-8)
+
+	_, _ = readFull(hkdfReader, nonce)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	blockCipher := c.new(encryptionKey)
 	aead = mode.new(blockCipher)

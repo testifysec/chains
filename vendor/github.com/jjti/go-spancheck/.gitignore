@@ -17,5 +17,8 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 src/
+<<<<<<< HEAD
 
 .vscode
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

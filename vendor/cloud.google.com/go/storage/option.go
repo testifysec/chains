@@ -40,7 +40,10 @@ func init() {
 	storageinternal.WithMetricExporter = withMetricExporter
 	storageinternal.WithMetricInterval = withMetricInterval
 	storageinternal.WithReadStallTimeout = withReadStallTimeout
+<<<<<<< HEAD
 	storageinternal.WithGRPCBidiReads = withGRPCBidiReads
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // getDynamicReadReqIncreaseRateFromEnv returns the value set in the env variable.
@@ -80,9 +83,13 @@ type storageConfig struct {
 	disableClientMetrics   bool
 	metricExporter         *metric.Exporter
 	metricInterval         time.Duration
+<<<<<<< HEAD
 	manualReader           *metric.ManualReader
 	readStallTimeoutConfig *experimental.ReadStallTimeoutConfig
 	grpcBidiReads          bool
+=======
+	readStallTimeoutConfig *experimental.ReadStallTimeoutConfig
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // newStorageConfig generates a new storageConfig with all the given
@@ -195,6 +202,7 @@ func (w *withMetricExporterConfig) ApplyStorageOpt(c *storageConfig) {
 	c.metricExporter = w.metricExporter
 }
 
+<<<<<<< HEAD
 type withTestMetricReaderConfig struct {
 	internaloption.EmbeddableAdapter
 	// reader override
@@ -209,6 +217,8 @@ func (w *withTestMetricReaderConfig) ApplyStorageOpt(c *storageConfig) {
 	c.manualReader = w.metricReader
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // WithReadStallTimeout is an option that may be passed to [NewClient].
 // It enables the client to retry the stalled read request, happens as part of
 // storage.Reader creation. As the name suggest, timeout is adjusted dynamically
@@ -242,6 +252,7 @@ type withReadStallTimeoutConfig struct {
 func (wrstc *withReadStallTimeoutConfig) ApplyStorageOpt(config *storageConfig) {
 	config.readStallTimeoutConfig = wrstc.readStallTimeoutConfig
 }
+<<<<<<< HEAD
 
 func withGRPCBidiReads() option.ClientOption {
 	return &withGRPCBidiReadsConfig{}
@@ -254,3 +265,5 @@ type withGRPCBidiReadsConfig struct {
 func (w *withGRPCBidiReadsConfig) ApplyStorageOpt(config *storageConfig) {
 	config.grpcBidiReads = true
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

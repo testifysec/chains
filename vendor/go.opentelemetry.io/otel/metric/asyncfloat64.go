@@ -213,7 +213,11 @@ type Float64Observer interface {
 }
 
 // Float64Callback is a function registered with a Meter that makes
+<<<<<<< HEAD
 // observations for a Float64Observable instrument it is registered with.
+=======
+// observations for a Float64Observerable instrument it is registered with.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Calls to the Float64Observer record measurement values for the
 // Float64Observable.
 //

@@ -117,9 +117,14 @@ type Issues struct {
 
 	UseDefaultExcludeDirs bool `mapstructure:"exclude-dirs-use-default"`
 
+<<<<<<< HEAD
 	MaxIssuesPerLinter int  `mapstructure:"max-issues-per-linter"`
 	MaxSameIssues      int  `mapstructure:"max-same-issues"`
 	UniqByLine         bool `mapstructure:"uniq-by-line"`
+=======
+	MaxIssuesPerLinter int `mapstructure:"max-issues-per-linter"`
+	MaxSameIssues      int `mapstructure:"max-same-issues"`
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	DiffFromRevision  string `mapstructure:"new-from-rev"`
 	DiffPatchFilePath string `mapstructure:"new-from-patch"`
@@ -128,7 +133,11 @@ type Issues struct {
 
 	NeedFix bool `mapstructure:"fix"`
 
+<<<<<<< HEAD
 	ExcludeGeneratedStrict *bool `mapstructure:"exclude-generated-strict"` // Deprecated: use ExcludeGenerated instead.
+=======
+	ExcludeGeneratedStrict bool `mapstructure:"exclude-generated-strict"` // Deprecated: use ExcludeGenerated instead.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (i *Issues) Validate() error {

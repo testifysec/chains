@@ -1,7 +1,11 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 package(
+<<<<<<< HEAD
     default_visibility = ["//:__subpackages__"],
+=======
+    default_visibility = ["//parser:__subpackages__"],
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     licenses = ["notice"],  # Apache 2.0
 )
 

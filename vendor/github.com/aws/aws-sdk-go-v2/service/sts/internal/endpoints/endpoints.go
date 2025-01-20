@@ -176,9 +176,12 @@ var defaultPartitions = endpoints.Partitions{
 				Region: "ap-southeast-5",
 			}: endpoints.Endpoint{},
 			endpoints.EndpointKey{
+<<<<<<< HEAD
 				Region: "ap-southeast-7",
 			}: endpoints.Endpoint{},
 			endpoints.EndpointKey{
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				Region: "aws-global",
 			}: endpoints.Endpoint{
 				Hostname: "sts.amazonaws.com",
@@ -226,9 +229,12 @@ var defaultPartitions = endpoints.Partitions{
 				Region: "me-south-1",
 			}: endpoints.Endpoint{},
 			endpoints.EndpointKey{
+<<<<<<< HEAD
 				Region: "mx-central-1",
 			}: endpoints.Endpoint{},
 			endpoints.EndpointKey{
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				Region: "sa-east-1",
 			}: endpoints.Endpoint{},
 			endpoints.EndpointKey{

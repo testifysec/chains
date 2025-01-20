@@ -22,7 +22,11 @@
 package roundrobin
 
 import (
+<<<<<<< HEAD
 	rand "math/rand/v2"
+=======
+	"math/rand"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"sync/atomic"
 
 	"google.golang.org/grpc/balancer"
@@ -60,7 +64,11 @@ func (*rrPickerBuilder) Build(info base.PickerBuildInfo) balancer.Picker {
 		// Start at a random index, as the same RR balancer rebuilds a new
 		// picker when SubConn states change, and we don't want to apply excess
 		// load to the first server in the list.
+<<<<<<< HEAD
 		next: uint32(rand.IntN(len(scs))),
+=======
+		next: uint32(rand.Intn(len(scs))),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 

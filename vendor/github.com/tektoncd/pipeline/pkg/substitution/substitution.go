@@ -54,6 +54,7 @@ var intIndexRegex = regexp.MustCompile(intIndex)
 // - prefix: the prefix of the substitutable variable, e.g. "params" or "context.pipeline"
 // - vars: names of known variables
 func ValidateNoReferencesToUnknownVariables(value, prefix string, vars sets.String) *apis.FieldError {
+<<<<<<< HEAD
 	return validateNoReferencesToUnknownVariables(value, prefix, vars, false)
 }
 
@@ -64,6 +65,8 @@ func ValidateNoReferencesToUnknownVariablesWithDetail(value, prefix string, vars
 }
 
 func validateNoReferencesToUnknownVariables(value, prefix string, vars sets.String, withDetail bool) *apis.FieldError {
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if vs, present, errString := ExtractVariablesFromString(value, prefix); present {
 		if errString != "" {
 			return &apis.FieldError{
@@ -74,6 +77,7 @@ func validateNoReferencesToUnknownVariables(value, prefix string, vars sets.Stri
 		for _, v := range vs {
 			v = TrimArrayIndex(v)
 			if !vars.Has(v) {
+<<<<<<< HEAD
 				var msg string
 				if withDetail {
 					msg = fmt.Sprintf("non-existent variable `%s` in %q", v, value)
@@ -82,6 +86,10 @@ func validateNoReferencesToUnknownVariables(value, prefix string, vars sets.Stri
 				}
 				return &apis.FieldError{
 					Message: msg,
+=======
+				return &apis.FieldError{
+					Message: fmt.Sprintf("non-existent variable in %q", value),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 					// Empty path is required to make the `ViaField`, … work
 					Paths: []string{""},
 				}

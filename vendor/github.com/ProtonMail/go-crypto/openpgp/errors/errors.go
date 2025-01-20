@@ -9,6 +9,7 @@ import (
 	"strconv"
 )
 
+<<<<<<< HEAD
 var (
 	// ErrDecryptSessionKeyParsing is a generic error message for parsing errors in decrypted data
 	// to reduce the risk of oracle attacks.
@@ -21,6 +22,8 @@ var (
 	ErrMDCMissing error = SignatureError("MDC packet not found")
 )
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // A StructuralError is returned when OpenPGP data is found to be syntactically
 // invalid.
 type StructuralError string
@@ -29,6 +32,7 @@ func (s StructuralError) Error() string {
 	return "openpgp: invalid data: " + string(s)
 }
 
+<<<<<<< HEAD
 // A DecryptWithSessionKeyError is returned when a failure occurs when reading from symmetrically decrypted data or
 // an authentication tag verification fails.
 // Such an error indicates that the supplied session key is likely wrong or the data got corrupted.
@@ -57,6 +61,8 @@ func HandleSensitiveParsingError(err error, decrypted bool) error {
 	return ErrDecryptSessionKeyParsing
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // UnsupportedError indicates that, although the OpenPGP data is valid, it
 // makes use of currently unimplemented features.
 type UnsupportedError string
@@ -81,6 +87,12 @@ func (b SignatureError) Error() string {
 	return "openpgp: invalid signature: " + string(b)
 }
 
+<<<<<<< HEAD
+=======
+var ErrMDCHashMismatch error = SignatureError("MDC hash mismatch")
+var ErrMDCMissing error = SignatureError("MDC packet not found")
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type signatureExpiredError int
 
 func (se signatureExpiredError) Error() string {
@@ -95,6 +107,7 @@ func (ke keyExpiredError) Error() string {
 	return "openpgp: key expired"
 }
 
+<<<<<<< HEAD
 var ErrSignatureOlderThanKey error = signatureOlderThanKeyError(0)
 
 type signatureOlderThanKeyError int
@@ -103,6 +116,8 @@ func (ske signatureOlderThanKeyError) Error() string {
 	return "openpgp: signature is older than the key"
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 var ErrKeyExpired error = keyExpiredError(0)
 
 type keyIncorrectError int
@@ -137,24 +152,30 @@ func (keyRevokedError) Error() string {
 
 var ErrKeyRevoked error = keyRevokedError(0)
 
+<<<<<<< HEAD
 type WeakAlgorithmError string
 
 func (e WeakAlgorithmError) Error() string {
 	return "openpgp: weak algorithms are rejected: " + string(e)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type UnknownPacketTypeError uint8
 
 func (upte UnknownPacketTypeError) Error() string {
 	return "openpgp: unknown packet type: " + strconv.Itoa(int(upte))
 }
 
+<<<<<<< HEAD
 type CriticalUnknownPacketTypeError uint8
 
 func (upte CriticalUnknownPacketTypeError) Error() string {
 	return "openpgp: unknown critical packet type: " + strconv.Itoa(int(upte))
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // AEADError indicates that there is a problem when initializing or using a
 // AEAD instance, configuration struct, nonces or index values.
 type AEADError string
@@ -171,6 +192,7 @@ type ErrDummyPrivateKey string
 func (dke ErrDummyPrivateKey) Error() string {
 	return "openpgp: s2k GNU dummy key: " + string(dke)
 }
+<<<<<<< HEAD
 
 // ErrMalformedMessage results when the packet sequence is incorrect
 type ErrMalformedMessage string
@@ -178,3 +200,5 @@ type ErrMalformedMessage string
 func (dke ErrMalformedMessage) Error() string {
 	return "openpgp: malformed message " + string(dke)
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

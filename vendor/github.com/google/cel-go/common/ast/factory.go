@@ -27,12 +27,18 @@ type ExprFactory interface {
 	// NewCall creates an Expr value representing a global function call.
 	NewCall(id int64, function string, args ...Expr) Expr
 
+<<<<<<< HEAD
 	// NewComprehension creates an Expr value representing a one-variable comprehension over a value range.
 	NewComprehension(id int64, iterRange Expr, iterVar, accuVar string, accuInit, loopCondition, loopStep, result Expr) Expr
 
 	// NewComprehensionTwoVar creates an Expr value representing a two-variable comprehension over a value range.
 	NewComprehensionTwoVar(id int64, iterRange Expr, iterVar, iterVar2, accuVar string, accuInit, loopCondition, loopStep, result Expr) Expr
 
+=======
+	// NewComprehension creates an Expr value representing a comprehension over a value range.
+	NewComprehension(id int64, iterRange Expr, iterVar, accuVar string, accuInit, loopCondition, loopStep, result Expr) Expr
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// NewMemberCall creates an Expr value representing a member function call.
 	NewMemberCall(id int64, function string, receiver Expr, args ...Expr) Expr
 
@@ -40,18 +46,28 @@ type ExprFactory interface {
 	NewIdent(id int64, name string) Expr
 
 	// NewAccuIdent creates an Expr value representing an accumulator identifier within a
+<<<<<<< HEAD
 	// comprehension.
 	NewAccuIdent(id int64) Expr
 
 	// AccuIdentName reports the name of the accumulator variable to be used within a comprehension.
 	AccuIdentName() string
 
+=======
+	//comprehension.
+	NewAccuIdent(id int64) Expr
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// NewLiteral creates an Expr value representing a literal value, such as a string or integer.
 	NewLiteral(id int64, value ref.Val) Expr
 
 	// NewList creates an Expr value representing a list literal expression with optional indices.
 	//
+<<<<<<< HEAD
 	// Optional indices will typically be empty unless the CEL optional types are enabled.
+=======
+	// Optional indicies will typically be empty unless the CEL optional types are enabled.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	NewList(id int64, elems []Expr, optIndices []int32) Expr
 
 	// NewMap creates an Expr value representing a map literal expression
@@ -81,6 +97,7 @@ type ExprFactory interface {
 	isExprFactory()
 }
 
+<<<<<<< HEAD
 type baseExprFactory struct {
 	accumulatorName string
 }
@@ -98,6 +115,13 @@ func NewExprFactoryWithAccumulator(id string) ExprFactory {
 	return &baseExprFactory{
 		id,
 	}
+=======
+type baseExprFactory struct{}
+
+// NewExprFactory creates an ExprFactory instance.
+func NewExprFactory() ExprFactory {
+	return &baseExprFactory{}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (fac *baseExprFactory) NewCall(id int64, function string, args ...Expr) Expr {
@@ -129,17 +153,23 @@ func (fac *baseExprFactory) NewMemberCall(id int64, function string, target Expr
 }
 
 func (fac *baseExprFactory) NewComprehension(id int64, iterRange Expr, iterVar, accuVar string, accuInit, loopCond, loopStep, result Expr) Expr {
+<<<<<<< HEAD
 	// Set the iter_var2 to empty string to indicate the second variable is omitted
 	return fac.NewComprehensionTwoVar(id, iterRange, iterVar, "", accuVar, accuInit, loopCond, loopStep, result)
 }
 
 func (fac *baseExprFactory) NewComprehensionTwoVar(id int64, iterRange Expr, iterVar, iterVar2, accuVar string, accuInit, loopCond, loopStep, result Expr) Expr {
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return fac.newExpr(
 		id,
 		&baseComprehensionExpr{
 			iterRange: iterRange,
 			iterVar:   iterVar,
+<<<<<<< HEAD
 			iterVar2:  iterVar2,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			accuVar:   accuVar,
 			accuInit:  accuInit,
 			loopCond:  loopCond,
@@ -153,11 +183,15 @@ func (fac *baseExprFactory) NewIdent(id int64, name string) Expr {
 }
 
 func (fac *baseExprFactory) NewAccuIdent(id int64) Expr {
+<<<<<<< HEAD
 	return fac.NewIdent(id, fac.AccuIdentName())
 }
 
 func (fac *baseExprFactory) AccuIdentName() string {
 	return fac.accumulatorName
+=======
+	return fac.NewIdent(id, "__result__")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (fac *baseExprFactory) NewLiteral(id int64, value ref.Val) Expr {
@@ -251,10 +285,16 @@ func (fac *baseExprFactory) CopyExpr(e Expr) Expr {
 		return fac.NewMemberCall(e.ID(), c.FunctionName(), fac.CopyExpr(c.Target()), argsCopy...)
 	case ComprehensionKind:
 		compre := e.AsComprehension()
+<<<<<<< HEAD
 		return fac.NewComprehensionTwoVar(e.ID(),
 			fac.CopyExpr(compre.IterRange()),
 			compre.IterVar(),
 			compre.IterVar2(),
+=======
+		return fac.NewComprehension(e.ID(),
+			fac.CopyExpr(compre.IterRange()),
+			compre.IterVar(),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			compre.AccuVar(),
 			fac.CopyExpr(compre.AccuInit()),
 			fac.CopyExpr(compre.LoopCondition()),

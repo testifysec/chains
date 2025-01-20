@@ -14,7 +14,10 @@
 package model
 
 import (
+<<<<<<< HEAD
 	"errors"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"fmt"
 	"time"
 )
@@ -90,16 +93,27 @@ func (a *Alert) StatusAt(ts time.Time) AlertStatus {
 // Validate checks whether the alert data is inconsistent.
 func (a *Alert) Validate() error {
 	if a.StartsAt.IsZero() {
+<<<<<<< HEAD
 		return errors.New("start time missing")
 	}
 	if !a.EndsAt.IsZero() && a.EndsAt.Before(a.StartsAt) {
 		return errors.New("start time must be before end time")
+=======
+		return fmt.Errorf("start time missing")
+	}
+	if !a.EndsAt.IsZero() && a.EndsAt.Before(a.StartsAt) {
+		return fmt.Errorf("start time must be before end time")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if err := a.Labels.Validate(); err != nil {
 		return fmt.Errorf("invalid label set: %w", err)
 	}
 	if len(a.Labels) == 0 {
+<<<<<<< HEAD
 		return errors.New("at least one label pair required")
+=======
+		return fmt.Errorf("at least one label pair required")
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if err := a.Annotations.Validate(); err != nil {
 		return fmt.Errorf("invalid annotations: %w", err)

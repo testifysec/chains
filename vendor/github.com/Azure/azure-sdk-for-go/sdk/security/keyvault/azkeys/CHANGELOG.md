@@ -1,5 +1,6 @@
 # Release History
 
+<<<<<<< HEAD
 ## 1.3.0 (2024-11-06)
 
 ### Features Added
@@ -12,6 +13,8 @@
 * Client requests tokens from the Vault's tenant, overriding any credential default
   (thanks @francescomari)
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## 1.1.0 (2024-02-13)
 
 ### Other Changes

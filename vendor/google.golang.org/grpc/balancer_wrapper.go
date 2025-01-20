@@ -34,6 +34,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+<<<<<<< HEAD
 var (
 	setConnectedAddress = internal.SetConnectedAddress.(func(*balancer.SubConnState, resolver.Address))
 	// noOpRegisterHealthListenerFn is used when client side health checking is
@@ -43,6 +44,9 @@ var (
 		return func() {}
 	}
 )
+=======
+var setConnectedAddress = internal.SetConnectedAddress.(func(*balancer.SubConnState, resolver.Address))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 // ccBalancerWrapper sits between the ClientConn and the Balancer.
 //
@@ -197,7 +201,10 @@ func (ccb *ccBalancerWrapper) NewSubConn(addrs []resolver.Address, opts balancer
 		ac:            ac,
 		producers:     make(map[balancer.ProducerBuilder]*refCountedProducer),
 		stateListener: opts.StateListener,
+<<<<<<< HEAD
 		healthData:    newHealthData(connectivity.Idle),
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	ac.acbw = acbw
 	return acbw, nil
@@ -263,13 +270,17 @@ func (ccb *ccBalancerWrapper) Target() string {
 // acBalancerWrapper is a wrapper on top of ac for balancers.
 // It implements balancer.SubConn interface.
 type acBalancerWrapper struct {
+<<<<<<< HEAD
 	internal.EnforceSubConnEmbedding
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	ac            *addrConn          // read-only
 	ccb           *ccBalancerWrapper // read-only
 	stateListener func(balancer.SubConnState)
 
 	producersMu sync.Mutex
 	producers   map[balancer.ProducerBuilder]*refCountedProducer
+<<<<<<< HEAD
 
 	// Access to healthData is protected by healthMu.
 	healthMu sync.Mutex
@@ -296,6 +307,8 @@ func newHealthData(s connectivity.State) *healthData {
 		connectivityState:   s,
 		closeHealthProducer: func() {},
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // updateState is invoked by grpc to push a subConn state update to the
@@ -315,6 +328,7 @@ func (acbw *acBalancerWrapper) updateState(s connectivity.State, curAddr resolve
 		if s == connectivity.Ready {
 			setConnectedAddress(&scs, curAddr)
 		}
+<<<<<<< HEAD
 		// Invalidate the health listener by updating the healthData.
 		acbw.healthMu.Lock()
 		// A race may occur if a health listener is registered soon after the
@@ -333,6 +347,8 @@ func (acbw *acBalancerWrapper) updateState(s connectivity.State, curAddr resolve
 		acbw.healthData = newHealthData(scs.ConnectivityState)
 		acbw.healthMu.Unlock()
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		acbw.stateListener(scs)
 	})
 }
@@ -427,6 +443,7 @@ func (acbw *acBalancerWrapper) closeProducers() {
 		delete(acbw.producers, pb)
 	}
 }
+<<<<<<< HEAD
 
 // healthProducerRegisterFn is a type alias for the health producer's function
 // for registering listeners.
@@ -513,3 +530,5 @@ func (acbw *acBalancerWrapper) RegisterHealthListener(listener func(balancer.Sub
 		hd.closeHealthProducer = registerFn(ctx, listenerWrapper)
 	})
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

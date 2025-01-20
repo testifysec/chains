@@ -44,10 +44,15 @@ fi
 
 header "Setting up environment"
 
+<<<<<<< HEAD
 set -x
 install_pipeline_crd
 export SYSTEM_NAMESPACE=tekton-pipelines
 set +x
+=======
+install_pipeline_crd
+export SYSTEM_NAMESPACE=tekton-pipelines
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 failed=0
 

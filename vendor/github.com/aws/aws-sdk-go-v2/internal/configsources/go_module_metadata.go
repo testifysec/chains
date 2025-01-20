@@ -3,4 +3,8 @@
 package configsources
 
 // goModuleVersion is the tagged release for this module
+<<<<<<< HEAD
 const goModuleVersion = "1.3.29"
+=======
+const goModuleVersion = "1.3.23"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

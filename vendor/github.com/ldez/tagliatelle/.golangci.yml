@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 linters:
   enable-all: true
   disable:
@@ -23,6 +24,12 @@ linters:
     - nilnil
     - errchkjson
     - nonamedreturns
+=======
+run:
+  timeout: 5m
+  skip-files: [ ]
+  skip-dirs: [ ]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 linters-settings:
   govet:
@@ -30,7 +37,11 @@ linters-settings:
     disable:
       - fieldalignment
   gocyclo:
+<<<<<<< HEAD
     min-complexity: 20
+=======
+    min-complexity: 15
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   goconst:
     min-len: 5
     min-occurrences: 3
@@ -45,6 +56,7 @@ linters-settings:
   gofumpt:
     extra-rules: true
   depguard:
+<<<<<<< HEAD
     rules:
       main:
         deny:
@@ -52,6 +64,13 @@ linters-settings:
             desc: not allowed
           - pkg: "github.com/pkg/errors"
             desc: Should be replaced by standard lib errors package
+=======
+    list-type: denylist
+    include-go-root: false
+    packages:
+      - github.com/sirupsen/logrus
+      - github.com/pkg/errors
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   gocritic:
     enabled-tags:
       - diagnostic
@@ -66,6 +85,7 @@ linters-settings:
       hugeParam:
         sizeThreshold: 100
 
+<<<<<<< HEAD
 issues:
   exclude-use-default: false
   max-issues-per-linter: 0
@@ -75,3 +95,48 @@ issues:
 
 run:
   timeout: 5m
+=======
+linters:
+  enable-all: true
+  disable:
+    - deadcode # deprecated
+    - exhaustivestruct # deprecated
+    - golint # deprecated
+    - ifshort # deprecated
+    - interfacer # deprecated
+    - maligned # deprecated
+    - nosnakecase # deprecated
+    - scopelint # deprecated
+    - structcheck # deprecated
+    - varcheck # deprecated
+    - sqlclosecheck # not relevant (SQL)
+    - rowserrcheck # not relevant (SQL)
+    - execinquery # not relevant (SQL)
+    - cyclop # duplicate of gocyclo
+    - lll
+    - dupl
+    - wsl
+    - nlreturn
+    - gomnd
+    - goerr113
+    - wrapcheck
+    - exhaustive
+    - exhaustruct
+    - testpackage
+    - tparallel
+    - paralleltest
+    - prealloc
+    - ifshort
+    - forcetypeassert
+    - varnamelen
+    - nilnil
+    - errchkjson
+    - nonamedreturns
+
+issues:
+  exclude-use-default: false
+  max-per-linter: 0
+  max-same-issues: 0
+  exclude:
+    - 'package-comments: should have a package comment'
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

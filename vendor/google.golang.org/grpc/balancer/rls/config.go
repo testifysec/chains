@@ -143,10 +143,14 @@ type lbConfigJSON struct {
 //	- childPolicyConfigTargetFieldName:
 //	  - must be set and non-empty
 func (rlsBB) ParseConfig(c json.RawMessage) (serviceconfig.LoadBalancingConfig, error) {
+<<<<<<< HEAD
 	if logger.V(2) {
 		logger.Infof("Received JSON service config: %v", pretty.ToJSON(c))
 	}
 
+=======
+	logger.Infof("Received JSON service config: %v", pretty.ToJSON(c))
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	cfgJSON := &lbConfigJSON{}
 	if err := json.Unmarshal(c, cfgJSON); err != nil {
 		return nil, fmt.Errorf("rls: json unmarshal failed for service config %+v: %v", string(c), err)

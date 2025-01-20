@@ -26,7 +26,11 @@ func (*UniqByLine) Name() string {
 }
 
 func (p *UniqByLine) Process(issues []result.Issue) ([]result.Issue, error) {
+<<<<<<< HEAD
 	if !p.cfg.Issues.UniqByLine {
+=======
+	if !p.cfg.Output.UniqByLine {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return issues, nil
 	}
 
@@ -36,7 +40,11 @@ func (p *UniqByLine) Process(issues []result.Issue) ([]result.Issue, error) {
 func (*UniqByLine) Finish() {}
 
 func (p *UniqByLine) shouldPassIssue(issue *result.Issue) bool {
+<<<<<<< HEAD
 	if issue.SuggestedFixes != nil && p.cfg.Issues.NeedFix {
+=======
+	if issue.Replacement != nil && p.cfg.Issues.NeedFix {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// if issue will be auto-fixed we shouldn't collapse issues:
 		// e.g. one line can contain 2 misspellings, they will be in 2 issues and misspell should fix both of them.
 		return true

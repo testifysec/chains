@@ -11,10 +11,14 @@ import (
 	"os"
 )
 
+<<<<<<< HEAD
 const (
 	ECDSAKeyType   = "ecdsa"
 	ECDSAKeyScheme = "ecdsa-sha2-nistp256"
 )
+=======
+const ECDSAKeyType = "ecdsa"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 // ECDSASignerVerifier is a dsse.SignerVerifier compliant interface to sign and
 // verify signatures using ECDSA keys.
@@ -92,11 +96,14 @@ func (sv *ECDSASignerVerifier) Public() crypto.PublicKey {
 
 // LoadECDSAKeyFromFile returns an SSLibKey instance for an ECDSA key stored in
 // a file in the custom securesystemslib format.
+<<<<<<< HEAD
 //
 // Deprecated: use LoadKey(). The custom serialization format has been
 // deprecated. Use
 // https://github.com/secure-systems-lab/securesystemslib/blob/main/docs/migrate_key.py
 // to convert your key.
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func LoadECDSAKeyFromFile(path string) (*SSLibKey, error) {
 	contents, err := os.ReadFile(path)
 	if err != nil {

@@ -390,6 +390,7 @@ func (comp navigableComprehensionImpl) IterVar() string {
 	return comp.Expr.AsComprehension().IterVar()
 }
 
+<<<<<<< HEAD
 func (comp navigableComprehensionImpl) IterVar2() string {
 	return comp.Expr.AsComprehension().IterVar2()
 }
@@ -398,6 +399,8 @@ func (comp navigableComprehensionImpl) HasIterVar2() bool {
 	return comp.Expr.AsComprehension().HasIterVar2()
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (comp navigableComprehensionImpl) AccuVar() string {
 	return comp.Expr.AsComprehension().AccuVar()
 }

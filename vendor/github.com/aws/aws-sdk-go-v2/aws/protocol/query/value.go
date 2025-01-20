@@ -7,8 +7,11 @@ import (
 	"github.com/aws/smithy-go/encoding/httpbinding"
 )
 
+<<<<<<< HEAD
 const keySeparator = "."
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Value represents a Query Value type.
 type Value struct {
 	// The query values to add the value to.

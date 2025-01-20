@@ -66,12 +66,21 @@ func isTokenProviderDirectPathCompatible(tp auth.TokenProvider, o *Options) bool
 	if tok == nil {
 		return false
 	}
+<<<<<<< HEAD
 	if tok.MetadataString("auth.google.tokenSource") != "compute-metadata" {
 		return false
 	}
 	if o.InternalOptions != nil && o.InternalOptions.EnableNonDefaultSAForDirectPath {
 		return true
 	}
+=======
+	if o.InternalOptions != nil && o.InternalOptions.EnableNonDefaultSAForDirectPath {
+		return true
+	}
+	if tok.MetadataString("auth.google.tokenSource") != "compute-metadata" {
+		return false
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if tok.MetadataString("auth.google.serviceAccount") != "default" {
 		return false
 	}

@@ -38,10 +38,13 @@ func NewClient(vaultURL string, credential azcore.TokenCredential, options *Clie
 		},
 	)
 	azcoreClient, err := azcore.NewClient(moduleName, version, runtime.PipelineOptions{
+<<<<<<< HEAD
 		APIVersion: runtime.APIVersionOptions{
 			Location: runtime.APIVersionLocationQueryParam,
 			Name:     "api-version",
 		},
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		PerRetry: []policy.Policy{authPolicy},
 		Tracing: runtime.TracingOptions{
 			Namespace: "Microsoft.KeyVault",

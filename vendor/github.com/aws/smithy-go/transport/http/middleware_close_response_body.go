@@ -2,10 +2,17 @@ package http
 
 import (
 	"context"
+<<<<<<< HEAD
 	"io"
 
 	"github.com/aws/smithy-go/logging"
 	"github.com/aws/smithy-go/middleware"
+=======
+	"github.com/aws/smithy-go/logging"
+	"github.com/aws/smithy-go/middleware"
+	"io"
+	"io/ioutil"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // AddErrorCloseResponseBodyMiddleware adds the middleware to automatically
@@ -30,7 +37,11 @@ func (m *errorCloseResponseBodyMiddleware) HandleDeserialize(
 	if err != nil {
 		if resp, ok := out.RawResponse.(*Response); ok && resp != nil && resp.Body != nil {
 			// Consume the full body to prevent TCP connection resets on some platforms
+<<<<<<< HEAD
 			_, _ = io.Copy(io.Discard, resp.Body)
+=======
+			_, _ = io.Copy(ioutil.Discard, resp.Body)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			// Do not validate that the response closes successfully.
 			resp.Body.Close()
 		}
@@ -64,7 +75,11 @@ func (m *closeResponseBody) HandleDeserialize(
 
 	if resp, ok := out.RawResponse.(*Response); ok {
 		// Consume the full body to prevent TCP connection resets on some platforms
+<<<<<<< HEAD
 		_, copyErr := io.Copy(io.Discard, resp.Body)
+=======
+		_, copyErr := io.Copy(ioutil.Discard, resp.Body)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if copyErr != nil {
 			middleware.GetLogger(ctx).Logf(logging.Warn, "failed to discard remaining HTTP response body, this may affect connection reuse")
 		}

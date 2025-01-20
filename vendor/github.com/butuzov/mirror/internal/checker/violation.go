@@ -28,7 +28,11 @@ const (
 	UntypedRune string = "untyped rune"
 )
 
+<<<<<<< HEAD
 // Violation describes what message we going to give to a particular code violation
+=======
+// Violation describs what message we going to give to a particular code violation
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type Violation struct {
 	Type     ViolationType //
 	Args     []int         // Indexes of the arguments needs to be checked
@@ -143,7 +147,11 @@ func (v *Violation) Diagnostic(fSet *token.FileSet) analysis.Diagnostic {
 		v.AltPackage = v.Package
 	}
 
+<<<<<<< HEAD
 	// Hooray! we don't need to change package and redo imports.
+=======
+	// Hooray! we dont need to change package and redo imports.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if v.Type == Function && v.AltPackage == v.Package && noNl {
 		diagnostic.SuggestedFixes = []analysis.SuggestedFix{{
 			Message: "Fix Issue With",
@@ -166,7 +174,11 @@ type GolangIssue struct {
 	Original  string
 }
 
+<<<<<<< HEAD
 // Issue intended to be used only within `golangci-lint`, but you can use it
+=======
+// Issue intended to be used only within `golangci-lint`, bu you can use use it
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // alongside Diagnostic if you wish.
 func (v *Violation) Issue(fSet *token.FileSet) GolangIssue {
 	issue := GolangIssue{

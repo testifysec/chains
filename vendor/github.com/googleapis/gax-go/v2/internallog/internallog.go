@@ -44,7 +44,11 @@ import (
 
 // New returns a new [slog.Logger] default logger, or the provided logger if
 // non-nil. The returned logger will be a no-op logger unless the environment
+<<<<<<< HEAD
 // variable GOOGLE_SDK_GO_LOGGING_LEVEL is set.
+=======
+// variable GOOGLE_SDK_DEBUG_LOGGING is set.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func New(l *slog.Logger) *slog.Logger {
 	if l != nil {
 		return l

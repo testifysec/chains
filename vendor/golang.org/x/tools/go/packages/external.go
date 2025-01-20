@@ -13,7 +13,10 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+<<<<<<< HEAD
 	"slices"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 )
 
@@ -132,7 +135,11 @@ func findExternalDriver(cfg *Config) driver {
 		// command.
 		//
 		// (See similar trick in Invocation.run in ../../internal/gocommand/invoke.go)
+<<<<<<< HEAD
 		cmd.Env = append(slices.Clip(cfg.Env), "PWD="+cfg.Dir)
+=======
+		cmd.Env = append(slicesClip(cfg.Env), "PWD="+cfg.Dir)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		cmd.Stdin = bytes.NewReader(req)
 		cmd.Stdout = buf
 		cmd.Stderr = stderr
@@ -151,3 +158,10 @@ func findExternalDriver(cfg *Config) driver {
 		return &response, nil
 	}
 }
+<<<<<<< HEAD
+=======
+
+// slicesClip removes unused capacity from the slice, returning s[:len(s):len(s)].
+// TODO(adonovan): use go1.21 slices.Clip.
+func slicesClip[S ~[]E, E any](s S) S { return s[:len(s):len(s)] }
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

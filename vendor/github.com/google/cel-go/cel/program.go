@@ -19,7 +19,10 @@ import (
 	"fmt"
 	"sync"
 
+<<<<<<< HEAD
 	"github.com/google/cel-go/common/ast"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/google/cel-go/common/types"
 	"github.com/google/cel-go/common/types/ref"
 	"github.com/google/cel-go/interpreter"
@@ -100,9 +103,12 @@ type EvalDetails struct {
 // State of the evaluation, non-nil if the OptTrackState or OptExhaustiveEval is specified
 // within EvalOptions.
 func (ed *EvalDetails) State() interpreter.EvalState {
+<<<<<<< HEAD
 	if ed == nil {
 		return interpreter.NewEvalState()
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return ed.state
 }
 
@@ -155,7 +161,11 @@ func (p *prog) clone() *prog {
 // ProgramOption values.
 //
 // If the program cannot be configured the prog will be nil, with a non-nil error response.
+<<<<<<< HEAD
 func newProgram(e *Env, a *ast.AST, opts []ProgramOption) (Program, error) {
+=======
+func newProgram(e *Env, a *Ast, opts []ProgramOption) (Program, error) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Build the dispatcher, interpreter, and default program value.
 	disp := interpreter.NewDispatcher()
 
@@ -191,6 +201,7 @@ func newProgram(e *Env, a *ast.AST, opts []ProgramOption) (Program, error) {
 
 	// Set the attribute factory after the options have been set.
 	var attrFactory interpreter.AttributeFactory
+<<<<<<< HEAD
 	attrFactorOpts := []interpreter.AttrFactoryOption{
 		interpreter.EnableErrorOnBadPresenceTest(p.HasFeature(featureEnableErrorOnBadPresenceTest)),
 	}
@@ -198,6 +209,12 @@ func newProgram(e *Env, a *ast.AST, opts []ProgramOption) (Program, error) {
 		attrFactory = interpreter.NewPartialAttributeFactory(e.Container, e.adapter, e.provider, attrFactorOpts...)
 	} else {
 		attrFactory = interpreter.NewAttributeFactory(e.Container, e.adapter, e.provider, attrFactorOpts...)
+=======
+	if p.evalOpts&OptPartialEval == OptPartialEval {
+		attrFactory = interpreter.NewPartialAttributeFactory(e.Container, e.adapter, e.provider)
+	} else {
+		attrFactory = interpreter.NewAttributeFactory(e.Container, e.adapter, e.provider)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	interp := interpreter.NewInterpreter(disp, e.Container, e.provider, e.adapter, attrFactory)
 	p.interpreter = interp
@@ -259,9 +276,15 @@ func newProgram(e *Env, a *ast.AST, opts []ProgramOption) (Program, error) {
 	return p.initInterpretable(a, decorators)
 }
 
+<<<<<<< HEAD
 func (p *prog) initInterpretable(a *ast.AST, decs []interpreter.InterpretableDecorator) (*prog, error) {
 	// When the AST has been exprAST it contains metadata that can be used to speed up program execution.
 	interpretable, err := p.interpreter.NewInterpretable(a, decs...)
+=======
+func (p *prog) initInterpretable(a *Ast, decs []interpreter.InterpretableDecorator) (*prog, error) {
+	// When the AST has been exprAST it contains metadata that can be used to speed up program execution.
+	interpretable, err := p.interpreter.NewInterpretable(a.impl, decs...)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}

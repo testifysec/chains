@@ -219,9 +219,12 @@ func newRPCData(ctx context.Context) (*rpcData, error) {
 	if !ok {
 		return nil, errors.New("missing method in incoming context")
 	}
+<<<<<<< HEAD
 	// gRPC-Go strips :path from the headers given to the application, but RBAC should be
 	// able to match against it.
 	md[":path"] = []string{mn}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// The connection is needed in order to find the destination address and
 	// port of the incoming RPC Call.

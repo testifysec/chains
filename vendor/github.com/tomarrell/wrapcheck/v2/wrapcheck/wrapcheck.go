@@ -44,10 +44,13 @@ type WrapcheckConfig struct {
 	// list to your config.
 	IgnoreSigs []string `mapstructure:"ignoreSigs" yaml:"ignoreSigs"`
 
+<<<<<<< HEAD
 	// ExtraIgnoreSigs defines an additional list of signatures to ignore, on
 	// top of IgnoreSigs.
 	ExtraIgnoreSigs []string `mapstructure:"extraIgnoreSigs" yaml:"extraIgnoreSigs"`
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// IgnoreSigRegexps defines a list of regular expressions which if matched
 	// to the signature of the function call returning the error, will be ignored. This
 	// allows you to specify functions that wrapcheck will not report as
@@ -280,7 +283,11 @@ func reportUnwrapped(
 
 	// Check for ignored signatures
 	fnSig := pass.TypesInfo.ObjectOf(sel.Sel).String()
+<<<<<<< HEAD
 	if contains(cfg.IgnoreSigs, fnSig) || contains(cfg.ExtraIgnoreSigs, fnSig) {
+=======
+	if contains(cfg.IgnoreSigs, fnSig) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return
 	} else if containsMatch(regexpsSig, fnSig) {
 		return

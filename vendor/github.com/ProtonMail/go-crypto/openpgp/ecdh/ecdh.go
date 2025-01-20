@@ -163,9 +163,19 @@ func buildKey(pub *PublicKey, zb []byte, curveOID, fingerprint []byte, stripLead
 	if _, err := param.Write([]byte("Anonymous Sender    ")); err != nil {
 		return nil, err
 	}
+<<<<<<< HEAD
 	if _, err := param.Write(fingerprint[:]); err != nil {
 		return nil, err
 	}
+=======
+	// For v5 keys, the 20 leftmost octets of the fingerprint are used.
+	if _, err := param.Write(fingerprint[:20]); err != nil {
+		return nil, err
+	}
+	if param.Len()-len(curveOID) != 45 {
+		return nil, errors.New("ecdh: malformed KDF Param")
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// MB = Hash ( 00 || 00 || 00 || 01 || ZB || Param );
 	h := pub.KDF.Hash.New()

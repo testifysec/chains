@@ -10,12 +10,19 @@ import (
 
 func New(settings *config.TagliatelleSettings) *goanalysis.Linter {
 	cfg := tagliatelle.Config{
+<<<<<<< HEAD
 		Base: tagliatelle.Base{
 			Rules: map[string]string{
 				"json":   "camel",
 				"yaml":   "camel",
 				"header": "header",
 			},
+=======
+		Rules: map[string]string{
+			"json":   "camel",
+			"yaml":   "camel",
+			"header": "header",
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		},
 	}
 
@@ -23,6 +30,7 @@ func New(settings *config.TagliatelleSettings) *goanalysis.Linter {
 		for k, v := range settings.Case.Rules {
 			cfg.Rules[k] = v
 		}
+<<<<<<< HEAD
 
 		cfg.ExtendedRules = toExtendedRules(settings.Case.ExtendedRules)
 		cfg.UseFieldName = settings.Case.UseFieldName
@@ -40,6 +48,9 @@ func New(settings *config.TagliatelleSettings) *goanalysis.Linter {
 				Package: override.Package,
 			})
 		}
+=======
+		cfg.UseFieldName = settings.Case.UseFieldName
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	a := tagliatelle.New(cfg)
@@ -49,6 +60,7 @@ func New(settings *config.TagliatelleSettings) *goanalysis.Linter {
 		a.Doc,
 		[]*analysis.Analyzer{a},
 		nil,
+<<<<<<< HEAD
 	).WithLoadMode(goanalysis.LoadModeTypesInfo)
 }
 
@@ -64,4 +76,7 @@ func toExtendedRules(src map[string]config.TagliatelleExtendedRule) map[string]t
 	}
 
 	return result
+=======
+	).WithLoadMode(goanalysis.LoadModeSyntax)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

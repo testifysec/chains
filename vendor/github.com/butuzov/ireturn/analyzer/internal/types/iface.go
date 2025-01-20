@@ -47,7 +47,11 @@ func (i IFace) HashString() string {
 }
 
 func (i IFace) ExportDiagnostic() analysis.Diagnostic {
+<<<<<<< HEAD
 	return analysis.Diagnostic{
+=======
+	return analysis.Diagnostic{ //nolint: exhaustivestruct
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		Pos:     i.Pos,
 		Message: i.String(),
 	}

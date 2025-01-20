@@ -26,11 +26,17 @@ import (
 
 	"google.golang.org/grpc/internal"
 	"google.golang.org/grpc/internal/backoff"
+<<<<<<< HEAD
 	"google.golang.org/grpc/internal/grpcsync"
 	"google.golang.org/grpc/internal/xds/bootstrap"
 	xdsclientinternal "google.golang.org/grpc/xds/internal/xdsclient/internal"
 	"google.golang.org/grpc/xds/internal/xdsclient/transport/ads"
 	"google.golang.org/grpc/xds/internal/xdsclient/transport/grpctransport"
+=======
+	"google.golang.org/grpc/internal/cache"
+	"google.golang.org/grpc/internal/grpcsync"
+	"google.golang.org/grpc/internal/xds/bootstrap"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"google.golang.org/grpc/xds/internal/xdsclient/xdsresource"
 )
 
@@ -56,6 +62,7 @@ const NameForServer = "#server"
 // only when all references are released, and it is safe for the caller to
 // invoke this close function multiple times.
 func New(name string) (XDSClient, func(), error) {
+<<<<<<< HEAD
 	config, err := bootstrap.GetConfiguration()
 	if err != nil {
 		return nil, nil, fmt.Errorf("xds: failed to get xDS bootstrap config: %v", err)
@@ -69,11 +76,22 @@ func newClientImpl(config *bootstrap.Config, watchExpiryTimeout time.Duration, s
 	c := &clientImpl{
 		done:               grpcsync.NewEvent(),
 		authorities:        make(map[string]*authority),
+=======
+	return newRefCounted(name, defaultWatchExpiryTimeout, defaultIdleAuthorityDeleteTimeout, backoff.DefaultExponential.Backoff)
+}
+
+// newClientImpl returns a new xdsClient with the given config.
+func newClientImpl(config *bootstrap.Config, watchExpiryTimeout time.Duration, idleAuthorityDeleteTimeout time.Duration, streamBackoff func(int) time.Duration) (*clientImpl, error) {
+	ctx, cancel := context.WithCancel(context.Background())
+	c := &clientImpl{
+		done:               grpcsync.NewEvent(),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		config:             config,
 		watchExpiryTimeout: watchExpiryTimeout,
 		backoff:            streamBackoff,
 		serializer:         grpcsync.NewCallbackSerializer(ctx),
 		serializerClose:    cancel,
+<<<<<<< HEAD
 		transportBuilder:   &grpctransport.Builder{},
 		resourceTypes:      newResourceTypeRegistry(),
 		xdsActiveChannels:  make(map[string]*channelState),
@@ -101,6 +119,13 @@ func newClientImpl(config *bootstrap.Config, watchExpiryTimeout time.Duration, s
 		getChannelForADS: c.getChannelForADS,
 		logPrefix:        clientPrefix(c),
 	})
+=======
+		resourceTypes:      newResourceTypeRegistry(),
+		authorities:        make(map[string]*authority),
+		idleAuthorities:    cache.NewTimeoutCache(idleAuthorityDeleteTimeout),
+	}
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	c.logger = prefixLogger(c)
 	return c, nil
 }
@@ -110,7 +135,10 @@ func newClientImpl(config *bootstrap.Config, watchExpiryTimeout time.Duration, s
 type OptionsForTesting struct {
 	// Name is a unique name for this xDS client.
 	Name string
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Contents contain a JSON representation of the bootstrap configuration to
 	// be used when creating the xDS client.
 	Contents []byte
@@ -119,9 +147,19 @@ type OptionsForTesting struct {
 	// unspecified, uses the default value used in non-test code.
 	WatchExpiryTimeout time.Duration
 
+<<<<<<< HEAD
 	// StreamBackoffAfterFailure is the backoff function used to determine the
 	// backoff duration after stream failures.
 	// If unspecified, uses the default value used in non-test code.
+=======
+	// AuthorityIdleTimeout is the timeout before idle authorities are deleted.
+	// If unspecified, uses the default value used in non-test code.
+	AuthorityIdleTimeout time.Duration
+
+	// StreamBackoffAfterFailure is the backoff function used to determine the
+	// backoff duration after stream failures. If unspecified, uses the default
+	// value used in non-test code.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	StreamBackoffAfterFailure func(int) time.Duration
 }
 
@@ -141,15 +179,29 @@ func NewForTesting(opts OptionsForTesting) (XDSClient, func(), error) {
 	if opts.WatchExpiryTimeout == 0 {
 		opts.WatchExpiryTimeout = defaultWatchExpiryTimeout
 	}
+<<<<<<< HEAD
+=======
+	if opts.AuthorityIdleTimeout == 0 {
+		opts.AuthorityIdleTimeout = defaultIdleAuthorityDeleteTimeout
+	}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if opts.StreamBackoffAfterFailure == nil {
 		opts.StreamBackoffAfterFailure = defaultStreamBackoffFunc
 	}
 
+<<<<<<< HEAD
 	config, err := bootstrap.NewConfigForTesting(opts.Contents)
 	if err != nil {
 		return nil, nil, err
 	}
 	return newRefCounted(opts.Name, config, opts.WatchExpiryTimeout, opts.StreamBackoffAfterFailure)
+=======
+	if err := bootstrap.SetFallbackBootstrapConfig(opts.Contents); err != nil {
+		return nil, nil, err
+	}
+	client, cancel, err := newRefCounted(opts.Name, opts.WatchExpiryTimeout, opts.AuthorityIdleTimeout, opts.StreamBackoffAfterFailure)
+	return client, func() { bootstrap.UnsetFallbackBootstrapConfigForTesting(); cancel() }, err
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // GetForTesting returns an xDS client created earlier using the given name.
@@ -175,7 +227,10 @@ func GetForTesting(name string) (XDSClient, func(), error) {
 
 func init() {
 	internal.TriggerXDSResourceNotFoundForTesting = triggerXDSResourceNotFoundForTesting
+<<<<<<< HEAD
 	xdsclientinternal.ResourceWatchStateForTesting = resourceWatchStateForTesting
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func triggerXDSResourceNotFoundForTesting(client XDSClient, typ xdsresource.Type, name string) error {
@@ -186,6 +241,7 @@ func triggerXDSResourceNotFoundForTesting(client XDSClient, typ xdsresource.Type
 	return crc.clientImpl.triggerResourceNotFoundForTesting(typ, name)
 }
 
+<<<<<<< HEAD
 func resourceWatchStateForTesting(client XDSClient, typ xdsresource.Type, name string) (ads.ResourceWatchState, error) {
 	crc, ok := client.(*clientRefCounted)
 	if !ok {
@@ -194,6 +250,8 @@ func resourceWatchStateForTesting(client XDSClient, typ xdsresource.Type, name s
 	return crc.clientImpl.resourceWatchStateForTesting(typ, name)
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 var (
 	clients   = map[string]*clientRefCounted{}
 	clientsMu sync.Mutex

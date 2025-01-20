@@ -6,8 +6,13 @@
         {
             "Agent": {
                 "ubuntu-20.04": {
+<<<<<<< HEAD
                     "OSVmImage": "env:LINUXVMIMAGE",
                     "Pool": "env:LINUXPOOL"
+=======
+                    "OSVmImage": "MMSUbuntu20.04",
+                    "Pool": "azsdk-pool-mms-ubuntu-2004-general"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
                 }
             },
             "ArmTemplateParameters": "@{ enableHsm = $true }",

@@ -16,7 +16,11 @@ import (
 // mechanism for tying an enterprise identity store or directory to role-based
 // Amazon Web Services access without user-specific credentials or configuration.
 // For a comparison of AssumeRoleWithSAML with the other API operations that
+<<<<<<< HEAD
 // produce temporary credentials, see [Requesting Temporary Security Credentials]and [Compare STS credentials] in the IAM User Guide.
+=======
+// produce temporary credentials, see [Requesting Temporary Security Credentials]and [Comparing the Amazon Web Services STS API operations] in the IAM User Guide.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 // The temporary security credentials returned by this operation consist of an
 // access key ID, a secret access key, and a security token. Applications can use
@@ -130,10 +134,17 @@ import (
 // [View the Maximum Session Duration Setting for a Role]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session
 // [Creating a Role for SAML 2.0 Federation]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-idp_saml.html
 // [IAM and STS Character Limits]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length
+<<<<<<< HEAD
 // [Creating SAML Identity Providers]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_saml.html
 // [session policies]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session
 // [Requesting Temporary Security Credentials]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html
 // [Compare STS credentials]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html
+=======
+// [Comparing the Amazon Web Services STS API operations]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison
+// [Creating SAML Identity Providers]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_saml.html
+// [session policies]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session
+// [Requesting Temporary Security Credentials]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // [Tutorial: Using Tags for Attribute-Based Access Control]: https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_attribute-based-access-control.html
 // [Configuring a Relying Party and Claims]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_saml_relying-party.html
 // [Role chaining]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-role-chaining
@@ -219,8 +230,11 @@ type AssumeRoleWithSAMLInput struct {
 	// \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage
 	// return (\u000D) characters.
 	//
+<<<<<<< HEAD
 	// For more information about role session permissions, see [Session policies].
 	//
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// An Amazon Web Services conversion compresses the passed inline session policy,
 	// managed policy ARNs, and session tags into a packed binary format that has a
 	// separate limit. Your request can fail for this limit even if your plaintext
@@ -229,7 +243,10 @@ type AssumeRoleWithSAMLInput struct {
 	// size limit.
 	//
 	// [Session Policies]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session
+<<<<<<< HEAD
 	// [Session policies]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	Policy *string
 
 	// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to
@@ -307,8 +324,12 @@ type AssumeRoleWithSAMLOutput struct {
 	// allowed space.
 	PackedPolicySize *int32
 
+<<<<<<< HEAD
 	// The value in the SourceIdentity attribute in the SAML assertion. The source
 	// identity value persists across [chained role]sessions.
+=======
+	// The value in the SourceIdentity attribute in the SAML assertion.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	//
 	// You can require users to set a source identity value when they assume a role.
 	// You do this by using the sts:SourceIdentity condition key in a role trust
@@ -325,7 +346,11 @@ type AssumeRoleWithSAMLOutput struct {
 	// of upper- and lower-case alphanumeric characters with no spaces. You can also
 	// include underscores or any of the following characters: =,.@-
 	//
+<<<<<<< HEAD
 	// [chained role]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#id_roles_terms-and-concepts
+=======
+	// [chained role]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts#iam-term-role-chaining
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// [Monitor and control actions taken with assumed roles]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html
 	SourceIdentity *string
 

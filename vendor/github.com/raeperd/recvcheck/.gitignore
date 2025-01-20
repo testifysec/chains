@@ -1,3 +1,8 @@
+<<<<<<< HEAD
 .idea/
 coverage.txt
 /recvcheck
+=======
+coverage.txt
+cmd/recvcheck/recvcheck
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

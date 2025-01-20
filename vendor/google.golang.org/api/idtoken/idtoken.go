@@ -113,7 +113,10 @@ func newTokenSourceNewAuth(ctx context.Context, audience string, ds *internal.Di
 		CredentialsFile: ds.CredentialsFile,
 		CredentialsJSON: ds.CredentialsJSON,
 		Client:          oauth2.NewClient(ctx, nil),
+<<<<<<< HEAD
 		Logger:          ds.Logger,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	})
 	if err != nil {
 		return nil, err

@@ -35,7 +35,10 @@ import (
 	"github.com/google/s2a-go/internal/tokenmanager"
 	"github.com/google/s2a-go/internal/v2"
 	"github.com/google/s2a-go/retry"
+<<<<<<< HEAD
 	"github.com/google/s2a-go/stream"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/protobuf/proto"
@@ -331,7 +334,10 @@ func NewTLSClientConfigFactory(opts *ClientOptions) (TLSClientConfigFactory, err
 			tokenManager:              nil,
 			verificationMode:          getVerificationMode(opts.VerificationMode),
 			serverAuthorizationPolicy: opts.serverAuthorizationPolicy,
+<<<<<<< HEAD
 			getStream:                 opts.getS2AStream,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}, nil
 	}
 	return &s2aTLSClientConfigFactory{
@@ -340,7 +346,10 @@ func NewTLSClientConfigFactory(opts *ClientOptions) (TLSClientConfigFactory, err
 		tokenManager:              tokenManager,
 		verificationMode:          getVerificationMode(opts.VerificationMode),
 		serverAuthorizationPolicy: opts.serverAuthorizationPolicy,
+<<<<<<< HEAD
 		getStream:                 opts.getS2AStream,
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}, nil
 }
 
@@ -350,7 +359,10 @@ type s2aTLSClientConfigFactory struct {
 	tokenManager              tokenmanager.AccessTokenManager
 	verificationMode          s2av2pb.ValidatePeerCertificateChainReq_VerificationMode
 	serverAuthorizationPolicy []byte
+<<<<<<< HEAD
 	getStream                 stream.GetS2AStream
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (f *s2aTLSClientConfigFactory) Build(
@@ -359,7 +371,11 @@ func (f *s2aTLSClientConfigFactory) Build(
 	if opts != nil && opts.ServerName != "" {
 		serverName = opts.ServerName
 	}
+<<<<<<< HEAD
 	return v2.NewClientTLSConfig(ctx, f.s2av2Address, f.transportCreds, f.tokenManager, f.verificationMode, serverName, f.serverAuthorizationPolicy, f.getStream)
+=======
+	return v2.NewClientTLSConfig(ctx, f.s2av2Address, f.transportCreds, f.tokenManager, f.verificationMode, serverName, f.serverAuthorizationPolicy)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func getVerificationMode(verificationMode VerificationModeType) s2av2pb.ValidatePeerCertificateChainReq_VerificationMode {
@@ -374,8 +390,11 @@ func getVerificationMode(verificationMode VerificationModeType) s2av2pb.Validate
 		return s2av2pb.ValidatePeerCertificateChainReq_RESERVED_CUSTOM_VERIFICATION_MODE_4
 	case ReservedCustomVerificationMode5:
 		return s2av2pb.ValidatePeerCertificateChainReq_RESERVED_CUSTOM_VERIFICATION_MODE_5
+<<<<<<< HEAD
 	case ReservedCustomVerificationMode6:
 		return s2av2pb.ValidatePeerCertificateChainReq_RESERVED_CUSTOM_VERIFICATION_MODE_6
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		return s2av2pb.ValidatePeerCertificateChainReq_UNSPECIFIED
 	}

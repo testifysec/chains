@@ -154,6 +154,7 @@ var supportedAlgorithms = map[string]bool{
 	EdDSA: true,
 }
 
+<<<<<<< HEAD
 // ProviderConfig allows direct creation of a [Provider] from metadata
 // configuration. This is intended for interop with providers that don't support
 // discovery, or host the JSON discovery document at an off-spec path.
@@ -178,10 +179,15 @@ var supportedAlgorithms = map[string]bool{
 // For providers that implement discovery, use [NewProvider] instead.
 //
 // See: https://openid.net/specs/openid-connect-discovery-1_0.html
+=======
+// ProviderConfig allows creating providers when discovery isn't supported. It's
+// generally easier to use NewProvider directly.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type ProviderConfig struct {
 	// IssuerURL is the identity of the provider, and the string it uses to sign
 	// ID tokens with. For example "https://accounts.google.com". This value MUST
 	// match ID tokens exactly.
+<<<<<<< HEAD
 	IssuerURL string `json:"issuer"`
 	// AuthURL is the endpoint used by the provider to support the OAuth 2.0
 	// authorization endpoint.
@@ -192,27 +198,54 @@ type ProviderConfig struct {
 	// DeviceAuthURL is the endpoint used by the provider to support the OAuth 2.0
 	// device authorization endpoint.
 	DeviceAuthURL string `json:"device_authorization_endpoint"`
+=======
+	IssuerURL string
+	// AuthURL is the endpoint used by the provider to support the OAuth 2.0
+	// authorization endpoint.
+	AuthURL string
+	// TokenURL is the endpoint used by the provider to support the OAuth 2.0
+	// token endpoint.
+	TokenURL string
+	// DeviceAuthURL is the endpoint used by the provider to support the OAuth 2.0
+	// device authorization endpoint.
+	DeviceAuthURL string
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// UserInfoURL is the endpoint used by the provider to support the OpenID
 	// Connect UserInfo flow.
 	//
 	// https://openid.net/specs/openid-connect-core-1_0.html#UserInfo
+<<<<<<< HEAD
 	UserInfoURL string `json:"userinfo_endpoint"`
 	// JWKSURL is the endpoint used by the provider to advertise public keys to
 	// verify issued ID tokens. This endpoint is polled as new keys are made
 	// available.
 	JWKSURL string `json:"jwks_uri"`
+=======
+	UserInfoURL string
+	// JWKSURL is the endpoint used by the provider to advertise public keys to
+	// verify issued ID tokens. This endpoint is polled as new keys are made
+	// available.
+	JWKSURL string
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Algorithms, if provided, indicate a list of JWT algorithms allowed to sign
 	// ID tokens. If not provided, this defaults to the algorithms advertised by
 	// the JWK endpoint, then the set of algorithms supported by this package.
+<<<<<<< HEAD
 	Algorithms []string `json:"id_token_signing_alg_values_supported"`
+=======
+	Algorithms []string
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewProvider initializes a provider from a set of endpoints, rather than
 // through discovery.
+<<<<<<< HEAD
 //
 // The provided context is only used for [http.Client] configuration through
 // [ClientContext], not cancelation.
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (p *ProviderConfig) NewProvider(ctx context.Context) *Provider {
 	return &Provider{
 		issuer:        p.IssuerURL,
@@ -227,6 +260,7 @@ func (p *ProviderConfig) NewProvider(ctx context.Context) *Provider {
 }
 
 // NewProvider uses the OpenID Connect discovery mechanism to construct a Provider.
+<<<<<<< HEAD
 // The issuer is the URL identifier for the service. For example: "https://accounts.google.com"
 // or "https://login.salesforce.com".
 //
@@ -235,6 +269,11 @@ func (p *ProviderConfig) NewProvider(ctx context.Context) *Provider {
 // should use [ProviderConfig] instead.
 //
 // See: https://openid.net/specs/openid-connect-discovery-1_0.html
+=======
+//
+// The issuer is the URL identifier for the service. For example: "https://accounts.google.com"
+// or "https://login.salesforce.com".
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func NewProvider(ctx context.Context, issuer string) (*Provider, error) {
 	wellKnown := strings.TrimSuffix(issuer, "/") + "/.well-known/openid-configuration"
 	req, err := http.NewRequest("GET", wellKnown, nil)

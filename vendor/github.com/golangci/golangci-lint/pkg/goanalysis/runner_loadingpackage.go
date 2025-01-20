@@ -67,7 +67,11 @@ func (lp *loadingPackage) analyze(loadMode LoadMode, loadSem chan struct{}) {
 		// Unblock depending on actions and propagate error.
 		for _, act := range lp.actions {
 			close(act.analysisDoneCh)
+<<<<<<< HEAD
 			act.Err = werr
+=======
+			act.err = werr
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		return
 	}
@@ -125,6 +129,7 @@ func (lp *loadingPackage) loadFromSource(loadMode LoadMode) error {
 	pkg.IllTyped = true
 
 	pkg.TypesInfo = &types.Info{
+<<<<<<< HEAD
 		Types:        make(map[ast.Expr]types.TypeAndValue),
 		Instances:    make(map[*ast.Ident]types.Instance),
 		Defs:         make(map[*ast.Ident]types.Object),
@@ -133,6 +138,15 @@ func (lp *loadingPackage) loadFromSource(loadMode LoadMode) error {
 		Selections:   make(map[*ast.SelectorExpr]*types.Selection),
 		Scopes:       make(map[ast.Node]*types.Scope),
 		FileVersions: make(map[*ast.File]string),
+=======
+		Types:      make(map[ast.Expr]types.TypeAndValue),
+		Instances:  make(map[*ast.Ident]types.Instance),
+		Defs:       make(map[*ast.Ident]types.Object),
+		Uses:       make(map[*ast.Ident]types.Object),
+		Implicits:  make(map[ast.Node]types.Object),
+		Scopes:     make(map[ast.Node]*types.Scope),
+		Selections: make(map[*ast.SelectorExpr]*types.Selection),
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	importer := func(path string) (*types.Package, error) {
@@ -364,12 +378,21 @@ func (lp *loadingPackage) decUse(canClearTypes bool) {
 		pass.ImportPackageFact = nil
 		pass.ExportPackageFact = nil
 		act.pass = nil
+<<<<<<< HEAD
 		act.Deps = nil
 		if act.Result != nil {
 			if isMemoryDebug {
 				debugf("%s: decUse: nilling act result of size %d bytes", act, sizeOfValueTreeBytes(act.Result))
 			}
 			act.Result = nil
+=======
+		act.deps = nil
+		if act.result != nil {
+			if isMemoryDebug {
+				debugf("%s: decUse: nilling act result of size %d bytes", act, sizeOfValueTreeBytes(act.result))
+			}
+			act.result = nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 
@@ -400,7 +423,11 @@ func (lp *loadingPackage) decUse(canClearTypes bool) {
 
 	for _, act := range lp.actions {
 		if !lp.isInitial {
+<<<<<<< HEAD
 			act.Package = nil
+=======
+			act.pkg = nil
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		act.packageFacts = nil
 		act.objectFacts = nil

@@ -27,9 +27,12 @@ var (
 // LoadKeyFromSSLibBytes returns a pointer to a Key instance created from the
 // contents of the bytes. The key contents are expected to be in the custom
 // securesystemslib format.
+<<<<<<< HEAD
 //
 // Deprecated: use LoadKey() for all key types, RSA is no longer the only key
 // that uses PEM serialization.
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func LoadKeyFromSSLibBytes(contents []byte) (*SSLibKey, error) {
 	var key *SSLibKey
 	if err := json.Unmarshal(contents, &key); err != nil {

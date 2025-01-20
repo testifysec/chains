@@ -3,8 +3,11 @@
 
 package instrumentation // import "go.opentelemetry.io/otel/sdk/instrumentation"
 
+<<<<<<< HEAD
 import "go.opentelemetry.io/otel/attribute"
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Scope represents the instrumentation scope.
 type Scope struct {
 	// Name is the name of the instrumentation scope. This should be the
@@ -14,6 +17,9 @@ type Scope struct {
 	Version string
 	// SchemaURL of the telemetry emitted by the scope.
 	SchemaURL string
+<<<<<<< HEAD
 	// Attributes of the telemetry emitted by the scope.
 	Attributes attribute.Set
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

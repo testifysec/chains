@@ -27,9 +27,12 @@ type Lister interface {
 }
 
 // MutableLister interface which emits an immutable result after an intermediate computation.
+<<<<<<< HEAD
 //
 // Note, this interface is intended only to be used within Comprehensions where the mutable
 // value is not directly observable within the user-authored CEL expression.
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type MutableLister interface {
 	Lister
 	ToImmutableList() Lister

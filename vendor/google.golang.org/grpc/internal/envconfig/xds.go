@@ -53,10 +53,13 @@ var (
 
 	// C2PResolverTestOnlyTrafficDirectorURI is the TD URI for testing.
 	C2PResolverTestOnlyTrafficDirectorURI = os.Getenv("GRPC_TEST_ONLY_GOOGLE_C2P_RESOLVER_TRAFFIC_DIRECTOR_URI")
+<<<<<<< HEAD
 
 	// XDSDualstackEndpointsEnabled is true if gRPC should read the
 	// "additional addresses" in the xDS endpoint resource.
 	// TODO: https://github.com/grpc/grpc-go/issues/7866 - Control this using
 	// an env variable when all LB policies handle endpoints.
 	XDSDualstackEndpointsEnabled = false
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )

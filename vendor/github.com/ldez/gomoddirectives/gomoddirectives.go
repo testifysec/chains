@@ -1,25 +1,38 @@
+<<<<<<< HEAD
 // Package gomoddirectives a linter that handle directives into `go.mod`.
+=======
+// Package gomoddirectives a linter that handle `replace`, `retract`, `exclude` directives into `go.mod`.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 package gomoddirectives
 
 import (
 	"fmt"
 	"go/token"
+<<<<<<< HEAD
 	"regexp"
 	"strings"
 
 	"github.com/ldez/grignotin/gomod"
 	"golang.org/x/mod/modfile"
 	"golang.org/x/tools/go/analysis"
+=======
+	"strings"
+
+	"golang.org/x/mod/modfile"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const (
 	reasonRetract          = "a comment is mandatory to explain why the version has been retracted"
 	reasonExclude          = "exclude directive is not allowed"
+<<<<<<< HEAD
 	reasonToolchain        = "toolchain directive is not allowed"
 	reasonToolchainPattern = "toolchain directive (%s) doesn't match the pattern '%s'"
 	reasonTool             = "tool directive is not allowed"
 	reasonGoDebug          = "godebug directive is not allowed"
 	reasonGoVersion        = "go directive (%s) doesn't match the pattern '%s'"
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	reasonReplaceLocal     = "local replacement are not allowed"
 	reasonReplace          = "replacement are not allowed"
 	reasonReplaceIdentical = "the original module and the replacement are identical"
@@ -52,6 +65,7 @@ type Options struct {
 	ReplaceAllowLocal         bool
 	ExcludeForbidden          bool
 	RetractAllowNoExplanation bool
+<<<<<<< HEAD
 	ToolchainForbidden        bool
 	ToolchainPattern          *regexp.Regexp
 	ToolForbidden             bool
@@ -82,6 +96,8 @@ func AnalyzePass(pass *analysis.Pass, opts Options) ([]Result, error) {
 	}
 
 	return AnalyzeFile(f, opts), nil
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // Analyze analyzes a project.
@@ -96,6 +112,7 @@ func Analyze(opts Options) ([]Result, error) {
 
 // AnalyzeFile analyzes a mod file.
 func AnalyzeFile(file *modfile.File, opts Options) []Result {
+<<<<<<< HEAD
 	checks := []func(file *modfile.File, opts Options) []Result{
 		checkRetractDirectives,
 		checkExcludeDirectives,
@@ -210,21 +227,70 @@ func checkReplaceDirectives(file *modfile.File, opts Options) []Result {
 		}
 
 		uniqReplace[replace.Old.Path+replace.Old.Version] = struct{}{}
+=======
+	var results []Result
+
+	if !opts.RetractAllowNoExplanation {
+		for _, r := range file.Retract {
+			if r.Rationale != "" {
+				continue
+			}
+
+			results = append(results, NewResult(file, r.Syntax, reasonRetract))
+		}
+	}
+
+	if opts.ExcludeForbidden {
+		for _, e := range file.Exclude {
+			results = append(results, NewResult(file, e.Syntax, reasonExclude))
+		}
+	}
+
+	uniqReplace := map[string]struct{}{}
+
+	for _, r := range file.Replace {
+		reason := check(opts, r)
+		if reason != "" {
+			results = append(results, NewResult(file, r.Syntax, reason))
+			continue
+		}
+
+		if r.Old.Path == r.New.Path && r.Old.Version == r.New.Version {
+			results = append(results, NewResult(file, r.Syntax, reasonReplaceIdentical))
+			continue
+		}
+
+		if _, ok := uniqReplace[r.Old.Path+r.Old.Version]; ok {
+			results = append(results, NewResult(file, r.Syntax, reasonReplaceDuplicate))
+		}
+
+		uniqReplace[r.Old.Path+r.Old.Version] = struct{}{}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	return results
 }
 
+<<<<<<< HEAD
 func checkReplaceDirective(opts Options, r *modfile.Replace) string {
 	if isLocal(r) {
 		if opts.ReplaceAllowLocal {
+=======
+func check(o Options, r *modfile.Replace) string {
+	if isLocal(r) {
+		if o.ReplaceAllowLocal {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return ""
 		}
 
 		return fmt.Sprintf("%s: %s", reasonReplaceLocal, r.Old.Path)
 	}
 
+<<<<<<< HEAD
 	for _, v := range opts.ReplaceAllowList {
+=======
+	for _, v := range o.ReplaceAllowList {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if r.Old.Path == v {
 			return ""
 		}
@@ -233,6 +299,7 @@ func checkReplaceDirective(opts Options, r *modfile.Replace) string {
 	return fmt.Sprintf("%s: %s", reasonReplace, r.Old.Path)
 }
 
+<<<<<<< HEAD
 func checkGoDebugDirectives(file *modfile.File, opts Options) []Result {
 	if !opts.GoDebugForbidden {
 		return nil
@@ -247,6 +314,8 @@ func checkGoDebugDirectives(file *modfile.File, opts Options) []Result {
 	return results
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Filesystem paths found in "replace" directives are represented by a path with an empty version.
 // https://github.com/golang/mod/blob/bc388b264a244501debfb9caea700c6dcaff10e2/module/module.go#L122-L124
 func isLocal(r *modfile.Replace) bool {

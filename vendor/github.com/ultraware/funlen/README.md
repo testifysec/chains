@@ -16,6 +16,7 @@ The default values are used internally, but might to be adjusted for your specif
 
 Funlen is included in [golangci-lint](https://github.com/golangci/golangci-lint/). Install it and enable funlen.
 
+<<<<<<< HEAD
 ## Configuration
 
 Available configuration options:
@@ -36,6 +37,8 @@ linters-settings:
     ignore-comments: false
 ```
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 # Exclude for tests
 
 golangci-lint offers a way to exclude linters in certain cases. More info can be found here: https://golangci-lint.run/usage/configuration/#issues-configuration.

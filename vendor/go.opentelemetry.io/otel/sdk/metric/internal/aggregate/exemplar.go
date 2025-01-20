@@ -6,7 +6,11 @@ package aggregate // import "go.opentelemetry.io/otel/sdk/metric/internal/aggreg
 import (
 	"sync"
 
+<<<<<<< HEAD
 	"go.opentelemetry.io/otel/sdk/metric/exemplar"
+=======
+	"go.opentelemetry.io/otel/sdk/metric/internal/exemplar"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/otel/sdk/metric/metricdata"
 )
 
@@ -17,7 +21,10 @@ var exemplarPool = sync.Pool{
 func collectExemplars[N int64 | float64](out *[]metricdata.Exemplar[N], f func(*[]exemplar.Exemplar)) {
 	dest := exemplarPool.Get().(*[]exemplar.Exemplar)
 	defer func() {
+<<<<<<< HEAD
 		clear(*dest) // Erase elements to let GC collect objects.
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		*dest = (*dest)[:0]
 		exemplarPool.Put(dest)
 	}()

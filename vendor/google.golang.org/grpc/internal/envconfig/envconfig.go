@@ -49,7 +49,11 @@ var (
 	// XDSFallbackSupport is the env variable that controls whether support for
 	// xDS fallback is turned on. If this is unset or is false, only the first
 	// xDS server in the list of server configs will be used.
+<<<<<<< HEAD
 	XDSFallbackSupport = boolFromEnv("GRPC_EXPERIMENTAL_XDS_FALLBACK", true)
+=======
+	XDSFallbackSupport = boolFromEnv("GRPC_EXPERIMENTAL_XDS_FALLBACK", false)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// NewPickFirstEnabled is set if the new pickfirst leaf policy is to be used
 	// instead of the exiting pickfirst implementation. This can be enabled by
 	// setting the environment variable "GRPC_EXPERIMENTAL_ENABLE_NEW_PICK_FIRST"

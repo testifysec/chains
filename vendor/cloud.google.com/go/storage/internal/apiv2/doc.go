@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Copyright 2025 Google LLC
+=======
+// Copyright 2024 Google LLC
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,12 +68,20 @@
 //
 // The following is an example of making an API call with the newly created client, mentioned above.
 //
+<<<<<<< HEAD
 //	stream, err := c.BidiReadObject(ctx)
+=======
+//	stream, err := c.BidiWriteObject(ctx)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //	if err != nil {
 //		// TODO: Handle error.
 //	}
 //	go func() {
+<<<<<<< HEAD
 //		reqs := []*storagepb.BidiReadObjectRequest{
+=======
+//		reqs := []*storagepb.BidiWriteObjectRequest{
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //			// TODO: Create requests.
 //		}
 //		for _, req := range reqs {

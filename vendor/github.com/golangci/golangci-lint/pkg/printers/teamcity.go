@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"io"
 	"strings"
+<<<<<<< HEAD
+=======
+	"unicode/utf8"
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"github.com/golangci/golangci-lint/pkg/result"
 )
@@ -111,9 +115,19 @@ func (i InspectionInstance) Print(w io.Writer, replacer *strings.Replacer) (int,
 }
 
 func cutVal(s string, limit int) string {
+<<<<<<< HEAD
 	runes := []rune(s)
 	if len(runes) > limit {
 		return string(runes[:limit])
 	}
 	return s
+=======
+	var size, count int
+	for i := 0; i < limit && count < len(s); i++ {
+		_, size = utf8.DecodeRuneInString(s[count:])
+		count += size
+	}
+
+	return s[:count]
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

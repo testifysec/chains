@@ -243,7 +243,11 @@ func (l *baseList) Equal(other ref.Val) ref.Val {
 func (l *baseList) Get(index ref.Val) ref.Val {
 	ind, err := IndexOrError(index)
 	if err != nil {
+<<<<<<< HEAD
 		return ValOrErr(index, "%v", err)
+=======
+		return ValOrErr(index, err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if ind < 0 || ind >= l.size {
 		return NewErr("index '%d' out of range in list size '%d'", ind, l.Size())
@@ -256,6 +260,7 @@ func (l *baseList) IsZeroValue() bool {
 	return l.size == 0
 }
 
+<<<<<<< HEAD
 // Fold calls the FoldEntry method for each (index, value) pair in the list.
 func (l *baseList) Fold(f traits.Folder) {
 	for i := 0; i < l.size; i++ {
@@ -265,6 +270,8 @@ func (l *baseList) Fold(f traits.Folder) {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Iterator implements the traits.Iterable interface method.
 func (l *baseList) Iterator() traits.Iterator {
 	return newListIterator(l)
@@ -427,7 +434,11 @@ func (l *concatList) Equal(other ref.Val) ref.Val {
 func (l *concatList) Get(index ref.Val) ref.Val {
 	ind, err := IndexOrError(index)
 	if err != nil {
+<<<<<<< HEAD
 		return ValOrErr(index, "%v", err)
+=======
+		return ValOrErr(index, err.Error())
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	i := Int(ind)
 	if i < l.prevList.Size().(Int) {
@@ -442,6 +453,7 @@ func (l *concatList) IsZeroValue() bool {
 	return l.Size().(Int) == 0
 }
 
+<<<<<<< HEAD
 // Fold calls the FoldEntry method for each (index, value) pair in the list.
 func (l *concatList) Fold(f traits.Folder) {
 	for i := Int(0); i < l.Size().(Int); i++ {
@@ -451,6 +463,8 @@ func (l *concatList) Fold(f traits.Folder) {
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Iterator implements the traits.Iterable interface method.
 func (l *concatList) Iterator() traits.Iterator {
 	return newListIterator(l)
@@ -545,6 +559,7 @@ func IndexOrError(index ref.Val) (int, error) {
 		return -1, fmt.Errorf("unsupported index type '%s' in list", index.Type())
 	}
 }
+<<<<<<< HEAD
 
 // ToFoldableList will create a Foldable version of a list suitable for key-value pair iteration.
 //
@@ -572,3 +587,5 @@ func (l interopFoldableList) Fold(f traits.Folder) {
 		}
 	}
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

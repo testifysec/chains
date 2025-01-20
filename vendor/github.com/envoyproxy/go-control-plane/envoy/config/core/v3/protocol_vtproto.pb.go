@@ -137,6 +137,7 @@ func (m *QuicProtocolOptions) MarshalToSizedBufferVTStrict(dAtA []byte) (int, er
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+<<<<<<< HEAD
 	if m.MaxPacketLength != nil {
 		size, err := (*wrapperspb.UInt64Value)(m.MaxPacketLength).MarshalToSizedBufferVTStrict(dAtA[:i])
 		if err != nil {
@@ -147,6 +148,8 @@ func (m *QuicProtocolOptions) MarshalToSizedBufferVTStrict(dAtA []byte) (int, er
 		i--
 		dAtA[i] = 0x4a
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if m.IdleNetworkTimeout != nil {
 		size, err := (*durationpb.Duration)(m.IdleNetworkTimeout).MarshalToSizedBufferVTStrict(dAtA[:i])
 		if err != nil {
@@ -440,6 +443,7 @@ func (m *HttpProtocolOptions) MarshalToSizedBufferVTStrict(dAtA []byte) (int, er
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+<<<<<<< HEAD
 	if m.MaxResponseHeadersKb != nil {
 		size, err := (*wrapperspb.UInt32Value)(m.MaxResponseHeadersKb).MarshalToSizedBufferVTStrict(dAtA[:i])
 		if err != nil {
@@ -450,6 +454,8 @@ func (m *HttpProtocolOptions) MarshalToSizedBufferVTStrict(dAtA []byte) (int, er
 		i--
 		dAtA[i] = 0x3a
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if m.MaxRequestsPerConnection != nil {
 		size, err := (*wrapperspb.UInt32Value)(m.MaxRequestsPerConnection).MarshalToSizedBufferVTStrict(dAtA[:i])
 		if err != nil {
@@ -1345,10 +1351,13 @@ func (m *QuicProtocolOptions) SizeVT() (n int) {
 		l = (*durationpb.Duration)(m.IdleNetworkTimeout).SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
+<<<<<<< HEAD
 	if m.MaxPacketLength != nil {
 		l = (*wrapperspb.UInt64Value)(m.MaxPacketLength).SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	n += len(m.unknownFields)
 	return n
 }
@@ -1453,10 +1462,13 @@ func (m *HttpProtocolOptions) SizeVT() (n int) {
 		l = (*wrapperspb.UInt32Value)(m.MaxRequestsPerConnection).SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
+<<<<<<< HEAD
 	if m.MaxResponseHeadersKb != nil {
 		l = (*wrapperspb.UInt32Value)(m.MaxResponseHeadersKb).SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	n += len(m.unknownFields)
 	return n
 }

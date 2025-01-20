@@ -36,11 +36,19 @@ type HeaderMatcher interface {
 	String() string
 }
 
+<<<<<<< HEAD
 // valueFromMD retrieves metadata from context. If there are
 // multiple values, the values are concatenated with "," (comma and no space).
 //
 // All header matchers only match against the comma-concatenated string.
 func valueFromMD(md metadata.MD, key string) (string, bool) {
+=======
+// mdValuesFromOutgoingCtx retrieves metadata from context. If there are
+// multiple values, the values are concatenated with "," (comma and no space).
+//
+// All header matchers only match against the comma-concatenated string.
+func mdValuesFromOutgoingCtx(md metadata.MD, key string) (string, bool) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	vs, ok := md[key]
 	if !ok {
 		return "", false
@@ -63,7 +71,11 @@ func NewHeaderExactMatcher(key, exact string, invert bool) *HeaderExactMatcher {
 // Match returns whether the passed in HTTP Headers match according to the
 // HeaderExactMatcher.
 func (hem *HeaderExactMatcher) Match(md metadata.MD) bool {
+<<<<<<< HEAD
 	v, ok := valueFromMD(md, hem.key)
+=======
+	v, ok := mdValuesFromOutgoingCtx(md, hem.key)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if !ok {
 		return false
 	}
@@ -90,7 +102,11 @@ func NewHeaderRegexMatcher(key string, re *regexp.Regexp, invert bool) *HeaderRe
 // Match returns whether the passed in HTTP Headers match according to the
 // HeaderRegexMatcher.
 func (hrm *HeaderRegexMatcher) Match(md metadata.MD) bool {
+<<<<<<< HEAD
 	v, ok := valueFromMD(md, hrm.key)
+=======
+	v, ok := mdValuesFromOutgoingCtx(md, hrm.key)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if !ok {
 		return false
 	}
@@ -117,7 +133,11 @@ func NewHeaderRangeMatcher(key string, start, end int64, invert bool) *HeaderRan
 // Match returns whether the passed in HTTP Headers match according to the
 // HeaderRangeMatcher.
 func (hrm *HeaderRangeMatcher) Match(md metadata.MD) bool {
+<<<<<<< HEAD
 	v, ok := valueFromMD(md, hrm.key)
+=======
+	v, ok := mdValuesFromOutgoingCtx(md, hrm.key)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if !ok {
 		return false
 	}
@@ -149,7 +169,11 @@ func NewHeaderPresentMatcher(key string, present bool, invert bool) *HeaderPrese
 // Match returns whether the passed in HTTP Headers match according to the
 // HeaderPresentMatcher.
 func (hpm *HeaderPresentMatcher) Match(md metadata.MD) bool {
+<<<<<<< HEAD
 	vs, ok := valueFromMD(md, hpm.key)
+=======
+	vs, ok := mdValuesFromOutgoingCtx(md, hpm.key)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	present := ok && len(vs) > 0 // TODO: Are we sure we need this len(vs) > 0?
 	return present == hpm.present
 }
@@ -174,7 +198,11 @@ func NewHeaderPrefixMatcher(key string, prefix string, invert bool) *HeaderPrefi
 // Match returns whether the passed in HTTP Headers match according to the
 // HeaderPrefixMatcher.
 func (hpm *HeaderPrefixMatcher) Match(md metadata.MD) bool {
+<<<<<<< HEAD
 	v, ok := valueFromMD(md, hpm.key)
+=======
+	v, ok := mdValuesFromOutgoingCtx(md, hpm.key)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if !ok {
 		return false
 	}
@@ -201,7 +229,11 @@ func NewHeaderSuffixMatcher(key string, suffix string, invert bool) *HeaderSuffi
 // Match returns whether the passed in HTTP Headers match according to the
 // HeaderSuffixMatcher.
 func (hsm *HeaderSuffixMatcher) Match(md metadata.MD) bool {
+<<<<<<< HEAD
 	v, ok := valueFromMD(md, hsm.key)
+=======
+	v, ok := mdValuesFromOutgoingCtx(md, hsm.key)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if !ok {
 		return false
 	}
@@ -231,7 +263,11 @@ func NewHeaderContainsMatcher(key string, contains string, invert bool) *HeaderC
 // Match returns whether the passed in HTTP Headers match according to the
 // HeaderContainsMatcher.
 func (hcm *HeaderContainsMatcher) Match(md metadata.MD) bool {
+<<<<<<< HEAD
 	v, ok := valueFromMD(md, hcm.key)
+=======
+	v, ok := mdValuesFromOutgoingCtx(md, hcm.key)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if !ok {
 		return false
 	}
@@ -262,7 +298,11 @@ func NewHeaderStringMatcher(key string, sm StringMatcher, invert bool) *HeaderSt
 // Match returns whether the passed in HTTP Headers match according to the
 // specified StringMatcher.
 func (hsm *HeaderStringMatcher) Match(md metadata.MD) bool {
+<<<<<<< HEAD
 	v, ok := valueFromMD(md, hsm.key)
+=======
+	v, ok := mdValuesFromOutgoingCtx(md, hsm.key)
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if !ok {
 		return false
 	}

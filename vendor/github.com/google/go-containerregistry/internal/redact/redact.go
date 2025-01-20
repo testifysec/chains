@@ -51,7 +51,11 @@ func Error(err error) error {
 	if perr != nil {
 		return err // If the URL can't be parsed, just return the original error.
 	}
+<<<<<<< HEAD
 	uerr.URL = URL(u) // Update the URL to the redacted URL.
+=======
+	uerr.URL = URL(u).String() // Update the URL to the redacted URL.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return uerr
 }
 
@@ -73,7 +77,11 @@ var paramAllowlist = map[string]struct{}{
 }
 
 // URL redacts potentially sensitive query parameter values from the URL's query string.
+<<<<<<< HEAD
 func URL(u *url.URL) string {
+=======
+func URL(u *url.URL) *url.URL {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	qs := u.Query()
 	for k, v := range qs {
 		for i := range v {
@@ -85,5 +93,9 @@ func URL(u *url.URL) string {
 	}
 	r := *u
 	r.RawQuery = qs.Encode()
+<<<<<<< HEAD
 	return r.Redacted()
+=======
+	return &r
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

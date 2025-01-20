@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 // Code generated from /usr/local/google/home/jdtatum/github/cel-go/parser/gen/CEL.g4 by ANTLR 4.13.1. DO NOT EDIT.
+=======
+// Code generated from /usr/local/google/home/tswadell/go/src/github.com/google/cel-go/parser/gen/CEL.g4 by ANTLR 4.13.1. DO NOT EDIT.
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 package gen // CEL
 import "github.com/antlr4-go/antlr/v4"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // A complete Visitor for a parse tree produced by CELParser.
 type CELVisitor interface {
 	antlr.ParseTreeVisitor
@@ -46,11 +54,16 @@ type CELVisitor interface {
 	// Visit a parse tree produced by CELParser#Index.
 	VisitIndex(ctx *IndexContext) interface{}
 
+<<<<<<< HEAD
 	// Visit a parse tree produced by CELParser#Ident.
 	VisitIdent(ctx *IdentContext) interface{}
 
 	// Visit a parse tree produced by CELParser#GlobalCall.
 	VisitGlobalCall(ctx *GlobalCallContext) interface{}
+=======
+	// Visit a parse tree produced by CELParser#IdentOrGlobalCall.
+	VisitIdentOrGlobalCall(ctx *IdentOrGlobalCallContext) interface{}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Visit a parse tree produced by CELParser#Nested.
 	VisitNested(ctx *NestedContext) interface{}
@@ -82,12 +95,15 @@ type CELVisitor interface {
 	// Visit a parse tree produced by CELParser#mapInitializerList.
 	VisitMapInitializerList(ctx *MapInitializerListContext) interface{}
 
+<<<<<<< HEAD
 	// Visit a parse tree produced by CELParser#SimpleIdentifier.
 	VisitSimpleIdentifier(ctx *SimpleIdentifierContext) interface{}
 
 	// Visit a parse tree produced by CELParser#EscapedIdentifier.
 	VisitEscapedIdentifier(ctx *EscapedIdentifierContext) interface{}
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Visit a parse tree produced by CELParser#optExpr.
 	VisitOptExpr(ctx *OptExprContext) interface{}
 
@@ -114,4 +130,9 @@ type CELVisitor interface {
 
 	// Visit a parse tree produced by CELParser#Null.
 	VisitNull(ctx *NullContext) interface{}
+<<<<<<< HEAD
 }
+=======
+
+}
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

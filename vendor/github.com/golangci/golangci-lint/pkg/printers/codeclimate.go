@@ -12,7 +12,11 @@ const defaultCodeClimateSeverity = "critical"
 // CodeClimateIssue is a subset of the Code Climate spec.
 // https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md#data-types
 // It is just enough to support GitLab CI Code Quality.
+<<<<<<< HEAD
 // https://docs.gitlab.com/ee/ci/testing/code_quality.html#code-quality-report-format
+=======
+// https://docs.gitlab.com/ee/ci/testing/code_quality.html#implement-a-custom-tool
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type CodeClimateIssue struct {
 	Description string `json:"description"`
 	CheckName   string `json:"check_name"`

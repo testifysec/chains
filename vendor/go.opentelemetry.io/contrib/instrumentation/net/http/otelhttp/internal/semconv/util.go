@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 // Code created by gotmpl. DO NOT MODIFY.
 // source: internal/shared/semconv/util.go.tmpl
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Copyright The OpenTelemetry Authors
 // SPDX-License-Identifier: Apache-2.0
 
@@ -17,14 +20,22 @@ import (
 	semconvNew "go.opentelemetry.io/otel/semconv/v1.26.0"
 )
 
+<<<<<<< HEAD
 // SplitHostPort splits a network address hostport of the form "host",
+=======
+// splitHostPort splits a network address hostport of the form "host",
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // "host%zone", "[host]", "[host%zone], "host:port", "host%zone:port",
 // "[host]:port", "[host%zone]:port", or ":port" into host or host%zone and
 // port.
 //
 // An empty host is returned if it is not provided or unparsable. A negative
 // port is returned if it is not provided or unparsable.
+<<<<<<< HEAD
 func SplitHostPort(hostport string) (host string, port int) {
+=======
+func splitHostPort(hostport string) (host string, port int) {
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	port = -1
 
 	if strings.HasPrefix(hostport, "[") {
@@ -99,6 +110,7 @@ func handleErr(err error) {
 		otel.Handle(err)
 	}
 }
+<<<<<<< HEAD
 
 func standardizeHTTPMethod(method string) string {
 	method = strings.ToUpper(method)
@@ -109,3 +121,5 @@ func standardizeHTTPMethod(method string) string {
 	}
 	return method
 }
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

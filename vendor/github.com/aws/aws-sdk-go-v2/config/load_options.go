@@ -216,6 +216,7 @@ type LoadOptions struct {
 	// Whether S3 Express auth is disabled.
 	S3DisableExpressAuth *bool
 
+<<<<<<< HEAD
 	// Whether account id should be built into endpoint resolution
 	AccountIDEndpointMode aws.AccountIDEndpointMode
 
@@ -225,6 +226,10 @@ type LoadOptions struct {
 	// Specifies if response checksum should be validated
 	ResponseChecksumValidation aws.ResponseChecksumValidation
 
+=======
+	AccountIDEndpointMode aws.AccountIDEndpointMode
+
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Service endpoint override. This value is not necessarily final and is
 	// passed to the service's EndpointResolverV2 for further delegation.
 	BaseEndpoint string
@@ -295,6 +300,7 @@ func (o LoadOptions) getAccountIDEndpointMode(ctx context.Context) (aws.AccountI
 	return o.AccountIDEndpointMode, len(o.AccountIDEndpointMode) > 0, nil
 }
 
+<<<<<<< HEAD
 func (o LoadOptions) getRequestChecksumCalculation(ctx context.Context) (aws.RequestChecksumCalculation, bool, error) {
 	return o.RequestChecksumCalculation, o.RequestChecksumCalculation > 0, nil
 }
@@ -303,6 +309,8 @@ func (o LoadOptions) getResponseChecksumValidation(ctx context.Context) (aws.Res
 	return o.ResponseChecksumValidation, o.ResponseChecksumValidation > 0, nil
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (o LoadOptions) getBaseEndpoint(context.Context) (string, bool, error) {
 	return o.BaseEndpoint, o.BaseEndpoint != "", nil
 }
@@ -372,6 +380,7 @@ func WithAccountIDEndpointMode(m aws.AccountIDEndpointMode) LoadOptionsFunc {
 	}
 }
 
+<<<<<<< HEAD
 // WithRequestChecksumCalculation is a helper function to construct functional options
 // that sets RequestChecksumCalculation on config's LoadOptions
 func WithRequestChecksumCalculation(c aws.RequestChecksumCalculation) LoadOptionsFunc {
@@ -392,6 +401,8 @@ func WithResponseChecksumValidation(v aws.ResponseChecksumValidation) LoadOption
 	}
 }
 
+=======
+>>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // getDefaultRegion returns DefaultRegion from config's LoadOptions
 func (o LoadOptions) getDefaultRegion(ctx context.Context) (string, bool, error) {
 	if len(o.DefaultRegion) == 0 {
