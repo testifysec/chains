@@ -25,10 +25,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-<<<<<<< HEAD
 	"go.opentelemetry.io/auto/sdk"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
@@ -91,10 +88,7 @@ func (p *tracerProvider) Tracer(name string, opts ...trace.TracerOption) trace.T
 		name:    name,
 		version: c.InstrumentationVersion(),
 		schema:  c.SchemaURL(),
-<<<<<<< HEAD
 		attrs:   c.InstrumentationAttributes(),
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	if p.tracers == nil {
@@ -110,16 +104,12 @@ func (p *tracerProvider) Tracer(name string, opts ...trace.TracerOption) trace.T
 	return t
 }
 
-<<<<<<< HEAD
 type il struct {
 	name    string
 	version string
 	schema  string
 	attrs   attribute.Set
 }
-=======
-type il struct{ name, version, schema string }
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 // tracer is a placeholder for a trace.Tracer.
 //
@@ -156,7 +146,6 @@ func (t *tracer) Start(ctx context.Context, name string, opts ...trace.SpanStart
 		return delegate.(trace.Tracer).Start(ctx, name, opts...)
 	}
 
-<<<<<<< HEAD
 	return t.newSpan(ctx, autoInstEnabled, name, opts)
 }
 
@@ -181,8 +170,6 @@ func (t *tracer) newSpan(ctx context.Context, autoSpan *bool, name string, opts 
 		return tracer.Start(ctx, name, opts...)
 	}
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	s := nonRecordingSpan{sc: trace.SpanContextFromContext(ctx), tracer: t}
 	ctx = trace.ContextWithSpan(ctx, s)
 	return ctx, s

@@ -1,31 +1,20 @@
 package commands
 
 import (
-<<<<<<< HEAD
 	"context"
 	"encoding/json"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"errors"
 	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
-<<<<<<< HEAD
 	"strconv"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 	"time"
 
 	hcversion "github.com/hashicorp/go-version"
 	"github.com/pelletier/go-toml/v2"
-<<<<<<< HEAD
 	"github.com/santhosh-tekuri/jsonschema/v6"
-=======
-	"github.com/santhosh-tekuri/jsonschema/v5"
-	"github.com/santhosh-tekuri/jsonschema/v5/httploader"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"gopkg.in/yaml.v3"
@@ -56,13 +45,7 @@ func (c *configCommand) executeVerify(cmd *cobra.Command, _ []string) error {
 			return fmt.Errorf("[%s] validate: %w", usedConfigFile, err)
 		}
 
-<<<<<<< HEAD
 		printValidationDetail(cmd, v.DetailedOutput())
-=======
-		detail := v.DetailedOutput()
-
-		printValidationDetail(cmd, &detail)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 		return errors.New("the configuration contains invalid elements")
 	}
@@ -117,19 +100,12 @@ func createSchemaURL(flags *pflag.FlagSet, buildInfo BuildInfo) (string, error) 
 }
 
 func validateConfiguration(schemaPath, targetFile string) error {
-<<<<<<< HEAD
 	compiler := jsonschema.NewCompiler()
 	compiler.UseLoader(jsonschema.SchemeURLLoader{
 		"file":  jsonschema.FileLoader{},
 		"https": newJSONSchemaHTTPLoader(),
 	})
 	compiler.DefaultDraft(jsonschema.Draft7)
-=======
-	httploader.Client = &http.Client{Timeout: 2 * time.Second}
-
-	compiler := jsonschema.NewCompiler()
-	compiler.Draft = jsonschema.Draft7
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	schema, err := compiler.Compile(schemaPath)
 	if err != nil {
@@ -159,7 +135,6 @@ func validateConfiguration(schemaPath, targetFile string) error {
 	return schema.Validate(m)
 }
 
-<<<<<<< HEAD
 func printValidationDetail(cmd *cobra.Command, detail *jsonschema.OutputUnit) {
 	if detail.Error != nil {
 		data, _ := json.Marshal(detail.Error)
@@ -167,12 +142,6 @@ func printValidationDetail(cmd *cobra.Command, detail *jsonschema.OutputUnit) {
 
 		cmd.PrintErrf("jsonschema: %q does not validate with %q: %s\n",
 			strings.ReplaceAll(strings.TrimPrefix(detail.InstanceLocation, "/"), "/", "."), detail.KeywordLocation, details)
-=======
-func printValidationDetail(cmd *cobra.Command, detail *jsonschema.Detailed) {
-	if detail.Error != "" {
-		cmd.PrintErrf("jsonschema: %q does not validate with %q: %s\n",
-			strings.ReplaceAll(strings.TrimPrefix(detail.InstanceLocation, "/"), "/", "."), detail.KeywordLocation, detail.Error)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	for _, d := range detail.Errors {
@@ -213,7 +182,6 @@ func decodeTomlFile(filename string) (any, error) {
 
 	return m, nil
 }
-<<<<<<< HEAD
 
 type jsonschemaHTTPLoader struct {
 	*http.Client
@@ -244,5 +212,3 @@ func (l jsonschemaHTTPLoader) Load(url string) (any, error) {
 
 	return jsonschema.UnmarshalJSON(resp.Body)
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

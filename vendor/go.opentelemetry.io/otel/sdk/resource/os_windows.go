@@ -17,10 +17,6 @@ import (
 func platformOSDescription() (string, error) {
 	k, err := registry.OpenKey(
 		registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows NT\CurrentVersion`, registry.QUERY_VALUE)
-<<<<<<< HEAD
-=======
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return "", err
 	}

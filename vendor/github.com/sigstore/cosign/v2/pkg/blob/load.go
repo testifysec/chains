@@ -15,12 +15,9 @@
 package blob
 
 import (
-<<<<<<< HEAD
 	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/hex"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"fmt"
 	"io"
 	"net/http"
@@ -78,7 +75,6 @@ func LoadFileOrURL(fileRef string) ([]byte, error) {
 	}
 	return raw, nil
 }
-<<<<<<< HEAD
 
 func LoadFileOrURLWithChecksum(fileRef string, checksum string) ([]byte, error) {
 	checksumParts := strings.Split(checksum, ":")
@@ -111,5 +107,3 @@ func LoadFileOrURLWithChecksum(fileRef string, checksum string) ([]byte, error) 
 
 	return fileContent, nil
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

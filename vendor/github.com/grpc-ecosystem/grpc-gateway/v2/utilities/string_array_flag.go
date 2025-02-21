@@ -5,11 +5,7 @@ import (
 	"strings"
 )
 
-<<<<<<< HEAD
 // flagInterface is a cut down interface to `flag`
-=======
-// flagInterface is an cut down interface to `flag`
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type flagInterface interface {
 	Var(value flag.Value, name string, usage string)
 }

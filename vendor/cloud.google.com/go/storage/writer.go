@@ -102,7 +102,6 @@ type Writer struct {
 	// is provided, then gax.DetermineContentType is called to sniff the type.
 	ForceEmptyContentType bool
 
-<<<<<<< HEAD
 	// Append is a parameter to indicate whether the writer should use appendable
 	// object semantics for the new object generation. Appendable objects are
 	// visible on the first Write() call, and can be appended to until they are
@@ -112,8 +111,6 @@ type Writer struct {
 	// yet available for general use.
 	Append bool
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// ProgressFunc can be used to monitor the progress of a large write
 	// operation. If ProgressFunc is not nil and writing requires multiple
 	// calls to the underlying service (see
@@ -215,10 +212,7 @@ func (w *Writer) openWriter() (err error) {
 		conds:                 w.o.conds,
 		encryptionKey:         w.o.encryptionKey,
 		sendCRC32C:            w.SendCRC32C,
-<<<<<<< HEAD
 		append:                w.Append,
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		donec:                 w.donec,
 		setError:              w.error,
 		progress:              w.progress,

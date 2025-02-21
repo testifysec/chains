@@ -48,19 +48,11 @@ func run(pass *analysis.Pass) (interface{}, error) {
 func reportImported(pass *analysis.Pass, expr ast.Expr, checkRE *regexp.Regexp, prefix string) {
 	switch x := expr.(type) {
 	case *ast.SelectorExpr:
-<<<<<<< HEAD
-=======
-		if !checkRE.MatchString(x.Sel.Name) {
-			return
-		}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		selectIdent, ok := x.X.(*ast.Ident)
 		if !ok {
 			return
 		}
 
-<<<<<<< HEAD
 		var pkgPath string
 		if selectObj, ok := pass.TypesInfo.Uses[selectIdent]; ok {
 			pkg, ok := selectObj.(*types.PkgName)
@@ -85,16 +77,6 @@ func reportImported(pass *analysis.Pass, expr ast.Expr, checkRE *regexp.Regexp, 
 		if matches {
 			pass.Reportf(expr.Pos(), "%s variable %s in other package %s", prefix, x.Sel.Name, selectIdent.Name)
 		}
-=======
-		if selectObj, ok := pass.TypesInfo.Uses[selectIdent]; ok {
-			if pkg, ok := selectObj.(*types.PkgName); !ok || pkg.Imported() == pass.Pkg {
-				return
-			}
-		}
-
-		pass.Reportf(expr.Pos(), "%s variable %s in other package %s", prefix, x.Sel.Name, selectIdent.Name)
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case *ast.Ident:
 		use, ok := pass.TypesInfo.Uses[x].(*types.Var)
 		if !ok {

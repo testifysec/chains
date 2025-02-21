@@ -20,11 +20,7 @@ const (
 type AsyncTimeIntervalsRule struct{}
 
 func (r AsyncTimeIntervalsRule) isApplied(gexp *expression.GomegaExpression, config types.Config) bool {
-<<<<<<< HEAD
 	return !config.SuppressAsync && config.ValidateAsyncIntervals && gexp.IsAsync()
-=======
-	return !bool(config.SuppressAsync) && bool(config.ValidateAsyncIntervals) && gexp.IsAsync()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (r AsyncTimeIntervalsRule) Apply(gexp *expression.GomegaExpression, config types.Config, reportBuilder *reports.Builder) bool {

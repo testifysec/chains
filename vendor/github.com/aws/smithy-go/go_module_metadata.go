@@ -3,8 +3,4 @@
 package smithy
 
 // goModuleVersion is the tagged release for this module
-<<<<<<< HEAD
 const goModuleVersion = "1.22.2"
-=======
-const goModuleVersion = "1.22.0"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

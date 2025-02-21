@@ -43,10 +43,6 @@ type Output struct {
 	Formats         OutputFormats `mapstructure:"formats"`
 	PrintIssuedLine bool          `mapstructure:"print-issued-lines"`
 	PrintLinterName bool          `mapstructure:"print-linter-name"`
-<<<<<<< HEAD
-=======
-	UniqByLine      bool          `mapstructure:"uniq-by-line"`
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	SortResults     bool          `mapstructure:"sort-results"`
 	SortOrder       []string      `mapstructure:"sort-order"`
 	PathPrefix      string        `mapstructure:"path-prefix"`
@@ -54,12 +50,9 @@ type Output struct {
 
 	// Deprecated: use Formats instead.
 	Format string `mapstructure:"format"`
-<<<<<<< HEAD
 
 	// Deprecated: use [Issues.UniqByLine] instead.
 	UniqByLine *bool `mapstructure:"uniq-by-line"`
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (o *Output) Validate() error {

@@ -20,20 +20,14 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-<<<<<<< HEAD
 	"log/slog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 
 	"cloud.google.com/go/auth"
 	detect "cloud.google.com/go/auth/credentials"
 	"cloud.google.com/go/auth/internal"
 	"cloud.google.com/go/auth/internal/transport"
-<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // ClientCertProvider is a function that returns a TLS client certificate to be
@@ -77,14 +71,11 @@ type Options struct {
 	// configured for the client, which will be compared to the universe domain
 	// that is separately configured for the credentials.
 	UniverseDomain string
-<<<<<<< HEAD
 	// Logger is used for debug logging. If provided, logging will be enabled
 	// at the loggers configured level. By default logging is disabled unless
 	// enabled by setting GOOGLE_SDK_GO_LOGGING_LEVEL in which case a default
 	// logger will be used. Optional.
 	Logger *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// InternalOptions are NOT meant to be set directly by consumers of this
 	// package, they should only be set by generated client code.
@@ -117,13 +108,10 @@ func (o *Options) client() *http.Client {
 	return nil
 }
 
-<<<<<<< HEAD
 func (o *Options) logger() *slog.Logger {
 	return internallog.New(o.Logger)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (o *Options) resolveDetectOptions() *detect.DetectOptions {
 	io := o.InternalOptions
 	// soft-clone these so we are not updating a ref the user holds and may reuse
@@ -148,12 +136,9 @@ func (o *Options) resolveDetectOptions() *detect.DetectOptions {
 		do.Client = transport.DefaultHTTPClientWithTLS(tlsConfig)
 		do.TokenURL = detect.GoogleMTLSTokenURL
 	}
-<<<<<<< HEAD
 	if do.Logger == nil {
 		do.Logger = o.logger()
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return do
 }
 
@@ -226,10 +211,7 @@ func NewClient(opts *Options) (*http.Client, error) {
 		ClientCertProvider: opts.ClientCertProvider,
 		Client:             opts.client(),
 		UniverseDomain:     opts.UniverseDomain,
-<<<<<<< HEAD
 		Logger:             opts.logger(),
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if io := opts.InternalOptions; io != nil {
 		tOpts.DefaultEndpointTemplate = io.DefaultEndpointTemplate

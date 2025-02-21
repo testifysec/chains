@@ -20,11 +20,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-<<<<<<< HEAD
 	"log/slog"
-=======
-	"io"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"math"
 	"net/http"
 	"net/url"
@@ -36,10 +32,6 @@ import (
 	lroauto "cloud.google.com/go/longrunning/autogen"
 	longrunningpb "cloud.google.com/go/longrunning/autogen/longrunningpb"
 	gax "github.com/googleapis/gax-go/v2"
-<<<<<<< HEAD
-=======
-	"google.golang.org/api/googleapi"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
@@ -237,15 +229,9 @@ func (c *AutokeyClient) Connection() *grpc.ClientConn {
 // CreateKeyHandle creates a new KeyHandle, triggering the
 // provisioning of a new CryptoKey for CMEK
 // use with the given resource type in the configured key project and the same
-<<<<<<< HEAD
 // location. GetOperation should
 // be used to resolve the resulting long-running operation and get the
 // resulting KeyHandle and
-=======
-// location. GetOperation should be used to resolve
-// the resulting long-running operation and get the resulting
-// KeyHandle and
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // CryptoKey.
 func (c *AutokeyClient) CreateKeyHandle(ctx context.Context, req *kmspb.CreateKeyHandleRequest, opts ...gax.CallOption) (*CreateKeyHandleOperation, error) {
 	return c.internalClient.CreateKeyHandle(ctx, req, opts...)
@@ -334,11 +320,8 @@ type autokeyGRPCClient struct {
 
 	// The x-goog-* metadata to be sent with each request.
 	xGoogHeaders []string
-<<<<<<< HEAD
 
 	logger *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewAutokeyClient creates a new autokey client based on gRPC.
@@ -382,10 +365,7 @@ func NewAutokeyClient(ctx context.Context, opts ...option.ClientOption) (*Autoke
 		connPool:         connPool,
 		autokeyClient:    kmspb.NewAutokeyClient(connPool),
 		CallOptions:      &client.CallOptions,
-<<<<<<< HEAD
 		logger:           internaloption.GetLogger(opts),
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		operationsClient: longrunningpb.NewOperationsClient(connPool),
 		iamPolicyClient:  iampb.NewIAMPolicyClient(connPool),
 		locationsClient:  locationpb.NewLocationsClient(connPool),
@@ -451,11 +431,8 @@ type autokeyRESTClient struct {
 
 	// Points back to the CallOptions field of the containing AutokeyClient
 	CallOptions **AutokeyCallOptions
-<<<<<<< HEAD
 
 	logger *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewAutokeyRESTClient creates a new autokey rest client.
@@ -490,10 +467,7 @@ func NewAutokeyRESTClient(ctx context.Context, opts ...option.ClientOption) (*Au
 		endpoint:    endpoint,
 		httpClient:  httpClient,
 		CallOptions: &callOpts,
-<<<<<<< HEAD
 		logger:      internaloption.GetLogger(opts),
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	c.setGoogleClientInfo()
 
@@ -556,11 +530,7 @@ func (c *autokeyGRPCClient) CreateKeyHandle(ctx context.Context, req *kmspb.Crea
 	var resp *longrunningpb.Operation
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.autokeyClient.CreateKeyHandle, req, settings.GRPC, c.logger, "CreateKeyHandle")
-=======
-		resp, err = c.autokeyClient.CreateKeyHandle(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -580,11 +550,7 @@ func (c *autokeyGRPCClient) GetKeyHandle(ctx context.Context, req *kmspb.GetKeyH
 	var resp *kmspb.KeyHandle
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.autokeyClient.GetKeyHandle, req, settings.GRPC, c.logger, "GetKeyHandle")
-=======
-		resp, err = c.autokeyClient.GetKeyHandle(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -613,11 +579,7 @@ func (c *autokeyGRPCClient) ListKeyHandles(ctx context.Context, req *kmspb.ListK
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
-<<<<<<< HEAD
 			resp, err = executeRPC(ctx, c.autokeyClient.ListKeyHandles, req, settings.GRPC, c.logger, "ListKeyHandles")
-=======
-			resp, err = c.autokeyClient.ListKeyHandles(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return err
 		}, opts...)
 		if err != nil {
@@ -652,11 +614,7 @@ func (c *autokeyGRPCClient) GetLocation(ctx context.Context, req *locationpb.Get
 	var resp *locationpb.Location
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.locationsClient.GetLocation, req, settings.GRPC, c.logger, "GetLocation")
-=======
-		resp, err = c.locationsClient.GetLocation(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -685,11 +643,7 @@ func (c *autokeyGRPCClient) ListLocations(ctx context.Context, req *locationpb.L
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
-<<<<<<< HEAD
 			resp, err = executeRPC(ctx, c.locationsClient.ListLocations, req, settings.GRPC, c.logger, "ListLocations")
-=======
-			resp, err = c.locationsClient.ListLocations(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return err
 		}, opts...)
 		if err != nil {
@@ -724,11 +678,7 @@ func (c *autokeyGRPCClient) GetIamPolicy(ctx context.Context, req *iampb.GetIamP
 	var resp *iampb.Policy
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.iamPolicyClient.GetIamPolicy, req, settings.GRPC, c.logger, "GetIamPolicy")
-=======
-		resp, err = c.iamPolicyClient.GetIamPolicy(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -746,11 +696,7 @@ func (c *autokeyGRPCClient) SetIamPolicy(ctx context.Context, req *iampb.SetIamP
 	var resp *iampb.Policy
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.iamPolicyClient.SetIamPolicy, req, settings.GRPC, c.logger, "SetIamPolicy")
-=======
-		resp, err = c.iamPolicyClient.SetIamPolicy(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -768,11 +714,7 @@ func (c *autokeyGRPCClient) TestIamPermissions(ctx context.Context, req *iampb.T
 	var resp *iampb.TestIamPermissionsResponse
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.iamPolicyClient.TestIamPermissions, req, settings.GRPC, c.logger, "TestIamPermissions")
-=======
-		resp, err = c.iamPolicyClient.TestIamPermissions(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -790,11 +732,7 @@ func (c *autokeyGRPCClient) GetOperation(ctx context.Context, req *longrunningpb
 	var resp *longrunningpb.Operation
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.operationsClient.GetOperation, req, settings.GRPC, c.logger, "GetOperation")
-=======
-		resp, err = c.operationsClient.GetOperation(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -806,15 +744,9 @@ func (c *autokeyGRPCClient) GetOperation(ctx context.Context, req *longrunningpb
 // CreateKeyHandle creates a new KeyHandle, triggering the
 // provisioning of a new CryptoKey for CMEK
 // use with the given resource type in the configured key project and the same
-<<<<<<< HEAD
 // location. GetOperation should
 // be used to resolve the resulting long-running operation and get the
 // resulting KeyHandle and
-=======
-// location. GetOperation should be used to resolve
-// the resulting long-running operation and get the resulting
-// KeyHandle and
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // CryptoKey.
 func (c *autokeyRESTClient) CreateKeyHandle(ctx context.Context, req *kmspb.CreateKeyHandleRequest, opts ...gax.CallOption) (*CreateKeyHandleOperation, error) {
 	m := protojson.MarshalOptions{AllowPartial: true, UseEnumNumbers: true}
@@ -857,28 +789,10 @@ func (c *autokeyRESTClient) CreateKeyHandle(ctx context.Context, req *kmspb.Crea
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-<<<<<<< HEAD
 		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "CreateKeyHandle")
 		if err != nil {
 			return err
 		}
-=======
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
-		if err != nil {
-			return err
-		}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err := unm.Unmarshal(buf, resp); err != nil {
 			return err
 		}
@@ -929,21 +843,7 @@ func (c *autokeyRESTClient) GetKeyHandle(ctx context.Context, req *kmspb.GetKeyH
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-<<<<<<< HEAD
 		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetKeyHandle")
-=======
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return err
 		}
@@ -1008,28 +908,10 @@ func (c *autokeyRESTClient) ListKeyHandles(ctx context.Context, req *kmspb.ListK
 			}
 			httpReq.Header = headers
 
-<<<<<<< HEAD
 			buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "ListKeyHandles")
 			if err != nil {
 				return err
 			}
-=======
-			httpRsp, err := c.httpClient.Do(httpReq)
-			if err != nil {
-				return err
-			}
-			defer httpRsp.Body.Close()
-
-			if err = googleapi.CheckResponse(httpRsp); err != nil {
-				return err
-			}
-
-			buf, err := io.ReadAll(httpRsp.Body)
-			if err != nil {
-				return err
-			}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err := unm.Unmarshal(buf, resp); err != nil {
 				return err
 			}
@@ -1092,21 +974,7 @@ func (c *autokeyRESTClient) GetLocation(ctx context.Context, req *locationpb.Get
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-<<<<<<< HEAD
 		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetLocation")
-=======
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return err
 		}
@@ -1171,28 +1039,10 @@ func (c *autokeyRESTClient) ListLocations(ctx context.Context, req *locationpb.L
 			}
 			httpReq.Header = headers
 
-<<<<<<< HEAD
 			buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "ListLocations")
 			if err != nil {
 				return err
 			}
-=======
-			httpRsp, err := c.httpClient.Do(httpReq)
-			if err != nil {
-				return err
-			}
-			defer httpRsp.Body.Close()
-
-			if err = googleapi.CheckResponse(httpRsp); err != nil {
-				return err
-			}
-
-			buf, err := io.ReadAll(httpRsp.Body)
-			if err != nil {
-				return err
-			}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err := unm.Unmarshal(buf, resp); err != nil {
 				return err
 			}
@@ -1259,21 +1109,7 @@ func (c *autokeyRESTClient) GetIamPolicy(ctx context.Context, req *iampb.GetIamP
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-<<<<<<< HEAD
 		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetIamPolicy")
-=======
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return err
 		}
@@ -1333,21 +1169,7 @@ func (c *autokeyRESTClient) SetIamPolicy(ctx context.Context, req *iampb.SetIamP
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-<<<<<<< HEAD
 		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "SetIamPolicy")
-=======
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return err
 		}
@@ -1409,21 +1231,7 @@ func (c *autokeyRESTClient) TestIamPermissions(ctx context.Context, req *iampb.T
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-<<<<<<< HEAD
 		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "TestIamPermissions")
-=======
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return err
 		}
@@ -1473,21 +1281,7 @@ func (c *autokeyRESTClient) GetOperation(ctx context.Context, req *longrunningpb
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-<<<<<<< HEAD
 		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetOperation")
-=======
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return err
 		}

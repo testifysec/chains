@@ -311,22 +311,15 @@ const (
 	packetTypePrivateSubkey                            packetType = 7
 	packetTypeCompressed                               packetType = 8
 	packetTypeSymmetricallyEncrypted                   packetType = 9
-<<<<<<< HEAD
 	packetTypeMarker                                   packetType = 10
 	packetTypeLiteralData                              packetType = 11
 	packetTypeTrust                                    packetType = 12
-=======
-	packetTypeLiteralData                              packetType = 11
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	packetTypeUserId                                   packetType = 13
 	packetTypePublicSubkey                             packetType = 14
 	packetTypeUserAttribute                            packetType = 17
 	packetTypeSymmetricallyEncryptedIntegrityProtected packetType = 18
 	packetTypeAEADEncrypted                            packetType = 20
-<<<<<<< HEAD
 	packetPadding                                      packetType = 21
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // EncryptedDataPacket holds encrypted data. It is currently implemented by
@@ -338,11 +331,7 @@ type EncryptedDataPacket interface {
 // Read reads a single OpenPGP packet from the given io.Reader. If there is an
 // error parsing a packet, the whole packet is consumed from the input.
 func Read(r io.Reader) (p Packet, err error) {
-<<<<<<< HEAD
 	tag, len, contents, err := readHeader(r)
-=======
-	tag, _, contents, err := readHeader(r)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return
 	}
@@ -381,7 +370,6 @@ func Read(r io.Reader) (p Packet, err error) {
 		p = se
 	case packetTypeAEADEncrypted:
 		p = new(AEADEncrypted)
-<<<<<<< HEAD
 	case packetPadding:
 		p = Padding(len)
 	case packetTypeMarker:
@@ -469,10 +457,6 @@ func ReadWithCheck(r io.Reader, sequence *SequenceVerifier) (p Packet, msgErr er
 		} else {
 			err = errors.UnknownPacketTypeError(tag)
 		}
-=======
-	default:
-		err = errors.UnknownPacketTypeError(tag)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if p != nil {
 		err = p.parse(contents)
@@ -489,7 +473,6 @@ type SignatureType uint8
 
 const (
 	SigTypeBinary                  SignatureType = 0x00
-<<<<<<< HEAD
 	SigTypeText                    SignatureType = 0x01
 	SigTypeGenericCert             SignatureType = 0x10
 	SigTypePersonaCert             SignatureType = 0x11
@@ -501,19 +484,6 @@ const (
 	SigTypeKeyRevocation           SignatureType = 0x20
 	SigTypeSubkeyRevocation        SignatureType = 0x28
 	SigTypeCertificationRevocation SignatureType = 0x30
-=======
-	SigTypeText                                  = 0x01
-	SigTypeGenericCert                           = 0x10
-	SigTypePersonaCert                           = 0x11
-	SigTypeCasualCert                            = 0x12
-	SigTypePositiveCert                          = 0x13
-	SigTypeSubkeyBinding                         = 0x18
-	SigTypePrimaryKeyBinding                     = 0x19
-	SigTypeDirectSignature                       = 0x1F
-	SigTypeKeyRevocation                         = 0x20
-	SigTypeSubkeyRevocation                      = 0x28
-	SigTypeCertificationRevocation               = 0x30
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // PublicKeyAlgorithm represents the different public key system specified for
@@ -530,14 +500,11 @@ const (
 	PubKeyAlgoECDSA PublicKeyAlgorithm = 19
 	// https://www.ietf.org/archive/id/draft-koch-eddsa-for-openpgp-04.txt
 	PubKeyAlgoEdDSA PublicKeyAlgorithm = 22
-<<<<<<< HEAD
 	// https://datatracker.ietf.org/doc/html/draft-ietf-openpgp-crypto-refresh
 	PubKeyAlgoX25519  PublicKeyAlgorithm = 25
 	PubKeyAlgoX448    PublicKeyAlgorithm = 26
 	PubKeyAlgoEd25519 PublicKeyAlgorithm = 27
 	PubKeyAlgoEd448   PublicKeyAlgorithm = 28
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Deprecated in RFC 4880, Section 13.5. Use key flags instead.
 	PubKeyAlgoRSAEncryptOnly PublicKeyAlgorithm = 2
@@ -548,11 +515,7 @@ const (
 // key of the given type.
 func (pka PublicKeyAlgorithm) CanEncrypt() bool {
 	switch pka {
-<<<<<<< HEAD
 	case PubKeyAlgoRSA, PubKeyAlgoRSAEncryptOnly, PubKeyAlgoElGamal, PubKeyAlgoECDH, PubKeyAlgoX25519, PubKeyAlgoX448:
-=======
-	case PubKeyAlgoRSA, PubKeyAlgoRSAEncryptOnly, PubKeyAlgoElGamal, PubKeyAlgoECDH:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return true
 	}
 	return false
@@ -562,11 +525,7 @@ func (pka PublicKeyAlgorithm) CanEncrypt() bool {
 // sign a message.
 func (pka PublicKeyAlgorithm) CanSign() bool {
 	switch pka {
-<<<<<<< HEAD
 	case PubKeyAlgoRSA, PubKeyAlgoRSASignOnly, PubKeyAlgoDSA, PubKeyAlgoECDSA, PubKeyAlgoEdDSA, PubKeyAlgoEd25519, PubKeyAlgoEd448:
-=======
-	case PubKeyAlgoRSA, PubKeyAlgoRSASignOnly, PubKeyAlgoDSA, PubKeyAlgoECDSA, PubKeyAlgoEdDSA:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return true
 	}
 	return false
@@ -646,14 +605,11 @@ func (mode AEADMode) TagLength() int {
 	return algorithm.AEADMode(mode).TagLength()
 }
 
-<<<<<<< HEAD
 // IsSupported returns true if the aead mode is supported from the library
 func (mode AEADMode) IsSupported() bool {
 	return algorithm.AEADMode(mode).TagLength() > 0
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // new returns a fresh instance of the given mode.
 func (mode AEADMode) new(block cipher.Block) cipher.AEAD {
 	return algorithm.AEADMode(mode).New(block)
@@ -668,7 +624,6 @@ const (
 	KeySuperseded  ReasonForRevocation = 1
 	KeyCompromised ReasonForRevocation = 2
 	KeyRetired     ReasonForRevocation = 3
-<<<<<<< HEAD
 	UserIDNotValid ReasonForRevocation = 32
 	Unknown        ReasonForRevocation = 200
 )
@@ -680,10 +635,6 @@ func NewReasonForRevocation(value byte) ReasonForRevocation {
 	return Unknown
 }
 
-=======
-)
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Curve is a mapping to supported ECC curves for key generation.
 // See https://www.ietf.org/archive/id/draft-ietf-openpgp-crypto-refresh-06.html#name-curve-specific-wire-formats
 type Curve string
@@ -705,7 +656,6 @@ type TrustLevel uint8
 
 // TrustAmount represents a trust amount per RFC4880 5.2.3.13
 type TrustAmount uint8
-<<<<<<< HEAD
 
 const (
 	// versionSize is the length in bytes of the version value.
@@ -723,5 +673,3 @@ const (
 	// fingerprintSize is the length in bytes of the key fingerprint.
 	fingerprintSize = 20
 )
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

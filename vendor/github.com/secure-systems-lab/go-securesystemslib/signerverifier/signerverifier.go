@@ -1,7 +1,6 @@
 package signerverifier
 
 import (
-<<<<<<< HEAD
 	"crypto/ecdsa"
 	"crypto/ed25519"
 	"crypto/rsa"
@@ -9,9 +8,6 @@ import (
 	"encoding/hex"
 	"errors"
 	"strings"
-=======
-	"errors"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 var KeyIDHashAlgorithms = []string{"sha256", "sha512"}
@@ -22,10 +18,7 @@ var (
 	ErrUnknownKeyType              = errors.New("unknown key type")
 	ErrInvalidThreshold            = errors.New("threshold is either less than 1 or greater than number of provided public keys")
 	ErrInvalidKey                  = errors.New("key object has no value")
-<<<<<<< HEAD
 	ErrInvalidPEM                  = errors.New("unable to parse PEM block")
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const (
@@ -48,7 +41,6 @@ type KeyVal struct {
 	Identity    string `json:"identity,omitempty"`
 	Issuer      string `json:"issuer,omitempty"`
 }
-<<<<<<< HEAD
 
 // LoadKey returns an SSLibKey object when provided a PEM encoded key.
 // Currently, RSA, ED25519, and ECDSA keys are supported.
@@ -152,5 +144,3 @@ func LoadKey(keyBytes []byte) (*SSLibKey, error) {
 
 	return key, nil
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

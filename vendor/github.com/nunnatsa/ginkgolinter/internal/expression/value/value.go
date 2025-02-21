@@ -194,13 +194,10 @@ func IsExprError(pass *analysis.Pass, expr ast.Expr) bool {
 		return interfaces.ImplementsError(actualArgType)
 
 	case *gotypes.Pointer:
-<<<<<<< HEAD
 		if interfaces.ImplementsError(t) {
 			return true
 		}
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if tt, ok := t.Elem().(*gotypes.Named); ok {
 			return interfaces.ImplementsError(tt)
 		}

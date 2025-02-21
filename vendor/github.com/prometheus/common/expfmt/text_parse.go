@@ -22,15 +22,9 @@ import (
 	"math"
 	"strconv"
 	"strings"
-<<<<<<< HEAD
 	"unicode/utf8"
 
 	dto "github.com/prometheus/client_model/go"
-=======
-
-	dto "github.com/prometheus/client_model/go"
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"google.golang.org/protobuf/proto"
 
 	"github.com/prometheus/common/model"
@@ -66,10 +60,7 @@ type TextParser struct {
 	currentMF            *dto.MetricFamily
 	currentMetric        *dto.Metric
 	currentLabelPair     *dto.LabelPair
-<<<<<<< HEAD
 	currentLabelPairs    []*dto.LabelPair // Temporarily stores label pairs while parsing a metric line.
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// The remaining member variables are only used for summaries/histograms.
 	currentLabels map[string]string // All labels including '__name__' but excluding 'quantile'/'le'
@@ -84,12 +75,9 @@ type TextParser struct {
 	// count and sum of that summary/histogram.
 	currentIsSummaryCount, currentIsSummarySum     bool
 	currentIsHistogramCount, currentIsHistogramSum bool
-<<<<<<< HEAD
 	// These indicate if the metric name from the current line being parsed is inside
 	// braces and if that metric name was found respectively.
 	currentMetricIsInsideBraces, currentMetricInsideBracesIsPresent bool
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // TextToMetricFamilies reads 'in' as the simple and flat text-based exchange
@@ -153,21 +141,15 @@ func (p *TextParser) reset(in io.Reader) {
 	}
 	p.currentQuantile = math.NaN()
 	p.currentBucket = math.NaN()
-<<<<<<< HEAD
 	p.currentMF = nil
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // startOfLine represents the state where the next byte read from p.buf is the
 // start of a line (or whitespace leading up to it).
 func (p *TextParser) startOfLine() stateFn {
 	p.lineCount++
-<<<<<<< HEAD
 	p.currentMetricIsInsideBraces = false
 	p.currentMetricInsideBracesIsPresent = false
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if p.skipBlankTab(); p.err != nil {
 		// This is the only place that we expect to see io.EOF,
 		// which is not an error but the signal that we are done.
@@ -183,12 +165,9 @@ func (p *TextParser) startOfLine() stateFn {
 		return p.startComment
 	case '\n':
 		return p.startOfLine // Empty line, start the next one.
-<<<<<<< HEAD
 	case '{':
 		p.currentMetricIsInsideBraces = true
 		return p.readingLabels
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return p.readingMetricName
 }
@@ -306,11 +285,8 @@ func (p *TextParser) startLabelName() stateFn {
 		return nil // Unexpected end of input.
 	}
 	if p.currentByte == '}' {
-<<<<<<< HEAD
 		p.currentMetric.Label = append(p.currentMetric.Label, p.currentLabelPairs...)
 		p.currentLabelPairs = nil
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if p.skipBlankTab(); p.err != nil {
 			return nil // Unexpected end of input.
 		}
@@ -323,7 +299,6 @@ func (p *TextParser) startLabelName() stateFn {
 		p.parseError(fmt.Sprintf("invalid label name for metric %q", p.currentMF.GetName()))
 		return nil
 	}
-<<<<<<< HEAD
 	if p.skipBlankTabIfCurrentBlankTab(); p.err != nil {
 		return nil // Unexpected end of input.
 	}
@@ -363,8 +338,6 @@ func (p *TextParser) startLabelName() stateFn {
 		p.currentLabelPairs = nil
 		return nil
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	p.currentLabelPair = &dto.LabelPair{Name: proto.String(p.currentToken.String())}
 	if p.currentLabelPair.GetName() == string(model.MetricNameLabel) {
 		p.parseError(fmt.Sprintf("label name %q is reserved", model.MetricNameLabel))
@@ -374,35 +347,17 @@ func (p *TextParser) startLabelName() stateFn {
 	// labels to 'real' labels.
 	if !(p.currentMF.GetType() == dto.MetricType_SUMMARY && p.currentLabelPair.GetName() == model.QuantileLabel) &&
 		!(p.currentMF.GetType() == dto.MetricType_HISTOGRAM && p.currentLabelPair.GetName() == model.BucketLabel) {
-<<<<<<< HEAD
 		p.currentLabelPairs = append(p.currentLabelPairs, p.currentLabelPair)
 	}
 	// Check for duplicate label names.
 	labels := make(map[string]struct{})
 	for _, l := range p.currentLabelPairs {
-=======
-		p.currentMetric.Label = append(p.currentMetric.Label, p.currentLabelPair)
-	}
-	if p.skipBlankTabIfCurrentBlankTab(); p.err != nil {
-		return nil // Unexpected end of input.
-	}
-	if p.currentByte != '=' {
-		p.parseError(fmt.Sprintf("expected '=' after label name, found %q", p.currentByte))
-		return nil
-	}
-	// Check for duplicate label names.
-	labels := make(map[string]struct{})
-	for _, l := range p.currentMetric.Label {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		lName := l.GetName()
 		if _, exists := labels[lName]; !exists {
 			labels[lName] = struct{}{}
 		} else {
 			p.parseError(fmt.Sprintf("duplicate label names for metric %q", p.currentMF.GetName()))
-<<<<<<< HEAD
 			p.currentLabelPairs = nil
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return nil
 		}
 	}
@@ -435,10 +390,7 @@ func (p *TextParser) startLabelValue() stateFn {
 			if p.currentQuantile, p.err = parseFloat(p.currentLabelPair.GetValue()); p.err != nil {
 				// Create a more helpful error message.
 				p.parseError(fmt.Sprintf("expected float as value for 'quantile' label, got %q", p.currentLabelPair.GetValue()))
-<<<<<<< HEAD
 				p.currentLabelPairs = nil
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				return nil
 			}
 		} else {
@@ -465,25 +417,19 @@ func (p *TextParser) startLabelValue() stateFn {
 		return p.startLabelName
 
 	case '}':
-<<<<<<< HEAD
 		if p.currentMF == nil {
 			p.parseError("invalid metric name")
 			return nil
 		}
 		p.currentMetric.Label = append(p.currentMetric.Label, p.currentLabelPairs...)
 		p.currentLabelPairs = nil
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if p.skipBlankTab(); p.err != nil {
 			return nil // Unexpected end of input.
 		}
 		return p.readingValue
 	default:
 		p.parseError(fmt.Sprintf("unexpected end of label value %q", p.currentLabelPair.GetValue()))
-<<<<<<< HEAD
 		p.currentLabelPairs = nil
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return nil
 	}
 }
@@ -692,11 +638,8 @@ func (p *TextParser) readTokenUntilNewline(recognizeEscapeSequence bool) {
 				p.currentToken.WriteByte(p.currentByte)
 			case 'n':
 				p.currentToken.WriteByte('\n')
-<<<<<<< HEAD
 			case '"':
 				p.currentToken.WriteByte('"')
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			default:
 				p.parseError(fmt.Sprintf("invalid escape sequence '\\%c'", p.currentByte))
 				return
@@ -722,7 +665,6 @@ func (p *TextParser) readTokenUntilNewline(recognizeEscapeSequence bool) {
 // but not into p.currentToken.
 func (p *TextParser) readTokenAsMetricName() {
 	p.currentToken.Reset()
-<<<<<<< HEAD
 	// A UTF-8 metric name must be quoted and may have escaped characters.
 	quoted := false
 	escaped := false
@@ -762,15 +704,6 @@ func (p *TextParser) readTokenAsMetricName() {
 		}
 		p.currentByte, p.err = p.buf.ReadByte()
 		if !isValidMetricNameContinuation(p.currentByte, quoted) || (!quoted && p.currentByte == ' ') {
-=======
-	if !isValidMetricNameStart(p.currentByte) {
-		return
-	}
-	for {
-		p.currentToken.WriteByte(p.currentByte)
-		p.currentByte, p.err = p.buf.ReadByte()
-		if p.err != nil || !isValidMetricNameContinuation(p.currentByte) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return
 		}
 	}
@@ -782,7 +715,6 @@ func (p *TextParser) readTokenAsMetricName() {
 // but not into p.currentToken.
 func (p *TextParser) readTokenAsLabelName() {
 	p.currentToken.Reset()
-<<<<<<< HEAD
 	// A UTF-8 label name must be quoted and may have escaped characters.
 	quoted := false
 	escaped := false
@@ -822,15 +754,6 @@ func (p *TextParser) readTokenAsLabelName() {
 		}
 		p.currentByte, p.err = p.buf.ReadByte()
 		if !isValidLabelNameContinuation(p.currentByte, quoted) || (!quoted && p.currentByte == '=') {
-=======
-	if !isValidLabelNameStart(p.currentByte) {
-		return
-	}
-	for {
-		p.currentToken.WriteByte(p.currentByte)
-		p.currentByte, p.err = p.buf.ReadByte()
-		if p.err != nil || !isValidLabelNameContinuation(p.currentByte) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return
 		}
 	}
@@ -856,10 +779,7 @@ func (p *TextParser) readTokenAsLabelValue() {
 				p.currentToken.WriteByte('\n')
 			default:
 				p.parseError(fmt.Sprintf("invalid escape sequence '\\%c'", p.currentByte))
-<<<<<<< HEAD
 				p.currentLabelPairs = nil
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				return
 			}
 			escaped = false
@@ -918,32 +838,19 @@ func (p *TextParser) setOrCreateCurrentMF() {
 }
 
 func isValidLabelNameStart(b byte) bool {
-<<<<<<< HEAD
 	return (b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') || b == '_' || b == '"'
 }
 
 func isValidLabelNameContinuation(b byte, quoted bool) bool {
 	return isValidLabelNameStart(b) || (b >= '0' && b <= '9') || (quoted && utf8.ValidString(string(b)))
-=======
-	return (b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') || b == '_'
-}
-
-func isValidLabelNameContinuation(b byte) bool {
-	return isValidLabelNameStart(b) || (b >= '0' && b <= '9')
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func isValidMetricNameStart(b byte) bool {
 	return isValidLabelNameStart(b) || b == ':'
 }
 
-<<<<<<< HEAD
 func isValidMetricNameContinuation(b byte, quoted bool) bool {
 	return isValidLabelNameContinuation(b, quoted) || b == ':'
-=======
-func isValidMetricNameContinuation(b byte) bool {
-	return isValidLabelNameContinuation(b) || b == ':'
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func isBlankOrTab(b byte) bool {
@@ -988,11 +895,7 @@ func histogramMetricName(name string) string {
 
 func parseFloat(s string) (float64, error) {
 	if strings.ContainsAny(s, "pP_") {
-<<<<<<< HEAD
 		return 0, errors.New("unsupported character in float")
-=======
-		return 0, fmt.Errorf("unsupported character in float")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return strconv.ParseFloat(s, 64)
 }

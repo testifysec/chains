@@ -209,13 +209,9 @@ func (cc *controlChannel) lookup(reqKeys map[string]string, reason rlspb.RouteLo
 			Reason:          reason,
 			StaleHeaderData: staleHeaders,
 		}
-<<<<<<< HEAD
 		if cc.logger.V(2) {
 			cc.logger.Infof("Sending RLS request %+v", pretty.ToJSON(req))
 		}
-=======
-		cc.logger.Infof("Sending RLS request %+v", pretty.ToJSON(req))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 		ctx, cancel := context.WithTimeout(context.Background(), cc.rpcTimeout)
 		defer cancel()

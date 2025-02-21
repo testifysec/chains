@@ -5,17 +5,8 @@ go 1.23.4
 toolchain go1.23.6
 
 require (
-<<<<<<< HEAD
 	cloud.google.com/go/compute/metadata v0.6.0
 	cloud.google.com/go/storage v1.50.0
-=======
-	cloud.google.com/go/compute/metadata v0.5.2
-	cloud.google.com/go/storage v1.48.0
-<<<<<<< HEAD
-	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
->>>>>>> 3b9297a78 ([WIP] uploads to archivista)
-=======
->>>>>>> 06c2f6a79 ([WIP] add archivista storage backend)
 	github.com/fsnotify/fsnotify v1.8.0
 	github.com/golangci/golangci-lint v1.63.4
 	github.com/google/addlicense v1.1.1
@@ -25,7 +16,7 @@ require (
 	github.com/google/go-licenses v1.6.0
 	github.com/grafeas/grafeas v0.2.3
 	github.com/hashicorp/go-multierror v1.1.1
-	github.com/in-toto/archivista v0.5.4
+	github.com/in-toto/archivista v0.9.0
 	github.com/in-toto/attestation v1.1.0
 	github.com/in-toto/go-witness v0.7.0
 	github.com/in-toto/in-toto-golang v0.9.1-0.20240317085821-8e2966059a09

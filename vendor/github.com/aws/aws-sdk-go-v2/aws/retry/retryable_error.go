@@ -116,7 +116,6 @@ func (r RetryableConnectionError) IsErrorRetryable(err error) aws.Ternary {
 	case errors.As(err, &conErr) && conErr.ConnectionError():
 		retryable = true
 
-<<<<<<< HEAD
 	case strings.Contains(err.Error(), "use of closed network connection"):
 		fallthrough
 	case strings.Contains(err.Error(), "connection reset"):
@@ -124,9 +123,6 @@ func (r RetryableConnectionError) IsErrorRetryable(err error) aws.Ternary {
 		// are effectively the same. It appears to be the difference between
 		// sync and async read of TCP RST in the stdlib's net.Conn read loop.
 		// see #2737
-=======
-	case strings.Contains(err.Error(), "connection reset"):
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		retryable = true
 
 	case errors.As(err, &urlErr):

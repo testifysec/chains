@@ -73,7 +73,6 @@ type ReadStallTimeoutConfig struct {
 	// and retried.
 	TargetPercentile float64
 }
-<<<<<<< HEAD
 
 // WithGRPCBidiReads provides an [option.ClientOption] that may be passed to
 // [cloud.google.com/go/storage.NewGRPCClient].
@@ -86,5 +85,3 @@ type ReadStallTimeoutConfig struct {
 func WithGRPCBidiReads() option.ClientOption {
 	return internal.WithGRPCBidiReads.(func() option.ClientOption)()
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

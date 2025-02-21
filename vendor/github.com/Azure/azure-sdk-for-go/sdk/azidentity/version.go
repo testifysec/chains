@@ -14,9 +14,5 @@ const (
 	module = "github.com/Azure/azure-sdk-for-go/sdk/" + component
 
 	// Version is the semantic version (see http://semver.org) of this module.
-<<<<<<< HEAD
 	version = "v1.8.1"
-=======
-	version = "v1.8.0"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )

@@ -22,11 +22,7 @@ package leastrequest
 import (
 	"encoding/json"
 	"fmt"
-<<<<<<< HEAD
 	rand "math/rand/v2"
-=======
-	"math/rand"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"sync/atomic"
 
 	"google.golang.org/grpc/balancer"

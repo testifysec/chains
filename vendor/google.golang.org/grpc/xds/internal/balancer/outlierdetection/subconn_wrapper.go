@@ -19,17 +19,11 @@ package outlierdetection
 
 import (
 	"fmt"
-<<<<<<< HEAD
 	"sync"
 	"unsafe"
 
 	"google.golang.org/grpc/balancer"
 	"google.golang.org/grpc/connectivity"
-=======
-	"unsafe"
-
-	"google.golang.org/grpc/balancer"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"google.golang.org/grpc/internal/buffer"
 	"google.golang.org/grpc/resolver"
 )
@@ -39,7 +33,6 @@ import (
 // whether or not this SubConn is ejected.
 type subConnWrapper struct {
 	balancer.SubConn
-<<<<<<< HEAD
 	// addressInfo is a pointer to the subConnWrapper's corresponding address
 	// map entry, if the map entry exists. It is accessed atomically.
 	addressInfo unsafe.Pointer // *addressInfo
@@ -67,26 +60,10 @@ type subConnWrapper struct {
 	// run(), and child will always have the correctly updated SubConnState.
 
 	ejected bool
-=======
-	listener func(balancer.SubConnState)
-
-	// addressInfo is a pointer to the subConnWrapper's corresponding address
-	// map entry, if the map entry exists.
-	addressInfo unsafe.Pointer // *addressInfo
-	// These two pieces of state will reach eventual consistency due to sync in
-	// run(), and child will always have the correctly updated SubConnState.
-	// latestState is the latest state update from the underlying SubConn. This
-	// is used whenever a SubConn gets unejected.
-	latestState balancer.SubConnState
-	ejected     bool
-
-	scUpdateCh *buffer.Unbounded
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// addresses is the list of address(es) this SubConn was created with to
 	// help support any change in address(es)
 	addresses []resolver.Address
-<<<<<<< HEAD
 	// latestHealthState is tracked to update the child policy during
 	// unejection.
 	latestHealthState balancer.SubConnState
@@ -104,8 +81,6 @@ type subConnWrapper struct {
 	// used to ensure a health listener is registered with the SubConn only when
 	// the SubConn is READY.
 	latestReceivedConnectivityState connectivity.State
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // eject causes the wrapper to report a state update with the TRANSIENT_FAILURE
@@ -130,7 +105,6 @@ func (scw *subConnWrapper) uneject() {
 func (scw *subConnWrapper) String() string {
 	return fmt.Sprintf("%+v", scw.addresses)
 }
-<<<<<<< HEAD
 
 func (scw *subConnWrapper) RegisterHealthListener(listener func(balancer.SubConnState)) {
 	// gRPC currently supports two mechanisms that provide a health signal for
@@ -236,5 +210,3 @@ func (scw *subConnWrapper) setLatestConnectivityState(state connectivity.State) 
 	defer scw.mu.Unlock()
 	scw.latestReceivedConnectivityState = state
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

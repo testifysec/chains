@@ -4,10 +4,7 @@ import (
 	"crypto"
 	"crypto/x509"
 	"encoding/json"
-<<<<<<< HEAD
 	"errors"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"io"
 	"os"
 	"sync"
@@ -110,11 +107,7 @@ func Parse(trustDomain spiffeid.TrustDomain, bundleBytes []byte) (*Bundle, error
 			bundle.AddX509Authority(key.Certificates[0])
 		case jwtSVIDUse:
 			if err := bundle.AddJWTAuthority(key.KeyID, key.Key); err != nil {
-<<<<<<< HEAD
 				return nil, spiffebundleErr.New("error adding authority %d of JWKS: %v", i, errors.Unwrap(err))
-=======
-				return nil, spiffebundleErr.New("error adding authority %d of JWKS: %v", i, errs.Unwrap(err))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 		}
 	}

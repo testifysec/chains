@@ -73,11 +73,7 @@ func New(settings *config.GoModGuardSettings) *goanalysis.Linter {
 		}
 
 		analyzer.Run = func(pass *analysis.Pass) (any, error) {
-<<<<<<< HEAD
 			gomodguardIssues := processor.ProcessFiles(internal.GetGoFileNames(pass))
-=======
-			gomodguardIssues := processor.ProcessFiles(internal.GetFileNames(pass))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 			mu.Lock()
 			defer mu.Unlock()

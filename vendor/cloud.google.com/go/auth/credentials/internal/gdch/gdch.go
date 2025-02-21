@@ -16,20 +16,13 @@ package gdch
 
 import (
 	"context"
-<<<<<<< HEAD
 	"crypto"
-=======
-	"crypto/rsa"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/json"
 	"errors"
 	"fmt"
-<<<<<<< HEAD
 	"log/slog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"net/url"
 	"os"
@@ -40,10 +33,7 @@ import (
 	"cloud.google.com/go/auth/internal"
 	"cloud.google.com/go/auth/internal/credsfile"
 	"cloud.google.com/go/auth/internal/jwt"
-<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const (
@@ -63,10 +53,7 @@ var (
 type Options struct {
 	STSAudience string
 	Client      *http.Client
-<<<<<<< HEAD
 	Logger      *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewTokenProvider returns a [cloud.google.com/go/auth.TokenProvider] from a
@@ -78,11 +65,7 @@ func NewTokenProvider(f *credsfile.GDCHServiceAccountFile, o *Options) (auth.Tok
 	if o.STSAudience == "" {
 		return nil, errors.New("credentials: STSAudience must be set for the GDCH auth flows")
 	}
-<<<<<<< HEAD
 	signer, err := internal.ParseKey([]byte(f.PrivateKey))
-=======
-	pk, err := internal.ParseKey([]byte(f.PrivateKey))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}
@@ -95,18 +78,11 @@ func NewTokenProvider(f *credsfile.GDCHServiceAccountFile, o *Options) (auth.Tok
 		serviceIdentity: fmt.Sprintf("system:serviceaccount:%s:%s", f.Project, f.Name),
 		tokenURL:        f.TokenURL,
 		aud:             o.STSAudience,
-<<<<<<< HEAD
 		signer:          signer,
 		pkID:            f.PrivateKeyID,
 		certPool:        certPool,
 		client:          o.Client,
 		logger:          internallog.New(o.Logger),
-=======
-		pk:              pk,
-		pkID:            f.PrivateKeyID,
-		certPool:        certPool,
-		client:          o.Client,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return tp, nil
 }
@@ -125,19 +101,12 @@ type gdchProvider struct {
 	serviceIdentity string
 	tokenURL        string
 	aud             string
-<<<<<<< HEAD
 	signer          crypto.Signer
-=======
-	pk              *rsa.PrivateKey
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	pkID            string
 	certPool        *x509.CertPool
 
 	client *http.Client
-<<<<<<< HEAD
 	logger *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (g gdchProvider) Token(ctx context.Context) (*auth.Token, error) {
@@ -156,11 +125,7 @@ func (g gdchProvider) Token(ctx context.Context) (*auth.Token, error) {
 		Type:      jwt.HeaderType,
 		KeyID:     string(g.pkID),
 	}
-<<<<<<< HEAD
 	payload, err := jwt.EncodeJWS(&h, &claims, g.signer)
-=======
-	payload, err := jwt.EncodeJWS(&h, &claims, g.pk)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}
@@ -176,18 +141,12 @@ func (g gdchProvider) Token(ctx context.Context) (*auth.Token, error) {
 		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-<<<<<<< HEAD
 	g.logger.DebugContext(ctx, "gdch token request", "request", internallog.HTTPRequest(req, []byte(v.Encode())))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(g.client, req)
 	if err != nil {
 		return nil, fmt.Errorf("credentials: cannot fetch token: %w", err)
 	}
-<<<<<<< HEAD
 	g.logger.DebugContext(ctx, "gdch token response", "response", internallog.HTTPResponse(resp, body))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if c := resp.StatusCode; c < http.StatusOK || c > http.StatusMultipleChoices {
 		return nil, &auth.Error{
 			Response: resp,

@@ -3,8 +3,4 @@
 package sts
 
 // goModuleVersion is the tagged release for this module
-<<<<<<< HEAD
 const goModuleVersion = "1.33.10"
-=======
-const goModuleVersion = "1.32.4"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

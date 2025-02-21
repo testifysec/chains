@@ -12,10 +12,7 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp/internal/request"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp/internal/semconv"
 	"go.opentelemetry.io/otel"
-<<<<<<< HEAD
 	"go.opentelemetry.io/otel/attribute"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/trace"
 )
@@ -25,7 +22,6 @@ type middleware struct {
 	operation string
 	server    string
 
-<<<<<<< HEAD
 	tracer             trace.Tracer
 	propagators        propagation.TextMapPropagator
 	spanStartOptions   []trace.SpanStartOption
@@ -36,17 +32,6 @@ type middleware struct {
 	publicEndpoint     bool
 	publicEndpointFn   func(*http.Request) bool
 	metricAttributesFn func(*http.Request) []attribute.KeyValue
-=======
-	tracer            trace.Tracer
-	propagators       propagation.TextMapPropagator
-	spanStartOptions  []trace.SpanStartOption
-	readEvent         bool
-	writeEvent        bool
-	filters           []Filter
-	spanNameFormatter func(string, *http.Request) string
-	publicEndpoint    bool
-	publicEndpointFn  func(*http.Request) bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	semconv semconv.HTTPServer
 }
@@ -96,16 +81,7 @@ func (h *middleware) configure(c *config) {
 	h.publicEndpointFn = c.PublicEndpointFn
 	h.server = c.ServerName
 	h.semconv = semconv.NewHTTPServer(c.Meter)
-<<<<<<< HEAD
 	h.metricAttributesFn = c.MetricAttributesFn
-=======
-}
-
-func handleErr(err error) {
-	if err != nil {
-		otel.Handle(err)
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // serveHTTP sets up tracing and calls the given next http.Handler with the span
@@ -144,14 +120,11 @@ func (h *middleware) serveHTTP(w http.ResponseWriter, r *http.Request, next http
 		}
 	}
 
-<<<<<<< HEAD
 	if startTime := StartTimeFromContext(ctx); !startTime.IsZero() {
 		opts = append(opts, trace.WithTimestamp(startTime))
 		requestStartTime = startTime
 	}
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	ctx, span := tracer.Start(ctx, h.spanNameFormatter(h.operation, r), opts...)
 	defer span.End()
 
@@ -219,7 +192,6 @@ func (h *middleware) serveHTTP(w http.ResponseWriter, r *http.Request, next http
 	// Use floating point division here for higher precision (instead of Millisecond method).
 	elapsedTime := float64(time.Since(requestStartTime)) / float64(time.Millisecond)
 
-<<<<<<< HEAD
 	metricAttributes := semconv.MetricAttributes{
 		Req:                  r,
 		StatusCode:           statusCode,
@@ -245,19 +217,6 @@ func (h *middleware) metricAttributesFromRequest(r *http.Request) []attribute.Ke
 	return attributeForRequest
 }
 
-=======
-	h.semconv.RecordMetrics(ctx, semconv.MetricData{
-		ServerName:           h.server,
-		Req:                  r,
-		StatusCode:           statusCode,
-		AdditionalAttributes: labeler.Get(),
-		RequestSize:          bw.BytesRead(),
-		ResponseSize:         bytesWritten,
-		ElapsedTime:          elapsedTime,
-	})
-}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // WithRouteTag annotates spans and metrics with the provided route name
 // with HTTP route attribute.
 func WithRouteTag(route string, h http.Handler) http.Handler {

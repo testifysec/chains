@@ -12,11 +12,8 @@ package inspector
 import (
 	"go/ast"
 	"math"
-<<<<<<< HEAD
 
 	_ "unsafe"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const (
@@ -220,10 +217,7 @@ func typeOf(n ast.Node) uint64 {
 	return 0
 }
 
-<<<<<<< HEAD
 //go:linkname maskOf
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func maskOf(nodes []ast.Node) uint64 {
 	if nodes == nil {
 		return math.MaxUint64 // match all node types

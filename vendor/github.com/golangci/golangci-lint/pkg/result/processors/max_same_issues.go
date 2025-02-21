@@ -36,11 +36,7 @@ func (p *MaxSameIssues) Process(issues []result.Issue) ([]result.Issue, error) {
 	}
 
 	return filterIssuesUnsafe(issues, func(issue *result.Issue) bool {
-<<<<<<< HEAD
 		if issue.SuggestedFixes != nil && p.cfg.Issues.NeedFix {
-=======
-		if issue.Replacement != nil && p.cfg.Issues.NeedFix {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			// we need to fix all issues at once => we need to return all of them
 			return true
 		}

@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 // Code created by gotmpl. DO NOT MODIFY.
 // source: internal/shared/semconv/v120.0.go.tmpl
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Copyright The OpenTelemetry Authors
 // SPDX-License-Identifier: Apache-2.0
 
@@ -14,10 +11,6 @@ import (
 	"io"
 	"net/http"
 	"slices"
-<<<<<<< HEAD
-=======
-	"strings"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp/internal/semconvutil"
 	"go.opentelemetry.io/otel/attribute"
@@ -26,11 +19,7 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.20.0"
 )
 
-<<<<<<< HEAD
 type OldHTTPServer struct{}
-=======
-type oldHTTPServer struct{}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 // RequestTraceAttrs returns trace attributes for an HTTP request received by a
 // server.
@@ -48,22 +37,14 @@ type oldHTTPServer struct{}
 //
 // If the primary server name is not known, server should be an empty string.
 // The req Host will be used to determine the server instead.
-<<<<<<< HEAD
 func (o OldHTTPServer) RequestTraceAttrs(server string, req *http.Request) []attribute.KeyValue {
-=======
-func (o oldHTTPServer) RequestTraceAttrs(server string, req *http.Request) []attribute.KeyValue {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return semconvutil.HTTPServerRequest(server, req)
 }
 
 // ResponseTraceAttrs returns trace attributes for telemetry from an HTTP response.
 //
 // If any of the fields in the ResponseTelemetry are not set the attribute will be omitted.
-<<<<<<< HEAD
 func (o OldHTTPServer) ResponseTraceAttrs(resp ResponseTelemetry) []attribute.KeyValue {
-=======
-func (o oldHTTPServer) ResponseTraceAttrs(resp ResponseTelemetry) []attribute.KeyValue {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	attributes := []attribute.KeyValue{}
 
 	if resp.ReadBytes > 0 {
@@ -88,11 +69,7 @@ func (o oldHTTPServer) ResponseTraceAttrs(resp ResponseTelemetry) []attribute.Ke
 }
 
 // Route returns the attribute for the route.
-<<<<<<< HEAD
 func (o OldHTTPServer) Route(route string) attribute.KeyValue {
-=======
-func (o oldHTTPServer) Route(route string) attribute.KeyValue {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return semconv.HTTPRoute(route)
 }
 
@@ -109,11 +86,7 @@ const (
 	serverDuration     = "http.server.duration"      // Incoming end to end duration, milliseconds
 )
 
-<<<<<<< HEAD
 func (h OldHTTPServer) createMeasures(meter metric.Meter) (metric.Int64Counter, metric.Int64Counter, metric.Float64Histogram) {
-=======
-func (h oldHTTPServer) createMeasures(meter metric.Meter) (metric.Int64Counter, metric.Int64Counter, metric.Float64Histogram) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if meter == nil {
 		return noop.Int64Counter{}, noop.Int64Counter{}, noop.Float64Histogram{}
 	}
@@ -142,30 +115,17 @@ func (h oldHTTPServer) createMeasures(meter metric.Meter) (metric.Int64Counter, 
 	return requestBytesCounter, responseBytesCounter, serverLatencyMeasure
 }
 
-<<<<<<< HEAD
 func (o OldHTTPServer) MetricAttributes(server string, req *http.Request, statusCode int, additionalAttributes []attribute.KeyValue) []attribute.KeyValue {
-=======
-func (o oldHTTPServer) MetricAttributes(server string, req *http.Request, statusCode int, additionalAttributes []attribute.KeyValue) []attribute.KeyValue {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	n := len(additionalAttributes) + 3
 	var host string
 	var p int
 	if server == "" {
-<<<<<<< HEAD
 		host, p = SplitHostPort(req.Host)
 	} else {
 		// Prioritize the primary server name.
 		host, p = SplitHostPort(server)
 		if p < 0 {
 			_, p = SplitHostPort(req.Host)
-=======
-		host, p = splitHostPort(req.Host)
-	} else {
-		// Prioritize the primary server name.
-		host, p = splitHostPort(server)
-		if p < 0 {
-			_, p = splitHostPort(req.Host)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 	hostPort := requiredHTTPPort(req.TLS != nil, p)
@@ -186,11 +146,7 @@ func (o oldHTTPServer) MetricAttributes(server string, req *http.Request, status
 
 	attributes := slices.Grow(additionalAttributes, n)
 	attributes = append(attributes,
-<<<<<<< HEAD
 		semconv.HTTPMethod(standardizeHTTPMethod(req.Method)),
-=======
-		o.methodMetric(req.Method),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		o.scheme(req.TLS != nil),
 		semconv.NetHostName(host))
 
@@ -210,28 +166,13 @@ func (o oldHTTPServer) MetricAttributes(server string, req *http.Request, status
 	return attributes
 }
 
-<<<<<<< HEAD
 func (o OldHTTPServer) scheme(https bool) attribute.KeyValue { // nolint:revive
-=======
-func (o oldHTTPServer) methodMetric(method string) attribute.KeyValue {
-	method = strings.ToUpper(method)
-	switch method {
-	case http.MethodConnect, http.MethodDelete, http.MethodGet, http.MethodHead, http.MethodOptions, http.MethodPatch, http.MethodPost, http.MethodPut, http.MethodTrace:
-	default:
-		method = "_OTHER"
-	}
-	return semconv.HTTPMethod(method)
-}
-
-func (o oldHTTPServer) scheme(https bool) attribute.KeyValue { // nolint:revive
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if https {
 		return semconv.HTTPSchemeHTTPS
 	}
 	return semconv.HTTPSchemeHTTP
 }
 
-<<<<<<< HEAD
 type OldHTTPClient struct{}
 
 func (o OldHTTPClient) RequestTraceAttrs(req *http.Request) []attribute.KeyValue {
@@ -323,14 +264,3 @@ func (o OldHTTPClient) createMeasures(meter metric.Meter) (metric.Int64Counter, 
 
 	return requestBytesCounter, responseBytesCounter, latencyMeasure
 }
-=======
-type oldHTTPClient struct{}
-
-func (o oldHTTPClient) RequestTraceAttrs(req *http.Request) []attribute.KeyValue {
-	return semconvutil.HTTPClientRequest(req)
-}
-
-func (o oldHTTPClient) ResponseTraceAttrs(resp *http.Response) []attribute.KeyValue {
-	return semconvutil.HTTPClientResponse(resp)
-}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

@@ -5,11 +5,7 @@ package otelhttp // import "go.opentelemetry.io/contrib/instrumentation/net/http
 
 // Version is the current release version of the otelhttp instrumentation.
 func Version() string {
-<<<<<<< HEAD
 	return "0.59.0"
-=======
-	return "0.54.0"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// This string is updated by the pre_release.sh script during release
 }
 

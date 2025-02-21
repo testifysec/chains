@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # v1.33.10 (2025-01-24)
 
 * **Dependency Update**: Updated to the latest SDK module versions
@@ -45,8 +44,6 @@
 
 * **Feature**: This release introduces the new API 'AssumeRoot', which returns short-term credentials that you can use to perform privileged tasks.
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 # v1.32.4 (2024-11-06)
 
 * **Dependency Update**: Updated to the latest SDK module versions

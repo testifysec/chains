@@ -51,12 +51,9 @@ const (
 
 	DefaultImagePullBackOffTimeout = 0 * time.Minute
 
-<<<<<<< HEAD
 	// Default maximum resolution timeout used by the resolution controller before timing out when exceeded
 	DefaultMaximumResolutionTimeout = 1 * time.Minute
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	defaultTimeoutMinutesKey                = "default-timeout-minutes"
 	defaultServiceAccountKey                = "default-service-account"
 	defaultManagedByLabelValueKey           = "default-managed-by-label-value"
@@ -69,10 +66,7 @@ const (
 	defaultResolverTypeKey                  = "default-resolver-type"
 	defaultContainerResourceRequirementsKey = "default-container-resource-requirements"
 	defaultImagePullBackOffTimeout          = "default-imagepullbackoff-timeout"
-<<<<<<< HEAD
 	defaultMaximumResolutionTimeout         = "default-maximum-resolution-timeout"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // DefaultConfig holds all the default configurations for the config.
@@ -93,10 +87,7 @@ type Defaults struct {
 	DefaultResolverType                  string
 	DefaultContainerResourceRequirements map[string]corev1.ResourceRequirements
 	DefaultImagePullBackOffTimeout       time.Duration
-<<<<<<< HEAD
 	DefaultMaximumResolutionTimeout      time.Duration
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // GetDefaultsConfigName returns the name of the configmap containing all
@@ -128,10 +119,7 @@ func (cfg *Defaults) Equals(other *Defaults) bool {
 		other.DefaultMaxMatrixCombinationsCount == cfg.DefaultMaxMatrixCombinationsCount &&
 		other.DefaultResolverType == cfg.DefaultResolverType &&
 		other.DefaultImagePullBackOffTimeout == cfg.DefaultImagePullBackOffTimeout &&
-<<<<<<< HEAD
 		other.DefaultMaximumResolutionTimeout == cfg.DefaultMaximumResolutionTimeout &&
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		reflect.DeepEqual(other.DefaultForbiddenEnv, cfg.DefaultForbiddenEnv)
 }
 
@@ -145,20 +133,13 @@ func NewDefaultsFromMap(cfgMap map[string]string) (*Defaults, error) {
 		DefaultMaxMatrixCombinationsCount: DefaultMaxMatrixCombinationsCount,
 		DefaultResolverType:               DefaultResolverTypeValue,
 		DefaultImagePullBackOffTimeout:    DefaultImagePullBackOffTimeout,
-<<<<<<< HEAD
 		DefaultMaximumResolutionTimeout:   DefaultMaximumResolutionTimeout,
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	if defaultTimeoutMin, ok := cfgMap[defaultTimeoutMinutesKey]; ok {
 		timeout, err := strconv.ParseInt(defaultTimeoutMin, 10, 0)
 		if err != nil {
-<<<<<<< HEAD
 			return nil, fmt.Errorf("failed parsing default config %q", defaultTimeoutMinutesKey)
-=======
-			return nil, fmt.Errorf("failed parsing tracing config %q", defaultTimeoutMinutesKey)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		tc.DefaultTimeoutMinutes = int(timeout)
 	}
@@ -198,11 +179,7 @@ func NewDefaultsFromMap(cfgMap map[string]string) (*Defaults, error) {
 	if defaultMaxMatrixCombinationsCount, ok := cfgMap[defaultMaxMatrixCombinationsCountKey]; ok {
 		matrixCombinationsCount, err := strconv.ParseInt(defaultMaxMatrixCombinationsCount, 10, 0)
 		if err != nil {
-<<<<<<< HEAD
 			return nil, fmt.Errorf("failed parsing default config %q", defaultMaxMatrixCombinationsCountKey)
-=======
-			return nil, fmt.Errorf("failed parsing tracing config %q", defaultMaxMatrixCombinationsCountKey)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		tc.DefaultMaxMatrixCombinationsCount = int(matrixCombinationsCount)
 	}
@@ -230,16 +207,11 @@ func NewDefaultsFromMap(cfgMap map[string]string) (*Defaults, error) {
 	if defaultImagePullBackOff, ok := cfgMap[defaultImagePullBackOffTimeout]; ok {
 		timeout, err := time.ParseDuration(defaultImagePullBackOff)
 		if err != nil {
-<<<<<<< HEAD
 			return nil, fmt.Errorf("failed parsing default config %q", defaultImagePullBackOffTimeout)
-=======
-			return nil, fmt.Errorf("failed parsing tracing config %q", defaultImagePullBackOffTimeout)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		tc.DefaultImagePullBackOffTimeout = timeout
 	}
 
-<<<<<<< HEAD
 	if defaultMaximumResolutionTimeout, ok := cfgMap[defaultMaximumResolutionTimeout]; ok {
 		timeout, err := time.ParseDuration(defaultMaximumResolutionTimeout)
 		if err != nil {
@@ -248,8 +220,6 @@ func NewDefaultsFromMap(cfgMap map[string]string) (*Defaults, error) {
 		tc.DefaultMaximumResolutionTimeout = timeout
 	}
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return &tc, nil
 }
 

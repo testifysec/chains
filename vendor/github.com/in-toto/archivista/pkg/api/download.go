@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// Copyright 2023 The Witness Contributors
-=======
 // Copyright 2023-2024 The Witness Contributors
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,11 +26,6 @@ import (
 	"github.com/in-toto/go-witness/dsse"
 )
 
-<<<<<<< HEAD
-func Download(ctx context.Context, baseUrl string, gitoid string) (dsse.Envelope, error) {
-	buf := &bytes.Buffer{}
-	if err := DownloadWithWriter(ctx, baseUrl, gitoid, buf); err != nil {
-=======
 func DownloadReadCloser(ctx context.Context, baseURL string, gitoid string) (io.ReadCloser, error) {
 	return DownloadReadCloserWithHTTPClient(ctx, &http.Client{}, baseURL, gitoid)
 }
@@ -69,7 +60,6 @@ func DownloadReadCloserWithHTTPClient(ctx context.Context, client *http.Client, 
 func Download(ctx context.Context, baseURL string, gitoid string) (dsse.Envelope, error) {
 	buf := &bytes.Buffer{}
 	if err := DownloadWithWriter(ctx, baseURL, gitoid, buf); err != nil {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return dsse.Envelope{}, err
 	}
 
@@ -82,26 +72,17 @@ func Download(ctx context.Context, baseURL string, gitoid string) (dsse.Envelope
 	return env, nil
 }
 
-<<<<<<< HEAD
-func DownloadWithWriter(ctx context.Context, baseUrl, gitoid string, dst io.Writer) error {
-	downloadUrl, err := url.JoinPath(baseUrl, "download", gitoid)
-=======
 func DownloadWithWriter(ctx context.Context, baseURL string, gitoid string, dst io.Writer) error {
 	return DownloadWithWriterWithHTTPClient(ctx, &http.Client{}, baseURL, gitoid, dst)
 }
 
 func DownloadWithWriterWithHTTPClient(ctx context.Context, client *http.Client, baseURL string, gitoid string, dst io.Writer) error {
 	downloadUrl, err := url.JoinPath(baseURL, "download", gitoid)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return err
 	}
 
-<<<<<<< HEAD
-	req, err := http.NewRequestWithContext(ctx, "GET", downloadUrl, nil)
-=======
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, downloadUrl, nil)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return err
 	}

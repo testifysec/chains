@@ -6,11 +6,7 @@
 
 This repository holds Go code related to
 [Certificate Transparency](https://www.certificate-transparency.org/) (CT).  The
-<<<<<<< HEAD
 repository requires Go version 1.22.
-=======
-repository requires Go version 1.21.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
  - [Repository Structure](#repository-structure)
  - [Trillian CT Personality](#trillian-ct-personality)

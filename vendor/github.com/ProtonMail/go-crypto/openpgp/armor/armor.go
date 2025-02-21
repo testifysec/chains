@@ -23,11 +23,7 @@ import (
 //	Headers
 //
 //	base64-encoded Bytes
-<<<<<<< HEAD
 //	'=' base64 encoded checksum (optional) not checked anymore
-=======
-//	'=' base64 encoded checksum
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //	-----END Type-----
 //
 // where Headers is a possibly empty sequence of Key: Value lines.
@@ -44,47 +40,15 @@ type Block struct {
 
 var ArmorCorrupt error = errors.StructuralError("armor invalid")
 
-<<<<<<< HEAD
-=======
-const crc24Init = 0xb704ce
-const crc24Poly = 0x1864cfb
-const crc24Mask = 0xffffff
-
-// crc24 calculates the OpenPGP checksum as specified in RFC 4880, section 6.1
-func crc24(crc uint32, d []byte) uint32 {
-	for _, b := range d {
-		crc ^= uint32(b) << 16
-		for i := 0; i < 8; i++ {
-			crc <<= 1
-			if crc&0x1000000 != 0 {
-				crc ^= crc24Poly
-			}
-		}
-	}
-	return crc
-}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 var armorStart = []byte("-----BEGIN ")
 var armorEnd = []byte("-----END ")
 var armorEndOfLine = []byte("-----")
 
-<<<<<<< HEAD
 // lineReader wraps a line based reader. It watches for the end of an armor block
 type lineReader struct {
 	in  *bufio.Reader
 	buf []byte
 	eof bool
-=======
-// lineReader wraps a line based reader. It watches for the end of an armor
-// block and records the expected CRC value.
-type lineReader struct {
-	in     *bufio.Reader
-	buf    []byte
-	eof    bool
-	crc    uint32
-	crcSet bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (l *lineReader) Read(p []byte) (n int, err error) {
@@ -113,32 +77,9 @@ func (l *lineReader) Read(p []byte) (n int, err error) {
 
 	if len(line) == 5 && line[0] == '=' {
 		// This is the checksum line
-<<<<<<< HEAD
 		// Don't check the checksum
 
 		l.eof = true
-=======
-		var expectedBytes [3]byte
-		var m int
-		m, err = base64.StdEncoding.Decode(expectedBytes[0:], line[1:])
-		if m != 3 || err != nil {
-			return
-		}
-		l.crc = uint32(expectedBytes[0])<<16 |
-			uint32(expectedBytes[1])<<8 |
-			uint32(expectedBytes[2])
-
-		line, _, err = l.in.ReadLine()
-		if err != nil && err != io.EOF {
-			return
-		}
-		if !bytes.HasPrefix(line, armorEnd) {
-			return 0, ArmorCorrupt
-		}
-
-		l.eof = true
-		l.crcSet = true
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return 0, io.EOF
 	}
 
@@ -159,33 +100,14 @@ func (l *lineReader) Read(p []byte) (n int, err error) {
 	return
 }
 
-<<<<<<< HEAD
 // openpgpReader passes Read calls to the underlying base64 decoder.
 type openpgpReader struct {
 	lReader   *lineReader
 	b64Reader io.Reader
-=======
-// openpgpReader passes Read calls to the underlying base64 decoder, but keeps
-// a running CRC of the resulting data and checks the CRC against the value
-// found by the lineReader at EOF.
-type openpgpReader struct {
-	lReader    *lineReader
-	b64Reader  io.Reader
-	currentCRC uint32
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (r *openpgpReader) Read(p []byte) (n int, err error) {
 	n, err = r.b64Reader.Read(p)
-<<<<<<< HEAD
-=======
-	r.currentCRC = crc24(r.currentCRC, p[:n])
-
-	if err == io.EOF && r.lReader.crcSet && r.lReader.crc != uint32(r.currentCRC&crc24Mask) {
-		return 0, ArmorCorrupt
-	}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return
 }
 
@@ -253,10 +175,6 @@ TryNextBlock:
 	}
 
 	p.lReader.in = r
-<<<<<<< HEAD
-=======
-	p.oReader.currentCRC = crc24Init
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	p.oReader.lReader = &p.lReader
 	p.oReader.b64Reader = base64.NewDecoder(base64.StdEncoding, &p.lReader)
 	p.Body = &p.oReader

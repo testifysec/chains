@@ -60,11 +60,7 @@ func NewInlineVariable(name string, definition *Ast) *InlineVariable {
 // If the variable occurs more than once, the provided alias will be used to replace the expressions
 // where the variable name occurs.
 func NewInlineVariableWithAlias(name, alias string, definition *Ast) *InlineVariable {
-<<<<<<< HEAD
 	return &InlineVariable{name: name, alias: alias, def: definition.NativeRep()}
-=======
-	return &InlineVariable{name: name, alias: alias, def: definition.impl}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewInliningOptimizer creates and optimizer which replaces variables with expression definitions.

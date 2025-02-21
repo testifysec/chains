@@ -1,7 +1,6 @@
 package config
 
 import (
-<<<<<<< HEAD
 	"cmp"
 	"fmt"
 	"os"
@@ -12,13 +11,6 @@ import (
 	hcversion "github.com/hashicorp/go-version"
 	"github.com/ldez/grignotin/gomod"
 	"golang.org/x/mod/modfile"
-=======
-	"os"
-	"strings"
-
-	hcversion "github.com/hashicorp/go-version"
-	"github.com/ldez/gomoddirectives"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // Config encapsulates the config data specified in the golangci-lint YAML config file.
@@ -93,16 +85,7 @@ func detectGoVersion() string {
 		return goVersion
 	}
 
-<<<<<<< HEAD
 	return cmp.Or(os.Getenv("GOVERSION"), "1.17")
-=======
-	v := os.Getenv("GOVERSION")
-	if v != "" {
-		return v
-	}
-
-	return "1.17"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // detectGoVersionFromGoMod tries to get Go version from go.mod.
@@ -110,7 +93,6 @@ func detectGoVersion() string {
 // else it returns `go` version if present,
 // else it returns empty.
 func detectGoVersionFromGoMod() string {
-<<<<<<< HEAD
 	modPath, err := gomod.GetGoModPath()
 	if err != nil {
 		modPath = detectGoModFallback()
@@ -121,10 +103,6 @@ func detectGoVersionFromGoMod() string {
 
 	file, err := parseGoMod(modPath)
 	if err != nil {
-=======
-	file, _ := gomoddirectives.GetModuleFile()
-	if file == nil {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return ""
 	}
 
@@ -140,7 +118,6 @@ func detectGoVersionFromGoMod() string {
 
 	return ""
 }
-<<<<<<< HEAD
 
 func parseGoMod(goMod string) (*modfile.File, error) {
 	raw, err := os.ReadFile(filepath.Clean(goMod))
@@ -179,5 +156,3 @@ func detectGoModFallback() string {
 
 	return goMod.GoMod
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Release (2025-01-21)
 
 ## General Highlights
@@ -18,8 +17,6 @@
 * `github.com/aws/smithy-go`: v1.22.1
   * **Bug Fix**: Fix failure to replace URI path segments when their names overlap.
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 # Release (2024-10-03)
 
 ## General Highlights

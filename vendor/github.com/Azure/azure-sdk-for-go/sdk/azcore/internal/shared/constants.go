@@ -40,9 +40,5 @@ const (
 	Module = "azcore"
 
 	// Version is the semantic version (see http://semver.org) of this module.
-<<<<<<< HEAD
 	Version = "v1.17.0"
-=======
-	Version = "v1.16.0"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )

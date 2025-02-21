@@ -20,19 +20,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-<<<<<<< HEAD
 	"log/slog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"time"
 
 	"cloud.google.com/go/auth"
 	"cloud.google.com/go/auth/internal"
-<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const (
@@ -82,14 +76,11 @@ type Options struct {
 	// Client configures the underlying client used to make network requests
 	// when fetching tokens. Required.
 	Client *http.Client
-<<<<<<< HEAD
 	// Logger is used for debug logging. If provided, logging will be enabled
 	// at the loggers configured level. By default logging is disabled unless
 	// enabled by setting GOOGLE_SDK_GO_LOGGING_LEVEL in which case a default
 	// logger will be used. Optional.
 	Logger *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (o *Options) validate() error {
@@ -104,10 +95,7 @@ func (o *Options) validate() error {
 
 // Token performs the exchange to get a temporary service account token to allow access to GCP.
 func (o *Options) Token(ctx context.Context) (*auth.Token, error) {
-<<<<<<< HEAD
 	logger := internallog.New(o.Logger)
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	lifetime := defaultTokenLifetime
 	if o.TokenLifetimeSeconds != 0 {
 		lifetime = fmt.Sprintf("%ds", o.TokenLifetimeSeconds)
@@ -129,18 +117,12 @@ func (o *Options) Token(ctx context.Context) (*auth.Token, error) {
 	if err := setAuthHeader(ctx, o.Tp, req); err != nil {
 		return nil, err
 	}
-<<<<<<< HEAD
 	logger.DebugContext(ctx, "impersonated token request", "request", internallog.HTTPRequest(req, b))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(o.Client, req)
 	if err != nil {
 		return nil, fmt.Errorf("credentials: unable to generate access token: %w", err)
 	}
-<<<<<<< HEAD
 	logger.DebugContext(ctx, "impersonated token response", "response", internallog.HTTPResponse(resp, body))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if c := resp.StatusCode; c < http.StatusOK || c >= http.StatusMultipleChoices {
 		return nil, fmt.Errorf("credentials: status code %d: %s", c, body)
 	}

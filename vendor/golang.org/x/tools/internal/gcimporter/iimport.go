@@ -5,11 +5,6 @@
 // Indexed package import.
 // See iexport.go for the export data format.
 
-<<<<<<< HEAD
-=======
-// This file is a copy of $GOROOT/src/go/internal/gcimporter/iimport.go.
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 package gcimporter
 
 import (
@@ -1114,12 +1109,9 @@ func (r *importReader) byte() byte {
 	}
 	return x
 }
-<<<<<<< HEAD
 
 type byPath []*types.Package
 
 func (a byPath) Len() int           { return len(a) }
 func (a byPath) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a byPath) Less(i, j int) bool { return a[i].Path() < a[j].Path() }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

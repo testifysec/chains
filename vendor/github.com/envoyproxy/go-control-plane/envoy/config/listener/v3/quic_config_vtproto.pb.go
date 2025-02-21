@@ -51,7 +51,6 @@ func (m *QuicProtocolOptions) MarshalToSizedBufferVTStrict(dAtA []byte) (int, er
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-<<<<<<< HEAD
 	if m.RejectNewConnections {
 		i--
 		if m.RejectNewConnections {
@@ -86,8 +85,6 @@ func (m *QuicProtocolOptions) MarshalToSizedBufferVTStrict(dAtA []byte) (int, er
 			dAtA[i] = 0x62
 		}
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if m.ConnectionDebugVisitorConfig != nil {
 		if vtmsg, ok := interface{}(m.ConnectionDebugVisitorConfig).(interface {
 			MarshalToSizedBufferVTStrict([]byte) (int, error)
@@ -377,7 +374,6 @@ func (m *QuicProtocolOptions) SizeVT() (n int) {
 		}
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-<<<<<<< HEAD
 	if len(m.SaveCmsgConfig) > 0 {
 		for _, e := range m.SaveCmsgConfig {
 			if size, ok := interface{}(e).(interface {
@@ -393,8 +389,6 @@ func (m *QuicProtocolOptions) SizeVT() (n int) {
 	if m.RejectNewConnections {
 		n += 2
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	n += len(m.unknownFields)
 	return n
 }

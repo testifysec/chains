@@ -16,12 +16,9 @@ func newIPValue(val net.IP, p *net.IP) *ipValue {
 
 func (i *ipValue) String() string { return net.IP(*i).String() }
 func (i *ipValue) Set(s string) error {
-<<<<<<< HEAD
 	if s == "" {
 		return nil
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	ip := net.ParseIP(strings.TrimSpace(s))
 	if ip == nil {
 		return fmt.Errorf("failed to parse IP: %q", s)

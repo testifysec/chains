@@ -1,6 +1,5 @@
 # Release History
 
-<<<<<<< HEAD
 ## 1.17.0 (2025-01-07)
 
 ### Features Added
@@ -8,8 +7,6 @@
 * Added field `OperationLocationResultPath` to `runtime.NewPollerOptions[T]` for LROs that use the `Operation-Location` pattern.
 * Support `encoding.TextMarshaler` and `encoding.TextUnmarshaler` interfaces in `arm.ResourceID`.
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## 1.16.0 (2024-10-17)
 
 ### Features Added

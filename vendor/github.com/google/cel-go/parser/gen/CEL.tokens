@@ -34,10 +34,7 @@ NUM_UINT=33
 STRING=34
 BYTES=35
 IDENTIFIER=36
-<<<<<<< HEAD
 ESC_IDENTIFIER=37
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 '=='=1
 '!='=2
 'in'=3

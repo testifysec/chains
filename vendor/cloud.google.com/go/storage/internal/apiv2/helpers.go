@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 // Copyright 2025 Google LLC
-=======
-// Copyright 2024 Google LLC
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +18,6 @@ package storage
 
 import (
 	"context"
-<<<<<<< HEAD
 	"log/slog"
 
 	"github.com/googleapis/gax-go/v2/internallog/grpclog"
@@ -33,12 +28,6 @@ import (
 
 const serviceName = "storage.googleapis.com"
 
-=======
-
-	"google.golang.org/api/option"
-)
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // For more information on implementing a client constructor hook, see
 // https://github.com/googleapis/google-cloud-go/wiki/Customizing-constructors.
 type clientHookParams struct{}
@@ -63,7 +52,6 @@ func DefaultAuthScopes() []string {
 		"https://www.googleapis.com/auth/devstorage.read_write",
 	}
 }
-<<<<<<< HEAD
 
 func executeRPC[I proto.Message, O proto.Message](ctx context.Context, fn func(context.Context, I, ...grpc.CallOption) (O, error), req I, opts []grpc.CallOption, logger *slog.Logger, rpc string) (O, error) {
 	var zero O
@@ -75,5 +63,3 @@ func executeRPC[I proto.Message, O proto.Message](ctx context.Context, fn func(c
 	logger.DebugContext(ctx, "api response", "serviceName", serviceName, "rpcName", rpc, "response", grpclog.ProtoMessageResponse(resp))
 	return resp, err
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

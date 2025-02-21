@@ -61,11 +61,7 @@ func (f *fetcher) fetchReferrers(ctx context.Context, filter map[string]string, 
 	}
 	defer resp.Body.Close()
 
-<<<<<<< HEAD
 	if err := transport.CheckError(resp, http.StatusOK, http.StatusNotFound, http.StatusBadRequest, http.StatusNotAcceptable); err != nil {
-=======
-	if err := transport.CheckError(resp, http.StatusOK, http.StatusNotFound, http.StatusBadRequest); err != nil {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return nil, err
 	}
 

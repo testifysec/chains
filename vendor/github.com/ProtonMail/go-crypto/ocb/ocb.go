@@ -18,14 +18,9 @@ import (
 	"crypto/cipher"
 	"crypto/subtle"
 	"errors"
-<<<<<<< HEAD
 	"math/bits"
 
 	"github.com/ProtonMail/go-crypto/internal/byteutil"
-=======
-	"github.com/ProtonMail/go-crypto/internal/byteutil"
-	"math/bits"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 type ocb struct {
@@ -114,15 +109,10 @@ func (o *ocb) Seal(dst, nonce, plaintext, adata []byte) []byte {
 	if len(nonce) > o.nonceSize {
 		panic("crypto/ocb: Incorrect nonce length given to OCB")
 	}
-<<<<<<< HEAD
 	sep := len(plaintext)
 	ret, out := byteutil.SliceForAppend(dst, sep+o.tagSize)
 	tag := o.crypt(enc, out[:sep], nonce, adata, plaintext)
 	copy(out[sep:], tag)
-=======
-	ret, out := byteutil.SliceForAppend(dst, len(plaintext)+o.tagSize)
-	o.crypt(enc, out, nonce, adata, plaintext)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return ret
 }
 
@@ -134,19 +124,10 @@ func (o *ocb) Open(dst, nonce, ciphertext, adata []byte) ([]byte, error) {
 		return nil, ocbError("Ciphertext shorter than tag length")
 	}
 	sep := len(ciphertext) - o.tagSize
-<<<<<<< HEAD
 	ret, out := byteutil.SliceForAppend(dst, sep)
 	ciphertextData := ciphertext[:sep]
 	tag := o.crypt(dec, out, nonce, adata, ciphertextData)
 	if subtle.ConstantTimeCompare(tag, ciphertext[sep:]) == 1 {
-=======
-	ret, out := byteutil.SliceForAppend(dst, len(ciphertext))
-	ciphertextData := ciphertext[:sep]
-	tag := ciphertext[sep:]
-	o.crypt(dec, out, nonce, adata, ciphertextData)
-	if subtle.ConstantTimeCompare(ret[sep:], tag) == 1 {
-		ret = ret[:sep]
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return ret, nil
 	}
 	for i := range out {
@@ -156,12 +137,8 @@ func (o *ocb) Open(dst, nonce, ciphertext, adata []byte) ([]byte, error) {
 }
 
 // On instruction enc (resp. dec), crypt is the encrypt (resp. decrypt)
-<<<<<<< HEAD
 // function. It writes the resulting plain/ciphertext into Y and returns
 // the tag.
-=======
-// function. It returns the resulting plain/ciphertext with the tag appended.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (o *ocb) crypt(instruction int, Y, nonce, adata, X []byte) []byte {
 	//
 	// Consider X as a sequence of 128-bit blocks
@@ -178,11 +155,7 @@ func (o *ocb) crypt(instruction int, Y, nonce, adata, X []byte) []byte {
 	truncatedNonce := make([]byte, len(nonce))
 	copy(truncatedNonce, nonce)
 	truncatedNonce[len(truncatedNonce)-1] &= 192
-<<<<<<< HEAD
 	var Ktop []byte
-=======
-	Ktop := make([]byte, blockSize)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if bytes.Equal(truncatedNonce, o.reusableKtop.noncePrefix) {
 		Ktop = o.reusableKtop.Ktop
 	} else {
@@ -222,7 +195,6 @@ func (o *ocb) crypt(instruction int, Y, nonce, adata, X []byte) []byte {
 		byteutil.XorBytesMut(offset, o.mask.L[bits.TrailingZeros(uint(i+1))])
 		blockX := X[i*blockSize : (i+1)*blockSize]
 		blockY := Y[i*blockSize : (i+1)*blockSize]
-<<<<<<< HEAD
 		switch instruction {
 		case enc:
 			byteutil.XorBytesMut(checksum, blockX)
@@ -231,15 +203,6 @@ func (o *ocb) crypt(instruction int, Y, nonce, adata, X []byte) []byte {
 			byteutil.XorBytesMut(blockY, offset)
 		case dec:
 			byteutil.XorBytes(blockY, blockX, offset)
-=======
-		byteutil.XorBytes(blockY, blockX, offset)
-		switch instruction {
-		case enc:
-			o.block.Encrypt(blockY, blockY)
-			byteutil.XorBytesMut(blockY, offset)
-			byteutil.XorBytesMut(checksum, blockX)
-		case dec:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			o.block.Decrypt(blockY, blockY)
 			byteutil.XorBytesMut(blockY, offset)
 			byteutil.XorBytesMut(checksum, blockY)
@@ -255,7 +218,6 @@ func (o *ocb) crypt(instruction int, Y, nonce, adata, X []byte) []byte {
 		o.block.Encrypt(pad, offset)
 		chunkX := X[blockSize*m:]
 		chunkY := Y[blockSize*m : len(X)]
-<<<<<<< HEAD
 		switch instruction {
 		case enc:
 			byteutil.XorBytesMut(checksum, chunkX)
@@ -274,33 +236,6 @@ func (o *ocb) crypt(instruction int, Y, nonce, adata, X []byte) []byte {
 	o.block.Encrypt(tag, tag)
 	byteutil.XorBytesMut(tag, o.hash(adata))
 	return tag[:o.tagSize]
-=======
-		byteutil.XorBytes(chunkY, chunkX, pad[:len(chunkX)])
-		// P_* || bit(1) || zeroes(127) - len(P_*)
-		switch instruction {
-		case enc:
-			paddedY := append(chunkX, byte(128))
-			paddedY = append(paddedY, make([]byte, blockSize-len(chunkX)-1)...)
-			byteutil.XorBytesMut(checksum, paddedY)
-		case dec:
-			paddedX := append(chunkY, byte(128))
-			paddedX = append(paddedX, make([]byte, blockSize-len(chunkY)-1)...)
-			byteutil.XorBytesMut(checksum, paddedX)
-		}
-		byteutil.XorBytes(tag, checksum, offset)
-		byteutil.XorBytesMut(tag, o.mask.lDol)
-		o.block.Encrypt(tag, tag)
-		byteutil.XorBytesMut(tag, o.hash(adata))
-		copy(Y[blockSize*m+len(chunkY):], tag[:o.tagSize])
-	} else {
-		byteutil.XorBytes(tag, checksum, offset)
-		byteutil.XorBytesMut(tag, o.mask.lDol)
-		o.block.Encrypt(tag, tag)
-		byteutil.XorBytesMut(tag, o.hash(adata))
-		copy(Y[blockSize*m:], tag[:o.tagSize])
-	}
-	return Y
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // This hash function is used to compute the tag. Per design, on empty input it

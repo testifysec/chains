@@ -18,18 +18,11 @@ import (
 	"strings"
 	"time"
 
-<<<<<<< HEAD
 	"github.com/google/uuid"
 
 	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/errors"
 	customJSON "github.com/AzureAD/microsoft-authentication-library-for-go/apps/internal/json"
 	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/internal/version"
-=======
-	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/errors"
-	customJSON "github.com/AzureAD/microsoft-authentication-library-for-go/apps/internal/json"
-	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/internal/version"
-	"github.com/google/uuid"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // HTTPClient represents an HTTP client.
@@ -78,7 +71,6 @@ func (c *Client) JSONCall(ctx context.Context, endpoint string, headers http.Hea
 		unmarshal = customJSON.Unmarshal
 	}
 
-<<<<<<< HEAD
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("%s?%s", endpoint, qv.Encode()), nil)
 	if err != nil {
 		return fmt.Errorf("could not create request: %w", err)
@@ -86,17 +78,6 @@ func (c *Client) JSONCall(ctx context.Context, endpoint string, headers http.Hea
 
 	addStdHeaders(headers)
 	req.Header = headers
-=======
-	u, err := url.Parse(endpoint)
-	if err != nil {
-		return fmt.Errorf("could not parse path URL(%s): %w", endpoint, err)
-	}
-	u.RawQuery = qv.Encode()
-
-	addStdHeaders(headers)
-
-	req := &http.Request{Method: http.MethodGet, URL: u, Header: headers}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if body != nil {
 		// Note: In case your wondering why we are not gzip encoding....

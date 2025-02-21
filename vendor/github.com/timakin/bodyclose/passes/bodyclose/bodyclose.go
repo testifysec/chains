@@ -23,11 +23,7 @@ var Analyzer = &analysis.Analyzer{
 }
 
 const (
-<<<<<<< HEAD
 	Doc = "checks whether HTTP response body is closed successfully"
-=======
-	Doc = "bodyclose checks whether HTTP response body is closed successfully"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	nethttpPath = "net/http"
 	closeMethod = "Close"
@@ -118,7 +114,6 @@ func (r *runner) isopen(b *ssa.BasicBlock, i int) bool {
 	if len(*call.Referrers()) == 0 {
 		return true
 	}
-<<<<<<< HEAD
 
 	if instr, ok := b.Instrs[i].(*ssa.Call); ok {
 		//  httptest.ResponseRecorder is not needed closing the response body because no-op.
@@ -131,8 +126,6 @@ func (r *runner) isopen(b *ssa.BasicBlock, i int) bool {
 		}
 	}
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	cRefs := *call.Referrers()
 	for _, cRef := range cRefs {
 		val, ok := r.getResVal(cRef)
@@ -168,7 +161,6 @@ func (r *runner) isopen(b *ssa.BasicBlock, i int) bool {
 						return r.calledInFunc(f, called)
 					}
 
-<<<<<<< HEAD
 					// Case when calling Close() from struct field or method
 					if s, ok := aref.(*ssa.Store); ok {
 						if f, ok := s.Addr.(*ssa.FieldAddr); ok {
@@ -185,8 +177,6 @@ func (r *runner) isopen(b *ssa.BasicBlock, i int) bool {
 							}
 						}
 					}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				}
 			case *ssa.Call, *ssa.Defer: // Indirect function call
 				// Hacky way to extract CommonCall
@@ -233,7 +223,6 @@ func (r *runner) isopen(b *ssa.BasicBlock, i int) bool {
 						}
 					}
 				}
-<<<<<<< HEAD
 			case *ssa.Phi: // Called in the higher-level block
 				if resRef.Referrers() == nil {
 					return true
@@ -262,8 +251,6 @@ func (r *runner) isopen(b *ssa.BasicBlock, i int) bool {
 						}
 					}
 				}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 		}
 	}
@@ -276,13 +263,9 @@ func (r *runner) getReqCall(instr ssa.Instruction) (*ssa.Call, bool) {
 	if !ok {
 		return nil, false
 	}
-<<<<<<< HEAD
 	callType := call.Type().String()
 	if !strings.Contains(callType, r.resTyp.String()) ||
 		strings.Contains(callType, "net/http.ResponseController") {
-=======
-	if !strings.Contains(call.Type().String(), r.resTyp.String()) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return nil, false
 	}
 	return call, true

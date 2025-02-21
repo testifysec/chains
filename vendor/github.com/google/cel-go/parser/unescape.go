@@ -15,11 +15,7 @@
 package parser
 
 import (
-<<<<<<< HEAD
 	"errors"
-=======
-	"fmt"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 	"unicode/utf8"
 )
@@ -34,11 +30,7 @@ func unescape(value string, isBytes bool) (string, error) {
 
 	// Nothing to unescape / decode.
 	if n < 2 {
-<<<<<<< HEAD
 		return value, errors.New("unable to unescape string")
-=======
-		return value, fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Raw string preceded by the 'r|R' prefix.
@@ -51,11 +43,7 @@ func unescape(value string, isBytes bool) (string, error) {
 
 	// Quoted string of some form, must have same first and last char.
 	if value[0] != value[n-1] || (value[0] != '"' && value[0] != '\'') {
-<<<<<<< HEAD
 		return value, errors.New("unable to unescape string")
-=======
-		return value, fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Normalize the multi-line CEL string representation to a standard
@@ -63,20 +51,12 @@ func unescape(value string, isBytes bool) (string, error) {
 	if n >= 6 {
 		if strings.HasPrefix(value, "'''") {
 			if !strings.HasSuffix(value, "'''") {
-<<<<<<< HEAD
 				return value, errors.New("unable to unescape string")
-=======
-				return value, fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 			value = "\"" + value[3:n-3] + "\""
 		} else if strings.HasPrefix(value, `"""`) {
 			if !strings.HasSuffix(value, `"""`) {
-<<<<<<< HEAD
 				return value, errors.New("unable to unescape string")
-=======
-				return value, fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 			value = "\"" + value[3:n-3] + "\""
 		}
@@ -110,17 +90,10 @@ func unescape(value string, isBytes bool) (string, error) {
 
 // unescapeChar takes a string input and returns the following info:
 //
-<<<<<<< HEAD
 //	value - the escaped unicode rune at the front of the string.
 //	encode - the value should be unicode-encoded
 //	tail - the remainder of the input string.
 //	err - error value, if the character could not be unescaped.
-=======
-//   value - the escaped unicode rune at the front of the string.
-//   encode - the value should be unicode-encoded
-//   tail - the remainder of the input string.
-//   err - error value, if the character could not be unescaped.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 // When encode is true the return value may still fit within a single byte,
 // but unicode encoding is attempted which is more expensive than when the
@@ -140,11 +113,7 @@ func unescapeChar(s string, isBytes bool) (value rune, encode bool, tail string,
 
 	// 2. Last character is the start of an escape sequence.
 	if len(s) <= 1 {
-<<<<<<< HEAD
 		err = errors.New("unable to unescape string, found '\\' as last character")
-=======
-		err = fmt.Errorf("unable to unescape string, found '\\' as last character")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return
 	}
 
@@ -188,53 +157,32 @@ func unescapeChar(s string, isBytes bool) (value rune, encode bool, tail string,
 		case 'u':
 			n = 4
 			if isBytes {
-<<<<<<< HEAD
 				err = errors.New("unable to unescape string")
-=======
-				err = fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				return
 			}
 		case 'U':
 			n = 8
 			if isBytes {
-<<<<<<< HEAD
 				err = errors.New("unable to unescape string")
-=======
-				err = fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				return
 			}
 		}
 		var v rune
 		if len(s) < n {
-<<<<<<< HEAD
 			err = errors.New("unable to unescape string")
-=======
-			err = fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return
 		}
 		for j := 0; j < n; j++ {
 			x, ok := unhex(s[j])
 			if !ok {
-<<<<<<< HEAD
 				err = errors.New("unable to unescape string")
-=======
-				err = fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				return
 			}
 			v = v<<4 | x
 		}
 		s = s[n:]
-<<<<<<< HEAD
 		if !isBytes && !utf8.ValidRune(v) {
 			err = errors.New("invalid unicode code point")
-=======
-		if !isBytes && v > utf8.MaxRune {
-			err = fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return
 		}
 		value = v
@@ -242,33 +190,20 @@ func unescapeChar(s string, isBytes bool) (value rune, encode bool, tail string,
 	// 5. Octal escape sequences, must be three digits \[0-3][0-7][0-7]
 	case '0', '1', '2', '3':
 		if len(s) < 2 {
-<<<<<<< HEAD
 			err = errors.New("unable to unescape octal sequence in string")
-=======
-			err = fmt.Errorf("unable to unescape octal sequence in string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return
 		}
 		v := rune(c - '0')
 		for j := 0; j < 2; j++ {
 			x := s[j]
 			if x < '0' || x > '7' {
-<<<<<<< HEAD
 				err = errors.New("unable to unescape octal sequence in string")
-=======
-				err = fmt.Errorf("unable to unescape octal sequence in string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				return
 			}
 			v = v*8 + rune(x-'0')
 		}
-<<<<<<< HEAD
 		if !isBytes && !utf8.ValidRune(v) {
 			err = errors.New("invalid unicode code point")
-=======
-		if !isBytes && v > utf8.MaxRune {
-			err = fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return
 		}
 		value = v
@@ -277,11 +212,7 @@ func unescapeChar(s string, isBytes bool) (value rune, encode bool, tail string,
 
 		// Unknown escape sequence.
 	default:
-<<<<<<< HEAD
 		err = errors.New("unable to unescape string")
-=======
-		err = fmt.Errorf("unable to unescape string")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	tail = s

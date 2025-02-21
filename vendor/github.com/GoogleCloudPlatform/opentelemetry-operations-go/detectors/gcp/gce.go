@@ -15,7 +15,6 @@
 package gcp
 
 import (
-<<<<<<< HEAD
 	"context"
 	"fmt"
 	"regexp"
@@ -33,78 +32,42 @@ const createdByInstanceAttr = "created-by"
 
 func (d *Detector) onGCE() bool {
 	_, err := d.metadata.GetWithContext(context.TODO(), machineTypeMetadataAttr)
-=======
-	"fmt"
-	"strings"
-)
-
-// See the available GCE instance metadata:
-// https://cloud.google.com/compute/docs/metadata/default-metadata-values#vm_instance_metadata
-const machineTypeMetadataAttr = "instance/machine-type"
-
-func (d *Detector) onGCE() bool {
-	_, err := d.metadata.Get(machineTypeMetadataAttr)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return err == nil
 }
 
 // GCEHostType returns the machine type of the instance on which this program is running.
 func (d *Detector) GCEHostType() (string, error) {
-<<<<<<< HEAD
 	return d.metadata.GetWithContext(context.TODO(), machineTypeMetadataAttr)
-=======
-	return d.metadata.Get(machineTypeMetadataAttr)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // GCEHostID returns the instance ID of the instance on which this program is running.
 func (d *Detector) GCEHostID() (string, error) {
-<<<<<<< HEAD
 	return d.instanceID()
-=======
-	return d.metadata.InstanceID()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // GCEHostName returns the instance name of the instance on which this program is running.
 // Recommended to use GCEInstanceName() or GCEInstanceHostname() to more accurately reflect which
 // value is returned.
 func (d *Detector) GCEHostName() (string, error) {
-<<<<<<< HEAD
 	return d.metadata.InstanceNameWithContext(context.TODO())
-=======
-	return d.metadata.InstanceName()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // GCEInstanceName returns the instance name of the instance on which this program is running.
 // This is the value visible in the Cloud Console UI, and the prefix for the default hostname
 // of the instance as defined by the default internal DNS name (see https://cloud.google.com/compute/docs/internal-dns#instance-fully-qualified-domain-names).
 func (d *Detector) GCEInstanceName() (string, error) {
-<<<<<<< HEAD
 	return d.metadata.InstanceNameWithContext(context.TODO())
-=======
-	return d.metadata.InstanceName()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // GCEInstanceHostname returns the full value of the default or custom hostname of the instance
 // on which this program is running. See https://cloud.google.com/compute/docs/instances/custom-hostname-vm.
 func (d *Detector) GCEInstanceHostname() (string, error) {
-<<<<<<< HEAD
 	return d.metadata.HostnameWithContext(context.TODO())
-=======
-	return d.metadata.Hostname()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // GCEAvailabilityZoneAndRegion returns the zone and region in which this program is running.
 func (d *Detector) GCEAvailabilityZoneAndRegion() (string, string, error) {
-<<<<<<< HEAD
 	zone, err := d.metadata.ZoneWithContext(context.TODO())
-=======
-	zone, err := d.metadata.Zone()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return "", "", err
 	}
@@ -117,7 +80,6 @@ func (d *Detector) GCEAvailabilityZoneAndRegion() (string, string, error) {
 	}
 	return zone, strings.Join(splitZone[0:2], "-"), nil
 }
-<<<<<<< HEAD
 
 type ManagedInstanceGroup struct {
 	Name     string
@@ -153,5 +115,3 @@ func (d *Detector) GCEManagedInstanceGroup() (ManagedInstanceGroup, error) {
 	}
 	return mig, nil
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

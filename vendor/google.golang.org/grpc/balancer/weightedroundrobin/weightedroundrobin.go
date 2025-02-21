@@ -56,7 +56,6 @@ func SetAddrInfo(addr resolver.Address, addrInfo AddrInfo) resolver.Address {
 	return addr
 }
 
-<<<<<<< HEAD
 // SetAddrInfoInEndpoint returns a copy of endpoint in which the Attributes
 // field is updated with addrInfo.
 func SetAddrInfoInEndpoint(endpoint resolver.Endpoint, addrInfo AddrInfo) resolver.Endpoint {
@@ -64,8 +63,6 @@ func SetAddrInfoInEndpoint(endpoint resolver.Endpoint, addrInfo AddrInfo) resolv
 	return endpoint
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // GetAddrInfo returns the AddrInfo stored in the BalancerAttributes field of
 // addr.
 func GetAddrInfo(addr resolver.Address) AddrInfo {

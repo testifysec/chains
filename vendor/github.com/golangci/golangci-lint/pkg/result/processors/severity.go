@@ -1,10 +1,7 @@
 package processors
 
 import (
-<<<<<<< HEAD
 	"cmp"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"regexp"
 
 	"github.com/golangci/golangci-lint/pkg/config"
@@ -71,14 +68,7 @@ func (p *Severity) transform(issue *result.Issue) *result.Issue {
 				return issue
 			}
 
-<<<<<<< HEAD
 			issue.Severity = cmp.Or(rule.severity, p.defaultSeverity)
-=======
-			issue.Severity = rule.severity
-			if issue.Severity == "" {
-				issue.Severity = p.defaultSeverity
-			}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 			return issue
 		}

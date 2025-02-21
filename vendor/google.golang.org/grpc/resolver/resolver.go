@@ -22,10 +22,7 @@ package resolver
 
 import (
 	"context"
-<<<<<<< HEAD
 	"errors"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"fmt"
 	"net"
 	"net/url"
@@ -241,13 +238,8 @@ type ClientConn interface {
 	// UpdateState can be omitted.
 	UpdateState(State) error
 	// ReportError notifies the ClientConn that the Resolver encountered an
-<<<<<<< HEAD
 	// error. The ClientConn then forwards this error to the load balancing
 	// policy.
-=======
-	// error.  The ClientConn will notify the load balancer and begin calling
-	// ResolveNow on the Resolver with exponential backoff.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	ReportError(error)
 	// NewAddress is called by resolver to notify ClientConn a new list
 	// of resolved addresses.
@@ -339,7 +331,6 @@ type AuthorityOverrider interface {
 	// typically in line, and must keep it unchanged.
 	OverrideAuthority(Target) string
 }
-<<<<<<< HEAD
 
 // ValidateEndpoints validates endpoints from a petiole policy's perspective.
 // Petiole policies should call this before calling into their children. See
@@ -357,5 +348,3 @@ func ValidateEndpoints(endpoints []Endpoint) error {
 	}
 	return errors.New("endpoints list contains no addresses")
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

@@ -13,11 +13,7 @@ import (
 )
 
 var config = &Config{
-<<<<<<< HEAD
 	RequiredAlias: make([][]string, 0),
-=======
-	RequiredAlias: make(map[string]string),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 var Analyzer = &analysis.Analyzer{
@@ -133,7 +129,6 @@ func findEdits(node ast.Node, uses map[*ast.Ident]types.Object, importPath, orig
 			// skip identifiers pointing to a different import statement.
 			continue
 		}
-<<<<<<< HEAD
 		pos := use.Pos()
 		end := use.End()
 		replacement := packageReplacement
@@ -147,13 +142,6 @@ func findEdits(node ast.Node, uses map[*ast.Ident]types.Object, importPath, orig
 			Pos:     pos,
 			End:     end,
 			NewText: []byte(replacement),
-=======
-
-		result = append(result, analysis.TextEdit{
-			Pos:     use.Pos(),
-			End:     use.End(),
-			NewText: []byte(packageReplacement),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		})
 	}
 

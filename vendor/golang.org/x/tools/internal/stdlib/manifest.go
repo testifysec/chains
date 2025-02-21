@@ -268,11 +268,8 @@ var PackageSymbols = map[string][]Symbol{
 		{"ErrTooLarge", Var, 0},
 		{"Fields", Func, 0},
 		{"FieldsFunc", Func, 0},
-<<<<<<< HEAD
 		{"FieldsFuncSeq", Func, 24},
 		{"FieldsSeq", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"HasPrefix", Func, 0},
 		{"HasSuffix", Func, 0},
 		{"Index", Func, 0},
@@ -285,10 +282,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"LastIndexAny", Func, 0},
 		{"LastIndexByte", Func, 5},
 		{"LastIndexFunc", Func, 0},
-<<<<<<< HEAD
 		{"Lines", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Map", Func, 0},
 		{"MinRead", Const, 0},
 		{"NewBuffer", Func, 0},
@@ -302,13 +296,9 @@ var PackageSymbols = map[string][]Symbol{
 		{"Split", Func, 0},
 		{"SplitAfter", Func, 0},
 		{"SplitAfterN", Func, 0},
-<<<<<<< HEAD
 		{"SplitAfterSeq", Func, 24},
 		{"SplitN", Func, 0},
 		{"SplitSeq", Func, 24},
-=======
-		{"SplitN", Func, 0},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Title", Func, 0},
 		{"ToLower", Func, 0},
 		{"ToLowerSpecial", Func, 0},
@@ -550,10 +540,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"NewCTR", Func, 0},
 		{"NewGCM", Func, 2},
 		{"NewGCMWithNonceSize", Func, 5},
-<<<<<<< HEAD
 		{"NewGCMWithRandomNonce", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"NewGCMWithTagSize", Func, 11},
 		{"NewOFB", Func, 0},
 		{"Stream", Type, 0},
@@ -692,7 +679,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"Unmarshal", Func, 0},
 		{"UnmarshalCompressed", Func, 15},
 	},
-<<<<<<< HEAD
 	"crypto/fips140": {
 		{"Enabled", Func, 24},
 	},
@@ -701,8 +687,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"Extract", Func, 24},
 		{"Key", Func, 24},
 	},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"crypto/hmac": {
 		{"Equal", Func, 1},
 		{"New", Func, 0},
@@ -713,7 +697,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"Size", Const, 0},
 		{"Sum", Func, 2},
 	},
-<<<<<<< HEAD
 	"crypto/mlkem": {
 		{"(*DecapsulationKey1024).Bytes", Method, 24},
 		{"(*DecapsulationKey1024).Decapsulate", Method, 24},
@@ -745,17 +728,12 @@ var PackageSymbols = map[string][]Symbol{
 	"crypto/pbkdf2": {
 		{"Key", Func, 24},
 	},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"crypto/rand": {
 		{"Int", Func, 0},
 		{"Prime", Func, 0},
 		{"Read", Func, 0},
 		{"Reader", Var, 0},
-<<<<<<< HEAD
 		{"Text", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	},
 	"crypto/rc4": {
 		{"(*Cipher).Reset", Method, 0},
@@ -834,7 +812,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"Sum224", Func, 2},
 		{"Sum256", Func, 2},
 	},
-<<<<<<< HEAD
 	"crypto/sha3": {
 		{"(*SHA3).AppendBinary", Method, 24},
 		{"(*SHA3).BlockSize", Method, 24},
@@ -868,8 +845,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"SumSHAKE128", Func, 24},
 		{"SumSHAKE256", Func, 24},
 	},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"crypto/sha512": {
 		{"BlockSize", Const, 0},
 		{"New", Func, 0},
@@ -892,10 +867,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"ConstantTimeEq", Func, 0},
 		{"ConstantTimeLessOrEq", Func, 2},
 		{"ConstantTimeSelect", Func, 0},
-<<<<<<< HEAD
 		{"WithDataIndependentTiming", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"XORBytes", Func, 20},
 	},
 	"crypto/tls": {
@@ -972,10 +944,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"ClientHelloInfo", Type, 4},
 		{"ClientHelloInfo.CipherSuites", Field, 4},
 		{"ClientHelloInfo.Conn", Field, 8},
-<<<<<<< HEAD
 		{"ClientHelloInfo.Extensions", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"ClientHelloInfo.ServerName", Field, 4},
 		{"ClientHelloInfo.SignatureSchemes", Field, 8},
 		{"ClientHelloInfo.SupportedCurves", Field, 4},
@@ -993,10 +962,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"Config.CurvePreferences", Field, 3},
 		{"Config.DynamicRecordSizingDisabled", Field, 7},
 		{"Config.EncryptedClientHelloConfigList", Field, 23},
-<<<<<<< HEAD
 		{"Config.EncryptedClientHelloKeys", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Config.EncryptedClientHelloRejectionVerify", Field, 23},
 		{"Config.GetCertificate", Field, 4},
 		{"Config.GetClientCertificate", Field, 8},
@@ -1050,13 +1016,10 @@ var PackageSymbols = map[string][]Symbol{
 		{"ECHRejectionError", Type, 23},
 		{"ECHRejectionError.RetryConfigList", Field, 23},
 		{"Ed25519", Const, 13},
-<<<<<<< HEAD
 		{"EncryptedClientHelloKey", Type, 24},
 		{"EncryptedClientHelloKey.Config", Field, 24},
 		{"EncryptedClientHelloKey.PrivateKey", Field, 24},
 		{"EncryptedClientHelloKey.SendAsRetry", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"InsecureCipherSuites", Func, 14},
 		{"Listen", Func, 0},
 		{"LoadX509KeyPair", Func, 0},
@@ -1155,10 +1118,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"VersionTLS12", Const, 2},
 		{"VersionTLS13", Const, 12},
 		{"X25519", Const, 8},
-<<<<<<< HEAD
 		{"X25519MLKEM768", Const, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"X509KeyPair", Func, 0},
 	},
 	"crypto/x509": {
@@ -1183,11 +1143,8 @@ var PackageSymbols = map[string][]Symbol{
 		{"(ConstraintViolationError).Error", Method, 0},
 		{"(HostnameError).Error", Method, 0},
 		{"(InsecureAlgorithmError).Error", Method, 6},
-<<<<<<< HEAD
 		{"(OID).AppendBinary", Method, 24},
 		{"(OID).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(OID).Equal", Method, 22},
 		{"(OID).EqualASN1OID", Method, 22},
 		{"(OID).MarshalBinary", Method, 23},
@@ -1216,13 +1173,10 @@ var PackageSymbols = map[string][]Symbol{
 		{"Certificate.Extensions", Field, 2},
 		{"Certificate.ExtraExtensions", Field, 2},
 		{"Certificate.IPAddresses", Field, 1},
-<<<<<<< HEAD
 		{"Certificate.InhibitAnyPolicy", Field, 24},
 		{"Certificate.InhibitAnyPolicyZero", Field, 24},
 		{"Certificate.InhibitPolicyMapping", Field, 24},
 		{"Certificate.InhibitPolicyMappingZero", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Certificate.IsCA", Field, 0},
 		{"Certificate.Issuer", Field, 0},
 		{"Certificate.IssuingCertificateURL", Field, 2},
@@ -1239,10 +1193,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"Certificate.PermittedURIDomains", Field, 10},
 		{"Certificate.Policies", Field, 22},
 		{"Certificate.PolicyIdentifiers", Field, 0},
-<<<<<<< HEAD
 		{"Certificate.PolicyMappings", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Certificate.PublicKey", Field, 0},
 		{"Certificate.PublicKeyAlgorithm", Field, 0},
 		{"Certificate.Raw", Field, 0},
@@ -1250,11 +1201,8 @@ var PackageSymbols = map[string][]Symbol{
 		{"Certificate.RawSubject", Field, 0},
 		{"Certificate.RawSubjectPublicKeyInfo", Field, 0},
 		{"Certificate.RawTBSCertificate", Field, 0},
-<<<<<<< HEAD
 		{"Certificate.RequireExplicitPolicy", Field, 24},
 		{"Certificate.RequireExplicitPolicyZero", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Certificate.SerialNumber", Field, 0},
 		{"Certificate.Signature", Field, 0},
 		{"Certificate.SignatureAlgorithm", Field, 0},
@@ -1346,10 +1294,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"NameConstraintsWithoutSANs", Const, 10},
 		{"NameMismatch", Const, 8},
 		{"NewCertPool", Func, 0},
-<<<<<<< HEAD
 		{"NoValidChains", Const, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"NotAuthorizedToSign", Const, 0},
 		{"OID", Type, 22},
 		{"OIDFromInts", Func, 22},
@@ -1371,12 +1316,9 @@ var PackageSymbols = map[string][]Symbol{
 		{"ParsePKCS8PrivateKey", Func, 0},
 		{"ParsePKIXPublicKey", Func, 0},
 		{"ParseRevocationList", Func, 19},
-<<<<<<< HEAD
 		{"PolicyMapping", Type, 24},
 		{"PolicyMapping.IssuerDomainPolicy", Field, 24},
 		{"PolicyMapping.SubjectDomainPolicy", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"PublicKeyAlgorithm", Type, 0},
 		{"PureEd25519", Const, 13},
 		{"RSA", Const, 0},
@@ -1423,10 +1365,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"UnknownPublicKeyAlgorithm", Const, 0},
 		{"UnknownSignatureAlgorithm", Const, 0},
 		{"VerifyOptions", Type, 0},
-<<<<<<< HEAD
 		{"VerifyOptions.CertificatePolicies", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"VerifyOptions.CurrentTime", Field, 0},
 		{"VerifyOptions.DNSName", Field, 0},
 		{"VerifyOptions.Intermediates", Field, 0},
@@ -2137,11 +2076,8 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*File).DynString", Method, 1},
 		{"(*File).DynValue", Method, 21},
 		{"(*File).DynamicSymbols", Method, 4},
-<<<<<<< HEAD
 		{"(*File).DynamicVersionNeeds", Method, 24},
 		{"(*File).DynamicVersions", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*File).ImportedLibraries", Method, 0},
 		{"(*File).ImportedSymbols", Method, 0},
 		{"(*File).Section", Method, 0},
@@ -2407,7 +2343,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"DynFlag", Type, 0},
 		{"DynFlag1", Type, 21},
 		{"DynTag", Type, 0},
-<<<<<<< HEAD
 		{"DynamicVersion", Type, 24},
 		{"DynamicVersion.Deps", Field, 24},
 		{"DynamicVersion.Flags", Field, 24},
@@ -2421,8 +2356,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"DynamicVersionNeed", Type, 24},
 		{"DynamicVersionNeed.Name", Field, 24},
 		{"DynamicVersionNeed.Needs", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"EI_ABIVERSION", Const, 0},
 		{"EI_CLASS", Const, 0},
 		{"EI_DATA", Const, 0},
@@ -3909,7 +3842,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"Symbol.Size", Field, 0},
 		{"Symbol.Value", Field, 0},
 		{"Symbol.Version", Field, 13},
-<<<<<<< HEAD
 		{"Symbol.VersionIndex", Field, 24},
 		{"Symbol.VersionScope", Field, 24},
 		{"SymbolVersionScope", Type, 24},
@@ -3923,10 +3855,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"VersionScopeLocal", Const, 24},
 		{"VersionScopeNone", Const, 24},
 		{"VersionScopeSpecific", Const, 24},
-=======
-		{"Type", Type, 0},
-		{"Version", Type, 0},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	},
 	"debug/gosym": {
 		{"(*DecodingError).Error", Method, 0},
@@ -4652,15 +4580,10 @@ var PackageSymbols = map[string][]Symbol{
 		{"FS", Type, 16},
 	},
 	"encoding": {
-<<<<<<< HEAD
 		{"BinaryAppender", Type, 24},
 		{"BinaryMarshaler", Type, 2},
 		{"BinaryUnmarshaler", Type, 2},
 		{"TextAppender", Type, 24},
-=======
-		{"BinaryMarshaler", Type, 2},
-		{"BinaryUnmarshaler", Type, 2},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"TextMarshaler", Type, 2},
 		{"TextUnmarshaler", Type, 2},
 	},
@@ -6190,24 +6113,16 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*Interface).Complete", Method, 5},
 		{"(*Interface).Embedded", Method, 5},
 		{"(*Interface).EmbeddedType", Method, 11},
-<<<<<<< HEAD
 		{"(*Interface).EmbeddedTypes", Method, 24},
 		{"(*Interface).Empty", Method, 5},
 		{"(*Interface).ExplicitMethod", Method, 5},
 		{"(*Interface).ExplicitMethods", Method, 24},
-=======
-		{"(*Interface).Empty", Method, 5},
-		{"(*Interface).ExplicitMethod", Method, 5},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Interface).IsComparable", Method, 18},
 		{"(*Interface).IsImplicit", Method, 18},
 		{"(*Interface).IsMethodSet", Method, 18},
 		{"(*Interface).MarkImplicit", Method, 18},
 		{"(*Interface).Method", Method, 5},
-<<<<<<< HEAD
 		{"(*Interface).Methods", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Interface).NumEmbeddeds", Method, 5},
 		{"(*Interface).NumExplicitMethods", Method, 5},
 		{"(*Interface).NumMethods", Method, 5},
@@ -6228,17 +6143,11 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*MethodSet).At", Method, 5},
 		{"(*MethodSet).Len", Method, 5},
 		{"(*MethodSet).Lookup", Method, 5},
-<<<<<<< HEAD
 		{"(*MethodSet).Methods", Method, 24},
 		{"(*MethodSet).String", Method, 5},
 		{"(*Named).AddMethod", Method, 5},
 		{"(*Named).Method", Method, 5},
 		{"(*Named).Methods", Method, 24},
-=======
-		{"(*MethodSet).String", Method, 5},
-		{"(*Named).AddMethod", Method, 5},
-		{"(*Named).Method", Method, 5},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Named).NumMethods", Method, 5},
 		{"(*Named).Obj", Method, 5},
 		{"(*Named).Origin", Method, 18},
@@ -6279,10 +6188,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*Pointer).String", Method, 5},
 		{"(*Pointer).Underlying", Method, 5},
 		{"(*Scope).Child", Method, 5},
-<<<<<<< HEAD
 		{"(*Scope).Children", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Scope).Contains", Method, 5},
 		{"(*Scope).End", Method, 5},
 		{"(*Scope).Innermost", Method, 5},
@@ -6318,10 +6224,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*StdSizes).Offsetsof", Method, 5},
 		{"(*StdSizes).Sizeof", Method, 5},
 		{"(*Struct).Field", Method, 5},
-<<<<<<< HEAD
 		{"(*Struct).Fields", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Struct).NumFields", Method, 5},
 		{"(*Struct).String", Method, 5},
 		{"(*Struct).Tag", Method, 5},
@@ -6333,15 +6236,10 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*Tuple).Len", Method, 5},
 		{"(*Tuple).String", Method, 5},
 		{"(*Tuple).Underlying", Method, 5},
-<<<<<<< HEAD
 		{"(*Tuple).Variables", Method, 24},
 		{"(*TypeList).At", Method, 18},
 		{"(*TypeList).Len", Method, 18},
 		{"(*TypeList).Types", Method, 24},
-=======
-		{"(*TypeList).At", Method, 18},
-		{"(*TypeList).Len", Method, 18},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*TypeName).Exported", Method, 5},
 		{"(*TypeName).Id", Method, 5},
 		{"(*TypeName).IsAlias", Method, 9},
@@ -6359,17 +6257,11 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*TypeParam).Underlying", Method, 18},
 		{"(*TypeParamList).At", Method, 18},
 		{"(*TypeParamList).Len", Method, 18},
-<<<<<<< HEAD
 		{"(*TypeParamList).TypeParams", Method, 24},
 		{"(*Union).Len", Method, 18},
 		{"(*Union).String", Method, 18},
 		{"(*Union).Term", Method, 18},
 		{"(*Union).Terms", Method, 24},
-=======
-		{"(*Union).Len", Method, 18},
-		{"(*Union).String", Method, 18},
-		{"(*Union).Term", Method, 18},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Union).Underlying", Method, 18},
 		{"(*Var).Anonymous", Method, 5},
 		{"(*Var).Embedded", Method, 11},
@@ -6640,18 +6532,12 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*Hash).WriteByte", Method, 14},
 		{"(*Hash).WriteString", Method, 14},
 		{"Bytes", Func, 19},
-<<<<<<< HEAD
 		{"Comparable", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Hash", Type, 14},
 		{"MakeSeed", Func, 14},
 		{"Seed", Type, 14},
 		{"String", Func, 19},
-<<<<<<< HEAD
 		{"WriteComparable", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	},
 	"html": {
 		{"EscapeString", Func, 0},
@@ -7338,10 +7224,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*JSONHandler).WithGroup", Method, 21},
 		{"(*Level).UnmarshalJSON", Method, 21},
 		{"(*Level).UnmarshalText", Method, 21},
-<<<<<<< HEAD
 		{"(*LevelVar).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*LevelVar).Level", Method, 21},
 		{"(*LevelVar).MarshalText", Method, 21},
 		{"(*LevelVar).Set", Method, 21},
@@ -7370,10 +7253,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"(Attr).Equal", Method, 21},
 		{"(Attr).String", Method, 21},
 		{"(Kind).String", Method, 21},
-<<<<<<< HEAD
 		{"(Level).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(Level).Level", Method, 21},
 		{"(Level).MarshalJSON", Method, 21},
 		{"(Level).MarshalText", Method, 21},
@@ -7404,10 +7284,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"Debug", Func, 21},
 		{"DebugContext", Func, 21},
 		{"Default", Func, 21},
-<<<<<<< HEAD
 		{"DiscardHandler", Var, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Duration", Func, 21},
 		{"DurationValue", Func, 21},
 		{"Error", Func, 21},
@@ -7643,10 +7520,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*Float).Acc", Method, 5},
 		{"(*Float).Add", Method, 5},
 		{"(*Float).Append", Method, 5},
-<<<<<<< HEAD
 		{"(*Float).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Float).Cmp", Method, 5},
 		{"(*Float).Copy", Method, 5},
 		{"(*Float).Float32", Method, 5},
@@ -7693,10 +7567,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*Int).And", Method, 0},
 		{"(*Int).AndNot", Method, 0},
 		{"(*Int).Append", Method, 6},
-<<<<<<< HEAD
 		{"(*Int).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Int).Binomial", Method, 0},
 		{"(*Int).Bit", Method, 0},
 		{"(*Int).BitLen", Method, 0},
@@ -7753,10 +7624,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*Int).Xor", Method, 0},
 		{"(*Rat).Abs", Method, 0},
 		{"(*Rat).Add", Method, 0},
-<<<<<<< HEAD
 		{"(*Rat).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Rat).Cmp", Method, 0},
 		{"(*Rat).Denom", Method, 0},
 		{"(*Rat).Float32", Method, 4},
@@ -7939,19 +7807,13 @@ var PackageSymbols = map[string][]Symbol{
 		{"Zipf", Type, 0},
 	},
 	"math/rand/v2": {
-<<<<<<< HEAD
 		{"(*ChaCha8).AppendBinary", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*ChaCha8).MarshalBinary", Method, 22},
 		{"(*ChaCha8).Read", Method, 23},
 		{"(*ChaCha8).Seed", Method, 22},
 		{"(*ChaCha8).Uint64", Method, 22},
 		{"(*ChaCha8).UnmarshalBinary", Method, 22},
-<<<<<<< HEAD
 		{"(*PCG).AppendBinary", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*PCG).MarshalBinary", Method, 22},
 		{"(*PCG).Seed", Method, 22},
 		{"(*PCG).Uint64", Method, 22},
@@ -8219,10 +8081,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*UnixListener).SyscallConn", Method, 10},
 		{"(Flags).String", Method, 0},
 		{"(HardwareAddr).String", Method, 0},
-<<<<<<< HEAD
 		{"(IP).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(IP).DefaultMask", Method, 0},
 		{"(IP).Equal", Method, 0},
 		{"(IP).IsGlobalUnicast", Method, 0},
@@ -8423,12 +8282,9 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*MaxBytesError).Error", Method, 19},
 		{"(*ProtocolError).Error", Method, 0},
 		{"(*ProtocolError).Is", Method, 21},
-<<<<<<< HEAD
 		{"(*Protocols).SetHTTP1", Method, 24},
 		{"(*Protocols).SetHTTP2", Method, 24},
 		{"(*Protocols).SetUnencryptedHTTP2", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Request).AddCookie", Method, 0},
 		{"(*Request).BasicAuth", Method, 4},
 		{"(*Request).Clone", Method, 13},
@@ -8488,13 +8344,10 @@ var PackageSymbols = map[string][]Symbol{
 		{"(Header).Values", Method, 14},
 		{"(Header).Write", Method, 0},
 		{"(Header).WriteSubset", Method, 0},
-<<<<<<< HEAD
 		{"(Protocols).HTTP1", Method, 24},
 		{"(Protocols).HTTP2", Method, 24},
 		{"(Protocols).String", Method, 24},
 		{"(Protocols).UnencryptedHTTP2", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"AllowQuerySemicolons", Func, 17},
 		{"CanonicalHeaderKey", Func, 0},
 		{"Client", Type, 0},
@@ -8557,7 +8410,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"FileSystem", Type, 0},
 		{"Flusher", Type, 0},
 		{"Get", Func, 0},
-<<<<<<< HEAD
 		{"HTTP2Config", Type, 24},
 		{"HTTP2Config.CountError", Field, 24},
 		{"HTTP2Config.MaxConcurrentStreams", Field, 24},
@@ -8570,8 +8422,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"HTTP2Config.PingTimeout", Field, 24},
 		{"HTTP2Config.SendPingTimeout", Field, 24},
 		{"HTTP2Config.WriteByteTimeout", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Handle", Func, 0},
 		{"HandleFunc", Func, 0},
 		{"Handler", Type, 0},
@@ -8612,10 +8462,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"PostForm", Func, 0},
 		{"ProtocolError", Type, 0},
 		{"ProtocolError.ErrorString", Field, 0},
-<<<<<<< HEAD
 		{"Protocols", Type, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"ProxyFromEnvironment", Func, 0},
 		{"ProxyURL", Func, 0},
 		{"PushOptions", Type, 8},
@@ -8685,17 +8532,11 @@ var PackageSymbols = map[string][]Symbol{
 		{"Server.ConnState", Field, 3},
 		{"Server.DisableGeneralOptionsHandler", Field, 20},
 		{"Server.ErrorLog", Field, 3},
-<<<<<<< HEAD
 		{"Server.HTTP2", Field, 24},
 		{"Server.Handler", Field, 0},
 		{"Server.IdleTimeout", Field, 8},
 		{"Server.MaxHeaderBytes", Field, 0},
 		{"Server.Protocols", Field, 24},
-=======
-		{"Server.Handler", Field, 0},
-		{"Server.IdleTimeout", Field, 8},
-		{"Server.MaxHeaderBytes", Field, 0},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Server.ReadHeaderTimeout", Field, 8},
 		{"Server.ReadTimeout", Field, 0},
 		{"Server.TLSConfig", Field, 0},
@@ -8785,20 +8626,14 @@ var PackageSymbols = map[string][]Symbol{
 		{"Transport.ExpectContinueTimeout", Field, 6},
 		{"Transport.ForceAttemptHTTP2", Field, 13},
 		{"Transport.GetProxyConnectHeader", Field, 16},
-<<<<<<< HEAD
 		{"Transport.HTTP2", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Transport.IdleConnTimeout", Field, 7},
 		{"Transport.MaxConnsPerHost", Field, 11},
 		{"Transport.MaxIdleConns", Field, 7},
 		{"Transport.MaxIdleConnsPerHost", Field, 0},
 		{"Transport.MaxResponseHeaderBytes", Field, 7},
 		{"Transport.OnProxyConnectResponse", Field, 20},
-<<<<<<< HEAD
 		{"Transport.Protocols", Field, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Transport.Proxy", Field, 0},
 		{"Transport.ProxyConnectHeader", Field, 8},
 		{"Transport.ReadBufferSize", Field, 13},
@@ -8986,11 +8821,8 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*AddrPort).UnmarshalText", Method, 18},
 		{"(*Prefix).UnmarshalBinary", Method, 18},
 		{"(*Prefix).UnmarshalText", Method, 18},
-<<<<<<< HEAD
 		{"(Addr).AppendBinary", Method, 24},
 		{"(Addr).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(Addr).AppendTo", Method, 18},
 		{"(Addr).As16", Method, 18},
 		{"(Addr).As4", Method, 18},
@@ -9021,11 +8853,8 @@ var PackageSymbols = map[string][]Symbol{
 		{"(Addr).WithZone", Method, 18},
 		{"(Addr).Zone", Method, 18},
 		{"(AddrPort).Addr", Method, 18},
-<<<<<<< HEAD
 		{"(AddrPort).AppendBinary", Method, 24},
 		{"(AddrPort).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(AddrPort).AppendTo", Method, 18},
 		{"(AddrPort).Compare", Method, 22},
 		{"(AddrPort).IsValid", Method, 18},
@@ -9034,11 +8863,8 @@ var PackageSymbols = map[string][]Symbol{
 		{"(AddrPort).Port", Method, 18},
 		{"(AddrPort).String", Method, 18},
 		{"(Prefix).Addr", Method, 18},
-<<<<<<< HEAD
 		{"(Prefix).AppendBinary", Method, 24},
 		{"(Prefix).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(Prefix).AppendTo", Method, 18},
 		{"(Prefix).Bits", Method, 18},
 		{"(Prefix).Contains", Method, 18},
@@ -9223,10 +9049,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*Error).Temporary", Method, 6},
 		{"(*Error).Timeout", Method, 6},
 		{"(*Error).Unwrap", Method, 13},
-<<<<<<< HEAD
 		{"(*URL).AppendBinary", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*URL).EscapedFragment", Method, 15},
 		{"(*URL).EscapedPath", Method, 5},
 		{"(*URL).Hostname", Method, 8},
@@ -9326,7 +9149,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*ProcessState).SysUsage", Method, 0},
 		{"(*ProcessState).SystemTime", Method, 0},
 		{"(*ProcessState).UserTime", Method, 0},
-<<<<<<< HEAD
 		{"(*Root).Close", Method, 24},
 		{"(*Root).Create", Method, 24},
 		{"(*Root).FS", Method, 24},
@@ -9338,8 +9160,6 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*Root).OpenRoot", Method, 24},
 		{"(*Root).Remove", Method, 24},
 		{"(*Root).Stat", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*SyscallError).Error", Method, 0},
 		{"(*SyscallError).Timeout", Method, 10},
 		{"(*SyscallError).Unwrap", Method, 13},
@@ -9433,11 +9253,8 @@ var PackageSymbols = map[string][]Symbol{
 		{"O_WRONLY", Const, 0},
 		{"Open", Func, 0},
 		{"OpenFile", Func, 0},
-<<<<<<< HEAD
 		{"OpenInRoot", Func, 24},
 		{"OpenRoot", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"PathError", Type, 0},
 		{"PathError.Err", Field, 0},
 		{"PathError.Op", Field, 0},
@@ -9459,10 +9276,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"Remove", Func, 0},
 		{"RemoveAll", Func, 0},
 		{"Rename", Func, 0},
-<<<<<<< HEAD
 		{"Root", Type, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"SEEK_CUR", Const, 0},
 		{"SEEK_END", Const, 0},
 		{"SEEK_SET", Const, 0},
@@ -9804,10 +9618,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"Zero", Func, 0},
 	},
 	"regexp": {
-<<<<<<< HEAD
 		{"(*Regexp).AppendText", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*Regexp).Copy", Method, 6},
 		{"(*Regexp).Expand", Method, 0},
 		{"(*Regexp).ExpandString", Method, 0},
@@ -9988,11 +9799,8 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*StackRecord).Stack", Method, 0},
 		{"(*TypeAssertionError).Error", Method, 0},
 		{"(*TypeAssertionError).RuntimeError", Method, 0},
-<<<<<<< HEAD
 		{"(Cleanup).Stop", Method, 24},
 		{"AddCleanup", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"BlockProfile", Func, 1},
 		{"BlockProfileRecord", Type, 1},
 		{"BlockProfileRecord.Count", Field, 1},
@@ -10003,10 +9811,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"Caller", Func, 0},
 		{"Callers", Func, 0},
 		{"CallersFrames", Func, 7},
-<<<<<<< HEAD
 		{"Cleanup", Type, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Compiler", Const, 0},
 		{"Error", Type, 0},
 		{"Frame", Type, 7},
@@ -10369,11 +10174,8 @@ var PackageSymbols = map[string][]Symbol{
 		{"EqualFold", Func, 0},
 		{"Fields", Func, 0},
 		{"FieldsFunc", Func, 0},
-<<<<<<< HEAD
 		{"FieldsFuncSeq", Func, 24},
 		{"FieldsSeq", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"HasPrefix", Func, 0},
 		{"HasSuffix", Func, 0},
 		{"Index", Func, 0},
@@ -10386,10 +10188,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"LastIndexAny", Func, 0},
 		{"LastIndexByte", Func, 5},
 		{"LastIndexFunc", Func, 0},
-<<<<<<< HEAD
 		{"Lines", Func, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Map", Func, 0},
 		{"NewReader", Func, 0},
 		{"NewReplacer", Func, 0},
@@ -10401,13 +10200,9 @@ var PackageSymbols = map[string][]Symbol{
 		{"Split", Func, 0},
 		{"SplitAfter", Func, 0},
 		{"SplitAfterN", Func, 0},
-<<<<<<< HEAD
 		{"SplitAfterSeq", Func, 24},
 		{"SplitN", Func, 0},
 		{"SplitSeq", Func, 24},
-=======
-		{"SplitN", Func, 0},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"Title", Func, 0},
 		{"ToLower", Func, 0},
 		{"ToLowerSpecial", Func, 0},
@@ -16823,13 +16618,9 @@ var PackageSymbols = map[string][]Symbol{
 		{"ValueOf", Func, 0},
 	},
 	"testing": {
-<<<<<<< HEAD
 		{"(*B).Chdir", Method, 24},
 		{"(*B).Cleanup", Method, 14},
 		{"(*B).Context", Method, 24},
-=======
-		{"(*B).Cleanup", Method, 14},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*B).Elapsed", Method, 20},
 		{"(*B).Error", Method, 0},
 		{"(*B).Errorf", Method, 0},
@@ -16841,10 +16632,7 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*B).Helper", Method, 9},
 		{"(*B).Log", Method, 0},
 		{"(*B).Logf", Method, 0},
-<<<<<<< HEAD
 		{"(*B).Loop", Method, 24},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*B).Name", Method, 8},
 		{"(*B).ReportAllocs", Method, 1},
 		{"(*B).ReportMetric", Method, 13},
@@ -16862,13 +16650,9 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*B).StopTimer", Method, 0},
 		{"(*B).TempDir", Method, 15},
 		{"(*F).Add", Method, 18},
-<<<<<<< HEAD
 		{"(*F).Chdir", Method, 24},
 		{"(*F).Cleanup", Method, 18},
 		{"(*F).Context", Method, 24},
-=======
-		{"(*F).Cleanup", Method, 18},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*F).Error", Method, 18},
 		{"(*F).Errorf", Method, 18},
 		{"(*F).Fail", Method, 18},
@@ -16889,13 +16673,9 @@ var PackageSymbols = map[string][]Symbol{
 		{"(*F).TempDir", Method, 18},
 		{"(*M).Run", Method, 4},
 		{"(*PB).Next", Method, 3},
-<<<<<<< HEAD
 		{"(*T).Chdir", Method, 24},
 		{"(*T).Cleanup", Method, 14},
 		{"(*T).Context", Method, 24},
-=======
-		{"(*T).Cleanup", Method, 14},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(*T).Deadline", Method, 15},
 		{"(*T).Error", Method, 0},
 		{"(*T).Errorf", Method, 0},
@@ -17386,13 +17166,9 @@ var PackageSymbols = map[string][]Symbol{
 		{"(Time).Add", Method, 0},
 		{"(Time).AddDate", Method, 0},
 		{"(Time).After", Method, 0},
-<<<<<<< HEAD
 		{"(Time).AppendBinary", Method, 24},
 		{"(Time).AppendFormat", Method, 5},
 		{"(Time).AppendText", Method, 24},
-=======
-		{"(Time).AppendFormat", Method, 5},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		{"(Time).Before", Method, 0},
 		{"(Time).Clock", Method, 0},
 		{"(Time).Compare", Method, 20},
@@ -17866,12 +17642,9 @@ var PackageSymbols = map[string][]Symbol{
 		{"String", Func, 0},
 		{"StringData", Func, 0},
 	},
-<<<<<<< HEAD
 	"weak": {
 		{"(Pointer).Value", Method, 24},
 		{"Make", Func, 24},
 		{"Pointer", Type, 24},
 	},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

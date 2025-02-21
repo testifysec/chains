@@ -458,11 +458,7 @@ func (d *Decoder) decode(name string, input interface{}, outVal reflect.Value) e
 		var err error
 		input, err = DecodeHookExec(d.config.DecodeHook, inputVal, outVal)
 		if err != nil {
-<<<<<<< HEAD
 			return fmt.Errorf("error decoding '%s': %w", name, err)
-=======
-			return fmt.Errorf("error decoding '%s': %s", name, err)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 
@@ -1127,11 +1123,8 @@ func (d *Decoder) decodeSlice(name string, data interface{}, val reflect.Value) 
 	if valSlice.IsNil() || d.config.ZeroFields {
 		// Make a new slice to hold our result, same size as the original data.
 		valSlice = reflect.MakeSlice(sliceType, dataVal.Len(), dataVal.Len())
-<<<<<<< HEAD
 	} else if valSlice.Len() > dataVal.Len() {
 		valSlice = valSlice.Slice(0, dataVal.Len())
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Accumulate any errors

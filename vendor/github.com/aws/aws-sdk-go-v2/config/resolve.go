@@ -182,7 +182,6 @@ func resolveAccountIDEndpointMode(ctx context.Context, cfg *aws.Config, configs 
 	return nil
 }
 
-<<<<<<< HEAD
 // resolveRequestChecksumCalculation extracts the RequestChecksumCalculation from the configs slice's
 // SharedConfig or EnvConfig
 func resolveRequestChecksumCalculation(ctx context.Context, cfg *aws.Config, configs configs) error {
@@ -213,8 +212,6 @@ func resolveResponseChecksumValidation(ctx context.Context, cfg *aws.Config, con
 	return nil
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // resolveDefaultRegion extracts the first instance of a default region and sets `aws.Config.Region` to the default
 // region if region had not been resolved from other sources.
 func resolveDefaultRegion(ctx context.Context, cfg *aws.Config, configs configs) error {

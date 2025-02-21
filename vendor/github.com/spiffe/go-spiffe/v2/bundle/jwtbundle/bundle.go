@@ -3,10 +3,7 @@ package jwtbundle
 import (
 	"crypto"
 	"encoding/json"
-<<<<<<< HEAD
 	"errors"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"io"
 	"os"
 	"sync"
@@ -73,11 +70,7 @@ func Parse(trustDomain spiffeid.TrustDomain, bundleBytes []byte) (*Bundle, error
 	bundle := New(trustDomain)
 	for i, key := range jwks.Keys {
 		if err := bundle.AddJWTAuthority(key.KeyID, key.Key); err != nil {
-<<<<<<< HEAD
 			return nil, jwtbundleErr.New("error adding authority %d of JWKS: %v", i, errors.Unwrap(err))
-=======
-			return nil, jwtbundleErr.New("error adding authority %d of JWKS: %v", i, errs.Unwrap(err))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 

@@ -24,11 +24,7 @@ import (
 	"github.com/sigstore/cosign/v2/internal/ui"
 	"github.com/sigstore/cosign/v2/pkg/cosign"
 	"github.com/sigstore/cosign/v2/pkg/cosign/env"
-<<<<<<< HEAD
 	gitlab "gitlab.com/gitlab-org/api/client-go"
-=======
-	"github.com/xanzy/go-gitlab"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const (

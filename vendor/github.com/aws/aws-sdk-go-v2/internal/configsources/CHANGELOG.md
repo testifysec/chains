@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # v1.3.29 (2025-01-24)
 
 * **Dependency Update**: Updated to the latest SDK module versions
@@ -25,8 +24,6 @@
 * **Dependency Update**: Update to smithy-go v1.22.1.
 * **Dependency Update**: Updated to the latest SDK module versions
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 # v1.3.23 (2024-11-06)
 
 * **Dependency Update**: Updated to the latest SDK module versions

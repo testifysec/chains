@@ -184,7 +184,6 @@ func convertGosecGlobals(globalOptionFromConfig any, conf gosec.Config) {
 	}
 
 	for k, v := range globalOptionMap {
-<<<<<<< HEAD
 		option := gosec.GlobalOption(k)
 
 		// Set nosec global option only if the value is true
@@ -194,9 +193,6 @@ func convertGosecGlobals(globalOptionFromConfig any, conf gosec.Config) {
 		}
 
 		conf.SetGlobal(option, fmt.Sprintf("%v", v))
-=======
-		conf.SetGlobal(gosec.GlobalOption(k), fmt.Sprintf("%v", v))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 

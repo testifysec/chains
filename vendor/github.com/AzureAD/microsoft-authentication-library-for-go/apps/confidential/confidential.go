@@ -18,11 +18,8 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
-<<<<<<< HEAD
 	"os"
 	"strings"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/cache"
 	"github.com/AzureAD/microsoft-authentication-library-for-go/apps/internal/base"
@@ -320,31 +317,21 @@ func New(authority, clientID string, cred Credential, options ...Option) (Client
 	if err != nil {
 		return Client{}, err
 	}
-<<<<<<< HEAD
 	autoEnabledRegion := os.Getenv("MSAL_FORCE_REGION")
-=======
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	opts := clientOptions{
 		authority: authority,
 		// if the caller specified a token provider, it will handle all details of authentication, using Client only as a token cache
 		disableInstanceDiscovery: cred.tokenProvider != nil,
 		httpClient:               shared.DefaultClient,
-<<<<<<< HEAD
 		azureRegion:              autoEnabledRegion,
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	for _, o := range options {
 		o(&opts)
 	}
-<<<<<<< HEAD
 	if strings.EqualFold(opts.azureRegion, "DisableMsalForceRegion") {
 		opts.azureRegion = ""
 	}
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	baseOpts := []base.Option{
 		base.WithCacheAccessor(opts.accessor),
 		base.WithClientCapabilities(opts.capabilities),

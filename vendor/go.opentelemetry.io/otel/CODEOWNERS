@@ -12,12 +12,6 @@
 #  https://help.github.com/en/articles/about-code-owners
 #
 
-<<<<<<< HEAD
 * @MrAlias @XSAM @dashpole @pellared @dmathieu
 
 CODEOWNERS @MrAlias @pellared @dashpole @XSAM @dmathieu
-=======
-* @MrAlias @XSAM @dashpole @MadVikingGod @pellared @hanyuancheung @dmathieu
-
-CODEOWNERS @MrAlias @MadVikingGod @pellared @dashpole @XSAM @dmathieu
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

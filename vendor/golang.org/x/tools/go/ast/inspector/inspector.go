@@ -36,10 +36,7 @@ package inspector
 
 import (
 	"go/ast"
-<<<<<<< HEAD
 	_ "unsafe"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // An Inspector provides methods for inspecting
@@ -48,12 +45,9 @@ type Inspector struct {
 	events []event
 }
 
-<<<<<<< HEAD
 //go:linkname events
 func events(in *Inspector) []event { return in.events }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // New returns an Inspector for the specified syntax trees.
 func New(files []*ast.File) *Inspector {
 	return &Inspector{traverse(files)}
@@ -62,16 +56,10 @@ func New(files []*ast.File) *Inspector {
 // An event represents a push or a pop
 // of an ast.Node during a traversal.
 type event struct {
-<<<<<<< HEAD
 	node   ast.Node
 	typ    uint64 // typeOf(node) on push event, or union of typ strictly between push and pop events on pop events
 	index  int32  // index of corresponding push or pop event
 	parent int32  // index of parent's push node (defined for push nodes only)
-=======
-	node  ast.Node
-	typ   uint64 // typeOf(node) on push event, or union of typ strictly between push and pop events on pop events
-	index int    // index of corresponding push or pop event
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // TODO: Experiment with storing only the second word of event.node (unsafe.Pointer).
@@ -100,11 +88,7 @@ func (in *Inspector) Preorder(types []ast.Node, f func(ast.Node)) {
 	// })
 
 	mask := maskOf(types)
-<<<<<<< HEAD
 	for i := int32(0); i < int32(len(in.events)); {
-=======
-	for i := 0; i < len(in.events); {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		ev := in.events[i]
 		if ev.index > i {
 			// push
@@ -134,11 +118,7 @@ func (in *Inspector) Preorder(types []ast.Node, f func(ast.Node)) {
 // matches an element of the types slice.
 func (in *Inspector) Nodes(types []ast.Node, f func(n ast.Node, push bool) (proceed bool)) {
 	mask := maskOf(types)
-<<<<<<< HEAD
 	for i := int32(0); i < int32(len(in.events)); {
-=======
-	for i := 0; i < len(in.events); {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		ev := in.events[i]
 		if ev.index > i {
 			// push
@@ -172,11 +152,7 @@ func (in *Inspector) Nodes(types []ast.Node, f func(n ast.Node, push bool) (proc
 func (in *Inspector) WithStack(types []ast.Node, f func(n ast.Node, push bool, stack []ast.Node) (proceed bool)) {
 	mask := maskOf(types)
 	var stack []ast.Node
-<<<<<<< HEAD
 	for i := int32(0); i < int32(len(in.events)); {
-=======
-	for i := 0; i < len(in.events); {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		ev := in.events[i]
 		if ev.index > i {
 			// push
@@ -225,17 +201,12 @@ func traverse(files []*ast.File) []event {
 	events := make([]event, 0, capacity)
 
 	var stack []event
-<<<<<<< HEAD
 	stack = append(stack, event{index: -1}) // include an extra event so file nodes have a parent
-=======
-	stack = append(stack, event{}) // include an extra event so file nodes have a parent
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, f := range files {
 		ast.Inspect(f, func(n ast.Node) bool {
 			if n != nil {
 				// push
 				ev := event{
-<<<<<<< HEAD
 					node:   n,
 					typ:    0,                  // temporarily used to accumulate type bits of subtree
 					index:  int32(len(events)), // push event temporarily holds own index
@@ -248,14 +219,6 @@ func traverse(files []*ast.File) []event {
 				if int32(len(events)) < 0 {
 					panic("event index exceeded int32")
 				}
-=======
-					node:  n,
-					typ:   0,           // temporarily used to accumulate type bits of subtree
-					index: len(events), // push event temporarily holds own index
-				}
-				stack = append(stack, ev)
-				events = append(events, ev)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			} else {
 				// pop
 				top := len(stack) - 1
@@ -264,15 +227,9 @@ func traverse(files []*ast.File) []event {
 				push := ev.index
 				parent := top - 1
 
-<<<<<<< HEAD
 				events[push].typ = typ                  // set type of push
 				stack[parent].typ |= typ | ev.typ       // parent's typ contains push and pop's typs.
 				events[push].index = int32(len(events)) // make push refer to pop
-=======
-				events[push].typ = typ            // set type of push
-				stack[parent].typ |= typ | ev.typ // parent's typ contains push and pop's typs.
-				events[push].index = len(events)  // make push refer to pop
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 				stack = stack[:top]
 				events = append(events, ev)

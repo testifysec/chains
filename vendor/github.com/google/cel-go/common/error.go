@@ -18,11 +18,6 @@ import (
 	"fmt"
 	"strings"
 	"unicode/utf8"
-<<<<<<< HEAD
-=======
-
-	"golang.org/x/text/width"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // NewError creates an error associated with an expression id with the given message at the given location.
@@ -38,28 +33,15 @@ type Error struct {
 }
 
 const (
-<<<<<<< HEAD
 	dot     = "."
 	ind     = "^"
 	wideDot = "\uff0e"
 	wideInd = "\uff3e"
-=======
-	dot = "."
-	ind = "^"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// maxSnippetLength is the largest number of characters which can be rendered in an error message snippet.
 	maxSnippetLength = 16384
 )
 
-<<<<<<< HEAD
-=======
-var (
-	wideDot = width.Widen.String(dot)
-	wideInd = width.Widen.String(ind)
-)
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // ToDisplayString decorates the error message with the source location.
 func (e *Error) ToDisplayString(source Source) string {
 	var result = fmt.Sprintf("ERROR: %s:%d:%d: %s",

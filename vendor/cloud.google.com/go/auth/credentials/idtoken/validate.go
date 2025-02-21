@@ -24,10 +24,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-<<<<<<< HEAD
 	"log/slog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"math/big"
 	"net/http"
 	"strings"
@@ -35,7 +32,6 @@ import (
 
 	"cloud.google.com/go/auth/internal"
 	"cloud.google.com/go/auth/internal/jwt"
-<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
 )
 
@@ -49,18 +45,6 @@ const (
 
 var (
 	defaultValidator = &Validator{client: newCachingClient(internal.DefaultClient(), internallog.New(nil))}
-=======
-)
-
-const (
-	es256KeySize      int    = 32
-	googleIAPCertsURL string = "https://www.gstatic.com/iap/verify/public_key-jwk"
-	googleSACertsURL  string = "https://www.googleapis.com/oauth2/v3/certs"
-)
-
-var (
-	defaultValidator = &Validator{client: newCachingClient(internal.DefaultClient())}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// now aliases time.Now for testing.
 	now = time.Now
 )
@@ -87,20 +71,15 @@ type jwk struct {
 
 // Validator provides a way to validate Google ID Tokens
 type Validator struct {
-<<<<<<< HEAD
 	client   *cachingClient
 	rs256URL string
 	es256URL string
-=======
-	client *cachingClient
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ValidatorOptions provides a way to configure a [Validator].
 type ValidatorOptions struct {
 	// Client used to make requests to the certs URL. Optional.
 	Client *http.Client
-<<<<<<< HEAD
 	// Custom certs URL for RS256 JWK to be used. If not provided, the default
 	// Google oauth2 endpoint will be used. Optional.
 	RS256CertsURL string
@@ -112,14 +91,11 @@ type ValidatorOptions struct {
 	// enabled by setting GOOGLE_SDK_GO_LOGGING_LEVEL in which case a default
 	// Logger will be used. Optional.
 	Logger *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewValidator creates a Validator that uses the options provided to configure
 // a the internal http.Client that will be used to make requests to fetch JWKs.
 func NewValidator(opts *ValidatorOptions) (*Validator, error) {
-<<<<<<< HEAD
 	if opts == nil {
 		opts = &ValidatorOptions{}
 	}
@@ -131,15 +107,6 @@ func NewValidator(opts *ValidatorOptions) (*Validator, error) {
 	es256URL := opts.ES256CertsURL
 	logger := internallog.New(opts.Logger)
 	return &Validator{client: newCachingClient(client, logger), rs256URL: rs256URL, es256URL: es256URL}, nil
-=======
-	var client *http.Client
-	if opts != nil && opts.Client != nil {
-		client = opts.Client
-	} else {
-		client = internal.DefaultClient()
-	}
-	return &Validator{client: newCachingClient(client)}, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // Validate is used to validate the provided idToken with a known Google cert
@@ -194,11 +161,7 @@ func (v *Validator) validate(ctx context.Context, idToken string, audience strin
 		if err := v.validateRS256(ctx, header.KeyID, hashedContent, sig); err != nil {
 			return nil, err
 		}
-<<<<<<< HEAD
 	case jwt.HeaderAlgES256:
-=======
-	case "ES256":
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err := v.validateES256(ctx, header.KeyID, hashedContent, sig); err != nil {
 			return nil, err
 		}
@@ -210,11 +173,7 @@ func (v *Validator) validate(ctx context.Context, idToken string, audience strin
 }
 
 func (v *Validator) validateRS256(ctx context.Context, keyID string, hashedContent []byte, sig []byte) error {
-<<<<<<< HEAD
 	certResp, err := v.client.getCert(ctx, v.rs256CertsURL())
-=======
-	certResp, err := v.client.getCert(ctx, googleSACertsURL)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return err
 	}
@@ -238,7 +197,6 @@ func (v *Validator) validateRS256(ctx context.Context, keyID string, hashedConte
 	return rsa.VerifyPKCS1v15(pk, crypto.SHA256, hashedContent, sig)
 }
 
-<<<<<<< HEAD
 func (v *Validator) rs256CertsURL() string {
 	if v.rs256URL == "" {
 		return googleSACertsURL
@@ -248,10 +206,6 @@ func (v *Validator) rs256CertsURL() string {
 
 func (v *Validator) validateES256(ctx context.Context, keyID string, hashedContent []byte, sig []byte) error {
 	certResp, err := v.client.getCert(ctx, v.es256CertsURL())
-=======
-func (v *Validator) validateES256(ctx context.Context, keyID string, hashedContent []byte, sig []byte) error {
-	certResp, err := v.client.getCert(ctx, googleIAPCertsURL)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return err
 	}
@@ -281,7 +235,6 @@ func (v *Validator) validateES256(ctx context.Context, keyID string, hashedConte
 	return nil
 }
 
-<<<<<<< HEAD
 func (v *Validator) es256CertsURL() string {
 	if v.es256URL == "" {
 		return googleIAPCertsURL
@@ -289,8 +242,6 @@ func (v *Validator) es256CertsURL() string {
 	return v.es256URL
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func findMatchingKey(response *certResponse, keyID string) (*jwk, error) {
 	if response == nil {
 		return nil, fmt.Errorf("idtoken: cert response is nil")

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// Copyright 2023 The Witness Contributors
-=======
 // Copyright 2023-2024 The Archivista Contributors
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,39 +33,18 @@ type UploadResponse struct {
 // Deprecated: Use UploadResponse instead. It will be removed in version >= v0.6.0
 type StoreResponse = UploadResponse
 
-<<<<<<< HEAD
-// Deprecated: Use Upload instead. It will be removed in version >= v0.6.0
-func Store(ctx context.Context, baseUrl string, envelope dsse.Envelope) (StoreResponse, error) {
-	return Upload(ctx, baseUrl, envelope)
-}
-
-func Upload(ctx context.Context, baseUrl string, envelope dsse.Envelope) (StoreResponse, error) {
-=======
 // Deprecated: Use Store instead. It will be removed in version >= v0.6.0
 func Upload(ctx context.Context, baseURL string, envelope dsse.Envelope) (UploadResponse, error) {
 	return Store(ctx, baseURL, envelope)
 }
 
 func Store(ctx context.Context, baseURL string, envelope dsse.Envelope) (StoreResponse, error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	buf := &bytes.Buffer{}
 	enc := json.NewEncoder(buf)
 	if err := enc.Encode(envelope); err != nil {
 		return StoreResponse{}, err
 	}
 
-<<<<<<< HEAD
-	return UploadWithReader(ctx, baseUrl, buf)
-}
-
-// Deprecated: Use UploadWithReader instead. It will be removed in version >= v0.6.0
-func StoreWithReader(ctx context.Context, baseUrl string, r io.Reader) (StoreResponse, error) {
-	return UploadWithReader(ctx, baseUrl, r)
-}
-
-func UploadWithReader(ctx context.Context, baseUrl string, r io.Reader) (StoreResponse, error) {
-	uploadPath, err := url.JoinPath(baseUrl, "upload")
-=======
 	return StoreWithReader(ctx, baseURL, buf)
 }
 
@@ -79,7 +54,6 @@ func StoreWithReader(ctx context.Context, baseURL string, r io.Reader) (StoreRes
 
 func StoreWithReaderWithHTTPClient(ctx context.Context, client *http.Client, baseURL string, r io.Reader) (StoreResponse, error) {
 	uploadPath, err := url.JoinPath(baseURL, "upload")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return UploadResponse{}, err
 	}

@@ -33,12 +33,7 @@ The required components of a system that supports CEL are:
 
 *   The textual representation of an expression as written by a developer. It is
     of similar syntax to expressions in C/C++/Java/JavaScript
-<<<<<<< HEAD
 *   A representation of the program's abstract syntax tree (AST).
-=======
-*   A binary representation of an expression. It is an abstract syntax tree
-    (AST).
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 *   A compiler library that converts the textual representation to the binary
     representation. This can be done ahead of time (in the control plane) or
     just before evaluation (in the data plane).
@@ -47,7 +42,6 @@ The required components of a system that supports CEL are:
 *   An evaluator library that takes the binary format in the context and
     produces a result, usually a Boolean.
 
-<<<<<<< HEAD
 For use cases which require persistence or cross-process communcation, it is
 highly recommended to serialize the type-checked expression as a protocol
 buffer. The CEL team will maintains canonical protocol buffers for ASTs and
@@ -57,8 +51,6 @@ will keep these versions identical and wire-compatible in perpetuity:
 *  [CEL v1alpha1](https://github.com/googleapis/googleapis/tree/master/google/api/expr/v1alpha1)
 
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 Example of boolean conditions and object construction:
 
 ``` c

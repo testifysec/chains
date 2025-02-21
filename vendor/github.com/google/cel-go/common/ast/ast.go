@@ -310,7 +310,6 @@ func (s *SourceInfo) SetOffsetRange(id int64, o OffsetRange) {
 	s.offsetRanges[id] = o
 }
 
-<<<<<<< HEAD
 // ClearOffsetRange removes the OffsetRange for the given expression id.
 func (s *SourceInfo) ClearOffsetRange(id int64) {
 	if s != nil {
@@ -318,27 +317,11 @@ func (s *SourceInfo) ClearOffsetRange(id int64) {
 	}
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // GetStartLocation calculates the human-readable 1-based line and 0-based column of the first character
 // of the expression node at the id.
 func (s *SourceInfo) GetStartLocation(id int64) common.Location {
 	if o, found := s.GetOffsetRange(id); found {
-<<<<<<< HEAD
 		return s.GetLocationByOffset(o.Start)
-=======
-		line := 1
-		col := int(o.Start)
-		for _, lineOffset := range s.LineOffsets() {
-			if lineOffset < o.Start {
-				line++
-				col = int(o.Start - lineOffset)
-			} else {
-				break
-			}
-		}
-		return common.NewLocation(line, col)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return common.NoLocation
 }
@@ -350,26 +333,11 @@ func (s *SourceInfo) GetStartLocation(id int64) common.Location {
 // be identical to the start location for the expression.
 func (s *SourceInfo) GetStopLocation(id int64) common.Location {
 	if o, found := s.GetOffsetRange(id); found {
-<<<<<<< HEAD
 		return s.GetLocationByOffset(o.Stop)
-=======
-		line := 1
-		col := int(o.Stop)
-		for _, lineOffset := range s.LineOffsets() {
-			if lineOffset < o.Stop {
-				line++
-				col = int(o.Stop - lineOffset)
-			} else {
-				break
-			}
-		}
-		return common.NewLocation(line, col)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return common.NoLocation
 }
 
-<<<<<<< HEAD
 // GetLocationByOffset returns the line and column information for a given character offset.
 func (s *SourceInfo) GetLocationByOffset(offset int32) common.Location {
 	line := 1
@@ -384,8 +352,6 @@ func (s *SourceInfo) GetLocationByOffset(offset int32) common.Location {
 	return common.NewLocation(line, col)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // ComputeOffset calculates the 0-based character offset from a 1-based line and 0-based column.
 func (s *SourceInfo) ComputeOffset(line, col int32) int32 {
 	if s != nil {

@@ -62,10 +62,7 @@ type storageClient interface {
 	GetObject(ctx context.Context, params *getObjectParams, opts ...storageOption) (*ObjectAttrs, error)
 	UpdateObject(ctx context.Context, params *updateObjectParams, opts ...storageOption) (*ObjectAttrs, error)
 	RestoreObject(ctx context.Context, params *restoreObjectParams, opts ...storageOption) (*ObjectAttrs, error)
-<<<<<<< HEAD
 	MoveObject(ctx context.Context, params *moveObjectParams, opts ...storageOption) (*ObjectAttrs, error)
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Default Object ACL methods.
 
@@ -111,11 +108,8 @@ type storageClient interface {
 	ListNotifications(ctx context.Context, bucket string, opts ...storageOption) (map[string]*Notification, error)
 	CreateNotification(ctx context.Context, bucket string, n *Notification, opts ...storageOption) (*Notification, error)
 	DeleteNotification(ctx context.Context, bucket string, id string, opts ...storageOption) error
-<<<<<<< HEAD
 
 	NewMultiRangeDownloader(ctx context.Context, params *newMultiRangeDownloaderParams, opts ...storageOption) (*MultiRangeDownloader, error)
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // settings contains transport-agnostic configuration for API calls made via
@@ -269,12 +263,9 @@ type openWriterParams struct {
 	// sendCRC32C - see `Writer.SendCRC32C`.
 	// Optional.
 	sendCRC32C bool
-<<<<<<< HEAD
 	// append - Write with appendable object semantics.
 	// Optional.
 	append bool
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Writer callbacks
 
@@ -292,7 +283,6 @@ type openWriterParams struct {
 	setObj func(*ObjectAttrs)
 }
 
-<<<<<<< HEAD
 type newMultiRangeDownloaderParams struct {
 	bucket        string
 	conds         *Conditions
@@ -302,8 +292,6 @@ type newMultiRangeDownloaderParams struct {
 	handle        *ReadHandle
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type newRangeReaderParams struct {
 	bucket         string
 	conds          *Conditions
@@ -313,10 +301,7 @@ type newRangeReaderParams struct {
 	object         string
 	offset         int64
 	readCompressed bool // Use accept-encoding: gzip. Only works for HTTP currently.
-<<<<<<< HEAD
 	handle         *ReadHandle
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type getObjectParams struct {
@@ -344,7 +329,6 @@ type restoreObjectParams struct {
 	copySourceACL  bool
 }
 
-<<<<<<< HEAD
 type moveObjectParams struct {
 	bucket, srcObject, dstObject string
 	srcConds                     *Conditions
@@ -352,8 +336,6 @@ type moveObjectParams struct {
 	encryptionKey                []byte
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type composeObjectRequest struct {
 	dstBucket     string
 	dstObject     destinationObject

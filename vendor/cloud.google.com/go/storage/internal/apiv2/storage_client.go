@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 // Copyright 2025 Google LLC
-=======
-// Copyright 2024 Google LLC
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,10 +19,7 @@ package storage
 import (
 	"context"
 	"fmt"
-<<<<<<< HEAD
 	"log/slog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"math"
 	"net/url"
 	"regexp"
@@ -64,10 +57,7 @@ type CallOptions struct {
 	CancelResumableWrite      []gax.CallOption
 	GetObject                 []gax.CallOption
 	ReadObject                []gax.CallOption
-<<<<<<< HEAD
 	BidiReadObject            []gax.CallOption
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	UpdateObject              []gax.CallOption
 	WriteObject               []gax.CallOption
 	BidiWriteObject           []gax.CallOption
@@ -75,10 +65,7 @@ type CallOptions struct {
 	RewriteObject             []gax.CallOption
 	StartResumableWrite       []gax.CallOption
 	QueryWriteStatus          []gax.CallOption
-<<<<<<< HEAD
 	MoveObject                []gax.CallOption
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func defaultGRPCClientOptions() []option.ClientOption {
@@ -292,7 +279,6 @@ func defaultCallOptions() *CallOptions {
 				})
 			}),
 		},
-<<<<<<< HEAD
 		BidiReadObject: []gax.CallOption{
 			gax.WithRetry(func() gax.Retryer {
 				return gax.OnCodes([]codes.Code{
@@ -305,8 +291,6 @@ func defaultCallOptions() *CallOptions {
 				})
 			}),
 		},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		UpdateObject: []gax.CallOption{
 			gax.WithTimeout(60000 * time.Millisecond),
 			gax.WithRetry(func() gax.Retryer {
@@ -396,7 +380,6 @@ func defaultCallOptions() *CallOptions {
 				})
 			}),
 		},
-<<<<<<< HEAD
 		MoveObject: []gax.CallOption{
 			gax.WithTimeout(60000 * time.Millisecond),
 			gax.WithRetry(func() gax.Retryer {
@@ -410,8 +393,6 @@ func defaultCallOptions() *CallOptions {
 				})
 			}),
 		},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -435,10 +416,7 @@ type internalClient interface {
 	CancelResumableWrite(context.Context, *storagepb.CancelResumableWriteRequest, ...gax.CallOption) (*storagepb.CancelResumableWriteResponse, error)
 	GetObject(context.Context, *storagepb.GetObjectRequest, ...gax.CallOption) (*storagepb.Object, error)
 	ReadObject(context.Context, *storagepb.ReadObjectRequest, ...gax.CallOption) (storagepb.Storage_ReadObjectClient, error)
-<<<<<<< HEAD
 	BidiReadObject(context.Context, ...gax.CallOption) (storagepb.Storage_BidiReadObjectClient, error)
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	UpdateObject(context.Context, *storagepb.UpdateObjectRequest, ...gax.CallOption) (*storagepb.Object, error)
 	WriteObject(context.Context, ...gax.CallOption) (storagepb.Storage_WriteObjectClient, error)
 	BidiWriteObject(context.Context, ...gax.CallOption) (storagepb.Storage_BidiWriteObjectClient, error)
@@ -446,10 +424,7 @@ type internalClient interface {
 	RewriteObject(context.Context, *storagepb.RewriteObjectRequest, ...gax.CallOption) (*storagepb.RewriteResponse, error)
 	StartResumableWrite(context.Context, *storagepb.StartResumableWriteRequest, ...gax.CallOption) (*storagepb.StartResumableWriteResponse, error)
 	QueryWriteStatus(context.Context, *storagepb.QueryWriteStatusRequest, ...gax.CallOption) (*storagepb.QueryWriteStatusResponse, error)
-<<<<<<< HEAD
 	MoveObject(context.Context, *storagepb.MoveObjectRequest, ...gax.CallOption) (*storagepb.Object, error)
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // Client is a client for interacting with Cloud Storage API.
@@ -569,7 +544,6 @@ func (c *Client) ComposeObject(ctx context.Context, req *storagepb.ComposeObject
 	return c.internalClient.ComposeObject(ctx, req, opts...)
 }
 
-<<<<<<< HEAD
 // DeleteObject deletes an object and its metadata. Deletions are permanent if versioning
 // is not enabled for the bucket, or if the generation parameter is used, or
 // if soft delete (at https://cloud.google.com/storage/docs/soft-delete) is not
@@ -590,14 +564,6 @@ func (c *Client) ComposeObject(ctx context.Context, req *storagepb.ComposeObject
 // Requires storage.objects.delete
 // IAM permission (at https://cloud.google.com/iam/docs/overview#permissions) on
 // the bucket.
-=======
-// DeleteObject deletes an object and its metadata.
-//
-// Deletions are normally permanent when versioning is disabled or whenever
-// the generation parameter is used. However, if soft delete is enabled for
-// the bucket, deleted objects can be restored using RestoreObject until the
-// soft delete retention period has passed.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Client) DeleteObject(ctx context.Context, req *storagepb.DeleteObjectRequest, opts ...gax.CallOption) error {
 	return c.internalClient.DeleteObject(ctx, req, opts...)
 }
@@ -619,7 +585,6 @@ func (c *Client) CancelResumableWrite(ctx context.Context, req *storagepb.Cancel
 	return c.internalClient.CancelResumableWrite(ctx, req, opts...)
 }
 
-<<<<<<< HEAD
 // GetObject retrieves object metadata.
 //
 // IAM Permissions:
@@ -628,14 +593,10 @@ func (c *Client) CancelResumableWrite(ctx context.Context, req *storagepb.Cancel
 // IAM permission (at https://cloud.google.com/iam/docs/overview#permissions) on
 // the bucket. To return object ACLs, the authenticated user must also have
 // the storage.objects.getIamPolicy permission.
-=======
-// GetObject retrieves an object’s metadata.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Client) GetObject(ctx context.Context, req *storagepb.GetObjectRequest, opts ...gax.CallOption) (*storagepb.Object, error) {
 	return c.internalClient.GetObject(ctx, req, opts...)
 }
 
-<<<<<<< HEAD
 // ReadObject retrieves object data.
 //
 // IAM Permissions:
@@ -643,14 +604,10 @@ func (c *Client) GetObject(ctx context.Context, req *storagepb.GetObjectRequest,
 // Requires storage.objects.get
 // IAM permission (at https://cloud.google.com/iam/docs/overview#permissions) on
 // the bucket.
-=======
-// ReadObject reads an object’s data.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Client) ReadObject(ctx context.Context, req *storagepb.ReadObjectRequest, opts ...gax.CallOption) (storagepb.Storage_ReadObjectClient, error) {
 	return c.internalClient.ReadObject(ctx, req, opts...)
 }
 
-<<<<<<< HEAD
 // BidiReadObject reads an object’s data.
 //
 // This is a bi-directional API with the added support for reading multiple
@@ -674,8 +631,6 @@ func (c *Client) BidiReadObject(ctx context.Context, opts ...gax.CallOption) (st
 	return c.internalClient.BidiReadObject(ctx, opts...)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // UpdateObject updates an object’s metadata.
 // Equivalent to JSON API’s storage.objects.patch.
 func (c *Client) UpdateObject(ctx context.Context, req *storagepb.UpdateObjectRequest, opts ...gax.CallOption) (*storagepb.Object, error) {
@@ -745,15 +700,12 @@ func (c *Client) UpdateObject(ctx context.Context, req *storagepb.UpdateObjectRe
 // Alternatively, the BidiWriteObject operation may be used to write an
 // object with controls over flushing and the ability to fetch the ability to
 // determine the current persisted size.
-<<<<<<< HEAD
 //
 // IAM Permissions:
 //
 // Requires storage.objects.create
 // IAM permission (at https://cloud.google.com/iam/docs/overview#permissions) on
 // the bucket.
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Client) WriteObject(ctx context.Context, opts ...gax.CallOption) (storagepb.Storage_WriteObjectClient, error) {
 	return c.internalClient.WriteObject(ctx, opts...)
 }
@@ -778,7 +730,6 @@ func (c *Client) BidiWriteObject(ctx context.Context, opts ...gax.CallOption) (s
 }
 
 // ListObjects retrieves a list of objects matching the criteria.
-<<<<<<< HEAD
 //
 // IAM Permissions:
 //
@@ -786,8 +737,6 @@ func (c *Client) BidiWriteObject(ctx context.Context, opts ...gax.CallOption) (s
 // IAM permission (at https://cloud.google.com/iam/docs/overview#permissions)
 // to use this method. To return object ACLs, the authenticated user must also
 // have the storage.objects.getIamPolicy permission.
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Client) ListObjects(ctx context.Context, req *storagepb.ListObjectsRequest, opts ...gax.CallOption) *ObjectIterator {
 	return c.internalClient.ListObjects(ctx, req, opts...)
 }
@@ -798,7 +747,6 @@ func (c *Client) RewriteObject(ctx context.Context, req *storagepb.RewriteObject
 	return c.internalClient.RewriteObject(ctx, req, opts...)
 }
 
-<<<<<<< HEAD
 // StartResumableWrite starts a resumable write operation. This
 // method is part of the Resumable
 // upload (at https://cloud.google.com/storage/docs/resumable-uploads) feature.
@@ -812,16 +760,10 @@ func (c *Client) RewriteObject(ctx context.Context, req *storagepb.RewriteObject
 // Requires storage.objects.create
 // IAM permission (at https://cloud.google.com/iam/docs/overview#permissions) on
 // the bucket.
-=======
-// StartResumableWrite starts a resumable write. How long the write operation remains valid, and
-// what happens when the write operation becomes invalid, are
-// service-dependent.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Client) StartResumableWrite(ctx context.Context, req *storagepb.StartResumableWriteRequest, opts ...gax.CallOption) (*storagepb.StartResumableWriteResponse, error) {
 	return c.internalClient.StartResumableWrite(ctx, req, opts...)
 }
 
-<<<<<<< HEAD
 // QueryWriteStatus determines the persisted_size of an object that is being written. This
 // method is part of the resumable
 // upload (at https://cloud.google.com/storage/docs/resumable-uploads) feature.
@@ -838,33 +780,16 @@ func (c *Client) StartResumableWrite(ctx context.Context, req *storagepb.StartRe
 // time to determine how much data has been logged for this object.
 // For any sequence of QueryWriteStatus() calls for a given
 // object name, the sequence of returned persisted_size values are
-=======
-// QueryWriteStatus determines the persisted_size for an object that is being written, which
-// can then be used as the write_offset for the next Write() call.
-//
-// If the object does not exist (i.e., the object has been deleted, or the
-// first Write() has not yet reached the service), this method returns the
-// error NOT_FOUND.
-//
-// The client may call QueryWriteStatus() at any time to determine how
-// much data has been processed for this object. This is useful if the
-// client is buffering data and needs to know which data can be safely
-// evicted. For any sequence of QueryWriteStatus() calls for a given
-// object name, the sequence of returned persisted_size values will be
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // non-decreasing.
 func (c *Client) QueryWriteStatus(ctx context.Context, req *storagepb.QueryWriteStatusRequest, opts ...gax.CallOption) (*storagepb.QueryWriteStatusResponse, error) {
 	return c.internalClient.QueryWriteStatus(ctx, req, opts...)
 }
 
-<<<<<<< HEAD
 // MoveObject moves the source object to the destination object in the same bucket.
 func (c *Client) MoveObject(ctx context.Context, req *storagepb.MoveObjectRequest, opts ...gax.CallOption) (*storagepb.Object, error) {
 	return c.internalClient.MoveObject(ctx, req, opts...)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // gRPCClient is a client for interacting with Cloud Storage API over gRPC transport.
 //
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
@@ -880,11 +805,8 @@ type gRPCClient struct {
 
 	// The x-goog-* metadata to be sent with each request.
 	xGoogHeaders []string
-<<<<<<< HEAD
 
 	logger *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewClient creates a new storage client based on gRPC.
@@ -932,10 +854,7 @@ func NewClient(ctx context.Context, opts ...option.ClientOption) (*Client, error
 		connPool:    connPool,
 		client:      storagepb.NewStorageClient(connPool),
 		CallOptions: &client.CallOptions,
-<<<<<<< HEAD
 		logger:      internaloption.GetLogger(opts),
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	c.setGoogleClientInfo()
 
@@ -986,11 +905,7 @@ func (c *gRPCClient) DeleteBucket(ctx context.Context, req *storagepb.DeleteBuck
 	opts = append((*c.CallOptions).DeleteBucket[0:len((*c.CallOptions).DeleteBucket):len((*c.CallOptions).DeleteBucket)], opts...)
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		_, err = executeRPC(ctx, c.client.DeleteBucket, req, settings.GRPC, c.logger, "DeleteBucket")
-=======
-		_, err = c.client.DeleteBucket(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	return err
@@ -1014,11 +929,7 @@ func (c *gRPCClient) GetBucket(ctx context.Context, req *storagepb.GetBucketRequ
 	var resp *storagepb.Bucket
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.GetBucket, req, settings.GRPC, c.logger, "GetBucket")
-=======
-		resp, err = c.client.GetBucket(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1048,11 +959,7 @@ func (c *gRPCClient) CreateBucket(ctx context.Context, req *storagepb.CreateBuck
 	var resp *storagepb.Bucket
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.CreateBucket, req, settings.GRPC, c.logger, "CreateBucket")
-=======
-		resp, err = c.client.CreateBucket(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1090,11 +997,7 @@ func (c *gRPCClient) ListBuckets(ctx context.Context, req *storagepb.ListBuckets
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
-<<<<<<< HEAD
 			resp, err = executeRPC(ctx, c.client.ListBuckets, req, settings.GRPC, c.logger, "ListBuckets")
-=======
-			resp, err = c.client.ListBuckets(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return err
 		}, opts...)
 		if err != nil {
@@ -1138,11 +1041,7 @@ func (c *gRPCClient) LockBucketRetentionPolicy(ctx context.Context, req *storage
 	var resp *storagepb.Bucket
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.LockBucketRetentionPolicy, req, settings.GRPC, c.logger, "LockBucketRetentionPolicy")
-=======
-		resp, err = c.client.LockBucketRetentionPolicy(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1169,11 +1068,7 @@ func (c *gRPCClient) GetIamPolicy(ctx context.Context, req *iampb.GetIamPolicyRe
 	var resp *iampb.Policy
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.GetIamPolicy, req, settings.GRPC, c.logger, "GetIamPolicy")
-=======
-		resp, err = c.client.GetIamPolicy(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1200,11 +1095,7 @@ func (c *gRPCClient) SetIamPolicy(ctx context.Context, req *iampb.SetIamPolicyRe
 	var resp *iampb.Policy
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.SetIamPolicy, req, settings.GRPC, c.logger, "SetIamPolicy")
-=======
-		resp, err = c.client.SetIamPolicy(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1237,11 +1128,7 @@ func (c *gRPCClient) TestIamPermissions(ctx context.Context, req *iampb.TestIamP
 	var resp *iampb.TestIamPermissionsResponse
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.TestIamPermissions, req, settings.GRPC, c.logger, "TestIamPermissions")
-=======
-		resp, err = c.client.TestIamPermissions(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1268,11 +1155,7 @@ func (c *gRPCClient) UpdateBucket(ctx context.Context, req *storagepb.UpdateBuck
 	var resp *storagepb.Bucket
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.UpdateBucket, req, settings.GRPC, c.logger, "UpdateBucket")
-=======
-		resp, err = c.client.UpdateBucket(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1299,11 +1182,7 @@ func (c *gRPCClient) ComposeObject(ctx context.Context, req *storagepb.ComposeOb
 	var resp *storagepb.Object
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.ComposeObject, req, settings.GRPC, c.logger, "ComposeObject")
-=======
-		resp, err = c.client.ComposeObject(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1329,11 +1208,7 @@ func (c *gRPCClient) DeleteObject(ctx context.Context, req *storagepb.DeleteObje
 	opts = append((*c.CallOptions).DeleteObject[0:len((*c.CallOptions).DeleteObject):len((*c.CallOptions).DeleteObject)], opts...)
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		_, err = executeRPC(ctx, c.client.DeleteObject, req, settings.GRPC, c.logger, "DeleteObject")
-=======
-		_, err = c.client.DeleteObject(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	return err
@@ -1357,11 +1232,7 @@ func (c *gRPCClient) RestoreObject(ctx context.Context, req *storagepb.RestoreOb
 	var resp *storagepb.Object
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.RestoreObject, req, settings.GRPC, c.logger, "RestoreObject")
-=======
-		resp, err = c.client.RestoreObject(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1388,11 +1259,7 @@ func (c *gRPCClient) CancelResumableWrite(ctx context.Context, req *storagepb.Ca
 	var resp *storagepb.CancelResumableWriteResponse
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.CancelResumableWrite, req, settings.GRPC, c.logger, "CancelResumableWrite")
-=======
-		resp, err = c.client.CancelResumableWrite(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1419,11 +1286,7 @@ func (c *gRPCClient) GetObject(ctx context.Context, req *storagepb.GetObjectRequ
 	var resp *storagepb.Object
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.GetObject, req, settings.GRPC, c.logger, "GetObject")
-=======
-		resp, err = c.client.GetObject(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1450,7 +1313,6 @@ func (c *gRPCClient) ReadObject(ctx context.Context, req *storagepb.ReadObjectRe
 	var resp storagepb.Storage_ReadObjectClient
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		c.logger.DebugContext(ctx, "api streaming client request", "serviceName", serviceName, "rpcName", "ReadObject")
 		resp, err = c.client.ReadObject(ctx, req, settings.GRPC...)
 		c.logger.DebugContext(ctx, "api streaming client response", "serviceName", serviceName, "rpcName", "ReadObject")
@@ -1471,9 +1333,6 @@ func (c *gRPCClient) BidiReadObject(ctx context.Context, opts ...gax.CallOption)
 		c.logger.DebugContext(ctx, "api streaming client request", "serviceName", serviceName, "rpcName", "BidiReadObject")
 		resp, err = c.client.BidiReadObject(ctx, settings.GRPC...)
 		c.logger.DebugContext(ctx, "api streaming client response", "serviceName", serviceName, "rpcName", "BidiReadObject")
-=======
-		resp, err = c.client.ReadObject(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1500,11 +1359,7 @@ func (c *gRPCClient) UpdateObject(ctx context.Context, req *storagepb.UpdateObje
 	var resp *storagepb.Object
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.UpdateObject, req, settings.GRPC, c.logger, "UpdateObject")
-=======
-		resp, err = c.client.UpdateObject(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1519,13 +1374,9 @@ func (c *gRPCClient) WriteObject(ctx context.Context, opts ...gax.CallOption) (s
 	opts = append((*c.CallOptions).WriteObject[0:len((*c.CallOptions).WriteObject):len((*c.CallOptions).WriteObject)], opts...)
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		c.logger.DebugContext(ctx, "api streaming client request", "serviceName", serviceName, "rpcName", "WriteObject")
 		resp, err = c.client.WriteObject(ctx, settings.GRPC...)
 		c.logger.DebugContext(ctx, "api streaming client response", "serviceName", serviceName, "rpcName", "WriteObject")
-=======
-		resp, err = c.client.WriteObject(ctx, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1540,13 +1391,9 @@ func (c *gRPCClient) BidiWriteObject(ctx context.Context, opts ...gax.CallOption
 	opts = append((*c.CallOptions).BidiWriteObject[0:len((*c.CallOptions).BidiWriteObject):len((*c.CallOptions).BidiWriteObject)], opts...)
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		c.logger.DebugContext(ctx, "api streaming client request", "serviceName", serviceName, "rpcName", "BidiWriteObject")
 		resp, err = c.client.BidiWriteObject(ctx, settings.GRPC...)
 		c.logger.DebugContext(ctx, "api streaming client response", "serviceName", serviceName, "rpcName", "BidiWriteObject")
-=======
-		resp, err = c.client.BidiWriteObject(ctx, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1584,11 +1431,7 @@ func (c *gRPCClient) ListObjects(ctx context.Context, req *storagepb.ListObjects
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
-<<<<<<< HEAD
 			resp, err = executeRPC(ctx, c.client.ListObjects, req, settings.GRPC, c.logger, "ListObjects")
-=======
-			resp, err = c.client.ListObjects(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return err
 		}, opts...)
 		if err != nil {
@@ -1635,11 +1478,7 @@ func (c *gRPCClient) RewriteObject(ctx context.Context, req *storagepb.RewriteOb
 	var resp *storagepb.RewriteResponse
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.RewriteObject, req, settings.GRPC, c.logger, "RewriteObject")
-=======
-		resp, err = c.client.RewriteObject(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1666,11 +1505,7 @@ func (c *gRPCClient) StartResumableWrite(ctx context.Context, req *storagepb.Sta
 	var resp *storagepb.StartResumableWriteResponse
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.StartResumableWrite, req, settings.GRPC, c.logger, "StartResumableWrite")
-=======
-		resp, err = c.client.StartResumableWrite(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {
@@ -1697,7 +1532,6 @@ func (c *gRPCClient) QueryWriteStatus(ctx context.Context, req *storagepb.QueryW
 	var resp *storagepb.QueryWriteStatusResponse
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-<<<<<<< HEAD
 		resp, err = executeRPC(ctx, c.client.QueryWriteStatus, req, settings.GRPC, c.logger, "QueryWriteStatus")
 		return err
 	}, opts...)
@@ -1726,9 +1560,6 @@ func (c *gRPCClient) MoveObject(ctx context.Context, req *storagepb.MoveObjectRe
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
 		resp, err = executeRPC(ctx, c.client.MoveObject, req, settings.GRPC, c.logger, "MoveObject")
-=======
-		resp, err = c.client.QueryWriteStatus(ctx, req, settings.GRPC...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}, opts...)
 	if err != nil {

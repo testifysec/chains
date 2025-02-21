@@ -81,13 +81,8 @@ type EndpointsResourceData struct {
 	Resource EndpointsUpdate
 }
 
-<<<<<<< HEAD
 // RawEqual returns true if other is equal to r.
 func (e *EndpointsResourceData) RawEqual(other ResourceData) bool {
-=======
-// Equal returns true if other is equal to r.
-func (e *EndpointsResourceData) Equal(other ResourceData) bool {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if e == nil && other == nil {
 		return true
 	}

@@ -42,11 +42,8 @@ const (
 	developerSignOnClientID = "04b07795-8ddb-461a-bbee-02f9e1bf7b46"
 	defaultSuffix           = "/.default"
 
-<<<<<<< HEAD
 	scopeLogFmt = "%s.GetToken() acquired a token for scope %q"
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	traceNamespace      = "Microsoft.Entra"
 	traceOpGetToken     = "GetToken"
 	traceOpAuthenticate = "Authenticate"
@@ -108,7 +105,6 @@ func resolveAdditionalTenants(tenants []string) []string {
 	return cp
 }
 
-<<<<<<< HEAD
 // resolveTenant returns the correct tenant for a token request, or "" when the calling credential doesn't
 // have an explicitly configured tenant and the caller didn't specify a tenant for the token request.
 //
@@ -119,9 +115,6 @@ func resolveAdditionalTenants(tenants []string) []string {
 //   - credName: name of the calling credential type; for error messages
 //   - additionalTenants: optional allow list of tenants the credential may acquire tokens from in
 //     addition to defaultTenant i.e., the credential's AdditionallyAllowedTenants option
-=======
-// resolveTenant returns the correct tenant for a token request
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func resolveTenant(defaultTenant, specified, credName string, additionalTenants []string) (string, error) {
 	if specified == "" || specified == defaultTenant {
 		return defaultTenant, nil
@@ -137,7 +130,6 @@ func resolveTenant(defaultTenant, specified, credName string, additionalTenants 
 			return specified, nil
 		}
 	}
-<<<<<<< HEAD
 	if len(additionalTenants) == 0 {
 		switch defaultTenant {
 		case "", organizationsTenantID:
@@ -149,8 +141,6 @@ func resolveTenant(defaultTenant, specified, credName string, additionalTenants 
 			return specified, nil
 		}
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return "", fmt.Errorf(`%s isn't configured to acquire tokens for tenant %q. To enable acquiring tokens for this tenant add it to the AdditionallyAllowedTenants on the credential options, or add "*" to allow acquiring tokens for any tenant`, credName, specified)
 }
 

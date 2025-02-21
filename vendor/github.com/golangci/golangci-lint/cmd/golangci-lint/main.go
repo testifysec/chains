@@ -1,10 +1,7 @@
 package main
 
 import (
-<<<<<<< HEAD
 	"cmp"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"fmt"
 	"os"
 	"runtime/debug"
@@ -67,23 +64,9 @@ func createBuildInfo() commands.BuildInfo {
 		}
 	}
 
-<<<<<<< HEAD
 	revision = cmp.Or(revision, "unknown")
 	modified = cmp.Or(modified, "?")
 	info.Date = cmp.Or(info.Date, "(unknown)")
-=======
-	if revision == "" {
-		revision = "unknown"
-	}
-
-	if modified == "" {
-		modified = "?"
-	}
-
-	if info.Date == "" {
-		info.Date = "(unknown)"
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	info.Commit = fmt.Sprintf("(%s, modified: %s, mod sum: %q)", revision, modified, buildInfo.Main.Sum)
 

@@ -9,10 +9,6 @@ import (
 	"time"
 
 	"go.opentelemetry.io/otel/attribute"
-<<<<<<< HEAD
-=======
-	"go.opentelemetry.io/otel/sdk/metric/internal/exemplar"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/otel/sdk/metric/metricdata"
 )
 
@@ -20,17 +16,10 @@ import (
 type datapoint[N int64 | float64] struct {
 	attrs attribute.Set
 	value N
-<<<<<<< HEAD
 	res   FilteredExemplarReservoir[N]
 }
 
 func newLastValue[N int64 | float64](limit int, r func(attribute.Set) FilteredExemplarReservoir[N]) *lastValue[N] {
-=======
-	res   exemplar.FilteredReservoir[N]
-}
-
-func newLastValue[N int64 | float64](limit int, r func() exemplar.FilteredReservoir[N]) *lastValue[N] {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return &lastValue[N]{
 		newRes: r,
 		limit:  newLimiter[datapoint[N]](limit),
@@ -43,11 +32,7 @@ func newLastValue[N int64 | float64](limit int, r func() exemplar.FilteredReserv
 type lastValue[N int64 | float64] struct {
 	sync.Mutex
 
-<<<<<<< HEAD
 	newRes func(attribute.Set) FilteredExemplarReservoir[N]
-=======
-	newRes func() exemplar.FilteredReservoir[N]
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	limit  limiter[datapoint[N]]
 	values map[attribute.Distinct]datapoint[N]
 	start  time.Time
@@ -60,11 +45,7 @@ func (s *lastValue[N]) measure(ctx context.Context, value N, fltrAttr attribute.
 	attr := s.limit.Attributes(fltrAttr, s.values)
 	d, ok := s.values[attr.Equivalent()]
 	if !ok {
-<<<<<<< HEAD
 		d.res = s.newRes(attr)
-=======
-		d.res = s.newRes()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	d.attrs = attr
@@ -133,11 +114,7 @@ func (s *lastValue[N]) copyDpts(dest *[]metricdata.DataPoint[N], t time.Time) in
 
 // newPrecomputedLastValue returns an aggregator that summarizes a set of
 // observations as the last one made.
-<<<<<<< HEAD
 func newPrecomputedLastValue[N int64 | float64](limit int, r func(attribute.Set) FilteredExemplarReservoir[N]) *precomputedLastValue[N] {
-=======
-func newPrecomputedLastValue[N int64 | float64](limit int, r func() exemplar.FilteredReservoir[N]) *precomputedLastValue[N] {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return &precomputedLastValue[N]{lastValue: newLastValue[N](limit, r)}
 }
 

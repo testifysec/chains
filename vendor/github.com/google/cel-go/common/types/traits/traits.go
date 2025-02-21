@@ -59,7 +59,6 @@ const (
 	// SizerType types support the size() method.
 	SizerType
 
-<<<<<<< HEAD
 	// SubtractorType types support '-' operations.
 	SubtractorType
 
@@ -77,8 +76,4 @@ const (
 	//
 	// The MapperType is syntactic sugar and not intended to be a perfect reflection of all Map operators.
 	MapperType = ContainerType | IndexerType | IterableType | SizerType
-=======
-	// SubtractorType type support '-' operations.
-	SubtractorType
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )

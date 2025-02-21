@@ -47,12 +47,9 @@
       "ap-southeast-5" : {
         "description" : "Asia Pacific (Malaysia)"
       },
-<<<<<<< HEAD
       "ap-southeast-7" : {
         "description" : "Asia Pacific (Thailand)"
       },
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
       "aws-global" : {
         "description" : "AWS Standard global region"
       },
@@ -95,12 +92,9 @@
       "me-south-1" : {
         "description" : "Middle East (Bahrain)"
       },
-<<<<<<< HEAD
       "mx-central-1" : {
         "description" : "Mexico (Central)"
       },
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
       "sa-east-1" : {
         "description" : "South America (Sao Paulo)"
       },

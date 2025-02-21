@@ -16,11 +16,7 @@ package internal
 
 import (
 	"context"
-<<<<<<< HEAD
 	"crypto"
-=======
-	"crypto/rsa"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"crypto/x509"
 	"encoding/json"
 	"encoding/pem"
@@ -76,45 +72,27 @@ func DefaultClient() *http.Client {
 }
 
 // ParseKey converts the binary contents of a private key file
-<<<<<<< HEAD
 // to an crypto.Signer. It detects whether the private key is in a
 // PEM container or not. If so, it extracts the the private key
 // from PEM container before conversion. It only supports PEM
 // containers with no passphrase.
 func ParseKey(key []byte) (crypto.Signer, error) {
-=======
-// to an *rsa.PrivateKey. It detects whether the private key is in a
-// PEM container or not. If so, it extracts the the private key
-// from PEM container before conversion. It only supports PEM
-// containers with no passphrase.
-func ParseKey(key []byte) (*rsa.PrivateKey, error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	block, _ := pem.Decode(key)
 	if block != nil {
 		key = block.Bytes
 	}
-<<<<<<< HEAD
 	var parsedKey crypto.PrivateKey
 	var err error
 	parsedKey, err = x509.ParsePKCS8PrivateKey(key)
-=======
-	parsedKey, err := x509.ParsePKCS8PrivateKey(key)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		parsedKey, err = x509.ParsePKCS1PrivateKey(key)
 		if err != nil {
 			return nil, fmt.Errorf("private key should be a PEM or plain PKCS1 or PKCS8: %w", err)
 		}
 	}
-<<<<<<< HEAD
 	parsed, ok := parsedKey.(crypto.Signer)
 	if !ok {
 		return nil, errors.New("private key is not a signer")
-=======
-	parsed, ok := parsedKey.(*rsa.PrivateKey)
-	if !ok {
-		return nil, errors.New("private key is invalid")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return parsed, nil
 }
@@ -203,10 +181,7 @@ func (p StaticProperty) GetProperty(context.Context) (string, error) {
 // ComputeUniverseDomainProvider fetches the credentials universe domain from
 // the google cloud metadata service.
 type ComputeUniverseDomainProvider struct {
-<<<<<<< HEAD
 	MetadataClient     *metadata.Client
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	universeDomainOnce sync.Once
 	universeDomain     string
 	universeDomainErr  error
@@ -216,11 +191,7 @@ type ComputeUniverseDomainProvider struct {
 // metadata service.
 func (c *ComputeUniverseDomainProvider) GetProperty(ctx context.Context) (string, error) {
 	c.universeDomainOnce.Do(func() {
-<<<<<<< HEAD
 		c.universeDomain, c.universeDomainErr = getMetadataUniverseDomain(ctx, c.MetadataClient)
-=======
-		c.universeDomain, c.universeDomainErr = getMetadataUniverseDomain(ctx)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	})
 	if c.universeDomainErr != nil {
 		return "", c.universeDomainErr
@@ -229,7 +200,6 @@ func (c *ComputeUniverseDomainProvider) GetProperty(ctx context.Context) (string
 }
 
 // httpGetMetadataUniverseDomain is a package var for unit test substitution.
-<<<<<<< HEAD
 var httpGetMetadataUniverseDomain = func(ctx context.Context, client *metadata.Client) (string, error) {
 	ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
 	defer cancel()
@@ -238,16 +208,6 @@ var httpGetMetadataUniverseDomain = func(ctx context.Context, client *metadata.C
 
 func getMetadataUniverseDomain(ctx context.Context, client *metadata.Client) (string, error) {
 	universeDomain, err := httpGetMetadataUniverseDomain(ctx, client)
-=======
-var httpGetMetadataUniverseDomain = func(ctx context.Context) (string, error) {
-	ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
-	defer cancel()
-	return metadata.GetWithContext(ctx, "universe/universe-domain")
-}
-
-func getMetadataUniverseDomain(ctx context.Context) (string, error) {
-	universeDomain, err := httpGetMetadataUniverseDomain(ctx)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err == nil {
 		return universeDomain, nil
 	}
@@ -257,12 +217,9 @@ func getMetadataUniverseDomain(ctx context.Context) (string, error) {
 	}
 	return "", err
 }
-<<<<<<< HEAD
 
 // FormatIAMServiceAccountResource sets a service account name in an IAM resource
 // name.
 func FormatIAMServiceAccountResource(name string) string {
 	return fmt.Sprintf("projects/-/serviceAccounts/%s", name)
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

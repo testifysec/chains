@@ -14,11 +14,8 @@
 
 package gcp
 
-<<<<<<< HEAD
 import "context"
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 const (
 	// See https://cloud.google.com/appengine/docs/flexible/python/migrating#modules
 	// for the environment variables available in GAE environments.
@@ -72,11 +69,7 @@ func (d *Detector) AppEngineFlexAvailabilityZoneAndRegion() (string, string, err
 
 // AppEngineStandardAvailabilityZone returns the zone the app engine service is running in.
 func (d *Detector) AppEngineStandardAvailabilityZone() (string, error) {
-<<<<<<< HEAD
 	return d.metadata.ZoneWithContext(context.TODO())
-=======
-	return d.metadata.Zone()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // AppEngineStandardCloudRegion returns the region the app engine service is running in.

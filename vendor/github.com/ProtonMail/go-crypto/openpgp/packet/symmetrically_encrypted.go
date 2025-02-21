@@ -74,13 +74,10 @@ func (se *SymmetricallyEncrypted) Decrypt(c CipherFunction, key []byte) (io.Read
 // SerializeSymmetricallyEncrypted serializes a symmetrically encrypted packet
 // to w and returns a WriteCloser to which the to-be-encrypted packets can be
 // written.
-<<<<<<< HEAD
 // If aeadSupported is set to true, SEIPDv2 is used with the indicated CipherSuite.
 // Otherwise, SEIPDv1 is used with the indicated CipherFunction.
 // Note: aeadSupported MUST match the value passed to SerializeEncryptedKeyAEAD
 // and/or SerializeSymmetricKeyEncryptedAEADReuseKey.
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // If config is nil, sensible defaults will be used.
 func SerializeSymmetricallyEncrypted(w io.Writer, c CipherFunction, aeadSupported bool, cipherSuite CipherSuite, key []byte, config *Config) (Contents io.WriteCloser, err error) {
 	writeCloser := noOpCloser{w}

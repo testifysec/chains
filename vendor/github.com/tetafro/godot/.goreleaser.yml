@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 version: 2
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 builds:
   - dir: ./cmd/godot
 checksum:

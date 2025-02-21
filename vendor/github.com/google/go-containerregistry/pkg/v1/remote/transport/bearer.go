@@ -24,15 +24,10 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-<<<<<<< HEAD
 	"sync"
 
 	authchallenge "github.com/docker/distribution/registry/client/auth/challenge"
 
-=======
-
-	authchallenge "github.com/docker/distribution/registry/client/auth/challenge"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/google/go-containerregistry/internal/redact"
 	"github.com/google/go-containerregistry/pkg/authn"
 	"github.com/google/go-containerregistry/pkg/logs"
@@ -105,10 +100,7 @@ func fromChallenge(reg name.Registry, auth authn.Authenticator, t http.RoundTrip
 }
 
 type bearerTransport struct {
-<<<<<<< HEAD
 	mx sync.RWMutex
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Wrapped by bearerTransport.
 	inner http.RoundTripper
 	// Basic credentials that we exchange for bearer tokens.
@@ -150,14 +142,10 @@ func (bt *bearerTransport) RoundTrip(in *http.Request) (*http.Response, error) {
 		// the registry with which we are interacting.
 		// In case of redirect http.Client can use an empty Host, check URL too.
 		if matchesHost(bt.registry.RegistryStr(), in, bt.scheme) {
-<<<<<<< HEAD
 			bt.mx.RLock()
 			localToken := bt.bearer.RegistryToken
 			bt.mx.RUnlock()
 			hdr := fmt.Sprintf("Bearer %s", localToken)
-=======
-			hdr := fmt.Sprintf("Bearer %s", bt.bearer.RegistryToken)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			in.Header.Set("Authorization", hdr)
 		}
 		return bt.inner.RoundTrip(in)
@@ -174,19 +162,12 @@ func (bt *bearerTransport) RoundTrip(in *http.Request) (*http.Response, error) {
 		res.Body.Close()
 
 		newScopes := []string{}
-<<<<<<< HEAD
 		bt.mx.Lock()
 		got := stringSet(bt.scopes)
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		for _, wac := range challenges {
 			// TODO(jonjohnsonjr): Should we also update "realm" or "service"?
 			if want, ok := wac.Parameters["scope"]; ok {
 				// Add any scopes that we don't already request.
-<<<<<<< HEAD
-=======
-				got := stringSet(bt.scopes)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				if _, ok := got[want]; !ok {
 					newScopes = append(newScopes, want)
 				}
@@ -198,10 +179,7 @@ func (bt *bearerTransport) RoundTrip(in *http.Request) (*http.Response, error) {
 		// otherwise the registry might just ignore it :/
 		newScopes = append(newScopes, bt.scopes...)
 		bt.scopes = newScopes
-<<<<<<< HEAD
 		bt.mx.Unlock()
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 		// TODO(jonjohnsonjr): Teach transport.Error about "error" and "error_description" from challenge.
 
@@ -226,13 +204,9 @@ func (bt *bearerTransport) refresh(ctx context.Context) error {
 	}
 
 	if auth.RegistryToken != "" {
-<<<<<<< HEAD
 		bt.mx.Lock()
 		bt.bearer.RegistryToken = auth.RegistryToken
 		bt.mx.Unlock()
-=======
-		bt.bearer.RegistryToken = auth.RegistryToken
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return nil
 	}
 
@@ -248,13 +222,9 @@ func (bt *bearerTransport) refresh(ctx context.Context) error {
 
 	// Find a token to turn into a Bearer authenticator
 	if response.Token != "" {
-<<<<<<< HEAD
 		bt.mx.Lock()
 		bt.bearer.RegistryToken = response.Token
 		bt.mx.Unlock()
-=======
-		bt.bearer.RegistryToken = response.Token
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// If we obtained a refresh token from the oauth flow, use that for refresh() now.
@@ -348,13 +318,9 @@ func (bt *bearerTransport) refreshOauth(ctx context.Context) ([]byte, error) {
 	}
 
 	v := url.Values{}
-<<<<<<< HEAD
 	bt.mx.RLock()
 	v.Set("scope", strings.Join(bt.scopes, " "))
 	bt.mx.RUnlock()
-=======
-	v.Set("scope", strings.Join(bt.scopes, " "))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if bt.service != "" {
 		v.Set("service", bt.service)
 	}
@@ -410,13 +376,9 @@ func (bt *bearerTransport) refreshBasic(ctx context.Context) ([]byte, error) {
 	client := http.Client{Transport: b}
 
 	v := u.Query()
-<<<<<<< HEAD
 	bt.mx.RLock()
 	v["scope"] = bt.scopes
 	bt.mx.RUnlock()
-=======
-	v["scope"] = bt.scopes
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	v.Set("service", bt.service)
 	u.RawQuery = v.Encode()
 

@@ -26,11 +26,7 @@ type pbeCipher interface {
 	create(key []byte) (cipher.Block, error)
 	// deriveKey returns a key derived from the given password and salt.
 	deriveKey(salt, password []byte, iterations int) []byte
-<<<<<<< HEAD
 	// deriveIV returns an IV derived from the given password and salt.
-=======
-	// deriveKey returns an IV derived from the given password and salt.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	deriveIV(salt, password []byte, iterations int) []byte
 }
 

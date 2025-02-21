@@ -22,25 +22,15 @@ import (
 	"fmt"
 	"sync"
 
-<<<<<<< HEAD
 	"google.golang.org/grpc/xds/internal/xdsclient/transport/ads"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"google.golang.org/grpc/xds/internal/xdsclient/xdsresource"
 )
 
 // WatchResource uses xDS to discover the resource associated with the provided
-<<<<<<< HEAD
 // resource name. The resource type implementation determines how xDS responses
 // are are deserialized and validated, as received from the xDS management
 // server. Upon receipt of a response from the management server, an
 // appropriate callback on the watcher is invoked.
-=======
-// resource name. The resource type implementation determines how xDS requests
-// are sent out and how responses are deserialized and validated. Upon receipt
-// of a response from the management server, an appropriate callback on the
-// watcher is invoked.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *clientImpl) WatchResource(rType xdsresource.Type, resourceName string, watcher xdsresource.ResourceWatcher) (cancel func()) {
 	// Return early if the client is already closed.
 	//
@@ -59,7 +49,6 @@ func (c *clientImpl) WatchResource(rType xdsresource.Type, resourceName string, 
 		return func() {}
 	}
 
-<<<<<<< HEAD
 	n := xdsresource.ParseName(resourceName)
 	a := c.getAuthorityForResource(n)
 	if a == nil {
@@ -95,22 +84,6 @@ func (c *clientImpl) getAuthorityForResource(name *xdsresource.Name) *authority 
 		return c.topLevelAuthority
 	}
 	return c.authorities[name.Authority]
-=======
-	// TODO: Make ParseName return an error if parsing fails, and
-	// schedule the OnError callback in that case.
-	n := xdsresource.ParseName(resourceName)
-	a, unref, err := c.findAuthority(n)
-	if err != nil {
-		logger.Warningf("Watch registered for name %q of type %q, authority %q is not found", rType.TypeName(), resourceName, n.Authority)
-		c.serializer.TrySchedule(func(context.Context) { watcher.OnError(err, func() {}) })
-		return func() {}
-	}
-	cancelF := a.watchResource(rType, n.String(), watcher)
-	return func() {
-		cancelF()
-		unref()
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // A registry of xdsresource.Type implementations indexed by their corresponding
@@ -145,7 +118,6 @@ func (r *resourceTypeRegistry) maybeRegister(rType xdsresource.Type) error {
 }
 
 func (c *clientImpl) triggerResourceNotFoundForTesting(rType xdsresource.Type, resourceName string) error {
-<<<<<<< HEAD
 	c.channelsMu.Lock()
 	defer c.channelsMu.Unlock()
 
@@ -172,18 +144,3 @@ func (c *clientImpl) resourceWatchStateForTesting(rType xdsresource.Type, resour
 	}
 	return ads.ResourceWatchState{}, fmt.Errorf("unable to find watch state for resource type %q and name %q", rType.TypeName(), resourceName)
 }
-=======
-	if c == nil || c.done.HasFired() {
-		return fmt.Errorf("attempt to trigger resource-not-found-error for resource %q of type %q, but client is closed", rType.TypeName(), resourceName)
-	}
-
-	n := xdsresource.ParseName(resourceName)
-	a, unref, err := c.findAuthority(n)
-	if err != nil {
-		return fmt.Errorf("attempt to trigger resource-not-found-error for resource %q of type %q, but authority %q is not found", rType.TypeName(), resourceName, n.Authority)
-	}
-	defer unref()
-	a.triggerResourceNotFoundForTesting(rType, n.String())
-	return nil
-}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

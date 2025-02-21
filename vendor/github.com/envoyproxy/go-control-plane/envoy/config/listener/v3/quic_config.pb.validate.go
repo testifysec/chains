@@ -363,7 +363,6 @@ func (m *QuicProtocolOptions) validate(all bool) error {
 		}
 	}
 
-<<<<<<< HEAD
 	if len(m.GetSaveCmsgConfig()) > 1 {
 		err := QuicProtocolOptionsValidationError{
 			field:  "SaveCmsgConfig",
@@ -411,8 +410,6 @@ func (m *QuicProtocolOptions) validate(all bool) error {
 
 	// no validation rules for RejectNewConnections
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(errors) > 0 {
 		return QuicProtocolOptionsMultiError(errors)
 	}

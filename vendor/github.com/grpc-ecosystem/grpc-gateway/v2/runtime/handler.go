@@ -64,7 +64,6 @@ func ForwardResponseStream(ctx context.Context, mux *ServeMux, marshaler Marshal
 		}
 
 		if !wroteHeader {
-<<<<<<< HEAD
 			var contentType string
 			if sct, ok := marshaler.(StreamContentType); ok {
 				contentType = sct.StreamContentType(respRw)
@@ -72,9 +71,6 @@ func ForwardResponseStream(ctx context.Context, mux *ServeMux, marshaler Marshal
 				contentType = marshaler.ContentType(respRw)
 			}
 			w.Header().Set("Content-Type", contentType)
-=======
-			w.Header().Set("Content-Type", marshaler.ContentType(respRw))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 
 		var buf []byte
@@ -204,11 +200,7 @@ func ForwardResponseMessage(ctx context.Context, mux *ServeMux, marshaler Marsha
 		w.Header().Set("Content-Length", strconv.Itoa(len(buf)))
 	}
 
-<<<<<<< HEAD
 	if _, err = w.Write(buf); err != nil && !errors.Is(err, http.ErrBodyNotAllowed) {
-=======
-	if _, err = w.Write(buf); err != nil {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		grpclog.Errorf("Failed to write response: %v", err)
 	}
 

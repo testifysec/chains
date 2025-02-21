@@ -410,7 +410,6 @@ func awsAwsquery_deserializeOpErrorAssumeRoleWithWebIdentity(response *smithyhtt
 	}
 }
 
-<<<<<<< HEAD
 type awsAwsquery_deserializeOpAssumeRoot struct {
 }
 
@@ -526,8 +525,6 @@ func awsAwsquery_deserializeOpErrorAssumeRoot(response *smithyhttp.Response, met
 	}
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type awsAwsquery_deserializeOpDecodeAuthorizationMessage struct {
 }
 
@@ -2386,7 +2383,6 @@ func awsAwsquery_deserializeOpDocumentAssumeRoleWithWebIdentityOutput(v **Assume
 	return nil
 }
 
-<<<<<<< HEAD
 func awsAwsquery_deserializeOpDocumentAssumeRootOutput(v **AssumeRootOutput, decoder smithyxml.NodeDecoder) error {
 	if v == nil {
 		return fmt.Errorf("unexpected nil of type %T", v)
@@ -2442,8 +2438,6 @@ func awsAwsquery_deserializeOpDocumentAssumeRootOutput(v **AssumeRootOutput, dec
 	return nil
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func awsAwsquery_deserializeOpDocumentDecodeAuthorizationMessageOutput(v **DecodeAuthorizationMessageOutput, decoder smithyxml.NodeDecoder) error {
 	if v == nil {
 		return fmt.Errorf("unexpected nil of type %T", v)

@@ -585,7 +585,6 @@ func nativeToValue(a Adapter, value any) (ref.Val, bool) {
 		refKind := refValue.Kind()
 		switch refKind {
 		case reflect.Array, reflect.Slice:
-<<<<<<< HEAD
 			if refValue.Type().Elem() == reflect.TypeOf(byte(0)) {
 				if refValue.CanAddr() {
 					return Bytes(refValue.Bytes()), true
@@ -594,8 +593,6 @@ func nativeToValue(a Adapter, value any) (ref.Val, bool) {
 				tmp.Elem().Set(refValue)
 				return Bytes(tmp.Elem().Bytes()), true
 			}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return NewDynamicList(a, v), true
 		case reflect.Map:
 			return NewDynamicMap(a, v), true

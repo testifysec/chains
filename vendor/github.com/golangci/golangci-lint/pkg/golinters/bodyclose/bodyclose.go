@@ -12,11 +12,7 @@ func New() *goanalysis.Linter {
 
 	return goanalysis.NewLinter(
 		a.Name,
-<<<<<<< HEAD
 		a.Doc,
-=======
-		"checks whether HTTP response body is closed successfully",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		[]*analysis.Analyzer{a},
 		nil,
 	).WithLoadMode(goanalysis.LoadModeTypesInfo)

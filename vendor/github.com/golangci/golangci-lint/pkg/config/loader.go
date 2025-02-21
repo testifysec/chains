@@ -1,10 +1,7 @@
 package config
 
 import (
-<<<<<<< HEAD
 	"cmp"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"errors"
 	"fmt"
 	"os"
@@ -296,13 +293,7 @@ func (l *Loader) handleGoVersion() {
 
 	l.cfg.LintersSettings.ParallelTest.Go = l.cfg.Run.Go
 
-<<<<<<< HEAD
 	l.cfg.LintersSettings.Gofumpt.LangVersion = cmp.Or(l.cfg.LintersSettings.Gofumpt.LangVersion, l.cfg.Run.Go)
-=======
-	if l.cfg.LintersSettings.Gofumpt.LangVersion == "" {
-		l.cfg.LintersSettings.Gofumpt.LangVersion = l.cfg.Run.Go
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	trimmedGoVersion := goutil.TrimGoVersion(l.cfg.Run.Go)
 
@@ -330,7 +321,6 @@ func (l *Loader) handleDeprecation() error {
 		l.cfg.Issues.ExcludeDirs = l.cfg.Run.SkipDirs
 	}
 
-<<<<<<< HEAD
 	// Deprecated since v1.57.0
 	if l.cfg.Run.UseDefaultSkipDirs != nil {
 		l.log.Warnf("The configuration option `run.skip-dirs-use-default` is deprecated, please use `issues.exclude-dirs-use-default`.")
@@ -348,21 +338,6 @@ func (l *Loader) handleDeprecation() error {
 		l.log.Warnf("The configuration option `output.uniq-by-line` is deprecated, please use `issues.uniq-by-line`")
 		l.cfg.Issues.UniqByLine = *l.cfg.Output.UniqByLine
 	}
-=======
-	// The 2 options are true by default.
-	// Deprecated since v1.57.0
-	if !l.cfg.Run.UseDefaultSkipDirs {
-		l.log.Warnf("The configuration option `run.skip-dirs-use-default` is deprecated, please use `issues.exclude-dirs-use-default`.")
-	}
-	l.cfg.Issues.UseDefaultExcludeDirs = l.cfg.Run.UseDefaultSkipDirs && l.cfg.Issues.UseDefaultExcludeDirs
-
-	// The 2 options are false by default.
-	// Deprecated since v1.57.0
-	if l.cfg.Run.ShowStats {
-		l.log.Warnf("The configuration option `run.show-stats` is deprecated, please use `output.show-stats`")
-	}
-	l.cfg.Output.ShowStats = l.cfg.Run.ShowStats || l.cfg.Output.ShowStats
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Deprecated since v1.57.0
 	if l.cfg.Output.Format != "" {
@@ -385,17 +360,11 @@ func (l *Loader) handleDeprecation() error {
 	}
 
 	// Deprecated since v1.59.0
-<<<<<<< HEAD
 	if l.cfg.Issues.ExcludeGeneratedStrict != nil {
 		l.log.Warnf("The configuration option `issues.exclude-generated-strict` is deprecated, please use `issues.exclude-generated`")
 		if !*l.cfg.Issues.ExcludeGeneratedStrict {
 			l.cfg.Issues.ExcludeGenerated = "strict" // Don't use the constants to avoid cyclic dependencies.
 		}
-=======
-	if l.cfg.Issues.ExcludeGeneratedStrict {
-		l.log.Warnf("The configuration option `issues.exclude-generated-strict` is deprecated, please use `issues.exclude-generated`")
-		l.cfg.Issues.ExcludeGenerated = "strict" // Don't use the constants to avoid cyclic dependencies.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	l.handleLinterOptionDeprecations()
@@ -403,27 +372,15 @@ func (l *Loader) handleDeprecation() error {
 	return nil
 }
 
-<<<<<<< HEAD
 func (l *Loader) handleLinterOptionDeprecations() {
 	// Deprecated since v1.57.0,
 	// but it was unofficially deprecated since v1.19 (2019) (https://github.com/golangci/golangci-lint/pull/697).
 	if l.cfg.LintersSettings.Govet.CheckShadowing != nil {
-=======
-//nolint:gocyclo // the complexity cannot be reduced.
-func (l *Loader) handleLinterOptionDeprecations() {
-	// Deprecated since v1.57.0,
-	// but it was unofficially deprecated since v1.19 (2019) (https://github.com/golangci/golangci-lint/pull/697).
-	if l.cfg.LintersSettings.Govet.CheckShadowing {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		l.log.Warnf("The configuration option `linters.govet.check-shadowing` is deprecated. " +
 			"Please enable `shadow` instead, if you are not using `enable-all`.")
 	}
 
-<<<<<<< HEAD
 	if l.cfg.LintersSettings.CopyLoopVar.IgnoreAlias != nil {
-=======
-	if l.cfg.LintersSettings.CopyLoopVar.IgnoreAlias {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		l.log.Warnf("The configuration option `linters.copyloopvar.ignore-alias` is deprecated and ignored," +
 			"please use `linters.copyloopvar.check-alias`.")
 	}
@@ -445,11 +402,7 @@ func (l *Loader) handleLinterOptionDeprecations() {
 	}
 
 	// Deprecated since v1.33.0.
-<<<<<<< HEAD
 	if l.cfg.LintersSettings.Godot.CheckAll != nil {
-=======
-	if l.cfg.LintersSettings.Godot.CheckAll {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		l.log.Warnf("The configuration option `linters.godot.check-all` is deprecated, please use `linters.godot.scope: all`.")
 	}
 
@@ -474,16 +427,11 @@ func (l *Loader) handleLinterOptionDeprecations() {
 	}
 
 	// Deprecated since v1.60.0
-<<<<<<< HEAD
 	if l.cfg.LintersSettings.Unused.ExportedIsUsed != nil {
-=======
-	if !l.cfg.LintersSettings.Unused.ExportedIsUsed {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		l.log.Warnf("The configuration option `linters.unused.exported-is-used` is deprecated.")
 	}
 
 	// Deprecated since v1.58.0
-<<<<<<< HEAD
 	if l.cfg.LintersSettings.SlogLint.ContextOnly != nil {
 		l.log.Warnf("The configuration option `linters.sloglint.context-only` is deprecated, please use `linters.sloglint.context`.")
 		l.cfg.LintersSettings.SlogLint.Context = cmp.Or(l.cfg.LintersSettings.SlogLint.Context, "all")
@@ -491,26 +439,11 @@ func (l *Loader) handleLinterOptionDeprecations() {
 
 	// Deprecated since v1.51.0
 	if l.cfg.LintersSettings.UseStdlibVars.OSDevNull != nil {
-=======
-	if l.cfg.LintersSettings.SlogLint.ContextOnly {
-		l.log.Warnf("The configuration option `linters.sloglint.context-only` is deprecated, please use `linters.sloglint.context`.")
-		if l.cfg.LintersSettings.SlogLint.Context == "" {
-			l.cfg.LintersSettings.SlogLint.Context = "all"
-		}
-	}
-
-	// Deprecated since v1.51.0
-	if l.cfg.LintersSettings.UseStdlibVars.OSDevNull {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		l.log.Warnf("The configuration option `linters.usestdlibvars.os-dev-null` is deprecated.")
 	}
 
 	// Deprecated since v1.51.0
-<<<<<<< HEAD
 	if l.cfg.LintersSettings.UseStdlibVars.SyslogPriority != nil {
-=======
-	if l.cfg.LintersSettings.UseStdlibVars.SyslogPriority {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		l.log.Warnf("The configuration option `linters.usestdlibvars.syslog-priority` is deprecated.")
 	}
 }

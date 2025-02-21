@@ -448,7 +448,6 @@ func (m *QuicProtocolOptions) validate(all bool) error {
 		}
 	}
 
-<<<<<<< HEAD
 	if all {
 		switch v := interface{}(m.GetMaxPacketLength()).(type) {
 		case interface{ ValidateAll() error }:
@@ -478,8 +477,6 @@ func (m *QuicProtocolOptions) validate(all bool) error {
 		}
 	}
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(errors) > 0 {
 		return QuicProtocolOptionsMultiError(errors)
 	}
@@ -971,7 +968,6 @@ func (m *HttpProtocolOptions) validate(all bool) error {
 
 	}
 
-<<<<<<< HEAD
 	if wrapper := m.GetMaxResponseHeadersKb(); wrapper != nil {
 
 		if val := wrapper.GetValue(); val <= 0 || val > 8192 {
@@ -987,8 +983,6 @@ func (m *HttpProtocolOptions) validate(all bool) error {
 
 	}
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if all {
 		switch v := interface{}(m.GetMaxStreamDuration()).(type) {
 		case interface{ ValidateAll() error }:

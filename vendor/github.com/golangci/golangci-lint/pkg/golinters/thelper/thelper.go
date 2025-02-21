@@ -12,11 +12,7 @@ import (
 	"github.com/golangci/golangci-lint/pkg/golinters/internal"
 )
 
-<<<<<<< HEAD
 func New(settings *config.ThelperSettings) *goanalysis.Linter {
-=======
-func New(cfg *config.ThelperSettings) *goanalysis.Linter {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	a := analyzer.NewAnalyzer()
 
 	opts := map[string]struct{}{
@@ -37,19 +33,11 @@ func New(cfg *config.ThelperSettings) *goanalysis.Linter {
 		"tb_first": {},
 	}
 
-<<<<<<< HEAD
 	if settings != nil {
 		applyTHelperOptions(settings.Test, "t_", opts)
 		applyTHelperOptions(settings.Fuzz, "f_", opts)
 		applyTHelperOptions(settings.Benchmark, "b_", opts)
 		applyTHelperOptions(settings.TB, "tb_", opts)
-=======
-	if cfg != nil {
-		applyTHelperOptions(cfg.Test, "t_", opts)
-		applyTHelperOptions(cfg.Fuzz, "f_", opts)
-		applyTHelperOptions(cfg.Benchmark, "b_", opts)
-		applyTHelperOptions(cfg.TB, "tb_", opts)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	if len(opts) == 0 {
@@ -58,11 +46,7 @@ func New(cfg *config.ThelperSettings) *goanalysis.Linter {
 
 	args := maps.Keys(opts)
 
-<<<<<<< HEAD
 	cfg := map[string]map[string]any{
-=======
-	cfgMap := map[string]map[string]any{
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		a.Name: {
 			"checks": strings.Join(args, ","),
 		},
@@ -72,11 +56,7 @@ func New(cfg *config.ThelperSettings) *goanalysis.Linter {
 		a.Name,
 		a.Doc,
 		[]*analysis.Analyzer{a},
-<<<<<<< HEAD
 		cfg,
-=======
-		cfgMap,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	).WithLoadMode(goanalysis.LoadModeTypesInfo)
 }
 

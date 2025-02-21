@@ -10,15 +10,12 @@ import (
 	"github.com/ProtonMail/go-crypto/openpgp/errors"
 )
 
-<<<<<<< HEAD
 type PacketReader interface {
 	Next() (p Packet, err error)
 	Push(reader io.Reader) (err error)
 	Unread(p Packet)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Reader reads packets from an io.Reader and allows packets to be 'unread' so
 // that they result from the next call to Next.
 type Reader struct {
@@ -35,7 +32,6 @@ type Reader struct {
 const maxReaders = 32
 
 // Next returns the most recently unread Packet, or reads another packet from
-<<<<<<< HEAD
 // the top-most io.Reader. Unknown/unsupported/Marker packet types are skipped.
 func (r *Reader) Next() (p Packet, err error) {
 	for {
@@ -98,49 +94,19 @@ func (r *Reader) NextWithUnsupported() (p Packet, err error) {
 }
 
 func (r *Reader) read() (p Packet, err error) {
-=======
-// the top-most io.Reader. Unknown packet types are skipped.
-func (r *Reader) Next() (p Packet, err error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(r.q) > 0 {
 		p = r.q[len(r.q)-1]
 		r.q = r.q[:len(r.q)-1]
 		return
 	}
-<<<<<<< HEAD
 	for len(r.readers) > 0 {
 		p, err = Read(r.readers[len(r.readers)-1])
-=======
-
-	for len(r.readers) > 0 {
-		p, err = Read(r.readers[len(r.readers)-1])
-		if err == nil {
-			return
-		}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err == io.EOF {
 			r.readers = r.readers[:len(r.readers)-1]
 			continue
 		}
-<<<<<<< HEAD
 		return p, err
 	}
-=======
-		// TODO: Add strict mode that rejects unknown packets, instead of ignoring them.
-		if _, ok := err.(errors.UnknownPacketTypeError); ok {
-			continue
-		}
-		if _, ok := err.(errors.UnsupportedError); ok {
-			switch p.(type) {
-			case *SymmetricallyEncrypted, *AEADEncrypted, *Compressed, *LiteralData:
-				return nil, err
-			}
-			continue
-		}
-		return nil, err
-	}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil, io.EOF
 }
 
@@ -168,7 +134,6 @@ func NewReader(r io.Reader) *Reader {
 		readers: []io.Reader{r},
 	}
 }
-<<<<<<< HEAD
 
 // CheckReader is similar to Reader but additionally
 // uses the pushdown automata to verify the read packet sequence.
@@ -242,5 +207,3 @@ func NewCheckReader(r io.Reader) *CheckReader {
 		fullyRead: false,
 	}
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

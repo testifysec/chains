@@ -45,11 +45,7 @@ func (c *Client) setAddress() error {
 		c.config.dialOptions = append(c.config.dialOptions, grpc.WithContextDialer(winio.DialPipeContext))
 	}
 
-<<<<<<< HEAD
 	c.config.address, err = TargetFromAddress(c.config.address)
-=======
-	c.config.address, err = parseTargetFromStringAddr(c.config.address)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return err
 }
 

@@ -26,11 +26,7 @@ func (in *Inspector) PreorderSeq(types ...ast.Node) iter.Seq[ast.Node] {
 
 	return func(yield func(ast.Node) bool) {
 		mask := maskOf(types)
-<<<<<<< HEAD
 		for i := int32(0); i < int32(len(in.events)); {
-=======
-		for i := 0; i < len(in.events); {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			ev := in.events[i]
 			if ev.index > i {
 				// push
@@ -67,11 +63,7 @@ func All[N interface {
 
 	mask := typeOf((N)(nil))
 	return func(yield func(N) bool) {
-<<<<<<< HEAD
 		for i := int32(0); i < int32(len(in.events)); {
-=======
-		for i := 0; i < len(in.events); {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			ev := in.events[i]
 			if ev.index > i {
 				// push

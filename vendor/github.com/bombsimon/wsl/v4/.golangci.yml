@@ -39,27 +39,17 @@ linters:
   enable-all: true
   disable:
     - cyclop
-<<<<<<< HEAD
     - depguard
     - dupl
     - dupword
     - exhaustruct
     - exportloopref
-=======
-    - deadcode
-    - depguard
-    - dupl
-    - dupword
-    - exhaustivestruct
-    - exhaustruct
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     - forbidigo
     - funlen
     - gci
     - gocognit
     - gocyclo
     - godox
-<<<<<<< HEAD
     - mnd
     - lll
     - maintidx
@@ -71,26 +61,6 @@ linters:
     - rowserrcheck
     - testpackage
     - tparallel
-=======
-    - golint
-    - gomnd
-    - ifshort
-    - interfacer
-    - lll
-    - maintidx
-    - maligned
-    - nakedret
-    - nestif
-    - nlreturn
-    - nosnakecase
-    - paralleltest
-    - prealloc
-    - rowserrcheck
-    - scopelint
-    - structcheck
-    - testpackage
-    - varcheck
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     - varnamelen
     - wastedassign
 
@@ -98,8 +68,4 @@ issues:
   exclude-use-default: true
   max-issues-per-linter: 0
   max-same-issues: 0
-<<<<<<< HEAD
-=======
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 # vim: set sw=2 ts=2 et:

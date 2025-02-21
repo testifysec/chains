@@ -13,36 +13,22 @@ import (
 	"google.golang.org/grpc/stats"
 	"google.golang.org/grpc/status"
 
-<<<<<<< HEAD
-=======
-	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc/internal"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/metric"
 	semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
 	"go.opentelemetry.io/otel/trace"
-<<<<<<< HEAD
 
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc/internal"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 type gRPCContextKey struct{}
 
 type gRPCContext struct {
-<<<<<<< HEAD
 	inMessages  int64
 	outMessages int64
 	metricAttrs []attribute.KeyValue
 	record      bool
-=======
-	messagesReceived int64
-	messagesSent     int64
-	metricAttrs      []attribute.KeyValue
-	record           bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type serverHandler struct {
@@ -165,13 +151,8 @@ func (c *config) handleRPC(ctx context.Context, rs stats.RPCStats, isServer bool
 	case *stats.Begin:
 	case *stats.InPayload:
 		if gctx != nil {
-<<<<<<< HEAD
 			messageId = atomic.AddInt64(&gctx.inMessages, 1)
 			c.rpcInBytes.Record(ctx, int64(rs.Length), metric.WithAttributeSet(attribute.NewSet(metricAttrs...)))
-=======
-			messageId = atomic.AddInt64(&gctx.messagesReceived, 1)
-			c.rpcRequestSize.Record(ctx, int64(rs.Length), metric.WithAttributeSet(attribute.NewSet(metricAttrs...)))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 
 		if c.ReceivedEvent {
@@ -186,13 +167,8 @@ func (c *config) handleRPC(ctx context.Context, rs stats.RPCStats, isServer bool
 		}
 	case *stats.OutPayload:
 		if gctx != nil {
-<<<<<<< HEAD
 			messageId = atomic.AddInt64(&gctx.outMessages, 1)
 			c.rpcOutBytes.Record(ctx, int64(rs.Length), metric.WithAttributeSet(attribute.NewSet(metricAttrs...)))
-=======
-			messageId = atomic.AddInt64(&gctx.messagesSent, 1)
-			c.rpcResponseSize.Record(ctx, int64(rs.Length), metric.WithAttributeSet(attribute.NewSet(metricAttrs...)))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 
 		if c.SentEvent {
@@ -238,13 +214,8 @@ func (c *config) handleRPC(ctx context.Context, rs stats.RPCStats, isServer bool
 
 		c.rpcDuration.Record(ctx, elapsedTime, recordOpts...)
 		if gctx != nil {
-<<<<<<< HEAD
 			c.rpcInMessages.Record(ctx, atomic.LoadInt64(&gctx.inMessages), recordOpts...)
 			c.rpcOutMessages.Record(ctx, atomic.LoadInt64(&gctx.outMessages), recordOpts...)
-=======
-			c.rpcRequestsPerRPC.Record(ctx, atomic.LoadInt64(&gctx.messagesReceived), recordOpts...)
-			c.rpcResponsesPerRPC.Record(ctx, atomic.LoadInt64(&gctx.messagesSent), recordOpts...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	default:
 		return

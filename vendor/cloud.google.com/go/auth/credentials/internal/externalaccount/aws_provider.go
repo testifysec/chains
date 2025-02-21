@@ -23,10 +23,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-<<<<<<< HEAD
 	"log/slog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"net/url"
 	"os"
@@ -36,10 +33,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/auth/internal"
-<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 var (
@@ -95,10 +89,7 @@ type awsSubjectProvider struct {
 	reqOpts                     *RequestOptions
 
 	Client *http.Client
-<<<<<<< HEAD
 	logger *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (sp *awsSubjectProvider) subjectToken(ctx context.Context) (string, error) {
@@ -204,18 +195,12 @@ func (sp *awsSubjectProvider) getAWSSessionToken(ctx context.Context) (string, e
 	}
 	req.Header.Set(awsIMDSv2SessionTTLHeader, awsIMDSv2SessionTTL)
 
-<<<<<<< HEAD
 	sp.logger.DebugContext(ctx, "aws session token request", "request", internallog.HTTPRequest(req, nil))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(sp.Client, req)
 	if err != nil {
 		return "", err
 	}
-<<<<<<< HEAD
 	sp.logger.DebugContext(ctx, "aws session token response", "response", internallog.HTTPResponse(resp, body))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if resp.StatusCode != http.StatusOK {
 		return "", fmt.Errorf("credentials: unable to retrieve AWS session token: %s", body)
 	}
@@ -245,18 +230,12 @@ func (sp *awsSubjectProvider) getRegion(ctx context.Context, headers map[string]
 	for name, value := range headers {
 		req.Header.Add(name, value)
 	}
-<<<<<<< HEAD
 	sp.logger.DebugContext(ctx, "aws region request", "request", internallog.HTTPRequest(req, nil))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(sp.Client, req)
 	if err != nil {
 		return "", err
 	}
-<<<<<<< HEAD
 	sp.logger.DebugContext(ctx, "aws region response", "response", internallog.HTTPResponse(resp, body))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if resp.StatusCode != http.StatusOK {
 		return "", fmt.Errorf("credentials: unable to retrieve AWS region - %s", body)
 	}
@@ -311,18 +290,12 @@ func (sp *awsSubjectProvider) getMetadataSecurityCredentials(ctx context.Context
 	for name, value := range headers {
 		req.Header.Add(name, value)
 	}
-<<<<<<< HEAD
 	sp.logger.DebugContext(ctx, "aws security credential request", "request", internallog.HTTPRequest(req, nil))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(sp.Client, req)
 	if err != nil {
 		return result, err
 	}
-<<<<<<< HEAD
 	sp.logger.DebugContext(ctx, "aws security credential response", "response", internallog.HTTPResponse(resp, body))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if resp.StatusCode != http.StatusOK {
 		return result, fmt.Errorf("credentials: unable to retrieve AWS security credentials - %s", body)
 	}
@@ -344,18 +317,12 @@ func (sp *awsSubjectProvider) getMetadataRoleName(ctx context.Context, headers m
 		req.Header.Add(name, value)
 	}
 
-<<<<<<< HEAD
 	sp.logger.DebugContext(ctx, "aws metadata role request", "request", internallog.HTTPRequest(req, nil))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(sp.Client, req)
 	if err != nil {
 		return "", err
 	}
-<<<<<<< HEAD
 	sp.logger.DebugContext(ctx, "aws metadata role response", "response", internallog.HTTPResponse(resp, body))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if resp.StatusCode != http.StatusOK {
 		return "", fmt.Errorf("credentials: unable to retrieve AWS role name - %s", body)
 	}

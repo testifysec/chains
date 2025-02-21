@@ -72,13 +72,8 @@ var (
 	// errMethodNotSupported indicates that the method called is not currently supported by the client.
 	// TODO: Export this error when launching the transport-agnostic client.
 	errMethodNotSupported = errors.New("storage: method is not currently supported")
-<<<<<<< HEAD
 	// errSignedURLMethodNotValid indicates that given HTTP method is not valid.
 	errSignedURLMethodNotValid = fmt.Errorf("storage: HTTP method should be one of %v", reflect.ValueOf(signedURLMethods).MapKeys())
-=======
-	// errMethodNotValid indicates that given HTTP method is not valid.
-	errMethodNotValid = fmt.Errorf("storage: HTTP method should be one of %v", reflect.ValueOf(signedURLMethods).MapKeys())
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 var userAgent = fmt.Sprintf("gcloud-golang-storage/%s", internal.Version)
@@ -694,11 +689,7 @@ func validateOptions(opts *SignedURLOptions, now time.Time) error {
 	}
 	opts.Method = strings.ToUpper(opts.Method)
 	if _, ok := signedURLMethods[opts.Method]; !ok {
-<<<<<<< HEAD
 		return errSignedURLMethodNotValid
-=======
-		return errMethodNotValid
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if opts.Expires.IsZero() {
 		return errors.New("storage: missing required expires option")
@@ -946,12 +937,9 @@ func signedURLV2(bucket, name string, opts *SignedURLOptions) (string, error) {
 	return u.String(), nil
 }
 
-<<<<<<< HEAD
 // ReadHandle associated with the object. This is periodically refreshed.
 type ReadHandle []byte
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // ObjectHandle provides operations on an object in a Google Cloud Storage bucket.
 // Use BucketHandle.Object to get a handle.
 type ObjectHandle struct {
@@ -967,7 +955,6 @@ type ObjectHandle struct {
 	retry             *retryConfig
 	overrideRetention *bool
 	softDeleted       bool
-<<<<<<< HEAD
 	readHandle        ReadHandle
 }
 
@@ -985,8 +972,6 @@ func (o *ObjectHandle) ReadHandle(r ReadHandle) *ObjectHandle {
 	o2 := *o
 	o2.readHandle = r
 	return &o2
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ACL provides access to the object's access control list.
@@ -1191,7 +1176,6 @@ func (o *ObjectHandle) Restore(ctx context.Context, opts *RestoreOptions) (*Obje
 	}, sOpts...)
 }
 
-<<<<<<< HEAD
 // Move changes the name of the object to the destination name.
 // It can only be used to rename an object within the same bucket. The
 // bucket must have [HierarchicalNamespace] enabled to use this method.
@@ -1224,8 +1208,6 @@ type MoveObjectDestination struct {
 	Conditions *Conditions
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // NewWriter returns a storage Writer that writes to the GCS object
 // associated with this ObjectHandle.
 //
@@ -2125,7 +2107,6 @@ func applyConds(method string, gen int64, conds *Conditions, call interface{}) e
 	return nil
 }
 
-<<<<<<< HEAD
 // applySourceConds modifies the provided call using the conditions in conds.
 // call is something that quacks like a *raw.WhateverCall.
 // This is specifically for calls like Rewrite and Move which have a source and destination
@@ -2136,25 +2117,15 @@ func applySourceConds(method string, gen int64, conds *Conditions, call interfac
 		if !setSourceGeneration(cval, gen) {
 			return fmt.Errorf("storage: %s: source generation not supported", method)
 		}
-=======
-func applySourceConds(gen int64, conds *Conditions, call *raw.ObjectsRewriteCall) error {
-	if gen >= 0 {
-		call.SourceGeneration(gen)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if conds == nil {
 		return nil
 	}
-<<<<<<< HEAD
 	if err := conds.validate(method); err != nil {
-=======
-	if err := conds.validate("CopyTo source"); err != nil {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return err
 	}
 	switch {
 	case conds.GenerationMatch != 0:
-<<<<<<< HEAD
 		if !setIfSourceGenerationMatch(cval, conds.GenerationMatch) {
 			return fmt.Errorf("storage: %s: ifSourceGenerationMatch not supported", method)
 		}
@@ -2176,24 +2147,10 @@ func applySourceConds(gen int64, conds *Conditions, call *raw.ObjectsRewriteCall
 		if !setIfSourceMetagenerationNotMatch(cval, conds.MetagenerationNotMatch) {
 			return fmt.Errorf("storage: %s: ifSourceMetagenerationNotMatch not supported", method)
 		}
-=======
-		call.IfSourceGenerationMatch(conds.GenerationMatch)
-	case conds.GenerationNotMatch != 0:
-		call.IfSourceGenerationNotMatch(conds.GenerationNotMatch)
-	case conds.DoesNotExist:
-		call.IfSourceGenerationMatch(0)
-	}
-	switch {
-	case conds.MetagenerationMatch != 0:
-		call.IfSourceMetagenerationMatch(conds.MetagenerationMatch)
-	case conds.MetagenerationNotMatch != 0:
-		call.IfSourceMetagenerationNotMatch(conds.MetagenerationNotMatch)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return nil
 }
 
-<<<<<<< HEAD
 // applySourceCondsProto validates and attempts to set the conditions on a protobuf
 // message using protobuf reflection. This is specifically for RPCs which have separate
 // preconditions for source and destination objects (e.g. Rewrite and Move).
@@ -2204,16 +2161,10 @@ func applySourceCondsProto(method string, gen int64, conds *Conditions, msg prot
 		if !setConditionProtoField(rmsg, "source_generation", gen) {
 			return fmt.Errorf("storage: %s: generation not supported", method)
 		}
-=======
-func applySourceCondsProto(gen int64, conds *Conditions, call *storagepb.RewriteObjectRequest) error {
-	if gen >= 0 {
-		call.SourceGeneration = gen
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if conds == nil {
 		return nil
 	}
-<<<<<<< HEAD
 	if err := conds.validate(method); err != nil {
 		return err
 	}
@@ -2241,24 +2192,6 @@ func applySourceCondsProto(gen int64, conds *Conditions, call *storagepb.Rewrite
 		if !setConditionProtoField(rmsg, "if_source_metageneration_not_match", conds.MetagenerationNotMatch) {
 			return fmt.Errorf("storage: %s: ifSourceMetagenerationNotMatch not supported", method)
 		}
-=======
-	if err := conds.validate("CopyTo source"); err != nil {
-		return err
-	}
-	switch {
-	case conds.GenerationMatch != 0:
-		call.IfSourceGenerationMatch = proto.Int64(conds.GenerationMatch)
-	case conds.GenerationNotMatch != 0:
-		call.IfSourceGenerationNotMatch = proto.Int64(conds.GenerationNotMatch)
-	case conds.DoesNotExist:
-		call.IfSourceGenerationMatch = proto.Int64(0)
-	}
-	switch {
-	case conds.MetagenerationMatch != 0:
-		call.IfSourceMetagenerationMatch = proto.Int64(conds.MetagenerationMatch)
-	case conds.MetagenerationNotMatch != 0:
-		call.IfSourceMetagenerationNotMatch = proto.Int64(conds.MetagenerationNotMatch)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return nil
 }
@@ -2297,7 +2230,6 @@ func setIfMetagenerationNotMatch(cval reflect.Value, value interface{}) bool {
 	return setCondition(cval.MethodByName("IfMetagenerationNotMatch"), value)
 }
 
-<<<<<<< HEAD
 // More methods to set source object precondition fields (used by Rewrite and Move APIs).
 func setSourceGeneration(cval reflect.Value, value interface{}) bool {
 	return setCondition(cval.MethodByName("SourceGeneration"), value)
@@ -2319,8 +2251,6 @@ func setIfSourceMetagenerationNotMatch(cval reflect.Value, value interface{}) bo
 	return setCondition(cval.MethodByName("IfSourceMetagenerationNotMatch"), value)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func setCondition(setter reflect.Value, value interface{}) bool {
 	if setter.IsValid() {
 		setter.Call([]reflect.Value{reflect.ValueOf(value)})
@@ -2394,11 +2324,7 @@ type withBackoff struct {
 }
 
 func (wb *withBackoff) apply(config *retryConfig) {
-<<<<<<< HEAD
 	config.backoff = &wb.backoff
-=======
-	config.backoff = gaxBackoffFromStruct(&wb.backoff)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // WithMaxAttempts configures the maximum number of times an API call can be made
@@ -2489,63 +2415,8 @@ func (wef *withErrorFunc) apply(config *retryConfig) {
 	config.shouldRetry = wef.shouldRetry
 }
 
-<<<<<<< HEAD
 type retryConfig struct {
 	backoff     *gax.Backoff
-=======
-type backoff interface {
-	Pause() time.Duration
-
-	SetInitial(time.Duration)
-	SetMax(time.Duration)
-	SetMultiplier(float64)
-
-	GetInitial() time.Duration
-	GetMax() time.Duration
-	GetMultiplier() float64
-}
-
-func gaxBackoffFromStruct(bo *gax.Backoff) *gaxBackoff {
-	if bo == nil {
-		return nil
-	}
-	b := &gaxBackoff{}
-	b.Backoff = *bo
-	return b
-}
-
-// gaxBackoff is a gax.Backoff that implements the backoff interface
-type gaxBackoff struct {
-	gax.Backoff
-}
-
-func (b *gaxBackoff) SetInitial(i time.Duration) {
-	b.Initial = i
-}
-
-func (b *gaxBackoff) SetMax(m time.Duration) {
-	b.Max = m
-}
-
-func (b *gaxBackoff) SetMultiplier(m float64) {
-	b.Multiplier = m
-}
-
-func (b *gaxBackoff) GetInitial() time.Duration {
-	return b.Initial
-}
-
-func (b *gaxBackoff) GetMax() time.Duration {
-	return b.Max
-}
-
-func (b *gaxBackoff) GetMultiplier() float64 {
-	return b.Multiplier
-}
-
-type retryConfig struct {
-	backoff     backoff
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	policy      RetryPolicy
 	shouldRetry func(err error) bool
 	maxAttempts *int
@@ -2555,7 +2426,6 @@ func (r *retryConfig) clone() *retryConfig {
 	if r == nil {
 		return nil
 	}
-<<<<<<< HEAD
 
 	var bo *gax.Backoff
 	if r.backoff != nil {
@@ -2568,27 +2438,10 @@ func (r *retryConfig) clone() *retryConfig {
 
 	return &retryConfig{
 		backoff:     bo,
-=======
-	newConfig := &retryConfig{
-		backoff:     nil,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		policy:      r.policy,
 		shouldRetry: r.shouldRetry,
 		maxAttempts: r.maxAttempts,
 	}
-<<<<<<< HEAD
-=======
-
-	if r.backoff != nil {
-		bo := &gaxBackoff{}
-		bo.Initial = r.backoff.GetInitial()
-		bo.Max = r.backoff.GetMax()
-		bo.Multiplier = r.backoff.GetMultiplier()
-		newConfig.backoff = bo
-	}
-
-	return newConfig
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // composeSourceObj wraps a *raw.ComposeRequestSourceObjects, but adds the methods

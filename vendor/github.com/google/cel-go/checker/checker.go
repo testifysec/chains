@@ -496,7 +496,6 @@ func (c *checker) checkComprehension(e ast.Expr) {
 	comp := e.AsComprehension()
 	c.check(comp.IterRange())
 	c.check(comp.AccuInit())
-<<<<<<< HEAD
 	rangeType := substitute(c.mappings, c.getType(comp.IterRange()), false)
 
 	// Create a scope for the comprehension since it has a local accumulation variable.
@@ -523,18 +522,6 @@ func (c *checker) checkComprehension(e ast.Expr) {
 			// var2Type represents the map entry value for two-variable comprehensions.
 			var2Type = rangeType.Parameters()[1]
 		}
-=======
-	accuType := c.getType(comp.AccuInit())
-	rangeType := substitute(c.mappings, c.getType(comp.IterRange()), false)
-	var varType *types.Type
-
-	switch rangeType.Kind() {
-	case types.ListKind:
-		varType = rangeType.Parameters()[0]
-	case types.MapKind:
-		// Ranges over the keys.
-		varType = rangeType.Parameters()[0]
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case types.DynKind, types.ErrorKind, types.TypeParamKind:
 		// Set the range type to DYN to prevent assignment to a potentially incorrect type
 		// at a later point in type-checking. The isAssignable call will update the type
@@ -542,7 +529,6 @@ func (c *checker) checkComprehension(e ast.Expr) {
 		c.isAssignable(types.DynType, rangeType)
 		// Set the range iteration variable to type DYN as well.
 		varType = types.DynType
-<<<<<<< HEAD
 		if comp.HasIterVar2() {
 			var2Type = types.DynType
 		}
@@ -560,20 +546,6 @@ func (c *checker) checkComprehension(e ast.Expr) {
 	if comp.HasIterVar2() {
 		c.env.AddIdents(decls.NewVariable(comp.IterVar2(), var2Type))
 	}
-=======
-	default:
-		c.errors.notAComprehensionRange(comp.IterRange().ID(), c.location(comp.IterRange()), rangeType)
-		varType = types.ErrorType
-	}
-
-	// Create a scope for the comprehension since it has a local accumulation variable.
-	// This scope will contain the accumulation variable used to compute the result.
-	c.env = c.env.enterScope()
-	c.env.AddIdents(decls.NewVariable(comp.AccuVar(), accuType))
-	// Create a block scope for the loop.
-	c.env = c.env.enterScope()
-	c.env.AddIdents(decls.NewVariable(comp.IterVar(), varType))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Check the variable references in the condition and step.
 	c.check(comp.LoopCondition())
 	c.assertType(comp.LoopCondition(), types.BoolType)

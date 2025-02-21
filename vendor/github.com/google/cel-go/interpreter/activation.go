@@ -17,10 +17,6 @@ package interpreter
 import (
 	"errors"
 	"fmt"
-<<<<<<< HEAD
-=======
-	"sync"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"github.com/google/cel-go/common/types/ref"
 )
@@ -160,14 +156,11 @@ type PartialActivation interface {
 	UnknownAttributePatterns() []*AttributePattern
 }
 
-<<<<<<< HEAD
 // partialActivationConverter indicates whether an Activation implementation supports conversion to a PartialActivation
 type partialActivationConverter interface {
 	asPartialActivation() (PartialActivation, bool)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // partActivation is the default implementations of the PartialActivation interface.
 type partActivation struct {
 	Activation
@@ -179,7 +172,6 @@ func (a *partActivation) UnknownAttributePatterns() []*AttributePattern {
 	return a.unknowns
 }
 
-<<<<<<< HEAD
 // asPartialActivation returns the partActivation as a PartialActivation interface.
 func (a *partActivation) asPartialActivation() (PartialActivation, bool) {
 	return a, true
@@ -196,36 +188,3 @@ func asPartialActivation(vars Activation) (PartialActivation, bool) {
 	}
 	return nil, false
 }
-=======
-// varActivation represents a single mutable variable binding.
-//
-// This activation type should only be used within folds as the fold loop controls the object
-// life-cycle.
-type varActivation struct {
-	parent Activation
-	name   string
-	val    ref.Val
-}
-
-// Parent implements the Activation interface method.
-func (v *varActivation) Parent() Activation {
-	return v.parent
-}
-
-// ResolveName implements the Activation interface method.
-func (v *varActivation) ResolveName(name string) (any, bool) {
-	if name == v.name {
-		return v.val, true
-	}
-	return v.parent.ResolveName(name)
-}
-
-var (
-	// pool of var activations to reduce allocations during folds.
-	varActivationPool = &sync.Pool{
-		New: func() any {
-			return &varActivation{}
-		},
-	}
-)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

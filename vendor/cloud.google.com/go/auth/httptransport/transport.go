@@ -27,10 +27,6 @@ import (
 	"cloud.google.com/go/auth/internal"
 	"cloud.google.com/go/auth/internal/transport"
 	"cloud.google.com/go/auth/internal/transport/cert"
-<<<<<<< HEAD
-=======
-	"go.opencensus.io/plugin/ochttp"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"golang.org/x/net/http2"
 )
@@ -46,14 +42,7 @@ func newTransport(base http.RoundTripper, opts *Options) (http.RoundTripper, err
 		headers: headers,
 	}
 	var trans http.RoundTripper = ht
-<<<<<<< HEAD
 	trans = addOpenTelemetryTransport(trans, opts)
-=======
-	// Give OpenTelemetry precedence over OpenCensus in case user configuration
-	// causes both to write the same header (`X-Cloud-Trace-Context`).
-	trans = addOpenTelemetryTransport(trans, opts)
-	trans = addOCTransport(trans, opts)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	switch {
 	case opts.DisableAuthentication:
 		// Do nothing.
@@ -186,19 +175,6 @@ func addOpenTelemetryTransport(trans http.RoundTripper, opts *Options) http.Roun
 	return otelhttp.NewTransport(trans)
 }
 
-<<<<<<< HEAD
-=======
-func addOCTransport(trans http.RoundTripper, opts *Options) http.RoundTripper {
-	if opts.DisableTelemetry {
-		return trans
-	}
-	return &ochttp.Transport{
-		Base:        trans,
-		Propagation: &httpFormat{},
-	}
-}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type authTransport struct {
 	creds                        *auth.Credentials
 	base                         http.RoundTripper

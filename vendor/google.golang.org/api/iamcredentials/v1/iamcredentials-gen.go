@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 // Copyright 2025 Google LLC.
-=======
-// Copyright 2024 Google LLC.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -61,19 +57,13 @@ import (
 	"errors"
 	"fmt"
 	"io"
-<<<<<<< HEAD
 	"log/slog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
 
-<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	googleapi "google.golang.org/api/googleapi"
 	internal "google.golang.org/api/internal"
 	gensupport "google.golang.org/api/internal/gensupport"
@@ -97,10 +87,7 @@ var _ = strings.Replace
 var _ = context.Canceled
 var _ = internaloption.WithDefaultEndpoint
 var _ = internal.Version
-<<<<<<< HEAD
 var _ = internallog.New
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 const apiId = "iamcredentials:v1"
 const apiName = "iamcredentials"
@@ -131,12 +118,8 @@ func NewService(ctx context.Context, opts ...option.ClientOption) (*Service, err
 	if err != nil {
 		return nil, err
 	}
-<<<<<<< HEAD
 	s := &Service{client: client, BasePath: basePath, logger: internaloption.GetLogger(opts)}
 	s.Projects = NewProjectsService(s)
-=======
-	s, err := New(client)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}
@@ -155,21 +138,12 @@ func New(client *http.Client) (*Service, error) {
 	if client == nil {
 		return nil, errors.New("client is nil")
 	}
-<<<<<<< HEAD
 	return NewService(context.Background(), option.WithHTTPClient(client))
-=======
-	s := &Service{client: client, BasePath: basePath}
-	s.Projects = NewProjectsService(s)
-	return s, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type Service struct {
 	client    *http.Client
-<<<<<<< HEAD
 	logger    *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	BasePath  string // API endpoint base URL
 	UserAgent string // optional additional User-Agent fragment
 
@@ -553,12 +527,7 @@ func (c *ProjectsServiceAccountsGenerateAccessTokenCall) Header() http.Header {
 
 func (c *ProjectsServiceAccountsGenerateAccessTokenCall) doRequest(alt string) (*http.Response, error) {
 	reqHeaders := gensupport.SetHeaders(c.s.userAgent(), "application/json", c.header_)
-<<<<<<< HEAD
 	body, err := googleapi.WithoutDataWrapper.JSONBuffer(c.generateaccesstokenrequest)
-=======
-	var body io.Reader = nil
-	body, err := googleapi.WithoutDataWrapper.JSONReader(c.generateaccesstokenrequest)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}
@@ -574,10 +543,7 @@ func (c *ProjectsServiceAccountsGenerateAccessTokenCall) doRequest(alt string) (
 	googleapi.Expand(req.URL, map[string]string{
 		"name": c.name,
 	})
-<<<<<<< HEAD
 	c.s.logger.DebugContext(c.ctx_, "api request", "serviceName", apiName, "rpcName", "iamcredentials.projects.serviceAccounts.generateAccessToken", "request", internallog.HTTPRequest(req, body.Bytes()))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return gensupport.SendRequest(c.ctx_, c.s.client, req)
 }
 
@@ -613,17 +579,11 @@ func (c *ProjectsServiceAccountsGenerateAccessTokenCall) Do(opts ...googleapi.Ca
 		},
 	}
 	target := &ret
-<<<<<<< HEAD
 	b, err := gensupport.DecodeResponseBytes(target, res)
 	if err != nil {
 		return nil, err
 	}
 	c.s.logger.DebugContext(c.ctx_, "api response", "serviceName", apiName, "rpcName", "iamcredentials.projects.serviceAccounts.generateAccessToken", "response", internallog.HTTPResponse(res, b))
-=======
-	if err := gensupport.DecodeResponse(target, res); err != nil {
-		return nil, err
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return ret, nil
 }
 
@@ -674,12 +634,7 @@ func (c *ProjectsServiceAccountsGenerateIdTokenCall) Header() http.Header {
 
 func (c *ProjectsServiceAccountsGenerateIdTokenCall) doRequest(alt string) (*http.Response, error) {
 	reqHeaders := gensupport.SetHeaders(c.s.userAgent(), "application/json", c.header_)
-<<<<<<< HEAD
 	body, err := googleapi.WithoutDataWrapper.JSONBuffer(c.generateidtokenrequest)
-=======
-	var body io.Reader = nil
-	body, err := googleapi.WithoutDataWrapper.JSONReader(c.generateidtokenrequest)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}
@@ -695,10 +650,7 @@ func (c *ProjectsServiceAccountsGenerateIdTokenCall) doRequest(alt string) (*htt
 	googleapi.Expand(req.URL, map[string]string{
 		"name": c.name,
 	})
-<<<<<<< HEAD
 	c.s.logger.DebugContext(c.ctx_, "api request", "serviceName", apiName, "rpcName", "iamcredentials.projects.serviceAccounts.generateIdToken", "request", internallog.HTTPRequest(req, body.Bytes()))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return gensupport.SendRequest(c.ctx_, c.s.client, req)
 }
 
@@ -734,17 +686,11 @@ func (c *ProjectsServiceAccountsGenerateIdTokenCall) Do(opts ...googleapi.CallOp
 		},
 	}
 	target := &ret
-<<<<<<< HEAD
 	b, err := gensupport.DecodeResponseBytes(target, res)
 	if err != nil {
 		return nil, err
 	}
 	c.s.logger.DebugContext(c.ctx_, "api response", "serviceName", apiName, "rpcName", "iamcredentials.projects.serviceAccounts.generateIdToken", "response", internallog.HTTPResponse(res, b))
-=======
-	if err := gensupport.DecodeResponse(target, res); err != nil {
-		return nil, err
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return ret, nil
 }
 
@@ -803,19 +749,11 @@ func (c *ProjectsServiceAccountsGetAllowedLocationsCall) doRequest(alt string) (
 	if c.ifNoneMatch_ != "" {
 		reqHeaders.Set("If-None-Match", c.ifNoneMatch_)
 	}
-<<<<<<< HEAD
-=======
-	var body io.Reader = nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	c.urlParams_.Set("alt", alt)
 	c.urlParams_.Set("prettyPrint", "false")
 	urls := googleapi.ResolveRelative(c.s.BasePath, "v1/{+name}/allowedLocations")
 	urls += "?" + c.urlParams_.Encode()
-<<<<<<< HEAD
 	req, err := http.NewRequest("GET", urls, nil)
-=======
-	req, err := http.NewRequest("GET", urls, body)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}
@@ -823,10 +761,7 @@ func (c *ProjectsServiceAccountsGetAllowedLocationsCall) doRequest(alt string) (
 	googleapi.Expand(req.URL, map[string]string{
 		"name": c.name,
 	})
-<<<<<<< HEAD
 	c.s.logger.DebugContext(c.ctx_, "api request", "serviceName", apiName, "rpcName", "iamcredentials.projects.serviceAccounts.getAllowedLocations", "request", internallog.HTTPRequest(req, nil))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return gensupport.SendRequest(c.ctx_, c.s.client, req)
 }
 
@@ -862,17 +797,11 @@ func (c *ProjectsServiceAccountsGetAllowedLocationsCall) Do(opts ...googleapi.Ca
 		},
 	}
 	target := &ret
-<<<<<<< HEAD
 	b, err := gensupport.DecodeResponseBytes(target, res)
 	if err != nil {
 		return nil, err
 	}
 	c.s.logger.DebugContext(c.ctx_, "api response", "serviceName", apiName, "rpcName", "iamcredentials.projects.serviceAccounts.getAllowedLocations", "response", internallog.HTTPResponse(res, b))
-=======
-	if err := gensupport.DecodeResponse(target, res); err != nil {
-		return nil, err
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return ret, nil
 }
 
@@ -923,12 +852,7 @@ func (c *ProjectsServiceAccountsSignBlobCall) Header() http.Header {
 
 func (c *ProjectsServiceAccountsSignBlobCall) doRequest(alt string) (*http.Response, error) {
 	reqHeaders := gensupport.SetHeaders(c.s.userAgent(), "application/json", c.header_)
-<<<<<<< HEAD
 	body, err := googleapi.WithoutDataWrapper.JSONBuffer(c.signblobrequest)
-=======
-	var body io.Reader = nil
-	body, err := googleapi.WithoutDataWrapper.JSONReader(c.signblobrequest)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}
@@ -944,10 +868,7 @@ func (c *ProjectsServiceAccountsSignBlobCall) doRequest(alt string) (*http.Respo
 	googleapi.Expand(req.URL, map[string]string{
 		"name": c.name,
 	})
-<<<<<<< HEAD
 	c.s.logger.DebugContext(c.ctx_, "api request", "serviceName", apiName, "rpcName", "iamcredentials.projects.serviceAccounts.signBlob", "request", internallog.HTTPRequest(req, body.Bytes()))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return gensupport.SendRequest(c.ctx_, c.s.client, req)
 }
 
@@ -983,17 +904,11 @@ func (c *ProjectsServiceAccountsSignBlobCall) Do(opts ...googleapi.CallOption) (
 		},
 	}
 	target := &ret
-<<<<<<< HEAD
 	b, err := gensupport.DecodeResponseBytes(target, res)
 	if err != nil {
 		return nil, err
 	}
 	c.s.logger.DebugContext(c.ctx_, "api response", "serviceName", apiName, "rpcName", "iamcredentials.projects.serviceAccounts.signBlob", "response", internallog.HTTPResponse(res, b))
-=======
-	if err := gensupport.DecodeResponse(target, res); err != nil {
-		return nil, err
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return ret, nil
 }
 
@@ -1044,12 +959,7 @@ func (c *ProjectsServiceAccountsSignJwtCall) Header() http.Header {
 
 func (c *ProjectsServiceAccountsSignJwtCall) doRequest(alt string) (*http.Response, error) {
 	reqHeaders := gensupport.SetHeaders(c.s.userAgent(), "application/json", c.header_)
-<<<<<<< HEAD
 	body, err := googleapi.WithoutDataWrapper.JSONBuffer(c.signjwtrequest)
-=======
-	var body io.Reader = nil
-	body, err := googleapi.WithoutDataWrapper.JSONReader(c.signjwtrequest)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, err
 	}
@@ -1065,10 +975,7 @@ func (c *ProjectsServiceAccountsSignJwtCall) doRequest(alt string) (*http.Respon
 	googleapi.Expand(req.URL, map[string]string{
 		"name": c.name,
 	})
-<<<<<<< HEAD
 	c.s.logger.DebugContext(c.ctx_, "api request", "serviceName", apiName, "rpcName", "iamcredentials.projects.serviceAccounts.signJwt", "request", internallog.HTTPRequest(req, body.Bytes()))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return gensupport.SendRequest(c.ctx_, c.s.client, req)
 }
 
@@ -1104,16 +1011,10 @@ func (c *ProjectsServiceAccountsSignJwtCall) Do(opts ...googleapi.CallOption) (*
 		},
 	}
 	target := &ret
-<<<<<<< HEAD
 	b, err := gensupport.DecodeResponseBytes(target, res)
 	if err != nil {
 		return nil, err
 	}
 	c.s.logger.DebugContext(c.ctx_, "api response", "serviceName", apiName, "rpcName", "iamcredentials.projects.serviceAccounts.signJwt", "response", internallog.HTTPResponse(res, b))
-=======
-	if err := gensupport.DecodeResponse(target, res); err != nil {
-		return nil, err
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return ret, nil
 }

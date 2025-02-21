@@ -22,25 +22,16 @@ linters:
     - govet
     - ineffassign
     - misspell
-<<<<<<< HEAD
     - perfsprint
     - revive
     - staticcheck
     - tenv
     - testifylint
-=======
-    - revive
-    - staticcheck
-    - tenv
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     - typecheck
     - unconvert
     - unused
     - unparam
-<<<<<<< HEAD
     - usestdlibvars
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 issues:
   # Maximum issues count per one linter.
@@ -72,29 +63,17 @@ issues:
       text: "calls to (.+) only in main[(][)] or init[(][)] functions"
       linters:
         - revive
-<<<<<<< HEAD
     # It's okay to not run gosec and perfsprint in a test.
     - path: _test\.go
       linters:
         - gosec
         - perfsprint
     # Ignoring gosec G404: Use of weak random number generator (math/rand instead of crypto/rand)
-=======
-    # It's okay to not run gosec in a test.
-    - path: _test\.go
-      linters:
-        - gosec
-    # Igonoring gosec G404: Use of weak random number generator (math/rand instead of crypto/rand)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     # as we commonly use it in tests and examples.
     - text: "G404:"
       linters:
         - gosec
-<<<<<<< HEAD
     # Ignoring gosec G402: TLS MinVersion too low
-=======
-    # Igonoring gosec G402: TLS MinVersion too low
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     # as the https://pkg.go.dev/crypto/tls#Config handles MinVersion default well.
     - text: "G402: TLS MinVersion too low."
       linters:
@@ -119,7 +98,6 @@ linters-settings:
           - pkg: "crypto/md5"
           - pkg: "crypto/sha1"
           - pkg: "crypto/**/pkix"
-<<<<<<< HEAD
       auto/sdk:
         files:
           - "!internal/global/trace.go"
@@ -127,8 +105,6 @@ linters-settings:
         deny:
           - pkg: "go.opentelemetry.io/auto/sdk"
             desc: Do not use SDK from automatic instrumentation.
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
       otlp-internal:
         files:
           - "!**/exporters/otlp/internal/**/*.go"
@@ -161,11 +137,6 @@ linters-settings:
           - "**/metric/**/*.go"
           - "**/bridge/*.go"
           - "**/bridge/**/*.go"
-<<<<<<< HEAD
-=======
-          - "**/example/*.go"
-          - "**/example/**/*.go"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
           - "**/trace/*.go"
           - "**/trace/**/*.go"
           - "**/log/*.go"
@@ -193,15 +164,12 @@ linters-settings:
     locale: US
     ignore-words:
       - cancelled
-<<<<<<< HEAD
   perfsprint:
     err-error: true
     errorf: true
     int-conversion: true
     sprintf1: true
     strconcat: true
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   revive:
     # Sets the default failure confidence.
     # This means that linting errors with less than 0.8 confidence will be ignored.
@@ -349,12 +317,9 @@ linters-settings:
       # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#waitgroup-by-value
       - name: waitgroup-by-value
         disabled: false
-<<<<<<< HEAD
   testifylint:
     enable-all: true
     disable:
       - float-compare
       - go-require
       - require-error
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

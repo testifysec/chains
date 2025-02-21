@@ -2,7 +2,6 @@
 
 ## HEAD
 
-<<<<<<< HEAD
 ## v1.3.1
 
 * Add AllLogListSignatureURL by @AlexLaroche in https://github.com/google/certificate-transparency-go/pull/1634
@@ -177,8 +176,6 @@ A new flag `http_idle_timeout` is added to set the HTTP server's idle timeout va
 * Bump the all-deps group with 3 updates by @dependabot in https://github.com/google/certificate-transparency-go/pull/1603
 * Bump distroless/base-debian12 from `6ae5fe6` to `8fe31fb` in /trillian/examples/deployment/docker/ctfe in the all-deps group by @dependabot in https://github.com/google/certificate-transparency-go/pull/1604
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## v1.2.1
 
 ### Fixes

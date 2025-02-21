@@ -13,10 +13,7 @@
         "api_op_AssumeRole.go",
         "api_op_AssumeRoleWithSAML.go",
         "api_op_AssumeRoleWithWebIdentity.go",
-<<<<<<< HEAD
         "api_op_AssumeRoot.go",
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
         "api_op_DecodeAuthorizationMessage.go",
         "api_op_GetAccessKeyInfo.go",
         "api_op_GetCallerIdentity.go",

@@ -3,10 +3,7 @@ package wsl
 import (
 	"flag"
 	"go/ast"
-<<<<<<< HEAD
 	"go/token"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 
 	"golang.org/x/tools/go/analysis"
@@ -82,7 +79,6 @@ func (wa *wslAnalyzer) flags() flag.FlagSet {
 
 func (wa *wslAnalyzer) run(pass *analysis.Pass) (interface{}, error) {
 	for _, file := range pass.Files {
-<<<<<<< HEAD
 		filename := getFilename(pass.Fset, file)
 		if !strings.HasSuffix(filename, ".go") {
 			continue
@@ -94,14 +90,6 @@ func (wa *wslAnalyzer) run(pass *analysis.Pass) (interface{}, error) {
 		// The file is skipped if the "unadjusted" file is a Go file, and it's a generated file (ex: "_test.go" file).
 		// The other non-Go files are skipped by the first 'if' with the adjusted position.
 		if !wa.config.IncludeGenerated && ast.IsGenerated(file) && strings.HasSuffix(fn, ".go") {
-=======
-		if !wa.config.IncludeGenerated && ast.IsGenerated(file) {
-			continue
-		}
-
-		filename := pass.Fset.PositionFor(file.Pos(), false).Filename
-		if !strings.HasSuffix(filename, ".go") {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			continue
 		}
 
@@ -145,11 +133,7 @@ type multiStringValue struct {
 // Set implements the flag.Value interface and will overwrite the pointer to the
 // slice with a new pointer after splitting the flag by comma.
 func (m *multiStringValue) Set(value string) error {
-<<<<<<< HEAD
 	var s []string
-=======
-	s := []string{}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	for _, v := range strings.Split(value, ",") {
 		s = append(s, strings.TrimSpace(v))
@@ -168,7 +152,6 @@ func (m *multiStringValue) String() string {
 
 	return strings.Join(*m.slicePtr, ", ")
 }
-<<<<<<< HEAD
 
 func getFilename(fset *token.FileSet, file *ast.File) string {
 	filename := fset.PositionFor(file.Pos(), true).Filename
@@ -178,5 +161,3 @@ func getFilename(fset *token.FileSet, file *ast.File) string {
 
 	return filename
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

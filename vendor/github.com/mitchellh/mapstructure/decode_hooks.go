@@ -271,15 +271,11 @@ func TextUnmarshallerHookFunc() DecodeHookFuncType {
 		if !ok {
 			return data, nil
 		}
-<<<<<<< HEAD
 		str, ok := data.(string)
 		if !ok {
 			str = reflect.Indirect(reflect.ValueOf(&data)).Elem().String()
 		}
 		if err := unmarshaller.UnmarshalText([]byte(str)); err != nil {
-=======
-		if err := unmarshaller.UnmarshalText([]byte(data.(string))); err != nil {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return nil, err
 		}
 		return result, nil

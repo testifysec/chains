@@ -16,17 +16,9 @@ func isValidCredsMessage(msg string) error {
 	if credentials.IsCredentialsMissingServerURLMessage(msg) {
 		return credentials.NewErrCredentialsMissingServerURL()
 	}
-<<<<<<< HEAD
 	if credentials.IsCredentialsMissingUsernameMessage(msg) {
 		return credentials.NewErrCredentialsMissingUsername()
 	}
-=======
-
-	if credentials.IsCredentialsMissingUsernameMessage(msg) {
-		return credentials.NewErrCredentialsMissingUsername()
-	}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil
 }
 
@@ -42,20 +34,10 @@ func Store(program ProgramFunc, creds *credentials.Credentials) error {
 
 	out, err := cmd.Output()
 	if err != nil {
-<<<<<<< HEAD
 		if isValidErr := isValidCredsMessage(string(out)); isValidErr != nil {
 			err = isValidErr
 		}
 		return fmt.Errorf("error storing credentials - err: %v, out: `%s`", err, strings.TrimSpace(string(out)))
-=======
-		t := strings.TrimSpace(string(out))
-
-		if isValidErr := isValidCredsMessage(t); isValidErr != nil {
-			err = isValidErr
-		}
-
-		return fmt.Errorf("error storing credentials - err: %v, out: `%s`", err, t)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	return nil
@@ -68,7 +50,6 @@ func Get(program ProgramFunc, serverURL string) (*credentials.Credentials, error
 
 	out, err := cmd.Output()
 	if err != nil {
-<<<<<<< HEAD
 		if credentials.IsErrCredentialsNotFoundMessage(string(out)) {
 			return nil, credentials.NewErrCredentialsNotFound()
 		}
@@ -78,19 +59,6 @@ func Get(program ProgramFunc, serverURL string) (*credentials.Credentials, error
 		}
 
 		return nil, fmt.Errorf("error getting credentials - err: %v, out: `%s`", err, strings.TrimSpace(string(out)))
-=======
-		t := strings.TrimSpace(string(out))
-
-		if credentials.IsErrCredentialsNotFoundMessage(t) {
-			return nil, credentials.NewErrCredentialsNotFound()
-		}
-
-		if isValidErr := isValidCredsMessage(t); isValidErr != nil {
-			err = isValidErr
-		}
-
-		return nil, fmt.Errorf("error getting credentials - err: %v, out: `%s`", err, t)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	resp := &credentials.Credentials{

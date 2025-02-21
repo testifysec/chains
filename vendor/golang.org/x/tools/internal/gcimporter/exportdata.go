@@ -2,20 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-<<<<<<< HEAD
 // This file should be kept in sync with $GOROOT/src/internal/exportdata/exportdata.go.
 // This file also additionally implements FindExportData for gcexportdata.NewReader.
-=======
-// This file is a copy of $GOROOT/src/go/internal/gcimporter/exportdata.go.
-
-// This file implements FindExportData.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 package gcimporter
 
 import (
 	"bufio"
-<<<<<<< HEAD
 	"bytes"
 	"errors"
 	"fmt"
@@ -186,43 +179,6 @@ func ReadUnified(r *bufio.Reader) (data []byte, err error) {
 func FindPackageDefinition(r *bufio.Reader) (size int, err error) {
 	// Uses ReadSlice to limit risk of malformed inputs.
 
-=======
-	"fmt"
-	"io"
-	"strconv"
-	"strings"
-)
-
-func readGopackHeader(r *bufio.Reader) (name string, size int64, err error) {
-	// See $GOROOT/include/ar.h.
-	hdr := make([]byte, 16+12+6+6+8+10+2)
-	_, err = io.ReadFull(r, hdr)
-	if err != nil {
-		return
-	}
-	// leave for debugging
-	if false {
-		fmt.Printf("header: %s", hdr)
-	}
-	s := strings.TrimSpace(string(hdr[16+12+6+6+8:][:10]))
-	length, err := strconv.Atoi(s)
-	size = int64(length)
-	if err != nil || hdr[len(hdr)-2] != '`' || hdr[len(hdr)-1] != '\n' {
-		err = fmt.Errorf("invalid archive header")
-		return
-	}
-	name = strings.TrimSpace(string(hdr[:16]))
-	return
-}
-
-// FindExportData positions the reader r at the beginning of the
-// export data section of an underlying GC-created object/archive
-// file by reading from it. The reader must be positioned at the
-// start of the file before calling this function. The hdr result
-// is the string before the export data, either "$$" or "$$B".
-// The size result is the length of the export data in bytes, or -1 if not known.
-func FindExportData(r *bufio.Reader) (hdr string, size int64, err error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Read first line to make sure this is an object file.
 	line, err := r.ReadSlice('\n')
 	if err != nil {
@@ -230,7 +186,6 @@ func FindExportData(r *bufio.Reader) (hdr string, size int64, err error) {
 		return
 	}
 
-<<<<<<< HEAD
 	// Is the first line an archive file signature?
 	if string(line) != "!<arch>\n" {
 		err = fmt.Errorf("not the start of an archive file (%q)", line)
@@ -242,54 +197,10 @@ func FindExportData(r *bufio.Reader) (hdr string, size int64, err error) {
 	if size <= 0 {
 		err = fmt.Errorf("not a package file")
 		return
-=======
-	if string(line) == "!<arch>\n" {
-		// Archive file. Scan to __.PKGDEF.
-		var name string
-		if name, size, err = readGopackHeader(r); err != nil {
-			return
-		}
-
-		// First entry should be __.PKGDEF.
-		if name != "__.PKGDEF" {
-			err = fmt.Errorf("go archive is missing __.PKGDEF")
-			return
-		}
-
-		// Read first line of __.PKGDEF data, so that line
-		// is once again the first line of the input.
-		if line, err = r.ReadSlice('\n'); err != nil {
-			err = fmt.Errorf("can't find export data (%v)", err)
-			return
-		}
-		size -= int64(len(line))
-	}
-
-	// Now at __.PKGDEF in archive or still at beginning of file.
-	// Either way, line should begin with "go object ".
-	if !strings.HasPrefix(string(line), "go object ") {
-		err = fmt.Errorf("not a Go object file")
-		return
-	}
-
-	// Skip over object header to export data.
-	// Begins after first line starting with $$.
-	for line[0] != '$' {
-		if line, err = r.ReadSlice('\n'); err != nil {
-			err = fmt.Errorf("can't find export data (%v)", err)
-			return
-		}
-		size -= int64(len(line))
-	}
-	hdr = string(line)
-	if size < 0 {
-		size = -1
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	return
 }
-<<<<<<< HEAD
 
 // ReadObjectHeaders reads object headers from the reader. Object headers are
 // lines that do not start with an end-of-section marker "$$". The first header
@@ -508,5 +419,3 @@ func lookupGorootExport(pkgDir string) (string, error) {
 
 	return f.(func() (string, error))()
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

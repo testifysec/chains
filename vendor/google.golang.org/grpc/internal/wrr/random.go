@@ -19,11 +19,7 @@ package wrr
 
 import (
 	"fmt"
-<<<<<<< HEAD
 	rand "math/rand/v2"
-=======
-	"math/rand"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"sort"
 )
 
@@ -50,31 +46,19 @@ func NewRandom() WRR {
 	return &randomWRR{}
 }
 
-<<<<<<< HEAD
 var randInt64n = rand.Int64N
-=======
-var randInt63n = rand.Int63n
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 func (rw *randomWRR) Next() (item any) {
 	if len(rw.items) == 0 {
 		return nil
 	}
 	if rw.equalWeights {
-<<<<<<< HEAD
 		return rw.items[randInt64n(int64(len(rw.items)))].item
-=======
-		return rw.items[randInt63n(int64(len(rw.items)))].item
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	sumOfWeights := rw.items[len(rw.items)-1].accumulatedWeight
 	// Random number in [0, sumOfWeights).
-<<<<<<< HEAD
 	randomWeight := randInt64n(sumOfWeights)
-=======
-	randomWeight := randInt63n(sumOfWeights)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Item's accumulated weights are in ascending order, because item's weight >= 0.
 	// Binary search rw.items to find first item whose accumulatedWeight > randomWeight
 	// The return i is guaranteed to be in range [0, len(rw.items)) because randomWeight < last item's accumulatedWeight

@@ -123,10 +123,7 @@ func (b *priorityBalancer) UpdateClientConnState(s balancer.ClientConnState) err
 		return fmt.Errorf("unexpected balancer config with type: %T", s.BalancerConfig)
 	}
 	addressesSplit := hierarchy.Group(s.ResolverState.Addresses)
-<<<<<<< HEAD
 	endpointsSplit := hierarchy.GroupEndpoints(s.ResolverState.Endpoints)
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	b.mu.Lock()
 	// Create and remove children, since we know all children from the config
@@ -146,10 +143,7 @@ func (b *priorityBalancer) UpdateClientConnState(s balancer.ClientConnState) err
 			cb := newChildBalancer(name, b, bb.Name(), b.cc)
 			cb.updateConfig(newSubConfig, resolver.State{
 				Addresses:     addressesSplit[name],
-<<<<<<< HEAD
 				Endpoints:     endpointsSplit[name],
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				ServiceConfig: s.ResolverState.ServiceConfig,
 				Attributes:    s.ResolverState.Attributes,
 			})
@@ -171,10 +165,7 @@ func (b *priorityBalancer) UpdateClientConnState(s balancer.ClientConnState) err
 		// be built, if it's a low priority).
 		currentChild.updateConfig(newSubConfig, resolver.State{
 			Addresses:     addressesSplit[name],
-<<<<<<< HEAD
 			Endpoints:     endpointsSplit[name],
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			ServiceConfig: s.ResolverState.ServiceConfig,
 			Attributes:    s.ResolverState.Attributes,
 		})

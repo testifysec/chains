@@ -139,10 +139,7 @@ func detectDefaultFromDialSettings(settings *DialSettings) (*auth.Credentials, e
 		CredentialsFile:  settings.CredentialsFile,
 		CredentialsJSON:  settings.CredentialsJSON,
 		UseSelfSignedJWT: useSelfSignedJWT,
-<<<<<<< HEAD
 		Logger:           settings.Logger,
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	})
 }
 

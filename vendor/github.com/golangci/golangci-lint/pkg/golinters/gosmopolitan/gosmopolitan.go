@@ -10,7 +10,6 @@ import (
 	"github.com/golangci/golangci-lint/pkg/goanalysis"
 )
 
-<<<<<<< HEAD
 func New(settings *config.GosmopolitanSettings) *goanalysis.Linter {
 	a := gosmopolitan.NewAnalyzer()
 
@@ -21,18 +20,6 @@ func New(settings *config.GosmopolitanSettings) *goanalysis.Linter {
 			"escapehatches":   strings.Join(settings.EscapeHatches, ","),
 			"lookattests":     !settings.IgnoreTests,
 			"watchforscripts": strings.Join(settings.WatchForScripts, ","),
-=======
-func New(s *config.GosmopolitanSettings) *goanalysis.Linter {
-	a := gosmopolitan.NewAnalyzer()
-
-	cfgMap := map[string]map[string]any{}
-	if s != nil {
-		cfgMap[a.Name] = map[string]any{
-			"allowtimelocal":  s.AllowTimeLocal,
-			"escapehatches":   strings.Join(s.EscapeHatches, ","),
-			"lookattests":     !s.IgnoreTests,
-			"watchforscripts": strings.Join(s.WatchForScripts, ","),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 
@@ -40,10 +27,6 @@ func New(s *config.GosmopolitanSettings) *goanalysis.Linter {
 		a.Name,
 		a.Doc,
 		[]*analysis.Analyzer{a},
-<<<<<<< HEAD
 		cfg,
-=======
-		cfgMap,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	).WithLoadMode(goanalysis.LoadModeTypesInfo)
 }

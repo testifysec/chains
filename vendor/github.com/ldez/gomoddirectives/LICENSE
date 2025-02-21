@@ -175,11 +175,7 @@
 
    END OF TERMS AND CONDITIONS
 
-<<<<<<< HEAD
    Copyright 2024 Fernandez Ludovic
-=======
-   Copyright 2021 Fernandez Ludovic
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

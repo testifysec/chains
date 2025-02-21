@@ -3,8 +3,4 @@
 package endpoints
 
 // goModuleVersion is the tagged release for this module
-<<<<<<< HEAD
 const goModuleVersion = "2.6.29"
-=======
-const goModuleVersion = "2.6.23"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

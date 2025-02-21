@@ -309,14 +309,11 @@ outer:
 			}
 			seen[b] = true
 
-<<<<<<< HEAD
 			// Skip successors that are not nested within this current block.
 			if _, ok := nestedBlockTypes[b.Kind]; !ok {
 				continue
 			}
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			// Prune the search if the block uses v.
 			if blockUses(pass, b) {
 				continue
@@ -338,7 +335,6 @@ outer:
 	return search(defBlock.Succs)
 }
 
-<<<<<<< HEAD
 var nestedBlockTypes = map[cfg.BlockKind]struct{}{
 	cfg.KindBody:            {},
 	cfg.KindForBody:         {},
@@ -354,8 +350,6 @@ var nestedBlockTypes = map[cfg.BlockKind]struct{}{
 	cfg.KindSwitchNextCase:  {},
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // usesCall reports whether stmts contain a use of the selName call on variable v.
 func usesCall(
 	pass *analysis.Pass,
@@ -366,19 +360,12 @@ func usesCall(
 	startSpanMatchers []spanStartMatcher,
 	depth int,
 ) bool {
-<<<<<<< HEAD
 	if depth > 1 { // for perf reasons, do not dive too deep thru func literals, just two levels deep.
 		return false
 	}
 
 	cfgs := pass.ResultOf[ctrlflow.Analyzer].(*ctrlflow.CFGs)
 
-=======
-	if depth > 1 { // for perf reasons, do not dive too deep thru func literals, just one level deep check.
-		return false
-	}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	found, reAssigned := false, false
 	for _, subStmt := range stmts {
 		stack := []ast.Node{}
@@ -386,10 +373,6 @@ func usesCall(
 			switch n := n.(type) {
 			case *ast.FuncLit:
 				if len(stack) > 0 {
-<<<<<<< HEAD
-=======
-					cfgs := pass.ResultOf[ctrlflow.Analyzer].(*ctrlflow.CFGs)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 					g := cfgs.FuncLit(n)
 					if g != nil && len(g.Blocks) > 0 {
 						return usesCall(pass, g.Blocks[0].Nodes, sv, selName, ignoreCheckSig, startSpanMatchers, depth+1)
@@ -405,7 +388,6 @@ func usesCall(
 						return false
 					}
 				}
-<<<<<<< HEAD
 			case *ast.DeferStmt:
 				if n.Call == nil {
 					break
@@ -432,8 +414,6 @@ func usesCall(
 						}
 					}
 				}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			case nil:
 				if len(stack) > 0 {
 					stack = stack[:len(stack)-1] // pop

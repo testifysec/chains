@@ -45,11 +45,7 @@ func ResponseFormat(h http.Header) Format {
 
 	mediatype, params, err := mime.ParseMediaType(ct)
 	if err != nil {
-<<<<<<< HEAD
 		return FmtUnknown
-=======
-		return fmtUnknown
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	const textType = "text/plain"
@@ -57,7 +53,6 @@ func ResponseFormat(h http.Header) Format {
 	switch mediatype {
 	case ProtoType:
 		if p, ok := params["proto"]; ok && p != ProtoProtocol {
-<<<<<<< HEAD
 			return FmtUnknown
 		}
 		if e, ok := params["encoding"]; ok && e != "delimited" {
@@ -73,23 +68,6 @@ func ResponseFormat(h http.Header) Format {
 	}
 
 	return FmtUnknown
-=======
-			return fmtUnknown
-		}
-		if e, ok := params["encoding"]; ok && e != "delimited" {
-			return fmtUnknown
-		}
-		return fmtProtoDelim
-
-	case textType:
-		if v, ok := params["version"]; ok && v != TextVersion {
-			return fmtUnknown
-		}
-		return fmtText
-	}
-
-	return fmtUnknown
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewDecoder returns a new decoder based on the given input format.

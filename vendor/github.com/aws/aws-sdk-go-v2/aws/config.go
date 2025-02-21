@@ -165,7 +165,6 @@ type Config struct {
 
 	// Controls how a resolved AWS account ID is handled for endpoint routing.
 	AccountIDEndpointMode AccountIDEndpointMode
-<<<<<<< HEAD
 
 	// RequestChecksumCalculation determines when request checksum calculation is performed.
 	//
@@ -193,8 +192,6 @@ type Config struct {
 	// This variable is sourced from environment variable AWS_RESPONSE_CHECKSUM_VALIDATION or
 	// the shared config profile attribute "response_checksum_validation".
 	ResponseChecksumValidation ResponseChecksumValidation
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // NewConfig returns a new Config pointer that can be chained with builder

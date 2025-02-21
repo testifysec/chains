@@ -2,10 +2,7 @@ package errcheck
 
 import (
 	"bufio"
-<<<<<<< HEAD
 	"cmp"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"fmt"
 	"os"
 	"os/user"
@@ -94,14 +91,7 @@ func runErrCheck(lintCtx *linter.Context, pass *analysis.Pass, checker *errcheck
 		text := "Error return value is not checked"
 
 		if err.FuncName != "" {
-<<<<<<< HEAD
 			code := cmp.Or(err.SelectorName, err.FuncName)
-=======
-			code := err.SelectorName
-			if err.SelectorName == "" {
-				code = err.FuncName
-			}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 			text = fmt.Sprintf("Error return value of %s is not checked", internal.FormatCode(code, lintCtx.Cfg))
 		}

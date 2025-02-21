@@ -158,11 +158,7 @@ type EntryExpr interface {
 // IDGenerator produces unique ids suitable for tagging expression nodes
 type IDGenerator func(originalID int64) int64
 
-<<<<<<< HEAD
 // CallExpr defines an interface for inspecting a function call and its arguments.
-=======
-// CallExpr defines an interface for inspecting a function call and its arugments.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type CallExpr interface {
 	// FunctionName returns the name of the function.
 	FunctionName() string
@@ -273,7 +269,6 @@ type ComprehensionExpr interface {
 	IterRange() Expr
 
 	// IterVar returns the iteration variable name.
-<<<<<<< HEAD
 	//
 	// For one-variable comprehensions, the iter var refers to the element value
 	// when iterating over a list, or the map key when iterating over a map.
@@ -290,10 +285,6 @@ type ComprehensionExpr interface {
 	// HasIterVar2 returns true if the second iteration variable is non-empty.
 	HasIterVar2() bool
 
-=======
-	IterVar() string
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// AccuVar returns the accumulation variable name.
 	AccuVar() string
 
@@ -420,10 +411,7 @@ func (e *expr) SetKindCase(other Expr) {
 		e.exprKindCase = &baseComprehensionExpr{
 			iterRange: c.IterRange(),
 			iterVar:   c.IterVar(),
-<<<<<<< HEAD
 			iterVar2:  c.IterVar2(),
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			accuVar:   c.AccuVar(),
 			accuInit:  c.AccuInit(),
 			loopCond:  c.LoopCondition(),
@@ -532,10 +520,7 @@ var _ ComprehensionExpr = &baseComprehensionExpr{}
 type baseComprehensionExpr struct {
 	iterRange Expr
 	iterVar   string
-<<<<<<< HEAD
 	iterVar2  string
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	accuVar   string
 	accuInit  Expr
 	loopCond  Expr
@@ -558,7 +543,6 @@ func (e *baseComprehensionExpr) IterVar() string {
 	return e.iterVar
 }
 
-<<<<<<< HEAD
 func (e *baseComprehensionExpr) IterVar2() string {
 	return e.iterVar2
 }
@@ -567,8 +551,6 @@ func (e *baseComprehensionExpr) HasIterVar2() bool {
 	return e.iterVar2 != ""
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (e *baseComprehensionExpr) AccuVar() string {
 	return e.accuVar
 }

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 go 1.22.1
-=======
-go 1.20
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 use (
 	.

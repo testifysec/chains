@@ -19,19 +19,13 @@ import (
 	"reflect"
 	"strings"
 
-<<<<<<< HEAD
 	"google.golang.org/protobuf/proto"
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	chkdecls "github.com/google/cel-go/checker/decls"
 	"github.com/google/cel-go/common/types/ref"
 	"github.com/google/cel-go/common/types/traits"
 
-<<<<<<< HEAD
 	celpb "cel.dev/expr"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	exprpb "google.golang.org/genproto/googleapis/api/expr/v1alpha1"
 )
 
@@ -675,7 +669,6 @@ func TypeToExprType(t *Type) (*exprpb.Type, error) {
 
 // ExprTypeToType converts a protobuf CEL type representation to a CEL-native type representation.
 func ExprTypeToType(t *exprpb.Type) (*Type, error) {
-<<<<<<< HEAD
 	return AlphaProtoAsType(t)
 }
 
@@ -697,52 +690,28 @@ func ProtoAsType(t *celpb.Type) (*Type, error) {
 		paramTypes := make([]*Type, len(t.GetAbstractType().GetParameterTypes()))
 		for i, p := range t.GetAbstractType().GetParameterTypes() {
 			pt, err := ProtoAsType(p)
-=======
-	switch t.GetTypeKind().(type) {
-	case *exprpb.Type_Dyn:
-		return DynType, nil
-	case *exprpb.Type_AbstractType_:
-		paramTypes := make([]*Type, len(t.GetAbstractType().GetParameterTypes()))
-		for i, p := range t.GetAbstractType().GetParameterTypes() {
-			pt, err := ExprTypeToType(p)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err != nil {
 				return nil, err
 			}
 			paramTypes[i] = pt
 		}
 		return NewOpaqueType(t.GetAbstractType().GetName(), paramTypes...), nil
-<<<<<<< HEAD
 	case *celpb.Type_ListType_:
 		et, err := ProtoAsType(t.GetListType().GetElemType())
-=======
-	case *exprpb.Type_ListType_:
-		et, err := ExprTypeToType(t.GetListType().GetElemType())
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return nil, err
 		}
 		return NewListType(et), nil
-<<<<<<< HEAD
 	case *celpb.Type_MapType_:
 		kt, err := ProtoAsType(t.GetMapType().GetKeyType())
 		if err != nil {
 			return nil, err
 		}
 		vt, err := ProtoAsType(t.GetMapType().GetValueType())
-=======
-	case *exprpb.Type_MapType_:
-		kt, err := ExprTypeToType(t.GetMapType().GetKeyType())
-		if err != nil {
-			return nil, err
-		}
-		vt, err := ExprTypeToType(t.GetMapType().GetValueType())
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return nil, err
 		}
 		return NewMapType(kt, vt), nil
-<<<<<<< HEAD
 	case *celpb.Type_MessageType:
 		return NewObjectType(t.GetMessageType()), nil
 	case *celpb.Type_Null:
@@ -760,49 +729,21 @@ func ProtoAsType(t *celpb.Type) (*Type, error) {
 		case celpb.Type_STRING:
 			return StringType, nil
 		case celpb.Type_UINT64:
-=======
-	case *exprpb.Type_MessageType:
-		return NewObjectType(t.GetMessageType()), nil
-	case *exprpb.Type_Null:
-		return NullType, nil
-	case *exprpb.Type_Primitive:
-		switch t.GetPrimitive() {
-		case exprpb.Type_BOOL:
-			return BoolType, nil
-		case exprpb.Type_BYTES:
-			return BytesType, nil
-		case exprpb.Type_DOUBLE:
-			return DoubleType, nil
-		case exprpb.Type_INT64:
-			return IntType, nil
-		case exprpb.Type_STRING:
-			return StringType, nil
-		case exprpb.Type_UINT64:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return UintType, nil
 		default:
 			return nil, fmt.Errorf("unsupported primitive type: %v", t)
 		}
-<<<<<<< HEAD
 	case *celpb.Type_TypeParam:
 		return NewTypeParamType(t.GetTypeParam()), nil
 	case *celpb.Type_Type:
 		if t.GetType().GetTypeKind() != nil {
 			p, err := ProtoAsType(t.GetType())
-=======
-	case *exprpb.Type_TypeParam:
-		return NewTypeParamType(t.GetTypeParam()), nil
-	case *exprpb.Type_Type:
-		if t.GetType().GetTypeKind() != nil {
-			p, err := ExprTypeToType(t.GetType())
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err != nil {
 				return nil, err
 			}
 			return NewTypeTypeWithParam(p), nil
 		}
 		return TypeType, nil
-<<<<<<< HEAD
 	case *celpb.Type_WellKnown:
 		switch t.GetWellKnown() {
 		case celpb.Type_ANY:
@@ -810,42 +751,23 @@ func ProtoAsType(t *celpb.Type) (*Type, error) {
 		case celpb.Type_DURATION:
 			return DurationType, nil
 		case celpb.Type_TIMESTAMP:
-=======
-	case *exprpb.Type_WellKnown:
-		switch t.GetWellKnown() {
-		case exprpb.Type_ANY:
-			return AnyType, nil
-		case exprpb.Type_DURATION:
-			return DurationType, nil
-		case exprpb.Type_TIMESTAMP:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return TimestampType, nil
 		default:
 			return nil, fmt.Errorf("unsupported well-known type: %v", t)
 		}
-<<<<<<< HEAD
 	case *celpb.Type_Wrapper:
 		t, err := ProtoAsType(&celpb.Type{TypeKind: &celpb.Type_Primitive{Primitive: t.GetWrapper()}})
-=======
-	case *exprpb.Type_Wrapper:
-		t, err := ExprTypeToType(&exprpb.Type{TypeKind: &exprpb.Type_Primitive{Primitive: t.GetWrapper()}})
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return nil, err
 		}
 		return NewNullableType(t), nil
-<<<<<<< HEAD
 	case *celpb.Type_Error:
-=======
-	case *exprpb.Type_Error:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return ErrorType, nil
 	default:
 		return nil, fmt.Errorf("unsupported type: %v", t)
 	}
 }
 
-<<<<<<< HEAD
 // TypeToProto converts from a CEL-native type representation to canonical CEL celpb.Type protobuf type.
 func TypeToProto(t *Type) (*celpb.Type, error) {
 	exprType, err := TypeToExprType(t)
@@ -859,8 +781,6 @@ func TypeToProto(t *Type) (*celpb.Type, error) {
 	return &pbtype, nil
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func maybeWrapper(t *Type, pbType *exprpb.Type) *exprpb.Type {
 	if t.IsAssignableType(NullType) {
 		return chkdecls.NewWrapperType(pbType)
@@ -886,7 +806,6 @@ func maybeForeignType(t ref.Type) *Type {
 	return NewObjectType(t.TypeName(), traitMask)
 }
 
-<<<<<<< HEAD
 func convertProto(src, dst proto.Message) error {
 	pb, err := proto.Marshal(src)
 	if err != nil {
@@ -904,8 +823,6 @@ func primitiveType(primitive celpb.Type_PrimitiveType) *celpb.Type {
 	}
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 var (
 	checkedWellKnowns = map[string]*Type{
 		// Wrapper types.
@@ -950,7 +867,6 @@ var (
 	}
 
 	structTypeTraitMask = traits.FieldTesterType | traits.IndexerType
-<<<<<<< HEAD
 
 	boolType   = primitiveType(celpb.Type_BOOL)
 	bytesType  = primitiveType(celpb.Type_BYTES)
@@ -958,6 +874,4 @@ var (
 	intType    = primitiveType(celpb.Type_INT64)
 	stringType = primitiveType(celpb.Type_STRING)
 	uintType   = primitiveType(celpb.Type_UINT64)
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )

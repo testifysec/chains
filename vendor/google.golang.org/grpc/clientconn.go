@@ -775,14 +775,7 @@ func (cc *ClientConn) updateResolverStateAndUnlock(s resolver.State, err error) 
 		}
 	}
 
-<<<<<<< HEAD
 	balCfg := cc.sc.lbConfig
-=======
-	var balCfg serviceconfig.LoadBalancingConfig
-	if cc.sc != nil && cc.sc.lbConfig != nil {
-		balCfg = cc.sc.lbConfig
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	bw := cc.balancerWrapper
 	cc.mu.Unlock()
 
@@ -1378,11 +1371,7 @@ func (ac *addrConn) createTransport(ctx context.Context, addr resolver.Address, 
 	defer cancel()
 	copts.ChannelzParent = ac.channelz
 
-<<<<<<< HEAD
 	newTr, err := transport.NewHTTP2Client(connectCtx, ac.cc.ctx, addr, copts, onClose)
-=======
-	newTr, err := transport.NewClientTransport(connectCtx, ac.cc.ctx, addr, copts, onClose)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		if logger.V(2) {
 			logger.Infof("Creating new client transport to %q: %v", addr, err)
@@ -1456,11 +1445,7 @@ func (ac *addrConn) startHealthCheck(ctx context.Context) {
 	if !ac.scopts.HealthCheckEnabled {
 		return
 	}
-<<<<<<< HEAD
 	healthCheckFunc := internal.HealthCheckFunc
-=======
-	healthCheckFunc := ac.cc.dopts.healthCheckFunc
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if healthCheckFunc == nil {
 		// The health package is not imported to set health check function.
 		//
@@ -1492,11 +1477,7 @@ func (ac *addrConn) startHealthCheck(ctx context.Context) {
 	}
 	// Start the health checking stream.
 	go func() {
-<<<<<<< HEAD
 		err := healthCheckFunc(ctx, newStream, setConnectivityState, healthCheckConfig.ServiceName)
-=======
-		err := ac.cc.dopts.healthCheckFunc(ctx, newStream, setConnectivityState, healthCheckConfig.ServiceName)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			if status.Code(err) == codes.Unimplemented {
 				channelz.Error(logger, ac.channelz, "Subchannel health check is unimplemented at server side, thus health check is disabled")

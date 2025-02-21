@@ -51,19 +51,11 @@ type config struct {
 	tracer trace.Tracer
 	meter  metric.Meter
 
-<<<<<<< HEAD
 	rpcDuration    metric.Float64Histogram
 	rpcInBytes     metric.Int64Histogram
 	rpcOutBytes    metric.Int64Histogram
 	rpcInMessages  metric.Int64Histogram
 	rpcOutMessages metric.Int64Histogram
-=======
-	rpcDuration        metric.Float64Histogram
-	rpcRequestSize     metric.Int64Histogram
-	rpcResponseSize    metric.Int64Histogram
-	rpcRequestsPerRPC  metric.Int64Histogram
-	rpcResponsesPerRPC metric.Int64Histogram
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // Option applies an option value for a config.
@@ -104,73 +96,41 @@ func newConfig(opts []Option, role string) *config {
 		}
 	}
 
-<<<<<<< HEAD
 	rpcRequestSize, err := c.meter.Int64Histogram("rpc."+role+".request.size",
-=======
-	c.rpcRequestSize, err = c.meter.Int64Histogram("rpc."+role+".request.size",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		metric.WithDescription("Measures size of RPC request messages (uncompressed)."),
 		metric.WithUnit("By"))
 	if err != nil {
 		otel.Handle(err)
-<<<<<<< HEAD
 		if rpcRequestSize == nil {
 			rpcRequestSize = noop.Int64Histogram{}
 		}
 	}
 
 	rpcResponseSize, err := c.meter.Int64Histogram("rpc."+role+".response.size",
-=======
-		if c.rpcRequestSize == nil {
-			c.rpcRequestSize = noop.Int64Histogram{}
-		}
-	}
-
-	c.rpcResponseSize, err = c.meter.Int64Histogram("rpc."+role+".response.size",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		metric.WithDescription("Measures size of RPC response messages (uncompressed)."),
 		metric.WithUnit("By"))
 	if err != nil {
 		otel.Handle(err)
-<<<<<<< HEAD
 		if rpcResponseSize == nil {
 			rpcResponseSize = noop.Int64Histogram{}
 		}
 	}
 
 	rpcRequestsPerRPC, err := c.meter.Int64Histogram("rpc."+role+".requests_per_rpc",
-=======
-		if c.rpcResponseSize == nil {
-			c.rpcResponseSize = noop.Int64Histogram{}
-		}
-	}
-
-	c.rpcRequestsPerRPC, err = c.meter.Int64Histogram("rpc."+role+".requests_per_rpc",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		metric.WithDescription("Measures the number of messages received per RPC. Should be 1 for all non-streaming RPCs."),
 		metric.WithUnit("{count}"))
 	if err != nil {
 		otel.Handle(err)
-<<<<<<< HEAD
 		if rpcRequestsPerRPC == nil {
 			rpcRequestsPerRPC = noop.Int64Histogram{}
 		}
 	}
 
 	rpcResponsesPerRPC, err := c.meter.Int64Histogram("rpc."+role+".responses_per_rpc",
-=======
-		if c.rpcRequestsPerRPC == nil {
-			c.rpcRequestsPerRPC = noop.Int64Histogram{}
-		}
-	}
-
-	c.rpcResponsesPerRPC, err = c.meter.Int64Histogram("rpc."+role+".responses_per_rpc",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		metric.WithDescription("Measures the number of messages received per RPC. Should be 1 for all non-streaming RPCs."),
 		metric.WithUnit("{count}"))
 	if err != nil {
 		otel.Handle(err)
-<<<<<<< HEAD
 		if rpcResponsesPerRPC == nil {
 			rpcResponsesPerRPC = noop.Int64Histogram{}
 		}
@@ -194,13 +154,6 @@ func newConfig(opts []Option, role string) *config {
 		c.rpcOutMessages = noop.Int64Histogram{}
 	}
 
-=======
-		if c.rpcResponsesPerRPC == nil {
-			c.rpcResponsesPerRPC = noop.Int64Histogram{}
-		}
-	}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return c
 }
 

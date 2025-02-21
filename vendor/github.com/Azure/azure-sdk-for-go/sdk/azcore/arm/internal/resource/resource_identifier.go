@@ -110,7 +110,6 @@ func (id *ResourceID) String() string {
 	return id.stringValue
 }
 
-<<<<<<< HEAD
 // MarshalText returns a textual representation of the ResourceID
 func (id *ResourceID) MarshalText() ([]byte, error) {
 	return []byte(id.String()), nil
@@ -126,8 +125,6 @@ func (id *ResourceID) UnmarshalText(text []byte) error {
 	return nil
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func newResourceID(parent *ResourceID, resourceTypeName string, resourceName string) *ResourceID {
 	id := &ResourceID{}
 	id.init(parent, chooseResourceType(resourceTypeName, parent), resourceName, true)

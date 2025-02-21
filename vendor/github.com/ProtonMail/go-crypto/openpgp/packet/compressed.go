@@ -8,16 +8,10 @@ import (
 	"compress/bzip2"
 	"compress/flate"
 	"compress/zlib"
-<<<<<<< HEAD
 	"io"
 	"strconv"
 
 	"github.com/ProtonMail/go-crypto/openpgp/errors"
-=======
-	"github.com/ProtonMail/go-crypto/openpgp/errors"
-	"io"
-	"strconv"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // Compressed represents a compressed OpenPGP packet. The decompressed contents
@@ -46,7 +40,6 @@ type CompressionConfig struct {
 	Level int
 }
 
-<<<<<<< HEAD
 // decompressionReader ensures that the whole compression packet is read.
 type decompressionReader struct {
 	compressed   io.Reader
@@ -78,8 +71,6 @@ func (dr *decompressionReader) Read(data []byte) (n int, err error) {
 	return n, err
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Compressed) parse(r io.Reader) error {
 	var buf [1]byte
 	_, err := readFull(r, buf[:])
@@ -91,7 +82,6 @@ func (c *Compressed) parse(r io.Reader) error {
 	case 0:
 		c.Body = r
 	case 1:
-<<<<<<< HEAD
 		c.Body = newDecompressionReader(r, flate.NewReader(r))
 	case 2:
 		decompressor, err := zlib.NewReader(r)
@@ -101,13 +91,6 @@ func (c *Compressed) parse(r io.Reader) error {
 		c.Body = newDecompressionReader(r, decompressor)
 	case 3:
 		c.Body = newDecompressionReader(r, io.NopCloser(bzip2.NewReader(r)))
-=======
-		c.Body = flate.NewReader(r)
-	case 2:
-		c.Body, err = zlib.NewReader(r)
-	case 3:
-		c.Body = bzip2.NewReader(r)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		err = errors.UnsupportedError("unknown compression algorithm: " + strconv.Itoa(int(buf[0])))
 	}

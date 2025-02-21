@@ -48,11 +48,7 @@ func (s *ProcessEnvSource) LoadPackageNames(ctx context.Context, srcDir string, 
 	return r.loadPackageNames(unknown, srcDir)
 }
 
-<<<<<<< HEAD
 func (s *ProcessEnvSource) ResolveReferences(ctx context.Context, filename string, refs map[string]map[string]bool) ([]*Result, error) {
-=======
-func (s *ProcessEnvSource) ResolveReferences(ctx context.Context, filename string, refs map[string]map[string]bool) (map[string]*Result, error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	var mu sync.Mutex
 	found := make(map[string][]pkgDistance)
 	callback := &scanCallback{
@@ -125,13 +121,9 @@ func (s *ProcessEnvSource) ResolveReferences(ctx context.Context, filename strin
 	if err := g.Wait(); err != nil {
 		return nil, err
 	}
-<<<<<<< HEAD
 	var ans []*Result
 	for _, x := range results {
 		ans = append(ans, x)
 	}
 	return ans, nil
-=======
-	return results, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

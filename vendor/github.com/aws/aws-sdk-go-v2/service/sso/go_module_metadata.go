@@ -3,8 +3,4 @@
 package sso
 
 // goModuleVersion is the tagged release for this module
-<<<<<<< HEAD
 const goModuleVersion = "1.24.12"
-=======
-const goModuleVersion = "1.24.5"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

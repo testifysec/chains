@@ -46,10 +46,7 @@ type MessageDetails struct {
 	DecryptedWith            Key                 // the private key used to decrypt the message, if any.
 	IsSigned                 bool                // true if the message is signed.
 	SignedByKeyId            uint64              // the key id of the signer, if any.
-<<<<<<< HEAD
 	SignedByFingerprint      []byte              // the key fingerprint of the signer, if any.
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	SignedBy                 *Key                // the key of the signer, if available.
 	LiteralData              *packet.LiteralData // the metadata of the contents
 	UnverifiedBody           io.Reader           // the contents of the message.
@@ -121,11 +118,7 @@ ParsePackets:
 			// This packet contains the decryption key encrypted to a public key.
 			md.EncryptedToKeyIds = append(md.EncryptedToKeyIds, p.KeyId)
 			switch p.Algo {
-<<<<<<< HEAD
 			case packet.PubKeyAlgoRSA, packet.PubKeyAlgoRSAEncryptOnly, packet.PubKeyAlgoElGamal, packet.PubKeyAlgoECDH, packet.PubKeyAlgoX25519, packet.PubKeyAlgoX448:
-=======
-			case packet.PubKeyAlgoRSA, packet.PubKeyAlgoRSAEncryptOnly, packet.PubKeyAlgoElGamal, packet.PubKeyAlgoECDH:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				break
 			default:
 				continue
@@ -240,11 +233,7 @@ FindKey:
 	}
 	mdFinal, sensitiveParsingErr := readSignedMessage(packets, md, keyring, config)
 	if sensitiveParsingErr != nil {
-<<<<<<< HEAD
 		return nil, errors.HandleSensitiveParsingError(sensitiveParsingErr, md.decrypted != nil)
-=======
-		return nil, errors.StructuralError("parsing error")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return mdFinal, nil
 }
@@ -282,25 +271,17 @@ FindLiteralData:
 				prevLast = true
 			}
 
-<<<<<<< HEAD
 			h, wrappedHash, err = hashForSignature(p.Hash, p.SigType, p.Salt)
-=======
-			h, wrappedHash, err = hashForSignature(p.Hash, p.SigType)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err != nil {
 				md.SignatureError = err
 			}
 
 			md.IsSigned = true
-<<<<<<< HEAD
 			if p.Version == 6 {
 				md.SignedByFingerprint = p.KeyFingerprint
 			}
 			md.SignedByKeyId = p.KeyId
 
-=======
-			md.SignedByKeyId = p.KeyId
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if keyring != nil {
 				keys := keyring.KeysByIdUsage(p.KeyId, packet.KeyFlagSign)
 				if len(keys) > 0 {
@@ -316,11 +297,7 @@ FindLiteralData:
 	if md.IsSigned && md.SignatureError == nil {
 		md.UnverifiedBody = &signatureCheckReader{packets, h, wrappedHash, md, config}
 	} else if md.decrypted != nil {
-<<<<<<< HEAD
 		md.UnverifiedBody = &checkReader{md, false}
-=======
-		md.UnverifiedBody = checkReader{md}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	} else {
 		md.UnverifiedBody = md.LiteralData.Body
 	}
@@ -328,7 +305,6 @@ FindLiteralData:
 	return md, nil
 }
 
-<<<<<<< HEAD
 func wrapHashForSignature(hashFunc hash.Hash, sigType packet.SignatureType) (hash.Hash, error) {
 	switch sigType {
 	case packet.SigTypeBinary:
@@ -339,18 +315,12 @@ func wrapHashForSignature(hashFunc hash.Hash, sigType packet.SignatureType) (has
 	return nil, errors.UnsupportedError("unsupported signature type: " + strconv.Itoa(int(sigType)))
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // hashForSignature returns a pair of hashes that can be used to verify a
 // signature. The signature may specify that the contents of the signed message
 // should be preprocessed (i.e. to normalize line endings). Thus this function
 // returns two hashes. The second should be used to hash the message itself and
 // performs any needed preprocessing.
-<<<<<<< HEAD
 func hashForSignature(hashFunc crypto.Hash, sigType packet.SignatureType, sigSalt []byte) (hash.Hash, hash.Hash, error) {
-=======
-func hashForSignature(hashFunc crypto.Hash, sigType packet.SignatureType) (hash.Hash, hash.Hash, error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if _, ok := algorithm.HashToHashIdWithSha1(hashFunc); !ok {
 		return nil, nil, errors.UnsupportedError("unsupported hash function")
 	}
@@ -358,7 +328,6 @@ func hashForSignature(hashFunc crypto.Hash, sigType packet.SignatureType) (hash.
 		return nil, nil, errors.UnsupportedError("hash not available: " + strconv.Itoa(int(hashFunc)))
 	}
 	h := hashFunc.New()
-<<<<<<< HEAD
 	if sigSalt != nil {
 		h.Write(sigSalt)
 	}
@@ -372,16 +341,6 @@ func hashForSignature(hashFunc crypto.Hash, sigType packet.SignatureType) (hash.
 	case packet.SigTypeText:
 		return h, wrappedHash, nil
 	}
-=======
-
-	switch sigType {
-	case packet.SigTypeBinary:
-		return h, h, nil
-	case packet.SigTypeText:
-		return h, NewCanonicalTextHash(h), nil
-	}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil, nil, errors.UnsupportedError("unsupported signature type: " + strconv.Itoa(int(sigType)))
 }
 
@@ -389,7 +348,6 @@ func hashForSignature(hashFunc crypto.Hash, sigType packet.SignatureType) (hash.
 // it closes the ReadCloser from any SymmetricallyEncrypted packet to trigger
 // MDC checks.
 type checkReader struct {
-<<<<<<< HEAD
 	md      *MessageDetails
 	checked bool
 }
@@ -401,31 +359,16 @@ func (cr *checkReader) Read(buf []byte) (int, error) {
 			// Only check once
 			return n, io.EOF
 		}
-=======
-	md *MessageDetails
-}
-
-func (cr checkReader) Read(buf []byte) (int, error) {
-	n, sensitiveParsingError := cr.md.LiteralData.Body.Read(buf)
-	if sensitiveParsingError == io.EOF {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		mdcErr := cr.md.decrypted.Close()
 		if mdcErr != nil {
 			return n, mdcErr
 		}
-<<<<<<< HEAD
 		cr.checked = true
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return n, io.EOF
 	}
 
 	if sensitiveParsingError != nil {
-<<<<<<< HEAD
 		return n, errors.HandleSensitiveParsingError(sensitiveParsingError, true)
-=======
-		return n, errors.StructuralError("parsing error")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	return n, nil
@@ -449,10 +392,7 @@ func (scr *signatureCheckReader) Read(buf []byte) (int, error) {
 		scr.wrappedHash.Write(buf[:n])
 	}
 
-<<<<<<< HEAD
 	readsDecryptedData := scr.md.decrypted != nil
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if sensitiveParsingError == io.EOF {
 		var p packet.Packet
 		var readError error
@@ -471,11 +411,7 @@ func (scr *signatureCheckReader) Read(buf []byte) (int, error) {
 					key := scr.md.SignedBy
 					signatureError := key.PublicKey.VerifySignature(scr.h, sig)
 					if signatureError == nil {
-<<<<<<< HEAD
 						signatureError = checkMessageSignatureDetails(key, sig, scr.config)
-=======
-						signatureError = checkSignatureDetails(key, sig, scr.config)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 					}
 					scr.md.Signature = sig
 					scr.md.SignatureError = signatureError
@@ -499,25 +435,15 @@ func (scr *signatureCheckReader) Read(buf []byte) (int, error) {
 		// unsigned hash of its own. In order to check this we need to
 		// close that Reader.
 		if scr.md.decrypted != nil {
-<<<<<<< HEAD
 			if sensitiveParsingError := scr.md.decrypted.Close(); sensitiveParsingError != nil {
 				return n, errors.HandleSensitiveParsingError(sensitiveParsingError, true)
-=======
-			mdcErr := scr.md.decrypted.Close()
-			if mdcErr != nil {
-				return n, mdcErr
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 		}
 		return n, io.EOF
 	}
 
 	if sensitiveParsingError != nil {
-<<<<<<< HEAD
 		return n, errors.HandleSensitiveParsingError(sensitiveParsingError, readsDecryptedData)
-=======
-		return n, errors.StructuralError("parsing error")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	return n, nil
@@ -528,22 +454,13 @@ func (scr *signatureCheckReader) Read(buf []byte) (int, error) {
 // if any, and a possible signature verification error.
 // If the signer isn't known, ErrUnknownIssuer is returned.
 func VerifyDetachedSignature(keyring KeyRing, signed, signature io.Reader, config *packet.Config) (sig *packet.Signature, signer *Entity, err error) {
-<<<<<<< HEAD
 	return verifyDetachedSignature(keyring, signed, signature, nil, false, config)
-=======
-	var expectedHashes []crypto.Hash
-	return verifyDetachedSignature(keyring, signed, signature, expectedHashes, config)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // VerifyDetachedSignatureAndHash performs the same actions as
 // VerifyDetachedSignature and checks that the expected hash functions were used.
 func VerifyDetachedSignatureAndHash(keyring KeyRing, signed, signature io.Reader, expectedHashes []crypto.Hash, config *packet.Config) (sig *packet.Signature, signer *Entity, err error) {
-<<<<<<< HEAD
 	return verifyDetachedSignature(keyring, signed, signature, expectedHashes, true, config)
-=======
-	return verifyDetachedSignature(keyring, signed, signature, expectedHashes, config)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // CheckDetachedSignature takes a signed file and a detached signature and
@@ -551,41 +468,24 @@ func VerifyDetachedSignatureAndHash(keyring KeyRing, signed, signature io.Reader
 // signature verification error. If the signer isn't known,
 // ErrUnknownIssuer is returned.
 func CheckDetachedSignature(keyring KeyRing, signed, signature io.Reader, config *packet.Config) (signer *Entity, err error) {
-<<<<<<< HEAD
 	_, signer, err = verifyDetachedSignature(keyring, signed, signature, nil, false, config)
 	return
-=======
-	var expectedHashes []crypto.Hash
-	return CheckDetachedSignatureAndHash(keyring, signed, signature, expectedHashes, config)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // CheckDetachedSignatureAndHash performs the same actions as
 // CheckDetachedSignature and checks that the expected hash functions were used.
 func CheckDetachedSignatureAndHash(keyring KeyRing, signed, signature io.Reader, expectedHashes []crypto.Hash, config *packet.Config) (signer *Entity, err error) {
-<<<<<<< HEAD
 	_, signer, err = verifyDetachedSignature(keyring, signed, signature, expectedHashes, true, config)
 	return
 }
 
 func verifyDetachedSignature(keyring KeyRing, signed, signature io.Reader, expectedHashes []crypto.Hash, checkHashes bool, config *packet.Config) (sig *packet.Signature, signer *Entity, err error) {
-=======
-	_, signer, err = verifyDetachedSignature(keyring, signed, signature, expectedHashes, config)
-	return
-}
-
-func verifyDetachedSignature(keyring KeyRing, signed, signature io.Reader, expectedHashes []crypto.Hash, config *packet.Config) (sig *packet.Signature, signer *Entity, err error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	var issuerKeyId uint64
 	var hashFunc crypto.Hash
 	var sigType packet.SignatureType
 	var keys []Key
 	var p packet.Packet
 
-<<<<<<< HEAD
-=======
-	expectedHashesLen := len(expectedHashes)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	packets := packet.NewReader(signature)
 	for {
 		p, err = packets.Next()
@@ -607,7 +507,6 @@ func verifyDetachedSignature(keyring KeyRing, signed, signature io.Reader, expec
 		issuerKeyId = *sig.IssuerKeyId
 		hashFunc = sig.Hash
 		sigType = sig.SigType
-<<<<<<< HEAD
 		if checkHashes {
 			matchFound := false
 			// check for hashes
@@ -621,18 +520,6 @@ func verifyDetachedSignature(keyring KeyRing, signed, signature io.Reader, expec
 				return nil, nil, errors.StructuralError("hash algorithm or salt mismatch with cleartext message headers")
 			}
 		}
-=======
-
-		for i, expectedHash := range expectedHashes {
-			if hashFunc == expectedHash {
-				break
-			}
-			if i+1 == expectedHashesLen {
-				return nil, nil, errors.StructuralError("hash algorithm mismatch with cleartext message headers")
-			}
-		}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		keys = keyring.KeysByIdUsage(issuerKeyId, packet.KeyFlagSign)
 		if len(keys) > 0 {
 			break
@@ -643,15 +530,11 @@ func verifyDetachedSignature(keyring KeyRing, signed, signature io.Reader, expec
 		panic("unreachable")
 	}
 
-<<<<<<< HEAD
 	h, err := sig.PrepareVerify()
 	if err != nil {
 		return nil, nil, err
 	}
 	wrappedHash, err := wrapHashForSignature(h, sigType)
-=======
-	h, wrappedHash, err := hashForSignature(hashFunc, sigType)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -663,11 +546,7 @@ func verifyDetachedSignature(keyring KeyRing, signed, signature io.Reader, expec
 	for _, key := range keys {
 		err = key.PublicKey.VerifySignature(h, sig)
 		if err == nil {
-<<<<<<< HEAD
 			return sig, key.Entity, checkMessageSignatureDetails(&key, sig, config)
-=======
-			return sig, key.Entity, checkSignatureDetails(&key, sig, config)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 
@@ -685,11 +564,7 @@ func CheckArmoredDetachedSignature(keyring KeyRing, signed, signature io.Reader,
 	return CheckDetachedSignature(keyring, signed, body, config)
 }
 
-<<<<<<< HEAD
 // checkMessageSignatureDetails returns an error if:
-=======
-// checkSignatureDetails returns an error if:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //   - The signature (or one of the binding signatures mentioned below)
 //     has a unknown critical notation data subpacket
 //   - The primary key of the signing entity is revoked
@@ -707,23 +582,11 @@ func CheckArmoredDetachedSignature(keyring KeyRing, signed, signature io.Reader,
 // NOTE: The order of these checks is important, as the caller may choose to
 // ignore ErrSignatureExpired or ErrKeyExpired errors, but should never
 // ignore any other errors.
-<<<<<<< HEAD
 func checkMessageSignatureDetails(key *Key, signature *packet.Signature, config *packet.Config) error {
 	now := config.Now()
 	primarySelfSignature, primaryIdentity := key.Entity.PrimarySelfSignature()
 	signedBySubKey := key.PublicKey != key.Entity.PrimaryKey
 	sigsToCheck := []*packet.Signature{signature, primarySelfSignature}
-=======
-//
-// TODO: Also return an error if:
-// - The primary key is expired according to a direct-key signature
-// - (For V5 keys only:) The direct-key signature (exists and) is expired
-func checkSignatureDetails(key *Key, signature *packet.Signature, config *packet.Config) error {
-	now := config.Now()
-	primaryIdentity := key.Entity.PrimaryIdentity()
-	signedBySubKey := key.PublicKey != key.Entity.PrimaryKey
-	sigsToCheck := []*packet.Signature{signature, primaryIdentity.SelfSignature}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if signedBySubKey {
 		sigsToCheck = append(sigsToCheck, key.SelfSignature, key.SelfSignature.EmbeddedSignature)
 	}
@@ -736,17 +599,10 @@ func checkSignatureDetails(key *Key, signature *packet.Signature, config *packet
 	}
 	if key.Entity.Revoked(now) || // primary key is revoked
 		(signedBySubKey && key.Revoked(now)) || // subkey is revoked
-<<<<<<< HEAD
 		(primaryIdentity != nil && primaryIdentity.Revoked(now)) { // primary identity is revoked for v4
 		return errors.ErrKeyRevoked
 	}
 	if key.Entity.PrimaryKey.KeyExpired(primarySelfSignature, now) { // primary key is expired
-=======
-		primaryIdentity.Revoked(now) { // primary identity is revoked
-		return errors.ErrKeyRevoked
-	}
-	if key.Entity.PrimaryKey.KeyExpired(primaryIdentity.SelfSignature, now) { // primary key is expired
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return errors.ErrKeyExpired
 	}
 	if signedBySubKey {

@@ -48,7 +48,6 @@ type Delimited interface {
 	// Delimiter returns the record separator for the stream.
 	Delimiter() []byte
 }
-<<<<<<< HEAD
 
 // StreamContentType defines the streaming content type.
 type StreamContentType interface {
@@ -57,5 +56,3 @@ type StreamContentType interface {
 	// in the case of a streamed response.
 	StreamContentType(v interface{}) string
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

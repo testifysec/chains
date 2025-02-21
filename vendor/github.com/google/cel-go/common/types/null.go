@@ -35,11 +35,8 @@ var (
 
 	// golang reflect type for Null values.
 	nullReflectType = reflect.TypeOf(NullValue)
-<<<<<<< HEAD
 
 	protoIfaceType = reflect.TypeOf((*proto.Message)(nil)).Elem()
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // ConvertToNative implements ref.Val.ConvertToNative.
@@ -66,7 +63,6 @@ func (n Null) ConvertToNative(typeDesc reflect.Type) (any, error) {
 			return structpb.NewNullValue(), nil
 		case boolWrapperType, byteWrapperType, doubleWrapperType, floatWrapperType,
 			int32WrapperType, int64WrapperType, stringWrapperType, uint32WrapperType,
-<<<<<<< HEAD
 			uint64WrapperType, durationValueType, timestampValueType, protoIfaceType:
 			return nil, nil
 		case jsonListValueType, jsonStructType:
@@ -75,10 +71,6 @@ func (n Null) ConvertToNative(typeDesc reflect.Type) (any, error) {
 			if typeDesc.Implements(protoIfaceType) {
 				return nil, nil
 			}
-=======
-			uint64WrapperType:
-			return nil, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	case reflect.Interface:
 		nv := n.Value()

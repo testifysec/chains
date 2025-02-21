@@ -61,7 +61,6 @@ func runGoCheckSumType(pass *analysis.Pass, settings *config.GoChecksumTypeSetti
 		TypesInfo: pass.TypesInfo,
 	}
 
-<<<<<<< HEAD
 	cfg := gochecksumtype.Config{
 		DefaultSignifiesExhaustive: settings.DefaultSignifiesExhaustive,
 		IncludeSharedInterfaces:    settings.IncludeSharedInterfaces,
@@ -69,11 +68,6 @@ func runGoCheckSumType(pass *analysis.Pass, settings *config.GoChecksumTypeSetti
 
 	var unknownError error
 	errors := gochecksumtype.Run([]*packages.Package{pkg}, cfg)
-=======
-	var unknownError error
-	errors := gochecksumtype.Run([]*packages.Package{pkg},
-		gochecksumtype.Config{DefaultSignifiesExhaustive: settings.DefaultSignifiesExhaustive})
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, err := range errors {
 		err, ok := err.(gochecksumtype.Error)
 		if !ok {

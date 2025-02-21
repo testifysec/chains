@@ -22,7 +22,6 @@ func bufCap(b []byte, n int) []byte {
 // replacePathElement replaces a single element in the path []byte.
 // Escape is used to control whether the value will be escaped using Amazon path escape style.
 func replacePathElement(path, fieldBuf []byte, key, val string, escape bool) ([]byte, []byte, error) {
-<<<<<<< HEAD
 	// search for "{<key>}". If not found, search for the greedy version "{<key>+}". If none are found, return error
 	fieldBuf = bufCap(fieldBuf, len(key)+2) // { <key> }
 	fieldBuf = append(fieldBuf, uriTokenStart)
@@ -45,38 +44,11 @@ func replacePathElement(path, fieldBuf []byte, key, val string, escape bool) ([]
 		encodeSep = false
 	}
 	end := start + len(fieldBuf)
-=======
-	fieldBuf = bufCap(fieldBuf, len(key)+3) // { <key> [+] }
-	fieldBuf = append(fieldBuf, uriTokenStart)
-	fieldBuf = append(fieldBuf, key...)
-
-	start := bytes.Index(path, fieldBuf)
-	end := start + len(fieldBuf)
-	if start < 0 || len(path[end:]) == 0 {
-		// TODO what to do about error?
-		return path, fieldBuf, fmt.Errorf("invalid path index, start=%d,end=%d. %s", start, end, path)
-	}
-
-	encodeSep := true
-	if path[end] == uriTokenSkip {
-		// '+' token means do not escape slashes
-		encodeSep = false
-		end++
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if escape {
 		val = EscapePath(val, encodeSep)
 	}
 
-<<<<<<< HEAD
-=======
-	if path[end] != uriTokenStop {
-		return path, fieldBuf, fmt.Errorf("invalid path element, does not contain token stop, %s", path)
-	}
-	end++
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	fieldBuf = bufCap(fieldBuf, len(val))
 	fieldBuf = append(fieldBuf, val...)
 

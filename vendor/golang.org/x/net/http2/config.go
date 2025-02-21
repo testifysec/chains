@@ -60,11 +60,7 @@ func configFromServer(h1 *http.Server, h2 *Server) http2Config {
 	return conf
 }
 
-<<<<<<< HEAD
 // configFromTransport merges configuration settings from h2 and h2.t1.HTTP2
-=======
-// configFromServer merges configuration settings from h2 and h2.t1.HTTP2
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // (the net/http Transport).
 func configFromTransport(h2 *Transport) http2Config {
 	conf := http2Config{

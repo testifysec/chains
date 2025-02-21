@@ -32,10 +32,7 @@ type PagingHandler[T any] struct {
 }
 
 // Pager provides operations for iterating over paged responses.
-<<<<<<< HEAD
 // Methods on this type are not safe for concurrent use.
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type Pager[T any] struct {
 	current   *T
 	handler   PagingHandler[T]

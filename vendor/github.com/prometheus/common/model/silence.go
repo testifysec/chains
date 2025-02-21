@@ -15,10 +15,7 @@ package model
 
 import (
 	"encoding/json"
-<<<<<<< HEAD
 	"errors"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"fmt"
 	"regexp"
 	"time"
@@ -38,11 +35,7 @@ func (m *Matcher) UnmarshalJSON(b []byte) error {
 	}
 
 	if len(m.Name) == 0 {
-<<<<<<< HEAD
 		return errors.New("label name in matcher must not be empty")
-=======
-		return fmt.Errorf("label name in matcher must not be empty")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if m.IsRegex {
 		if _, err := regexp.Compile(m.Value); err != nil {
@@ -85,11 +78,7 @@ type Silence struct {
 // Validate returns true iff all fields of the silence have valid values.
 func (s *Silence) Validate() error {
 	if len(s.Matchers) == 0 {
-<<<<<<< HEAD
 		return errors.New("at least one matcher required")
-=======
-		return fmt.Errorf("at least one matcher required")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	for _, m := range s.Matchers {
 		if err := m.Validate(); err != nil {
@@ -97,7 +86,6 @@ func (s *Silence) Validate() error {
 		}
 	}
 	if s.StartsAt.IsZero() {
-<<<<<<< HEAD
 		return errors.New("start time missing")
 	}
 	if s.EndsAt.IsZero() {
@@ -114,24 +102,6 @@ func (s *Silence) Validate() error {
 	}
 	if s.CreatedAt.IsZero() {
 		return errors.New("creation timestamp missing")
-=======
-		return fmt.Errorf("start time missing")
-	}
-	if s.EndsAt.IsZero() {
-		return fmt.Errorf("end time missing")
-	}
-	if s.EndsAt.Before(s.StartsAt) {
-		return fmt.Errorf("start time must be before end time")
-	}
-	if s.CreatedBy == "" {
-		return fmt.Errorf("creator information missing")
-	}
-	if s.Comment == "" {
-		return fmt.Errorf("comment missing")
-	}
-	if s.CreatedAt.IsZero() {
-		return fmt.Errorf("creation timestamp missing")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return nil
 }

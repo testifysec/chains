@@ -1295,7 +1295,6 @@ func (m *Cluster) MarshalToSizedBufferVTStrict(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-<<<<<<< HEAD
 	if m.DnsJitter != nil {
 		size, err := (*durationpb.Duration)(m.DnsJitter).MarshalToSizedBufferVTStrict(dAtA[:i])
 		if err != nil {
@@ -1308,8 +1307,6 @@ func (m *Cluster) MarshalToSizedBufferVTStrict(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0xd2
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(m.LrsReportEndpointMetrics) > 0 {
 		for iNdEx := len(m.LrsReportEndpointMetrics) - 1; iNdEx >= 0; iNdEx-- {
 			i -= len(m.LrsReportEndpointMetrics[iNdEx])
@@ -3257,13 +3254,10 @@ func (m *Cluster) SizeVT() (n int) {
 			n += 2 + l + protohelpers.SizeOfVarint(uint64(l))
 		}
 	}
-<<<<<<< HEAD
 	if m.DnsJitter != nil {
 		l = (*durationpb.Duration)(m.DnsJitter).SizeVT()
 		n += 2 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	n += len(m.unknownFields)
 	return n
 }

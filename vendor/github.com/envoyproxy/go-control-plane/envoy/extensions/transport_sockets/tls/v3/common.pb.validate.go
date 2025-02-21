@@ -826,7 +826,6 @@ func (m *CertificateProviderPluginInstance) validate(all bool) error {
 
 	var errors []error
 
-<<<<<<< HEAD
 	if utf8.RuneCountInString(m.GetInstanceName()) < 1 {
 		err := CertificateProviderPluginInstanceValidationError{
 			field:  "InstanceName",
@@ -837,9 +836,6 @@ func (m *CertificateProviderPluginInstance) validate(all bool) error {
 		}
 		errors = append(errors, err)
 	}
-=======
-	// no validation rules for InstanceName
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// no validation rules for CertificateName
 

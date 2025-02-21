@@ -365,7 +365,6 @@ var defaultPartitions = endpoints.Partitions{
 				Deprecated: aws.TrueTernary,
 			},
 			endpoints.EndpointKey{
-<<<<<<< HEAD
 				Region: "ap-southeast-7",
 			}: endpoints.Endpoint{},
 			endpoints.EndpointKey{
@@ -384,8 +383,6 @@ var defaultPartitions = endpoints.Partitions{
 				Deprecated: aws.TrueTernary,
 			},
 			endpoints.EndpointKey{
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				Region: "ca-central-1",
 			}: endpoints.Endpoint{},
 			endpoints.EndpointKey{
@@ -620,7 +617,6 @@ var defaultPartitions = endpoints.Partitions{
 				Deprecated: aws.TrueTernary,
 			},
 			endpoints.EndpointKey{
-<<<<<<< HEAD
 				Region: "mx-central-1",
 			}: endpoints.Endpoint{},
 			endpoints.EndpointKey{
@@ -639,8 +635,6 @@ var defaultPartitions = endpoints.Partitions{
 				Deprecated: aws.TrueTernary,
 			},
 			endpoints.EndpointKey{
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				Region: "sa-east-1",
 			}: endpoints.Endpoint{},
 			endpoints.EndpointKey{

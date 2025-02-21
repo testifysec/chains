@@ -18,10 +18,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-<<<<<<< HEAD
 	"log/slog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"strconv"
 	"strings"
@@ -29,10 +26,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/auth/internal"
-<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 type cachingClient struct {
@@ -42,7 +36,6 @@ type cachingClient struct {
 	// If nil, time.Now is used.
 	clock func() time.Time
 
-<<<<<<< HEAD
 	mu     sync.Mutex
 	certs  map[string]*cachedResponse
 	logger *slog.Logger
@@ -53,16 +46,6 @@ func newCachingClient(client *http.Client, logger *slog.Logger) *cachingClient {
 		client: client,
 		certs:  make(map[string]*cachedResponse, 2),
 		logger: logger,
-=======
-	mu    sync.Mutex
-	certs map[string]*cachedResponse
-}
-
-func newCachingClient(client *http.Client) *cachingClient {
-	return &cachingClient{
-		client: client,
-		certs:  make(map[string]*cachedResponse, 2),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -79,18 +62,12 @@ func (c *cachingClient) getCert(ctx context.Context, url string) (*certResponse,
 	if err != nil {
 		return nil, err
 	}
-<<<<<<< HEAD
 	c.logger.DebugContext(ctx, "cert request", "request", internallog.HTTPRequest(req, nil))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	resp, body, err := internal.DoRequest(c.client, req)
 	if err != nil {
 		return nil, err
 	}
-<<<<<<< HEAD
 	c.logger.DebugContext(ctx, "cert response", "response", internallog.HTTPResponse(resp, body))
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("idtoken: unable to retrieve cert, got status code %d", resp.StatusCode)
 	}

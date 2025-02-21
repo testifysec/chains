@@ -141,11 +141,7 @@ func populateFieldValueFromPath(msgValue protoreflect.Message, fieldPath []strin
 	}
 
 	// Check if oneof already set
-<<<<<<< HEAD
 	if of := fieldDescriptor.ContainingOneof(); of != nil && !of.IsSynthetic() {
-=======
-	if of := fieldDescriptor.ContainingOneof(); of != nil {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if f := msgValue.WhichOneof(of); f != nil {
 			return fmt.Errorf("field already set for oneof %q", of.FullName().Name())
 		}
@@ -295,15 +291,11 @@ func parseMessage(msgDescriptor protoreflect.MessageDescriptor, value string) (p
 		if err != nil {
 			return protoreflect.Value{}, err
 		}
-<<<<<<< HEAD
 		timestamp := timestamppb.New(t)
 		if ok := timestamp.IsValid(); !ok {
 			return protoreflect.Value{}, fmt.Errorf("%s before 0001-01-01", value)
 		}
 		msg = timestamp
-=======
-		msg = timestamppb.New(t)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case "google.protobuf.Duration":
 		d, err := time.ParseDuration(value)
 		if err != nil {

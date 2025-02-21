@@ -14,17 +14,11 @@
 package model
 
 import (
-<<<<<<< HEAD
 	"errors"
 	"fmt"
 	"regexp"
 	"sort"
 	"strconv"
-=======
-	"fmt"
-	"regexp"
-	"sort"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 	"unicode/utf8"
 
@@ -34,7 +28,6 @@ import (
 
 var (
 	// NameValidationScheme determines the method of name validation to be used by
-<<<<<<< HEAD
 	// all calls to IsValidMetricName() and LabelName IsValid(). Setting UTF-8
 	// mode in isolation from other components that don't support UTF-8 may result
 	// in bugs or other undefined behavior. This value can be set to
@@ -50,20 +43,6 @@ var (
 	// is used in content negotiation to indicate that a system supports UTF-8 and
 	// has that feature enabled.
 	NameEscapingScheme = UnderscoreEscaping
-=======
-	// all calls to IsValidMetricName() and LabelName IsValid(). Setting UTF-8 mode
-	// in isolation from other components that don't support UTF-8 may result in
-	// bugs or other undefined behavior. This value is intended to be set by
-	// UTF-8-aware binaries as part of their startup. To avoid need for locking,
-	// this value should be set once, ideally in an init(), before multiple
-	// goroutines are started.
-	NameValidationScheme = LegacyValidation
-
-	// NameEscapingScheme defines the default way that names will be
-	// escaped when presented to systems that do not support UTF-8 names. If the
-	// Content-Type "escaping" term is specified, that will override this value.
-	NameEscapingScheme = ValueEncodingEscaping
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // ValidationScheme is a Go enum for determining how metric and label names will
@@ -187,11 +166,7 @@ func (m Metric) FastFingerprint() Fingerprint {
 func IsValidMetricName(n LabelValue) bool {
 	switch NameValidationScheme {
 	case LegacyValidation:
-<<<<<<< HEAD
 		return IsValidLegacyMetricName(string(n))
-=======
-		return IsValidLegacyMetricName(n)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case UTF8Validation:
 		if len(n) == 0 {
 			return false
@@ -206,11 +181,7 @@ func IsValidMetricName(n LabelValue) bool {
 // legacy validation scheme regardless of the value of NameValidationScheme.
 // This function, however, does not use MetricNameRE for the check but a much
 // faster hardcoded implementation.
-<<<<<<< HEAD
 func IsValidLegacyMetricName(n string) bool {
-=======
-func IsValidLegacyMetricName(n LabelValue) bool {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(n) == 0 {
 		return false
 	}
@@ -242,11 +213,7 @@ func EscapeMetricFamily(v *dto.MetricFamily, scheme EscapingScheme) *dto.MetricF
 	}
 
 	// If the name is nil, copy as-is, don't try to escape.
-<<<<<<< HEAD
 	if v.Name == nil || IsValidLegacyMetricName(v.GetName()) {
-=======
-	if v.Name == nil || IsValidLegacyMetricName(LabelValue(v.GetName())) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		out.Name = v.Name
 	} else {
 		out.Name = proto.String(EscapeName(v.GetName(), scheme))
@@ -268,11 +235,7 @@ func EscapeMetricFamily(v *dto.MetricFamily, scheme EscapingScheme) *dto.MetricF
 
 		for _, l := range m.Label {
 			if l.GetName() == MetricNameLabel {
-<<<<<<< HEAD
 				if l.Value == nil || IsValidLegacyMetricName(l.GetValue()) {
-=======
-				if l.Value == nil || IsValidLegacyMetricName(LabelValue(l.GetValue())) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 					escaped.Label = append(escaped.Label, l)
 					continue
 				}
@@ -282,11 +245,7 @@ func EscapeMetricFamily(v *dto.MetricFamily, scheme EscapingScheme) *dto.MetricF
 				})
 				continue
 			}
-<<<<<<< HEAD
 			if l.Name == nil || IsValidLegacyMetricName(l.GetName()) {
-=======
-			if l.Name == nil || IsValidLegacyMetricName(LabelValue(l.GetName())) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				escaped.Label = append(escaped.Label, l)
 				continue
 			}
@@ -302,30 +261,16 @@ func EscapeMetricFamily(v *dto.MetricFamily, scheme EscapingScheme) *dto.MetricF
 
 func metricNeedsEscaping(m *dto.Metric) bool {
 	for _, l := range m.Label {
-<<<<<<< HEAD
 		if l.GetName() == MetricNameLabel && !IsValidLegacyMetricName(l.GetValue()) {
 			return true
 		}
 		if !IsValidLegacyMetricName(l.GetName()) {
-=======
-		if l.GetName() == MetricNameLabel && !IsValidLegacyMetricName(LabelValue(l.GetValue())) {
-			return true
-		}
-		if !IsValidLegacyMetricName(LabelValue(l.GetName())) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return true
 		}
 	}
 	return false
 }
 
-<<<<<<< HEAD
-=======
-const (
-	lowerhex = "0123456789abcdef"
-)
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // EscapeName escapes the incoming name according to the provided escaping
 // scheme. Depending on the rules of escaping, this may cause no change in the
 // string that is returned. (Especially NoEscaping, which by definition is a
@@ -339,11 +284,7 @@ func EscapeName(name string, scheme EscapingScheme) string {
 	case NoEscaping:
 		return name
 	case UnderscoreEscaping:
-<<<<<<< HEAD
 		if IsValidLegacyMetricName(name) {
-=======
-		if IsValidLegacyMetricName(LabelValue(name)) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return name
 		}
 		for i, b := range name {
@@ -364,25 +305,16 @@ func EscapeName(name string, scheme EscapingScheme) string {
 			} else if isValidLegacyRune(b, i) {
 				escaped.WriteRune(b)
 			} else {
-<<<<<<< HEAD
 				escaped.WriteString("__")
-=======
-				escaped.WriteRune('_')
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}
 		}
 		return escaped.String()
 	case ValueEncodingEscaping:
-<<<<<<< HEAD
 		if IsValidLegacyMetricName(name) {
-=======
-		if IsValidLegacyMetricName(LabelValue(name)) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return name
 		}
 		escaped.WriteString("U__")
 		for i, b := range name {
-<<<<<<< HEAD
 			if b == '_' {
 				escaped.WriteString("__")
 			} else if isValidLegacyRune(b, i) {
@@ -392,23 +324,6 @@ func EscapeName(name string, scheme EscapingScheme) string {
 			} else {
 				escaped.WriteRune('_')
 				escaped.WriteString(strconv.FormatInt(int64(b), 16))
-=======
-			if isValidLegacyRune(b, i) {
-				escaped.WriteRune(b)
-			} else if !utf8.ValidRune(b) {
-				escaped.WriteString("_FFFD_")
-			} else if b < 0x100 {
-				escaped.WriteRune('_')
-				for s := 4; s >= 0; s -= 4 {
-					escaped.WriteByte(lowerhex[b>>uint(s)&0xF])
-				}
-				escaped.WriteRune('_')
-			} else if b < 0x10000 {
-				escaped.WriteRune('_')
-				for s := 12; s >= 0; s -= 4 {
-					escaped.WriteByte(lowerhex[b>>uint(s)&0xF])
-				}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				escaped.WriteRune('_')
 			}
 		}
@@ -466,14 +381,9 @@ func UnescapeName(name string, scheme EscapingScheme) string {
 			// We think we are in a UTF-8 code, process it.
 			var utf8Val uint
 			for j := 0; i < len(escapedName); j++ {
-<<<<<<< HEAD
 				// This is too many characters for a utf8 value based on the MaxRune
 				// value of '\U0010FFFF'.
 				if j >= 6 {
-=======
-				// This is too many characters for a utf8 value.
-				if j > 4 {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 					return name
 				}
 				// Found a closing underscore, convert to a rune, check validity, and append.
@@ -526,11 +436,7 @@ func (e EscapingScheme) String() string {
 
 func ToEscapingScheme(s string) (EscapingScheme, error) {
 	if s == "" {
-<<<<<<< HEAD
 		return NoEscaping, errors.New("got empty string instead of escaping scheme")
-=======
-		return NoEscaping, fmt.Errorf("got empty string instead of escaping scheme")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	switch s {
 	case AllowUTF8:
@@ -542,10 +448,6 @@ func ToEscapingScheme(s string) (EscapingScheme, error) {
 	case EscapeValues:
 		return ValueEncodingEscaping, nil
 	default:
-<<<<<<< HEAD
 		return NoEscaping, fmt.Errorf("unknown format scheme %s", s)
-=======
-		return NoEscaping, fmt.Errorf("unknown format scheme " + s)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }

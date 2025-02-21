@@ -105,10 +105,7 @@ var defaultLintersSettings = LintersSettings{
 		Kitlog:           true,
 		Klog:             true,
 		Logr:             true,
-<<<<<<< HEAD
 		Slog:             true,
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		Zap:              true,
 		RequireStringKey: false,
 		NoPrintfLike:     false,
@@ -172,10 +169,6 @@ var defaultLintersSettings = LintersSettings{
 	Unused: UnusedSettings{
 		FieldWritesAreUses:     true,
 		PostStatementsAreReads: false,
-<<<<<<< HEAD
-=======
-		ExportedIsUsed:         true,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		ExportedFieldsAreUsed:  true,
 		ParametersAreUsed:      true,
 		LocalVariablesAreUsed:  true,
@@ -185,7 +178,6 @@ var defaultLintersSettings = LintersSettings{
 		HTTPMethod:     true,
 		HTTPStatusCode: true,
 	},
-<<<<<<< HEAD
 	UseTesting: UseTestingSettings{
 		ContextBackground: true,
 		ContextTodo:       true,
@@ -195,8 +187,6 @@ var defaultLintersSettings = LintersSettings{
 		OSTempDir:         false,
 		OSCreateTemp:      true,
 	},
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	Varnamelen: VarnamelenSettings{
 		MaxDistance:   5,
 		MinNameLength: 3,
@@ -280,10 +270,7 @@ type LintersSettings struct {
 	Promlinter      PromlinterSettings
 	ProtoGetter     ProtoGetterSettings
 	Reassign        ReassignSettings
-<<<<<<< HEAD
 	Recvcheck       RecvcheckSettings
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	Revive          ReviveSettings
 	RowsErrCheck    RowsErrCheckSettings
 	SlogLint        SlogLintSettings
@@ -300,10 +287,7 @@ type LintersSettings struct {
 	Unparam         UnparamSettings
 	Unused          UnusedSettings
 	UseStdlibVars   UseStdlibVarsSettings
-<<<<<<< HEAD
 	UseTesting      UseTestingSettings
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	Varnamelen      VarnamelenSettings
 	Whitespace      WhitespaceSettings
 	Wrapcheck       WrapcheckSettings
@@ -345,15 +329,10 @@ type BiDiChkSettings struct {
 }
 
 type CopyLoopVarSettings struct {
-<<<<<<< HEAD
 	CheckAlias bool `mapstructure:"check-alias"`
 
 	// Deprecated: use CheckAlias
 	IgnoreAlias *bool `mapstructure:"ignore-alias"`
-=======
-	IgnoreAlias bool `mapstructure:"ignore-alias"` // Deprecated: use CheckAlias
-	CheckAlias  bool `mapstructure:"check-alias"`
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type Cyclop struct {
@@ -500,19 +479,12 @@ type FunlenSettings struct {
 }
 
 type GciSettings struct {
-<<<<<<< HEAD
 	Sections         []string `mapstructure:"sections"`
 	NoInlineComments bool     `mapstructure:"no-inline-comments"`
 	NoPrefixComments bool     `mapstructure:"no-prefix-comments"`
 	SkipGenerated    bool     `mapstructure:"skip-generated"`
 	CustomOrder      bool     `mapstructure:"custom-order"`
 	NoLexOrder       bool     `mapstructure:"no-lex-order"`
-=======
-	Sections      []string `mapstructure:"sections"`
-	SkipGenerated bool     `mapstructure:"skip-generated"`
-	CustomOrder   bool     `mapstructure:"custom-order"`
-	NoLexOrder    bool     `mapstructure:"no-lex-order"`
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Deprecated: use Sections instead.
 	LocalPrefixes string `mapstructure:"local-prefixes"`
@@ -535,10 +507,7 @@ type GinkgoLinterSettings struct {
 
 type GoChecksumTypeSettings struct {
 	DefaultSignifiesExhaustive bool `mapstructure:"default-signifies-exhaustive"`
-<<<<<<< HEAD
 	IncludeSharedInterfaces    bool `mapstructure:"include-shared-interfaces"`
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type GocognitSettings struct {
@@ -581,11 +550,7 @@ type GodotSettings struct {
 	Period  bool     `mapstructure:"period"`
 
 	// Deprecated: use Scope instead
-<<<<<<< HEAD
 	CheckAll *bool `mapstructure:"check-all"`
-=======
-	CheckAll bool `mapstructure:"check-all"`
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type GodoxSettings struct {
@@ -625,14 +590,11 @@ type GoModDirectivesSettings struct {
 	ReplaceLocal              bool     `mapstructure:"replace-local"`
 	ExcludeForbidden          bool     `mapstructure:"exclude-forbidden"`
 	RetractAllowNoExplanation bool     `mapstructure:"retract-allow-no-explanation"`
-<<<<<<< HEAD
 	ToolchainForbidden        bool     `mapstructure:"toolchain-forbidden"`
 	ToolchainPattern          string   `mapstructure:"toolchain-pattern"`
 	ToolForbidden             bool     `mapstructure:"tool-forbidden"`
 	GoDebugForbidden          bool     `mapstructure:"go-debug-forbidden"`
 	GoVersionPattern          string   `mapstructure:"go-version-pattern"`
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type GoModGuardSettings struct {
@@ -681,11 +643,7 @@ type GovetSettings struct {
 	Settings map[string]map[string]any
 
 	// Deprecated: the linter should be enabled inside Enable.
-<<<<<<< HEAD
 	CheckShadowing *bool `mapstructure:"check-shadowing"`
-=======
-	CheckShadowing bool `mapstructure:"check-shadowing"`
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (cfg *GovetSettings) Validate() error {
@@ -750,10 +708,7 @@ type LoggerCheckSettings struct {
 	Kitlog           bool     `mapstructure:"kitlog"`
 	Klog             bool     `mapstructure:"klog"`
 	Logr             bool     `mapstructure:"logr"`
-<<<<<<< HEAD
 	Slog             bool     `mapstructure:"slog"`
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	Zap              bool     `mapstructure:"zap"`
 	RequireStringKey bool     `mapstructure:"require-string-key"`
 	NoPrintfLike     bool     `mapstructure:"no-printf-like"`
@@ -865,14 +820,11 @@ type ReassignSettings struct {
 	Patterns []string `mapstructure:"patterns"`
 }
 
-<<<<<<< HEAD
 type RecvcheckSettings struct {
 	DisableBuiltin bool     `mapstructure:"disable-builtin"`
 	Exclusions     []string `mapstructure:"exclusions"`
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type ReviveSettings struct {
 	Go                    string `mapstructure:"-"`
 	MaxOpenFiles          int    `mapstructure:"max-open-files"`
@@ -912,11 +864,7 @@ type SlogLintSettings struct {
 	ArgsOnSepLines bool     `mapstructure:"args-on-sep-lines"`
 
 	// Deprecated: use Context instead.
-<<<<<<< HEAD
 	ContextOnly *bool `mapstructure:"context-only"`
-=======
-	ContextOnly bool `mapstructure:"context-only"`
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type SpancheckSettings struct {
@@ -947,7 +895,6 @@ type TagAlignSettings struct {
 }
 
 type TagliatelleSettings struct {
-<<<<<<< HEAD
 	Case TagliatelleCase
 }
 
@@ -973,12 +920,6 @@ type TagliatelleExtendedRule struct {
 	Case                string
 	ExtraInitialisms    bool
 	InitialismOverrides map[string]bool
-=======
-	Case struct {
-		Rules        map[string]string
-		UseFieldName bool `mapstructure:"use-field-name"`
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type TestifylintSettings struct {
@@ -1043,7 +984,6 @@ type UseStdlibVarsSettings struct {
 	TimeLayout         bool `mapstructure:"time-layout"`
 	CryptoHash         bool `mapstructure:"crypto-hash"`
 	DefaultRPCPath     bool `mapstructure:"default-rpc-path"`
-<<<<<<< HEAD
 	SQLIsolationLevel  bool `mapstructure:"sql-isolation-level"`
 	TLSSignatureScheme bool `mapstructure:"tls-signature-scheme"`
 	ConstantKind       bool `mapstructure:"constant-kind"`
@@ -1062,13 +1002,6 @@ type UseTestingSettings struct {
 	OSSetenv          bool `mapstructure:"os-setenv"`
 	OSTempDir         bool `mapstructure:"os-temp-dir"`
 	OSCreateTemp      bool `mapstructure:"os-create-temp"`
-=======
-	OSDevNull          bool `mapstructure:"os-dev-null"` // Deprecated
-	SQLIsolationLevel  bool `mapstructure:"sql-isolation-level"`
-	TLSSignatureScheme bool `mapstructure:"tls-signature-scheme"`
-	ConstantKind       bool `mapstructure:"constant-kind"`
-	SyslogPriority     bool `mapstructure:"syslog-priority"` // Deprecated
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type UnconvertSettings struct {
@@ -1084,20 +1017,13 @@ type UnparamSettings struct {
 type UnusedSettings struct {
 	FieldWritesAreUses     bool `mapstructure:"field-writes-are-uses"`
 	PostStatementsAreReads bool `mapstructure:"post-statements-are-reads"`
-<<<<<<< HEAD
-=======
-	ExportedIsUsed         bool `mapstructure:"exported-is-used"` // Deprecated
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	ExportedFieldsAreUsed  bool `mapstructure:"exported-fields-are-used"`
 	ParametersAreUsed      bool `mapstructure:"parameters-are-used"`
 	LocalVariablesAreUsed  bool `mapstructure:"local-variables-are-used"`
 	GeneratedIsUsed        bool `mapstructure:"generated-is-used"`
-<<<<<<< HEAD
 
 	// Deprecated
 	ExportedIsUsed *bool `mapstructure:"exported-is-used"`
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type VarnamelenSettings struct {
@@ -1119,10 +1045,7 @@ type WhitespaceSettings struct {
 }
 
 type WrapcheckSettings struct {
-<<<<<<< HEAD
 	ExtraIgnoreSigs []string `mapstructure:"extra-ignore-sigs"`
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// TODO(ldez): v2 the options must be renamed to use hyphen.
 	IgnoreSigs             []string `mapstructure:"ignoreSigs"`
 	IgnoreSigRegexps       []string `mapstructure:"ignoreSigRegexps"`

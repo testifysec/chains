@@ -19,11 +19,7 @@ package xdsresource
 
 import (
 	"fmt"
-<<<<<<< HEAD
 	rand "math/rand/v2"
-=======
-	"math/rand"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 
 	"google.golang.org/grpc/internal/grpcutil"
@@ -146,19 +142,11 @@ func newFractionMatcher(fraction uint32) *fractionMatcher {
 	return &fractionMatcher{fraction: int64(fraction)}
 }
 
-<<<<<<< HEAD
 // RandInt64n overwrites rand for control in tests.
 var RandInt64n = rand.Int64N
 
 func (fm *fractionMatcher) match() bool {
 	t := RandInt64n(1000000)
-=======
-// RandInt63n overwrites rand for control in tests.
-var RandInt63n = rand.Int63n
-
-func (fm *fractionMatcher) match() bool {
-	t := RandInt63n(1000000)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return t <= fm.fraction
 }
 

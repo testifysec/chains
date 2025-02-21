@@ -2,7 +2,6 @@
 
 `mirror` suggests use of alternative functions/methods in order to gain performance boosts by avoiding unnecessary `[]byte/string` conversion calls. See [MIRROR_FUNCS.md](MIRROR_FUNCS.md) list of mirror functions you can use in go's stdlib.
 
-<<<<<<< HEAD
 ---
 
 [![United 24](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-personal-page.svg)](https://u24.gov.ua/)
@@ -10,8 +9,6 @@
 
 ---
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## Linter Use Cases
 
 ### `github.com/argoproj/argo-cd`
@@ -96,21 +93,13 @@ util/cert/cert.go:82:10: avoid allocations with (*regexp.Regexp).MatchString (mi
 
   - flag `--tests` (e.g. `--tests=false`)
   - flag `--skip-files` (e.g. `--skip-files="_test.go"`)
-<<<<<<< HEAD
   - yaml configuration `run.skip-files`:
-=======
-  - yaml confguration `run.skip-files`:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     ```yaml
     run:
       skip-files:
         - '(.+)_test\.go'
     ```
-<<<<<<< HEAD
   - yaml configuration `issues.exclude-rules`:
-=======
-  - yaml confguration `issues.exclude-rules`:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     ```yaml
       issues:
         exclude-rules:
@@ -124,11 +113,7 @@ util/cert/cert.go:82:10: avoid allocations with (*regexp.Regexp).MatchString (mi
 
 ```shell
 # Update Assets (testdata/(strings|bytes|os|utf8|maphash|regexp|bufio).go)
-<<<<<<< HEAD
 (task|make) generate
-=======
-(task|make) generated
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 # Run Tests
 (task|make) tests
 # Lint Code

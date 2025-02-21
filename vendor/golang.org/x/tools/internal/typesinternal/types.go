@@ -82,10 +82,7 @@ func NameRelativeTo(pkg *types.Package) types.Qualifier {
 type NamedOrAlias interface {
 	types.Type
 	Obj() *types.TypeName
-<<<<<<< HEAD
 	// TODO(hxjiang): add method TypeArgs() *types.TypeList after stop supporting go1.22.
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // TypeParams is a light shim around t.TypeParams().

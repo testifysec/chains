@@ -274,17 +274,11 @@ func (r *runner) run(pass *analysis.Pass) (interface{}, error) {
 				stmtTypName = removePkgPrefix(stmtTypName)
 			}
 
-<<<<<<< HEAD
 			msg := fmt.Sprintf("%s function return %s interface at the %s result, abstract a single concrete implementation of %s",
-=======
-			pass.Reportf(result.Pos(),
-				"%s function return %s interface at the %s result, abstract a single concrete implementation of %s",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				funcDecl.Name.Name,
 				retTypeName,
 				positionStr(currentIdx),
 				stmtTypName)
-<<<<<<< HEAD
 
 			pass.Report(analysis.Diagnostic{
 				Pos:     result.Pos(),
@@ -302,8 +296,6 @@ func (r *runner) run(pass *analysis.Pass) (interface{}, error) {
 					},
 				},
 			})
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	})
 

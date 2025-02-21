@@ -93,11 +93,7 @@
       "location": "us-west4"
     }
   ],
-<<<<<<< HEAD
   "etag": "\"3133343838373034343130353038353234313337\"",
-=======
-  "etag": "\"3134393437363236373436353839383934323639\"",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   "icons": {
     "x16": "https://www.google.com/images/icons/product/cloud_storage-16.png",
     "x32": "https://www.google.com/images/icons/product/cloud_storage-32.png"
@@ -3228,7 +3224,6 @@
           ],
           "supportsSubscription": true
         },
-<<<<<<< HEAD
         "move": {
           "description": "Moves the source object to the destination object in the same bucket.",
           "httpMethod": "POST",
@@ -3321,8 +3316,6 @@
             "https://www.googleapis.com/auth/devstorage.read_write"
           ]
         },
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
         "patch": {
           "description": "Patches an object's metadata.",
           "httpMethod": "PATCH",
@@ -4371,11 +4364,7 @@
       }
     }
   },
-<<<<<<< HEAD
   "revision": "20241206",
-=======
-  "revision": "20241113",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   "rootUrl": "https://storage.googleapis.com/",
   "schemas": {
     "AdvanceRelocateBucketOperationRequest": {

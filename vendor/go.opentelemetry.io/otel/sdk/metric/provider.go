@@ -42,11 +42,7 @@ func NewMeterProvider(options ...Option) *MeterProvider {
 	flush, sdown := conf.readerSignals()
 
 	mp := &MeterProvider{
-<<<<<<< HEAD
 		pipes:      newPipelines(conf.res, conf.readers, conf.views, conf.exemplarFilter),
-=======
-		pipes:      newPipelines(conf.res, conf.readers, conf.views),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		forceFlush: flush,
 		shutdown:   sdown,
 	}
@@ -80,26 +76,17 @@ func (mp *MeterProvider) Meter(name string, options ...metric.MeterOption) metri
 
 	c := metric.NewMeterConfig(options...)
 	s := instrumentation.Scope{
-<<<<<<< HEAD
 		Name:       name,
 		Version:    c.InstrumentationVersion(),
 		SchemaURL:  c.SchemaURL(),
 		Attributes: c.InstrumentationAttributes(),
-=======
-		Name:      name,
-		Version:   c.InstrumentationVersion(),
-		SchemaURL: c.SchemaURL(),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	global.Info("Meter created",
 		"Name", s.Name,
 		"Version", s.Version,
 		"SchemaURL", s.SchemaURL,
-<<<<<<< HEAD
 		"Attributes", s.Attributes,
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	)
 
 	return mp.meters.Lookup(s, func() *meter {

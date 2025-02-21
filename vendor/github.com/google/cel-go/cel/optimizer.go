@@ -15,11 +15,8 @@
 package cel
 
 import (
-<<<<<<< HEAD
 	"sort"
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/google/cel-go/common"
 	"github.com/google/cel-go/common/ast"
 	"github.com/google/cel-go/common/types"
@@ -51,13 +48,8 @@ func NewStaticOptimizer(optimizers ...ASTOptimizer) *StaticOptimizer {
 // If issues are encountered, the Issues.Err() return value will be non-nil.
 func (opt *StaticOptimizer) Optimize(env *Env, a *Ast) (*Ast, *Issues) {
 	// Make a copy of the AST to be optimized.
-<<<<<<< HEAD
 	optimized := ast.Copy(a.NativeRep())
 	ids := newIDGenerator(ast.MaxID(a.NativeRep()))
-=======
-	optimized := ast.Copy(a.impl)
-	ids := newIDGenerator(ast.MaxID(a.impl))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Create the optimizer context, could be pooled in the future.
 	issues := NewIssues(common.NewErrors(a.Source()))
@@ -94,11 +86,7 @@ func (opt *StaticOptimizer) Optimize(env *Env, a *Ast) (*Ast, *Issues) {
 		if iss.Err() != nil {
 			return nil, iss
 		}
-<<<<<<< HEAD
 		optimized = checked.NativeRep()
-=======
-		optimized = checked.impl
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Return the optimized result.
@@ -112,15 +100,10 @@ func (opt *StaticOptimizer) Optimize(env *Env, a *Ast) (*Ast, *Issues) {
 // that the ids within the expression correspond to the ids within macros.
 func normalizeIDs(idGen ast.IDGenerator, optimized ast.Expr, info *ast.SourceInfo) {
 	optimized.RenumberIDs(idGen)
-<<<<<<< HEAD
-=======
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(info.MacroCalls()) == 0 {
 		return
 	}
 
-<<<<<<< HEAD
 	// Sort the macro ids to make sure that the renumbering of macro-specific variables
 	// is stable across normalization calls.
 	sortedMacroIDs := []int64{}
@@ -132,11 +115,6 @@ func normalizeIDs(idGen ast.IDGenerator, optimized ast.Expr, info *ast.SourceInf
 	// First, update the macro call ids themselves.
 	callIDMap := map[int64]int64{}
 	for _, id := range sortedMacroIDs {
-=======
-	// First, update the macro call ids themselves.
-	callIDMap := map[int64]int64{}
-	for id := range info.MacroCalls() {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		callIDMap[id] = idGen(id)
 	}
 	// Then update the macro call definitions which refer to these ids, but
@@ -147,12 +125,8 @@ func normalizeIDs(idGen ast.IDGenerator, optimized ast.Expr, info *ast.SourceInf
 		call ast.Expr
 	}
 	macroUpdates := []macroUpdate{}
-<<<<<<< HEAD
 	for _, oldID := range sortedMacroIDs {
 		newID := callIDMap[oldID]
-=======
-	for oldID, newID := range callIDMap {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		call, found := info.GetMacroCall(oldID)
 		if !found {
 			continue
@@ -170,10 +144,7 @@ func cleanupMacroRefs(expr ast.Expr, info *ast.SourceInfo) {
 	if len(info.MacroCalls()) == 0 {
 		return
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Sanitize the macro call references once the optimized expression has been computed
 	// and the ids normalized between the expression and the macros.
 	exprRefMap := make(map[int64]struct{})
@@ -240,7 +211,6 @@ type OptimizerContext struct {
 	*Issues
 }
 
-<<<<<<< HEAD
 // ExtendEnv auguments the context's environment with the additional options.
 func (opt *OptimizerContext) ExtendEnv(opts ...EnvOption) error {
 	e, err := opt.Env.Extend(opts...)
@@ -251,8 +221,6 @@ func (opt *OptimizerContext) ExtendEnv(opts ...EnvOption) error {
 	return nil
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // ASTOptimizer applies an optimization over an AST and returns the optimized result.
 type ASTOptimizer interface {
 	// Optimize optimizes a type-checked AST within an Environment and accumulates any issues.
@@ -306,14 +274,11 @@ func (opt *optimizerExprFactory) SetMacroCall(id int64, expr ast.Expr) {
 	opt.sourceInfo.SetMacroCall(id, expr)
 }
 
-<<<<<<< HEAD
 // MacroCalls returns the map of macro calls currently in the context.
 func (opt *optimizerExprFactory) MacroCalls() map[int64]ast.Expr {
 	return opt.sourceInfo.MacroCalls()
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // NewBindMacro creates an AST expression representing the expanded bind() macro, and a macro expression
 // representing the unexpanded call signature to be inserted into the source info macro call metadata.
 func (opt *optimizerExprFactory) NewBindMacro(macroID int64, varName string, varInit, remaining ast.Expr) (astExpr, macroExpr ast.Expr) {

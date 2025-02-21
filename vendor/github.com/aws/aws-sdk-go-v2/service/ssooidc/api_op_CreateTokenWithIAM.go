@@ -12,11 +12,7 @@ import (
 
 // Creates and returns access and refresh tokens for clients and applications that
 // are authenticated using IAM entities. The access token can be used to fetch
-<<<<<<< HEAD
 // short-lived credentials for the assigned Amazon Web Services accounts or to
-=======
-// short-term credentials for the assigned Amazon Web Services accounts or to
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // access application APIs using bearer authentication.
 func (c *Client) CreateTokenWithIAM(ctx context.Context, params *CreateTokenWithIAMInput, optFns ...func(*Options)) (*CreateTokenWithIAMOutput, error) {
 	if params == nil {
@@ -63,11 +59,7 @@ type CreateTokenWithIAMInput struct {
 	Assertion *string
 
 	// Used only when calling this API for the Authorization Code grant type. This
-<<<<<<< HEAD
 	// short-lived code is used to identify this authorization request. The code is
-=======
-	// short-term code is used to identify this authorization request. The code is
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// obtained through a redirect from IAM Identity Center to a redirect URI persisted
 	// in the Authorization Code GrantOptions for the application.
 	Code *string
@@ -83,11 +75,7 @@ type CreateTokenWithIAMInput struct {
 	RedirectUri *string
 
 	// Used only when calling this API for the Refresh Token grant type. This token is
-<<<<<<< HEAD
 	// used to refresh short-lived tokens, such as the access token, that might expire.
-=======
-	// used to refresh short-term tokens, such as the access token, that might expire.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	//
 	// For more information about the features and limitations of the current IAM
 	// Identity Center OIDC implementation, see Considerations for Using this Guide in

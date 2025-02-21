@@ -16,10 +16,7 @@ package interpreter
 
 import (
 	"fmt"
-<<<<<<< HEAD
 	"sync"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"github.com/google/cel-go/common/functions"
 	"github.com/google/cel-go/common/operators"
@@ -100,11 +97,7 @@ type InterpretableCall interface {
 	Args() []Interpretable
 }
 
-<<<<<<< HEAD
 // InterpretableConstructor interface for inspecting Interpretable instructions that initialize a list, map
-=======
-// InterpretableConstructor interface for inspecting  Interpretable instructions that initialize a list, map
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // or struct.
 type InterpretableConstructor interface {
 	Interpretable
@@ -728,15 +721,11 @@ func (o *evalObj) Eval(ctx Activation) ref.Val {
 	return types.LabelErrNode(o.id, o.provider.NewValue(o.typeName, fieldVals))
 }
 
-<<<<<<< HEAD
 // InitVals implements the InterpretableConstructor interface method.
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (o *evalObj) InitVals() []Interpretable {
 	return o.vals
 }
 
-<<<<<<< HEAD
 // Type implements the InterpretableConstructor interface method.
 func (o *evalObj) Type() ref.Type {
 	return types.NewObjectType(o.typeName)
@@ -757,22 +746,6 @@ type evalFold struct {
 	// note an exhaustive fold will ensure that all branches are evaluated
 	// when using mutable values, these branches will mutate the final result
 	// rather than make a throw-away computation.
-=======
-func (o *evalObj) Type() ref.Type {
-	return types.NewObjectTypeValue(o.typeName)
-}
-
-type evalFold struct {
-	id            int64
-	accuVar       string
-	iterVar       string
-	iterRange     Interpretable
-	accu          Interpretable
-	cond          Interpretable
-	step          Interpretable
-	result        Interpretable
-	adapter       types.Adapter
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	exhaustive    bool
 	interruptable bool
 }
@@ -784,7 +757,6 @@ func (fold *evalFold) ID() int64 {
 
 // Eval implements the Interpretable interface method.
 func (fold *evalFold) Eval(ctx Activation) ref.Val {
-<<<<<<< HEAD
 	// Initialize the folder interface
 	f := newFolder(fold, ctx)
 	defer releaseFolder(f)
@@ -812,66 +784,6 @@ func (fold *evalFold) Eval(ctx Activation) ref.Val {
 	}
 	iterable := foldRange.(traits.Iterable)
 	return f.foldIterable(iterable)
-=======
-	foldRange := fold.iterRange.Eval(ctx)
-	if !foldRange.Type().HasTrait(traits.IterableType) {
-		return types.ValOrErr(foldRange, "got '%T', expected iterable type", foldRange)
-	}
-	// Configure the fold activation with the accumulator initial value.
-	accuCtx := varActivationPool.Get().(*varActivation)
-	accuCtx.parent = ctx
-	accuCtx.name = fold.accuVar
-	accuCtx.val = fold.accu.Eval(ctx)
-	// If the accumulator starts as an empty list, then the comprehension will build a list
-	// so create a mutable list to optimize the cost of the inner loop.
-	l, ok := accuCtx.val.(traits.Lister)
-	buildingList := false
-	if !fold.exhaustive && ok && l.Size() == types.IntZero {
-		buildingList = true
-		accuCtx.val = types.NewMutableList(fold.adapter)
-	}
-	iterCtx := varActivationPool.Get().(*varActivation)
-	iterCtx.parent = accuCtx
-	iterCtx.name = fold.iterVar
-
-	interrupted := false
-	it := foldRange.(traits.Iterable).Iterator()
-	for it.HasNext() == types.True {
-		// Modify the iter var in the fold activation.
-		iterCtx.val = it.Next()
-
-		// Evaluate the condition, terminate the loop if false.
-		cond := fold.cond.Eval(iterCtx)
-		condBool, ok := cond.(types.Bool)
-		if !fold.exhaustive && ok && condBool != types.True {
-			break
-		}
-		// Evaluate the evaluation step into accu var.
-		accuCtx.val = fold.step.Eval(iterCtx)
-		if fold.interruptable {
-			if stop, found := ctx.ResolveName("#interrupted"); found && stop == true {
-				interrupted = true
-				break
-			}
-		}
-	}
-	varActivationPool.Put(iterCtx)
-	if interrupted {
-		varActivationPool.Put(accuCtx)
-		return types.NewErr("operation interrupted")
-	}
-
-	// Compute the result.
-	res := fold.result.Eval(accuCtx)
-	varActivationPool.Put(accuCtx)
-	// Convert a mutable list to an immutable one, if the comprehension has generated a list as a result.
-	if !types.IsUnknownOrError(res) && buildingList {
-		if _, ok := res.(traits.MutableLister); ok {
-			res = res.(traits.MutableLister).ToImmutableList()
-		}
-	}
-	return res
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // Optional Interpretable implementations that specialize, subsume, or extend the core evaluation
@@ -1327,7 +1239,6 @@ func invalidOptionalEntryInit(field any, value ref.Val) ref.Val {
 func invalidOptionalElementInit(value ref.Val) ref.Val {
 	return types.NewErr("cannot initialize optional list element from non-optional value %v", value)
 }
-<<<<<<< HEAD
 
 // newFolder creates or initializes a pooled folder instance.
 func newFolder(eval *evalFold, ctx Activation) *folder {
@@ -1522,5 +1433,3 @@ var (
 		},
 	}
 )
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

@@ -21,18 +21,8 @@ type Actual struct {
 	actualOffset int
 }
 
-<<<<<<< HEAD
 func New(origExpr, cloneExpr *ast.CallExpr, orig *ast.CallExpr, clone *ast.CallExpr, pass *analysis.Pass, timePkg string, info *gomegahandler.GomegaBasicInfo) (*Actual, bool) {
 	arg, actualOffset := getActualArgPayload(orig, clone, pass, info)
-=======
-func New(origExpr, cloneExpr *ast.CallExpr, orig *ast.CallExpr, clone *ast.CallExpr, pass *analysis.Pass, handler gomegahandler.Handler, timePkg string, errMethodExists bool) (*Actual, bool) {
-	funcName, ok := handler.GetActualFuncName(orig)
-	if !ok {
-		return nil, false
-	}
-
-	arg, actualOffset := getActualArgPayload(orig, clone, pass, funcName, errMethodExists)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if arg == nil {
 		return nil, false
 	}
@@ -50,11 +40,7 @@ func New(origExpr, cloneExpr *ast.CallExpr, orig *ast.CallExpr, clone *ast.CallE
 		isTuple = tpl.Len() > 1
 	}
 
-<<<<<<< HEAD
 	isAsyncExpr := gomegainfo.IsAsyncActualMethod(info.MethodName)
-=======
-	isAsyncExpr := gomegainfo.IsAsyncActualMethod(funcName)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	var asyncArg *AsyncArg
 	if isAsyncExpr {

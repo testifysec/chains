@@ -16,10 +16,7 @@ import (
 var (
 	ErrIntoNonPointer       = errors.New("cannot unmarshal into non-pointer")
 	ErrIntoNil              = errors.New("cannot unmarshal into nil")
-<<<<<<< HEAD
 	ErrNotSettable          = errors.New("target value not settable")
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	ErrIncompatibleTypes    = errors.New("incompatible types")
 	ErrUnsupportedSrc       = errors.New("cannot unmarshal from src")
 	ErrMultipleInlineFields = errors.New(`multiple fields tagged with yaml:",inline"`)
@@ -167,7 +164,6 @@ func Unmarshal(src, dst any) error {
 			if sdst.Kind() != reflect.Slice {
 				return fmt.Errorf("%w: cannot unmarshal []any into %T", ErrIncompatibleTypes, dst)
 			}
-<<<<<<< HEAD
 			stype := sdst.Type()  // stype = []E = the type of the slice
 			etype := stype.Elem() // etype = E = Type of the slice's elements
 			if sdst.IsNil() {
@@ -178,12 +174,6 @@ func Unmarshal(src, dst any) error {
 			var warns []error
 			for i, a := range tsrc {
 				x := reflect.New(etype) // x := new(E) (type *E)
-=======
-			etype := sdst.Type().Elem() // E = Type of the slice's elements
-			var warns []error
-			for i, a := range tsrc {
-				x := reflect.New(etype) // *E
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				err := Unmarshal(a, x.Interface())
 				if w := warning.As(err); w != nil {
 					warns = append(warns, w.Wrapf("while unmarshaling item at index %d of %d", i, len(tsrc)))
@@ -253,15 +243,11 @@ func (m *Map[K, V]) decodeInto(target any) error {
 	if !ok {
 		return fmt.Errorf("%w: cannot unmarshal from %T, want K=string, V=any", ErrIncompatibleTypes, m)
 	}
-<<<<<<< HEAD
 	// Note: m, and therefore tm, can be nil at this moment.
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Work out the kind of target being used.
 	// Dereference the target to find the inner value, if needed.
 	targetValue := reflect.ValueOf(target)
-<<<<<<< HEAD
 	switch targetValue.Kind() {
 	case reflect.Pointer:
 		// Passed a pointer to something.
@@ -282,45 +268,20 @@ func (m *Map[K, V]) decodeInto(target any) error {
 
 	case reflect.Map:
 		// Continue below.
-=======
-	var innerValue reflect.Value
-	switch targetValue.Kind() {
-	case reflect.Pointer:
-		// Passed a pointer to something.
-		if targetValue.IsNil() {
-			return ErrIntoNil
-		}
-		innerValue = targetValue.Elem()
-
-	case reflect.Map:
-		// Passed a map directly.
-		innerValue = targetValue
-		if innerValue.IsNil() {
-			return ErrIntoNil
-		}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	default:
 		return fmt.Errorf("%w: cannot unmarshal %T into %T, want map or *struct{...}", ErrIncompatibleTypes, m, target)
 	}
 
-<<<<<<< HEAD
 	switch targetValue.Kind() {
 	case reflect.Map:
 		// Process the map directly.
 		mapType := targetValue.Type()
-=======
-	switch innerValue.Kind() {
-	case reflect.Map:
-		// Process the map directly.
-		mapType := innerValue.Type()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		// For simplicity, require the key type to be string.
 		if keyType := mapType.Key(); keyType.Kind() != reflect.String {
 			return fmt.Errorf("%w for map key: cannot unmarshal %T into %T", ErrIncompatibleTypes, m, target)
 		}
 
-<<<<<<< HEAD
 		// If tm is nil, then set the target to nil.
 		if tm == nil {
 			if targetValue.IsNil() {
@@ -339,11 +300,6 @@ func (m *Map[K, V]) decodeInto(target any) error {
 				return ErrNotSettable
 			}
 			targetValue.Set(reflect.MakeMapWithSize(mapType, tm.Len()))
-=======
-		// If target is a pointer to a nil map (with type), create a new map.
-		if innerValue.IsNil() {
-			innerValue.Set(reflect.MakeMapWithSize(mapType, tm.Len()))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 
 		valueType := mapType.Elem()
@@ -357,11 +313,7 @@ func (m *Map[K, V]) decodeInto(target any) error {
 				return fmt.Errorf("unmarshaling value for key %q: %w", k, err)
 			}
 
-<<<<<<< HEAD
 			targetValue.SetMapIndex(reflect.ValueOf(k), nv.Elem())
-=======
-			innerValue.SetMapIndex(reflect.ValueOf(k), nv.Elem())
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return nil
 		}); err != nil {
 			return err
@@ -376,11 +328,7 @@ func (m *Map[K, V]) decodeInto(target any) error {
 
 	// These are the (accessible by reflection) fields it has.
 	// This includes non-exported fields.
-<<<<<<< HEAD
 	fields := reflect.VisibleFields(targetValue.Type())
-=======
-	fields := reflect.VisibleFields(innerValue.Type())
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	var inlineField reflect.StructField
 	outlineKeys := make(map[string]struct{})
@@ -442,11 +390,7 @@ func (m *Map[K, V]) decodeInto(target any) error {
 
 		// Now load value into the field recursively.
 		// Get a pointer to the field. This works because target is a pointer.
-<<<<<<< HEAD
 		ptrToField := targetValue.FieldByIndex(field.Index).Addr()
-=======
-		ptrToField := innerValue.FieldByIndex(field.Index).Addr()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		err := Unmarshal(value, ptrToField.Interface())
 		if w := warning.As(err); w != nil {
 			warns = append(warns, w.Wrapf("while unmarshaling the value for key %q into struct field %q", key, field.Name))
@@ -461,11 +405,7 @@ func (m *Map[K, V]) decodeInto(target any) error {
 	// The rest is handling the ",inline" field.
 	// We support any field that Unmarshal can unmarshal tm into.
 
-<<<<<<< HEAD
 	inlinePtr := targetValue.FieldByIndex(inlineField.Index).Addr()
-=======
-	inlinePtr := innerValue.FieldByIndex(inlineField.Index).Addr()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// Copy all values that weren't non-inline fields into a temporary map.
 	// This is just to avoid mutating tm.

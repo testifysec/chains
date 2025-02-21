@@ -23,17 +23,11 @@ var modes = [...]struct {
 	{NeedSyntax, "NeedSyntax"},
 	{NeedTypesInfo, "NeedTypesInfo"},
 	{NeedTypesSizes, "NeedTypesSizes"},
-<<<<<<< HEAD
 	{NeedForTest, "NeedForTest"},
 	{NeedModule, "NeedModule"},
 	{NeedEmbedFiles, "NeedEmbedFiles"},
 	{NeedEmbedPatterns, "NeedEmbedPatterns"},
 	{NeedTarget, "NeedTarget"},
-=======
-	{NeedModule, "NeedModule"},
-	{NeedEmbedFiles, "NeedEmbedFiles"},
-	{NeedEmbedPatterns, "NeedEmbedPatterns"},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (mode LoadMode) String() string {

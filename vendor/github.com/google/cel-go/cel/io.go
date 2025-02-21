@@ -28,10 +28,7 @@ import (
 	"github.com/google/cel-go/common/types/traits"
 	"github.com/google/cel-go/parser"
 
-<<<<<<< HEAD
 	celpb "cel.dev/expr"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	exprpb "google.golang.org/genproto/googleapis/api/expr/v1alpha1"
 	anypb "google.golang.org/protobuf/types/known/anypb"
 )
@@ -65,11 +62,7 @@ func AstToCheckedExpr(a *Ast) (*exprpb.CheckedExpr, error) {
 	if !a.IsChecked() {
 		return nil, fmt.Errorf("cannot convert unchecked ast")
 	}
-<<<<<<< HEAD
 	return ast.ToProto(a.NativeRep())
-=======
-	return ast.ToProto(a.impl)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ParsedExprToAst converts a parsed expression proto message to an Ast.
@@ -106,7 +99,6 @@ func AstToParsedExpr(a *Ast) (*exprpb.ParsedExpr, error) {
 // Note, the conversion may not be an exact replica of the original expression, but will produce
 // a string that is semantically equivalent and whose textual representation is stable.
 func AstToString(a *Ast) (string, error) {
-<<<<<<< HEAD
 	return parser.Unparse(a.NativeRep().Expr(), a.NativeRep().SourceInfo())
 }
 
@@ -150,39 +142,11 @@ func ValueAsProto(res ref.Val) (*celpb.Value, error) {
 		elts := make([]*celpb.Value, 0, int64(sz))
 		for i := types.Int(0); i < sz; i++ {
 			v, err := ValueAsProto(l.Get(i))
-=======
-	return parser.Unparse(a.impl.Expr(), a.impl.SourceInfo())
-}
-
-// RefValueToValue converts between ref.Val and api.expr.Value.
-// The result Value is the serialized proto form. The ref.Val must not be error or unknown.
-func RefValueToValue(res ref.Val) (*exprpb.Value, error) {
-	switch res.Type() {
-	case types.BoolType:
-		return &exprpb.Value{
-			Kind: &exprpb.Value_BoolValue{BoolValue: res.Value().(bool)}}, nil
-	case types.BytesType:
-		return &exprpb.Value{
-			Kind: &exprpb.Value_BytesValue{BytesValue: res.Value().([]byte)}}, nil
-	case types.DoubleType:
-		return &exprpb.Value{
-			Kind: &exprpb.Value_DoubleValue{DoubleValue: res.Value().(float64)}}, nil
-	case types.IntType:
-		return &exprpb.Value{
-			Kind: &exprpb.Value_Int64Value{Int64Value: res.Value().(int64)}}, nil
-	case types.ListType:
-		l := res.(traits.Lister)
-		sz := l.Size().(types.Int)
-		elts := make([]*exprpb.Value, 0, int64(sz))
-		for i := types.Int(0); i < sz; i++ {
-			v, err := RefValueToValue(l.Get(i))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err != nil {
 				return nil, err
 			}
 			elts = append(elts, v)
 		}
-<<<<<<< HEAD
 		return &celpb.Value{
 			Kind: &celpb.Value_ListValue{
 				ListValue: &celpb.ListValue{Values: elts}}}, nil
@@ -218,55 +182,13 @@ func RefValueToValue(res ref.Val) (*exprpb.Value, error) {
 	case types.UintType:
 		return &celpb.Value{
 			Kind: &celpb.Value_Uint64Value{Uint64Value: res.Value().(uint64)}}, nil
-=======
-		return &exprpb.Value{
-			Kind: &exprpb.Value_ListValue{
-				ListValue: &exprpb.ListValue{Values: elts}}}, nil
-	case types.MapType:
-		mapper := res.(traits.Mapper)
-		sz := mapper.Size().(types.Int)
-		entries := make([]*exprpb.MapValue_Entry, 0, int64(sz))
-		for it := mapper.Iterator(); it.HasNext().(types.Bool); {
-			k := it.Next()
-			v := mapper.Get(k)
-			kv, err := RefValueToValue(k)
-			if err != nil {
-				return nil, err
-			}
-			vv, err := RefValueToValue(v)
-			if err != nil {
-				return nil, err
-			}
-			entries = append(entries, &exprpb.MapValue_Entry{Key: kv, Value: vv})
-		}
-		return &exprpb.Value{
-			Kind: &exprpb.Value_MapValue{
-				MapValue: &exprpb.MapValue{Entries: entries}}}, nil
-	case types.NullType:
-		return &exprpb.Value{
-			Kind: &exprpb.Value_NullValue{}}, nil
-	case types.StringType:
-		return &exprpb.Value{
-			Kind: &exprpb.Value_StringValue{StringValue: res.Value().(string)}}, nil
-	case types.TypeType:
-		typeName := res.(ref.Type).TypeName()
-		return &exprpb.Value{Kind: &exprpb.Value_TypeValue{TypeValue: typeName}}, nil
-	case types.UintType:
-		return &exprpb.Value{
-			Kind: &exprpb.Value_Uint64Value{Uint64Value: res.Value().(uint64)}}, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		any, err := res.ConvertToNative(anyPbType)
 		if err != nil {
 			return nil, err
 		}
-<<<<<<< HEAD
 		return &celpb.Value{
 			Kind: &celpb.Value_ObjectValue{ObjectValue: any.(*anypb.Any)}}, nil
-=======
-		return &exprpb.Value{
-			Kind: &exprpb.Value_ObjectValue{ObjectValue: any.(*anypb.Any)}}, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -287,7 +209,6 @@ var (
 	anyPbType = reflect.TypeOf(&anypb.Any{})
 )
 
-<<<<<<< HEAD
 // ValueToRefValue converts between google.api.expr.v1alpha1.Value and ref.Val.
 func ValueToRefValue(adapter types.Adapter, v *exprpb.Value) (ref.Val, error) {
 	return AlphaProtoAsValue(adapter, v)
@@ -320,33 +241,12 @@ func ProtoAsValue(adapter types.Adapter, v *celpb.Value) (ref.Val, error) {
 	case *celpb.Value_BytesValue:
 		return types.Bytes(v.GetBytesValue()), nil
 	case *celpb.Value_ObjectValue:
-=======
-// ValueToRefValue converts between exprpb.Value and ref.Val.
-func ValueToRefValue(adapter types.Adapter, v *exprpb.Value) (ref.Val, error) {
-	switch v.Kind.(type) {
-	case *exprpb.Value_NullValue:
-		return types.NullValue, nil
-	case *exprpb.Value_BoolValue:
-		return types.Bool(v.GetBoolValue()), nil
-	case *exprpb.Value_Int64Value:
-		return types.Int(v.GetInt64Value()), nil
-	case *exprpb.Value_Uint64Value:
-		return types.Uint(v.GetUint64Value()), nil
-	case *exprpb.Value_DoubleValue:
-		return types.Double(v.GetDoubleValue()), nil
-	case *exprpb.Value_StringValue:
-		return types.String(v.GetStringValue()), nil
-	case *exprpb.Value_BytesValue:
-		return types.Bytes(v.GetBytesValue()), nil
-	case *exprpb.Value_ObjectValue:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		any := v.GetObjectValue()
 		msg, err := anypb.UnmarshalNew(any, proto.UnmarshalOptions{DiscardUnknown: true})
 		if err != nil {
 			return nil, err
 		}
 		return adapter.NativeToValue(msg), nil
-<<<<<<< HEAD
 	case *celpb.Value_MapValue:
 		m := v.GetMapValue()
 		entries := make(map[ref.Val]ref.Val)
@@ -356,47 +256,24 @@ func ValueToRefValue(adapter types.Adapter, v *exprpb.Value) (ref.Val, error) {
 				return nil, err
 			}
 			pb, err := ProtoAsValue(adapter, entry.Value)
-=======
-	case *exprpb.Value_MapValue:
-		m := v.GetMapValue()
-		entries := make(map[ref.Val]ref.Val)
-		for _, entry := range m.Entries {
-			key, err := ValueToRefValue(adapter, entry.Key)
-			if err != nil {
-				return nil, err
-			}
-			pb, err := ValueToRefValue(adapter, entry.Value)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err != nil {
 				return nil, err
 			}
 			entries[key] = pb
 		}
 		return adapter.NativeToValue(entries), nil
-<<<<<<< HEAD
 	case *celpb.Value_ListValue:
 		l := v.GetListValue()
 		elts := make([]ref.Val, len(l.Values))
 		for i, e := range l.Values {
 			rv, err := ProtoAsValue(adapter, e)
-=======
-	case *exprpb.Value_ListValue:
-		l := v.GetListValue()
-		elts := make([]ref.Val, len(l.Values))
-		for i, e := range l.Values {
-			rv, err := ValueToRefValue(adapter, e)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err != nil {
 				return nil, err
 			}
 			elts[i] = rv
 		}
 		return adapter.NativeToValue(elts), nil
-<<<<<<< HEAD
 	case *celpb.Value_TypeValue:
-=======
-	case *exprpb.Value_TypeValue:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		typeName := v.GetTypeValue()
 		tv, ok := typeNameToTypeValue[typeName]
 		if ok {
@@ -406,7 +283,6 @@ func ValueToRefValue(adapter types.Adapter, v *exprpb.Value) (ref.Val, error) {
 	}
 	return nil, errors.New("unknown value")
 }
-<<<<<<< HEAD
 
 func convertProto(src, dst proto.Message) error {
 	pb, err := proto.Marshal(src)
@@ -416,5 +292,3 @@ func convertProto(src, dst proto.Message) error {
 	err = proto.Unmarshal(pb, dst)
 	return err
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

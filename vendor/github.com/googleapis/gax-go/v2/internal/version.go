@@ -30,8 +30,4 @@
 package internal
 
 // Version is the current tagged release of the library.
-<<<<<<< HEAD
 const Version = "2.14.1"
-=======
-const Version = "2.14.0"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

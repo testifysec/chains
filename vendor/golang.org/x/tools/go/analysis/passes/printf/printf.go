@@ -433,12 +433,9 @@ func printfNameAndKind(pass *analysis.Pass, call *ast.CallExpr) (fn *types.Func,
 		return nil, 0
 	}
 
-<<<<<<< HEAD
 	// Facts are associated with generic declarations, not instantiations.
 	fn = fn.Origin()
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	_, ok := isPrint[fn.FullName()]
 	if !ok {
 		// Next look up just "printf", for use with -printf.funcs.

@@ -58,15 +58,9 @@ func (l *LiteralData) parse(r io.Reader) (err error) {
 // on completion. The fileName is truncated to 255 bytes.
 func SerializeLiteral(w io.WriteCloser, isBinary bool, fileName string, time uint32) (plaintext io.WriteCloser, err error) {
 	var buf [4]byte
-<<<<<<< HEAD
 	buf[0] = 'b'
 	if !isBinary {
 		buf[0] = 'u'
-=======
-	buf[0] = 't'
-	if isBinary {
-		buf[0] = 'b'
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if len(fileName) > 255 {
 		fileName = fileName[:255]

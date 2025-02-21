@@ -578,14 +578,10 @@ See also:
 The tests should never leak goroutines.
 
 Use the term `ConcurrentSafe` in the test name when it aims to verify the
-<<<<<<< HEAD
 absence of race conditions. The top-level tests with this term will be run
 many times in the `test-concurrent-safe` CI job to increase the chance of
 catching concurrency issues. This does not apply to subtests when this term
 is not in their root name.
-=======
-absence of race conditions.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 ### Internal packages
 
@@ -633,7 +629,6 @@ should be canceled.
 
 ## Approvers and Maintainers
 
-<<<<<<< HEAD
 ### Triagers
 
 - [Cheng-Zhen Yang](https://github.com/scorpionknifes), Independent
@@ -642,15 +637,6 @@ should be canceled.
 
 ### Maintainers
 
-=======
-### Approvers
-
-- [Chester Cheung](https://github.com/hanyuancheung), Tencent
-
-### Maintainers
-
-- [Aaron Clawson](https://github.com/MadVikingGod), LightStep
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 - [Damien Mathieu](https://github.com/dmathieu), Elastic
 - [David Ashpole](https://github.com/dashpole), Google
 - [Robert Pająk](https://github.com/pellared), Splunk
@@ -659,7 +645,6 @@ should be canceled.
 
 ### Emeritus
 
-<<<<<<< HEAD
 - [Aaron Clawson](https://github.com/MadVikingGod)
 - [Anthony Mirabella](https://github.com/Aneurysm9)
 - [Chester Cheung](https://github.com/hanyuancheung)
@@ -667,13 +652,6 @@ should be canceled.
 - [Gustavo Silva Paiva](https://github.com/paivagustavo)
 - [Josh MacDonald](https://github.com/jmacd)
 - [Liz Fong-Jones](https://github.com/lizthegrey)
-=======
-- [Liz Fong-Jones](https://github.com/lizthegrey), Honeycomb
-- [Gustavo Silva Paiva](https://github.com/paivagustavo), LightStep
-- [Josh MacDonald](https://github.com/jmacd), LightStep
-- [Anthony Mirabella](https://github.com/Aneurysm9), AWS
-- [Evan Torrie](https://github.com/evantorrie), Yahoo
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 ### Become an Approver or a Maintainer
 

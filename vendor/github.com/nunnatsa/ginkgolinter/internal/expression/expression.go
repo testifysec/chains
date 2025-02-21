@@ -27,12 +27,8 @@ type GomegaExpression struct {
 	origAssertionFuncName string
 	actualFuncName        string
 
-<<<<<<< HEAD
 	isAsync          bool
 	isUsingGomegaVar bool
-=======
-	isAsync bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	actual  *actual.Actual
 	matcher *matcher.Matcher
@@ -41,13 +37,8 @@ type GomegaExpression struct {
 }
 
 func New(origExpr *ast.CallExpr, pass *analysis.Pass, handler gomegahandler.Handler, timePkg string) (*GomegaExpression, bool) {
-<<<<<<< HEAD
 	info, ok := handler.GetGomegaBasicInfo(origExpr)
 	if !ok || !gomegainfo.IsActualMethod(info.MethodName) {
-=======
-	actualMethodName, ok := handler.GetActualFuncName(origExpr)
-	if !ok || !gomegainfo.IsActualMethod(actualMethodName) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return nil, false
 	}
 
@@ -55,24 +46,14 @@ func New(origExpr *ast.CallExpr, pass *analysis.Pass, handler gomegahandler.Hand
 	if !ok || !gomegainfo.IsAssertionFunc(origSel.Sel.Name) {
 		return &GomegaExpression{
 			orig:           origExpr,
-<<<<<<< HEAD
 			actualFuncName: info.MethodName,
-=======
-			actualFuncName: actualMethodName,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}, true
 	}
 
 	exprClone := astcopy.CallExpr(origExpr)
 	selClone := exprClone.Fun.(*ast.SelectorExpr)
 
-<<<<<<< HEAD
 	origActual := handler.GetActualExpr(origSel)
-=======
-	errMethodExists := false
-
-	origActual := handler.GetActualExpr(origSel, &errMethodExists)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if origActual == nil {
 		return nil, false
 	}
@@ -82,11 +63,7 @@ func New(origExpr *ast.CallExpr, pass *analysis.Pass, handler gomegahandler.Hand
 		return nil, false
 	}
 
-<<<<<<< HEAD
 	actl, ok := actual.New(origExpr, exprClone, origActual, actualClone, pass, timePkg, info)
-=======
-	actl, ok := actual.New(origExpr, exprClone, origActual, actualClone, pass, handler, timePkg, errMethodExists)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if !ok {
 		return nil, false
 	}
@@ -111,16 +88,10 @@ func New(origExpr *ast.CallExpr, pass *analysis.Pass, handler gomegahandler.Hand
 
 		assertionFuncName:     origSel.Sel.Name,
 		origAssertionFuncName: origSel.Sel.Name,
-<<<<<<< HEAD
 		actualFuncName:        info.MethodName,
 
 		isAsync:          actl.IsAsync(),
 		isUsingGomegaVar: info.UseGomegaVar,
-=======
-		actualFuncName:        actualMethodName,
-
-		isAsync: actl.IsAsync(),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 		actual:  actl,
 		matcher: mtchr,
@@ -164,13 +135,10 @@ func (e *GomegaExpression) IsAsync() bool {
 	return e.isAsync
 }
 
-<<<<<<< HEAD
 func (e *GomegaExpression) IsUsingGomegaVar() bool {
 	return e.isUsingGomegaVar
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (e *GomegaExpression) ReverseAssertionFuncLogic() {
 	assertionFunc := e.clone.Fun.(*ast.SelectorExpr).Sel
 	newName := reverseassertion.ChangeAssertionLogic(assertionFunc.Name)

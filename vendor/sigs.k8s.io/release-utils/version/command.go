@@ -44,10 +44,7 @@ func WithFont(fontName string) *cobra.Command {
 
 func version(fontName string) *cobra.Command {
 	var outputJSON bool
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	cmd := &cobra.Command{
 		Use:   "version",
 		Short: "Prints the version",
@@ -71,10 +68,7 @@ func version(fontName string) *cobra.Command {
 			} else {
 				cmd.Println(v.String())
 			}
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return nil
 		},
 	}

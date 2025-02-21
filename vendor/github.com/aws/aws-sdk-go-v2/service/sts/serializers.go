@@ -226,7 +226,6 @@ func (m *awsAwsquery_serializeOpAssumeRoleWithWebIdentity) HandleSerialize(ctx c
 	return next.HandleSerialize(ctx, in)
 }
 
-<<<<<<< HEAD
 type awsAwsquery_serializeOpAssumeRoot struct {
 }
 
@@ -297,8 +296,6 @@ func (m *awsAwsquery_serializeOpAssumeRoot) HandleSerialize(ctx context.Context,
 	return next.HandleSerialize(ctx, in)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type awsAwsquery_serializeOpDecodeAuthorizationMessage struct {
 }
 
@@ -894,7 +891,6 @@ func awsAwsquery_serializeOpDocumentAssumeRoleWithWebIdentityInput(v *AssumeRole
 	return nil
 }
 
-<<<<<<< HEAD
 func awsAwsquery_serializeOpDocumentAssumeRootInput(v *AssumeRootInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -919,8 +915,6 @@ func awsAwsquery_serializeOpDocumentAssumeRootInput(v *AssumeRootInput, value qu
 	return nil
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func awsAwsquery_serializeOpDocumentDecodeAuthorizationMessageInput(v *DecodeAuthorizationMessageInput, value query.Value) error {
 	object := value.Object()
 	_ = object

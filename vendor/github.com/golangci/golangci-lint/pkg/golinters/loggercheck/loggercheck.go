@@ -22,12 +22,9 @@ func New(settings *config.LoggerCheckSettings) *goanalysis.Linter {
 		if !settings.Logr {
 			disable = append(disable, "logr")
 		}
-<<<<<<< HEAD
 		if !settings.Slog {
 			disable = append(disable, "slog")
 		}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if !settings.Zap {
 			disable = append(disable, "zap")
 		}

@@ -145,27 +145,13 @@ func CheckResponse(res *http.Response) error {
 	}
 	slurp, err := io.ReadAll(res.Body)
 	if err == nil {
-<<<<<<< HEAD
 		return CheckResponseWithBody(res, slurp)
-=======
-		jerr := new(errorReply)
-		err = json.Unmarshal(slurp, jerr)
-		if err == nil && jerr.Error != nil {
-			if jerr.Error.Code == 0 {
-				jerr.Error.Code = res.StatusCode
-			}
-			jerr.Error.Body = string(slurp)
-			jerr.Error.Header = res.Header
-			return jerr.Error
-		}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return &Error{
 		Code:   res.StatusCode,
 		Body:   string(slurp),
 		Header: res.Header,
 	}
-<<<<<<< HEAD
 
 }
 
@@ -193,8 +179,6 @@ func CheckResponseWithBody(res *http.Response, body []byte) error {
 		Body:   string(body),
 		Header: res.Header,
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // IsNotModified reports whether err is the result of the
@@ -234,7 +218,6 @@ var WithDataWrapper = MarshalStyle(true)
 // WithoutDataWrapper marshals JSON without a {"data": ...} wrapper.
 var WithoutDataWrapper = MarshalStyle(false)
 
-<<<<<<< HEAD
 // JSONReader is like JSONBuffer, but returns an io.Reader instead.
 func (wrap MarshalStyle) JSONReader(v interface{}) (io.Reader, error) {
 	buf, err := wrap.JSONBuffer(v)
@@ -246,9 +229,6 @@ func (wrap MarshalStyle) JSONReader(v interface{}) (io.Reader, error) {
 
 // JSONBuffer encodes the body and wraps it if needed.
 func (wrap MarshalStyle) JSONBuffer(v interface{}) (*bytes.Buffer, error) {
-=======
-func (wrap MarshalStyle) JSONReader(v interface{}) (io.Reader, error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	buf := new(bytes.Buffer)
 	if wrap {
 		buf.Write([]byte(`{"data": `))

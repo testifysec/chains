@@ -50,7 +50,6 @@ func (m *ClientSideWeightedRoundRobin) MarshalToSizedBufferVTStrict(dAtA []byte)
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-<<<<<<< HEAD
 	if len(m.MetricNamesForComputingUtilization) > 0 {
 		for iNdEx := len(m.MetricNamesForComputingUtilization) - 1; iNdEx >= 0; iNdEx-- {
 			i -= len(m.MetricNamesForComputingUtilization[iNdEx])
@@ -60,8 +59,6 @@ func (m *ClientSideWeightedRoundRobin) MarshalToSizedBufferVTStrict(dAtA []byte)
 			dAtA[i] = 0x3a
 		}
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if m.ErrorUtilizationPenalty != nil {
 		size, err := (*wrapperspb.FloatValue)(m.ErrorUtilizationPenalty).MarshalToSizedBufferVTStrict(dAtA[:i])
 		if err != nil {
@@ -155,15 +152,12 @@ func (m *ClientSideWeightedRoundRobin) SizeVT() (n int) {
 		l = (*wrapperspb.FloatValue)(m.ErrorUtilizationPenalty).SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-<<<<<<< HEAD
 	if len(m.MetricNamesForComputingUtilization) > 0 {
 		for _, s := range m.MetricNamesForComputingUtilization {
 			l = len(s)
 			n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 		}
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	n += len(m.unknownFields)
 	return n
 }

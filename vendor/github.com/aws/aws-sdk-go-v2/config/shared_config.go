@@ -118,14 +118,11 @@ const (
 
 	accountIDKey          = "aws_account_id"
 	accountIDEndpointMode = "account_id_endpoint_mode"
-<<<<<<< HEAD
 
 	requestChecksumCalculationKey = "request_checksum_calculation"
 	responseChecksumValidationKey = "response_checksum_validation"
 	checksumWhenSupported         = "when_supported"
 	checksumWhenRequired          = "when_required"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // defaultSharedConfigProfile allows for swapping the default profile for testing
@@ -354,15 +351,12 @@ type SharedConfig struct {
 	S3DisableExpressAuth *bool
 
 	AccountIDEndpointMode aws.AccountIDEndpointMode
-<<<<<<< HEAD
 
 	// RequestChecksumCalculation indicates if the request checksum should be calculated
 	RequestChecksumCalculation aws.RequestChecksumCalculation
 
 	// ResponseChecksumValidation indicates if the response checksum should be validated
 	ResponseChecksumValidation aws.ResponseChecksumValidation
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (c SharedConfig) getDefaultsMode(ctx context.Context) (value aws.DefaultsMode, ok bool, err error) {
@@ -1150,7 +1144,6 @@ func (c *SharedConfig) setFromIniSection(profile string, section ini.Section) er
 		return fmt.Errorf("failed to load %s from shared config, %w", accountIDEndpointMode, err)
 	}
 
-<<<<<<< HEAD
 	if err := updateRequestChecksumCalculation(&c.RequestChecksumCalculation, section, requestChecksumCalculationKey); err != nil {
 		return fmt.Errorf("failed to load %s from shared config, %w", requestChecksumCalculationKey, err)
 	}
@@ -1158,8 +1151,6 @@ func (c *SharedConfig) setFromIniSection(profile string, section ini.Section) er
 		return fmt.Errorf("failed to load %s from shared config, %w", responseChecksumValidationKey, err)
 	}
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Shared Credentials
 	creds := aws.Credentials{
 		AccessKeyID:     section.String(accessKeyIDKey),
@@ -1234,7 +1225,6 @@ func updateAIDEndpointMode(m *aws.AccountIDEndpointMode, sec ini.Section, key st
 	return nil
 }
 
-<<<<<<< HEAD
 func updateRequestChecksumCalculation(m *aws.RequestChecksumCalculation, sec ini.Section, key string) error {
 	if !sec.Has(key) {
 		return nil
@@ -1271,8 +1261,6 @@ func updateResponseChecksumValidation(m *aws.ResponseChecksumValidation, sec ini
 	return nil
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c SharedConfig) getRequestMinCompressSizeBytes(ctx context.Context) (int64, bool, error) {
 	if c.RequestMinCompressSizeBytes == nil {
 		return 0, false, nil
@@ -1291,7 +1279,6 @@ func (c SharedConfig) getAccountIDEndpointMode(ctx context.Context) (aws.Account
 	return c.AccountIDEndpointMode, len(c.AccountIDEndpointMode) > 0, nil
 }
 
-<<<<<<< HEAD
 func (c SharedConfig) getRequestChecksumCalculation(ctx context.Context) (aws.RequestChecksumCalculation, bool, error) {
 	return c.RequestChecksumCalculation, c.RequestChecksumCalculation > 0, nil
 }
@@ -1300,8 +1287,6 @@ func (c SharedConfig) getResponseChecksumValidation(ctx context.Context) (aws.Re
 	return c.ResponseChecksumValidation, c.ResponseChecksumValidation > 0, nil
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func updateDefaultsMode(mode *aws.DefaultsMode, section ini.Section, key string) error {
 	if !section.Has(key) {
 		return nil

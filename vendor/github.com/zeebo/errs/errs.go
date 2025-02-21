@@ -14,24 +14,11 @@ type Namer interface{ Name() (string, bool) }
 
 // Causer is implemented by all errors returned in this package. It returns
 // the underlying cause of the error, or nil if there is no underlying cause.
-<<<<<<< HEAD
 //
 // Deprecated: check for the 'Unwrap()' interface from the stdlib errors package
 // instead.
 type Causer interface{ Cause() error }
 
-=======
-type Causer interface{ Cause() error }
-
-// unwrapper is implemented by all errors returned in this package. It returns
-// the underlying cause of the error, or nil if there is no underlying error.
-type unwrapper interface{ Unwrap() error }
-
-// ungrouper is implemented by combinedError returned in this package. It
-// returns all underlying errors, or nil if there is no underlying error.
-type ungrouper interface{ Ungroup() []error }
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // New returns an error not contained in any class. This is the same as calling
 // fmt.Errorf(...) except it captures a stack trace on creation.
 func New(format string, args ...interface{}) error {
@@ -53,7 +40,6 @@ func WrapP(err *error) {
 	}
 }
 
-<<<<<<< HEAD
 // Often, we call Unwrap as much as possible. Since comparing arbitrary
 // interfaces with equality isn't panic safe, we only loop up to 100
 // times to ensure that a poor implementation that causes a cycle does
@@ -65,24 +51,12 @@ const maxUnwrap = 100
 // Deprecated: Prefer errors.Is() and errors.As().
 func Unwrap(err error) error {
 	for i := 0; err != nil && i < maxUnwrap; i++ {
-=======
-// Often, we call Cause as much as possible. Since comparing arbitrary
-// interfaces with equality isn't panic safe, we only loop up to 100
-// times to ensure that a poor implementation that causes a cycle does
-// not run forever.
-const maxCause = 100
-
-// Unwrap returns the underlying error, if any, or just the error.
-func Unwrap(err error) error {
-	for i := 0; err != nil && i < maxCause; i++ {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		var nerr error
 
 		switch e := err.(type) {
 		case Causer:
 			nerr = e.Cause()
 
-<<<<<<< HEAD
 		case interface{ Unwrap() error }:
 			nerr = e.Unwrap()
 
@@ -98,10 +72,6 @@ func Unwrap(err error) error {
 			if len(errs) > 0 {
 				nerr = errs[0]
 			}
-=======
-		case unwrapper:
-			nerr = e.Unwrap()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 
 		if nerr == nil {
@@ -115,7 +85,6 @@ func Unwrap(err error) error {
 
 // Classes returns all the classes that have wrapped the error.
 func Classes(err error) (classes []*Class) {
-<<<<<<< HEAD
 	IsFunc(err, func(err error) bool {
 		if e, ok := err.(*errorT); ok {
 			classes = append(classes, e.class)
@@ -123,45 +92,10 @@ func Classes(err error) (classes []*Class) {
 		return false
 	})
 	return classes
-=======
-	causes := 0
-	for {
-		switch e := err.(type) {
-		case *errorT:
-			if e.class != nil {
-				classes = append(classes, e.class)
-			}
-			err = e.err
-			continue
-
-		case Causer:
-			err = e.Cause()
-
-		case unwrapper:
-			err = e.Unwrap()
-
-		default:
-			return classes
-		}
-
-		if causes >= maxCause {
-			return classes
-		}
-		causes++
-	}
-}
-
-// Is checks if any of the underlying errors matches target
-func Is(err, target error) bool {
-	return IsFunc(err, func(err error) bool {
-		return err == target
-	})
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // IsFunc checks if any of the underlying errors matches the func
 func IsFunc(err error, is func(err error) bool) bool {
-<<<<<<< HEAD
 	for {
 		if is(err) {
 			return true
@@ -192,47 +126,6 @@ func IsFunc(err error, is func(err error) bool) bool {
 			return false
 		}
 	}
-=======
-	causes := 0
-	errs := []error{err}
-
-	for len(errs) > 0 {
-		var next []error
-		for _, err := range errs {
-			if is(err) {
-				return true
-			}
-
-			switch e := err.(type) {
-			case ungrouper:
-				ungrouped := e.Ungroup()
-				for _, unerr := range ungrouped {
-					if unerr != nil {
-						next = append(next, unerr)
-					}
-				}
-			case Causer:
-				cause := e.Cause()
-				if cause != nil {
-					next = append(next, cause)
-				}
-			case unwrapper:
-				unwrapped := e.Unwrap()
-				if unwrapped != nil {
-					next = append(next, unwrapped)
-				}
-			}
-
-			if causes >= maxCause {
-				return false
-			}
-			causes++
-		}
-		errs = next
-	}
-
-	return false
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 //
@@ -243,12 +136,8 @@ func IsFunc(err error, is func(err error) bool) bool {
 // errors are part of the class.
 type Class string
 
-<<<<<<< HEAD
 // Has returns true if the passed in error (or any error wrapped by it) has
 // this class.
-=======
-// Has returns true if the passed in error was wrapped by this class.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Class) Has(err error) bool {
 	return IsFunc(err, func(err error) bool {
 		errt, ok := err.(*errorT)
@@ -276,7 +165,6 @@ func (c *Class) WrapP(err *error) {
 	}
 }
 
-<<<<<<< HEAD
 // Instance creates a class membership object which implements the error
 // interface and allows errors.Is() to check whether given errors are
 // (or contain) an instance of this class.
@@ -293,8 +181,6 @@ func (c *Class) Instance() error {
 	return (*classMembershipChecker)(c)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // create constructs the error, or just adds the class to the error, keeping
 // track of the stack if it needs to construct it.
 func (c *Class) create(depth int, err error) error {
@@ -325,15 +211,12 @@ func (c *Class) create(depth int, err error) error {
 	return errt
 }
 
-<<<<<<< HEAD
 type classMembershipChecker Class
 
 func (cmc *classMembershipChecker) Error() string {
 	panic("classMembershipChecker used as concrete error! don't do that")
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 //
 // errors
 //
@@ -375,24 +258,13 @@ func (e *errorT) Format(f fmt.State, c rune) {
 	}
 }
 
-<<<<<<< HEAD
 // Cause implements the interface wrapping errors were previously
 // expected to implement to allow getting at underlying causes.
-=======
-// Cause implements the interface wrapping errors are expected to implement
-// to allow getting at underlying causes.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (e *errorT) Cause() error {
 	return e.err
 }
 
-<<<<<<< HEAD
 // Unwrap returns the immediate underlying error.
-=======
-// Unwrap implements the draft design for error inspection. Since this is
-// on an unexported type, it should not be hard to maintain going forward
-// given that it also is the exact same semantics as Cause.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (e *errorT) Unwrap() error {
 	return e.err
 }
@@ -405,7 +277,6 @@ func (e *errorT) Name() (string, bool) {
 	return string(*e.class), true
 }
 
-<<<<<<< HEAD
 // Is determines whether an error is an instance of the given error class.
 //
 // Use with (*Class).Instance().
@@ -414,8 +285,6 @@ func (e *errorT) Is(err error) bool {
 	return ok && e.class == (*Class)(cmc)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // summarizeStack writes stack line entries to the writer.
 func summarizeStack(w io.Writer, pcs []uintptr) {
 	frames := runtime.CallersFrames(pcs)

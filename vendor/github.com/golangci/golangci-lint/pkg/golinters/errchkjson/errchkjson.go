@@ -8,7 +8,6 @@ import (
 	"github.com/golangci/golangci-lint/pkg/goanalysis"
 )
 
-<<<<<<< HEAD
 func New(settings *config.ErrChkJSONSettings) *goanalysis.Linter {
 	a := errchkjson.NewAnalyzer()
 
@@ -20,19 +19,6 @@ func New(settings *config.ErrChkJSONSettings) *goanalysis.Linter {
 		cfg[a.Name] = map[string]any{
 			"omit-safe":          !settings.CheckErrorFreeEncoding,
 			"report-no-exported": settings.ReportNoExported,
-=======
-func New(cfg *config.ErrChkJSONSettings) *goanalysis.Linter {
-	a := errchkjson.NewAnalyzer()
-
-	cfgMap := map[string]map[string]any{}
-	cfgMap[a.Name] = map[string]any{
-		"omit-safe": true,
-	}
-	if cfg != nil {
-		cfgMap[a.Name] = map[string]any{
-			"omit-safe":          !cfg.CheckErrorFreeEncoding,
-			"report-no-exported": cfg.ReportNoExported,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 
@@ -40,10 +26,6 @@ func New(cfg *config.ErrChkJSONSettings) *goanalysis.Linter {
 		a.Name,
 		a.Doc,
 		[]*analysis.Analyzer{a},
-<<<<<<< HEAD
 		cfg,
-=======
-		cfgMap,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	).WithLoadMode(goanalysis.LoadModeTypesInfo)
 }

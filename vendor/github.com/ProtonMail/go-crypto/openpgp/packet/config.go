@@ -14,7 +14,6 @@ import (
 	"github.com/ProtonMail/go-crypto/openpgp/s2k"
 )
 
-<<<<<<< HEAD
 var (
 	defaultRejectPublicKeyAlgorithms = map[PublicKeyAlgorithm]bool{
 		PubKeyAlgoElGamal: true,
@@ -43,8 +42,6 @@ var (
 // by v6 keys, v6 signatures and SEIPDv2 encrypted data, respectively.
 var V5Disabled = false
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Config collects a number of parameters along with sensible defaults.
 // A nil *Config is valid and results in all default values.
 type Config struct {
@@ -104,7 +101,6 @@ type Config struct {
 	// **Note: using this option may break compatibility with other OpenPGP
 	// implementations, as well as future versions of this library.**
 	AEADConfig *AEADConfig
-<<<<<<< HEAD
 	// V6Keys configures version 6 key generation. If false, this package still
 	// supports version 6 keys, but produces version 4 keys.
 	V6Keys bool
@@ -115,11 +111,6 @@ type Config struct {
 	RejectHashAlgorithms        map[crypto.Hash]bool
 	RejectMessageHashAlgorithms map[crypto.Hash]bool
 	RejectCurves                map[Curve]bool
-=======
-	// V5Keys configures version 5 key generation. If false, this package still
-	// supports version 5 keys, but produces version 4 keys.
-	V5Keys bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// "The validity period of the key.  This is the number of seconds after
 	// the key creation time that the key expires.  If this is not present
 	// or has a value of zero, the key never expires.  This is found only on
@@ -148,21 +139,17 @@ type Config struct {
 	// might be no other way than to tolerate the missing MDC. Setting this flag, allows this
 	// mode of operation. It should be considered a measure of last resort.
 	InsecureAllowUnauthenticatedMessages bool
-<<<<<<< HEAD
 	// InsecureAllowDecryptionWithSigningKeys allows decryption with keys marked as signing keys in the v2 API.
 	// This setting is potentially insecure, but it is needed as some libraries
 	// ignored key flags when selecting a key for encryption.
 	// Not relevant for the v1 API, as all keys were allowed in decryption.
 	InsecureAllowDecryptionWithSigningKeys bool
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// KnownNotations is a map of Notation Data names to bools, which controls
 	// the notation names that are allowed to be present in critical Notation Data
 	// signature subpackets.
 	KnownNotations map[string]bool
 	// SignatureNotations is a list of Notations to be added to any signatures.
 	SignatureNotations []*Notation
-<<<<<<< HEAD
 	// CheckIntendedRecipients controls, whether the OpenPGP Intended Recipient Fingerprint feature
 	// should be enabled for encryption and decryption.
 	// (See https://www.ietf.org/archive/id/draft-ietf-openpgp-crypto-refresh-12.html#name-intended-recipient-fingerpr).
@@ -186,8 +173,6 @@ type Config struct {
 	// weaknesses in the hash algo, potentially hindering e.g. some chosen-prefix attacks.
 	// The default behavior, when the config or flag is nil, is to enable the feature.
 	NonDeterministicSignaturesViaNotation *bool
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (c *Config) Random() io.Reader {
@@ -275,11 +260,7 @@ func (c *Config) S2K() *s2k.Config {
 		return nil
 	}
 	// for backwards compatibility
-<<<<<<< HEAD
 	if c.S2KCount > 0 && c.S2KConfig == nil {
-=======
-	if c != nil && c.S2KCount > 0 && c.S2KConfig == nil {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return &s2k.Config{
 			S2KCount: c.S2KCount,
 		}
@@ -315,7 +296,6 @@ func (c *Config) AllowUnauthenticatedMessages() bool {
 	return c.InsecureAllowUnauthenticatedMessages
 }
 
-<<<<<<< HEAD
 func (c *Config) AllowDecryptionWithSigningKeys() bool {
 	if c == nil {
 		return false
@@ -323,8 +303,6 @@ func (c *Config) AllowDecryptionWithSigningKeys() bool {
 	return c.InsecureAllowDecryptionWithSigningKeys
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Config) KnownNotation(notationName string) bool {
 	if c == nil {
 		return false
@@ -338,7 +316,6 @@ func (c *Config) Notations() []*Notation {
 	}
 	return c.SignatureNotations
 }
-<<<<<<< HEAD
 
 func (c *Config) V6() bool {
 	if c == nil {
@@ -431,5 +408,3 @@ func (c *Config) RandomizeSignaturesViaNotation() bool {
 func BoolPointer(value bool) *bool {
 	return &value
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

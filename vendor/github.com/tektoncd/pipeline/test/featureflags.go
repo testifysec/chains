@@ -70,11 +70,7 @@ func requireAnyGate(gates map[string]string) func(context.Context, *testing.T, *
 	}
 }
 
-<<<<<<< HEAD
 // requireAllGates returns a setup func that will skip the current
-=======
-// requireAllgates returns a setup func that will skip the current
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // test if all of the feature-flags in the given map don't match
 // what's in the feature-flags ConfigMap. It will fatally fail
 // the test if it cannot get the feature-flag configmap.

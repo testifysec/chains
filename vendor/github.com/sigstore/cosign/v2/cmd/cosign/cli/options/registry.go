@@ -17,18 +17,12 @@ package options
 import (
 	"context"
 	"crypto/tls"
-<<<<<<< HEAD
 	"crypto/x509"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"errors"
 	"fmt"
 	"io"
 	"net/http"
-<<<<<<< HEAD
 	"os"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	ecr "github.com/awslabs/amazon-ecr-credential-helper/ecr-login"
 	"github.com/chrismellard/docker-credential-acr-env/pkg/credhelper"
@@ -53,13 +47,10 @@ type RegistryOptions struct {
 	RefOpts            ReferenceOptions
 	Keychain           Keychain
 	AuthConfig         authn.AuthConfig
-<<<<<<< HEAD
 	RegistryCACert     string
 	RegistryClientCert string
 	RegistryClientKey  string
 	RegistryServerName string
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// RegistryClientOpts allows overriding the result of GetRegistryClientOpts.
 	RegistryClientOpts []remote.Option
@@ -87,7 +78,6 @@ func (o *RegistryOptions) AddFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&o.AuthConfig.RegistryToken, "registry-token", "",
 		"registry bearer auth token")
 
-<<<<<<< HEAD
 	cmd.Flags().StringVar(&o.RegistryCACert, "registry-cacert", "",
 		"path to the X.509 CA certificate file in PEM format to be used for the connection to the registry")
 
@@ -100,8 +90,6 @@ func (o *RegistryOptions) AddFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&o.RegistryServerName, "registry-server-name", "",
 		"SAN name to use as the 'ServerName' tls.Config field to verify the mTLS connection to the registry")
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	o.RefOpts.AddFlags(cmd)
 }
 
@@ -161,16 +149,11 @@ func (o *RegistryOptions) GetRegistryClientOpts(ctx context.Context) []remote.Op
 		opts = append(opts, remote.WithAuthFromKeychain(authn.DefaultKeychain))
 	}
 
-<<<<<<< HEAD
 	tlsConfig, err := o.getTLSConfig()
 	if err == nil {
 		tr := http.DefaultTransport.(*http.Transport).Clone()
 		tr.TLSClientConfig = tlsConfig
 		opts = append(opts, remote.WithTransport(tr))
-=======
-	if o.AllowInsecure {
-		opts = append(opts, remote.WithTransport(&http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}})) // #nosec G402
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Reuse a remote.Pusher and a remote.Puller for all operations that use these opts.
@@ -231,7 +214,6 @@ func (o *RegistryExperimentalOptions) AddFlags(cmd *cobra.Command) {
 	cmd.Flags().Var(&o.RegistryReferrersMode, "registry-referrers-mode",
 		"mode for fetching references from the registry. allowed: legacy, oci-1-1")
 }
-<<<<<<< HEAD
 
 func (o *RegistryOptions) getTLSConfig() (*tls.Config, error) {
 	var tlsConfig tls.Config
@@ -270,5 +252,3 @@ func (o *RegistryOptions) getTLSConfig() (*tls.Config, error) {
 
 	return &tlsConfig, nil
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

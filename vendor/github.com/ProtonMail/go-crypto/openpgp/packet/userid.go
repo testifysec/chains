@@ -6,10 +6,6 @@ package packet
 
 import (
 	"io"
-<<<<<<< HEAD
-=======
-	"io/ioutil"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 )
 
@@ -69,11 +65,7 @@ func NewUserId(name, comment, email string) *UserId {
 
 func (uid *UserId) parse(r io.Reader) (err error) {
 	// RFC 4880, section 5.11
-<<<<<<< HEAD
 	b, err := io.ReadAll(r)
-=======
-	b, err := ioutil.ReadAll(r)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return
 	}

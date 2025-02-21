@@ -26,11 +26,7 @@ func (act *action) loadCachedFacts() bool {
 			return true // load cached facts only for non-initial packages
 		}
 
-<<<<<<< HEAD
 		if len(act.Analyzer.FactTypes) == 0 {
-=======
-		if len(act.a.FactTypes) == 0 {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return true // no need to load facts
 		}
 
@@ -42,11 +38,7 @@ func (act *action) loadCachedFacts() bool {
 }
 
 func (act *action) persistFactsToCache() error {
-<<<<<<< HEAD
 	analyzer := act.Analyzer
-=======
-	analyzer := act.a
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(analyzer.FactTypes) == 0 {
 		return nil
 	}
@@ -54,11 +46,7 @@ func (act *action) persistFactsToCache() error {
 	// Merge new facts into the package and persist them.
 	var facts []Fact
 	for key, fact := range act.packageFacts {
-<<<<<<< HEAD
 		if key.pkg != act.Package.Types {
-=======
-		if key.pkg != act.pkg.Types {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			// The fact is from inherited facts from another package
 			continue
 		}
@@ -69,11 +57,7 @@ func (act *action) persistFactsToCache() error {
 	}
 	for key, fact := range act.objectFacts {
 		obj := key.obj
-<<<<<<< HEAD
 		if obj.Pkg() != act.Package.Types {
-=======
-		if obj.Pkg() != act.pkg.Types {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			// The fact is from inherited facts from another package
 			continue
 		}
@@ -90,21 +74,14 @@ func (act *action) persistFactsToCache() error {
 		})
 	}
 
-<<<<<<< HEAD
 	factsCacheDebugf("Caching %d facts for package %q and analyzer %s", len(facts), act.Package.Name, act.Analyzer.Name)
 
 	return act.runner.pkgCache.Put(act.Package, cache.HashModeNeedAllDeps, factCacheKey(analyzer), facts)
-=======
-	factsCacheDebugf("Caching %d facts for package %q and analyzer %s", len(facts), act.pkg.Name, act.a.Name)
-
-	return act.r.pkgCache.Put(act.pkg, cache.HashModeNeedAllDeps, factCacheKey(analyzer), facts)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (act *action) loadPersistedFacts() bool {
 	var facts []Fact
 
-<<<<<<< HEAD
 	err := act.runner.pkgCache.Get(act.Package, cache.HashModeNeedAllDeps, factCacheKey(act.Analyzer), &facts)
 	if err != nil {
 		if !errors.Is(err, cache.ErrMissing) && !errors.Is(err, io.EOF) {
@@ -124,27 +101,6 @@ func (act *action) loadPersistedFacts() bool {
 			continue
 		}
 		obj, err := objectpath.Object(act.Package.Types, objectpath.Path(f.Path))
-=======
-	err := act.r.pkgCache.Get(act.pkg, cache.HashModeNeedAllDeps, factCacheKey(act.a), &facts)
-	if err != nil {
-		if !errors.Is(err, cache.ErrMissing) && !errors.Is(err, io.EOF) {
-			act.r.log.Warnf("Failed to get persisted facts: %s", err)
-		}
-
-		factsCacheDebugf("No cached facts for package %q and analyzer %s", act.pkg.Name, act.a.Name)
-		return false
-	}
-
-	factsCacheDebugf("Loaded %d cached facts for package %q and analyzer %s", len(facts), act.pkg.Name, act.a.Name)
-
-	for _, f := range facts {
-		if f.Path == "" { // this is a package fact
-			key := packageFactKey{act.pkg.Types, act.factType(f.Fact)}
-			act.packageFacts[key] = f.Fact
-			continue
-		}
-		obj, err := objectpath.Object(act.pkg.Types, objectpath.Path(f.Path))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			// Be lenient about these errors. For example, when
 			// analyzing io/ioutil from source, we may get a fact

@@ -3,8 +3,4 @@
 package ssooidc
 
 // goModuleVersion is the tagged release for this module
-<<<<<<< HEAD
 const goModuleVersion = "1.28.11"
-=======
-const goModuleVersion = "1.28.4"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

@@ -71,11 +71,7 @@ type sumTypeDef struct {
 // sum type declarations. If no such sum type definition could be found for
 // any of the given declarations, then an error is returned.
 func findSumTypeDefs(decls []sumTypeDecl) ([]sumTypeDef, []error) {
-<<<<<<< HEAD
 	defs := make([]sumTypeDef, 0, len(decls))
-=======
-	var defs []sumTypeDef
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	var errs []error
 	for _, decl := range decls {
 		def, err := newSumTypeDef(decl.Package.Types, decl)
@@ -108,11 +104,7 @@ func newSumTypeDef(pkg *types.Package, decl sumTypeDecl) (*sumTypeDef, error) {
 		return nil, notInterfaceError{decl}
 	}
 	hasUnexported := false
-<<<<<<< HEAD
 	for i := range iface.NumMethods() {
-=======
-	for i := 0; i < iface.NumMethods(); i++ {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if !iface.Method(i).Exported() {
 			hasUnexported = true
 			break
@@ -153,11 +145,7 @@ func (def *sumTypeDef) String() string {
 
 // missing returns a list of variants in this sum type that are not in the
 // given list of types.
-<<<<<<< HEAD
 func (def *sumTypeDef) missing(tys []types.Type, includeSharedInterfaces bool) []types.Object {
-=======
-func (def *sumTypeDef) missing(tys []types.Type) []types.Object {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// TODO(ag): This is O(n^2). Fix that. /shrug
 	var missing []types.Object
 	for _, v := range def.Variants {
@@ -167,7 +155,6 @@ func (def *sumTypeDef) missing(tys []types.Type) []types.Object {
 			ty = indirect(ty)
 			if types.Identical(varty, ty) {
 				found = true
-<<<<<<< HEAD
 				break
 			}
 			if includeSharedInterfaces && implements(varty, ty) {
@@ -179,26 +166,18 @@ func (def *sumTypeDef) missing(tys []types.Type) []types.Object {
 			// we do not include interfaces extending the sumtype, as the
 			// all implementations of those interfaces are already covered
 			// by the sumtype.
-=======
-			}
-		}
-		if !found {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			missing = append(missing, v)
 		}
 	}
 	return missing
 }
 
-<<<<<<< HEAD
 func isInterface(ty types.Type) bool {
 	underlying := indirect(ty).Underlying()
 	_, ok := underlying.(*types.Interface)
 	return ok
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // indirect dereferences through an arbitrary number of pointer types.
 func indirect(ty types.Type) types.Type {
 	if ty, ok := ty.(*types.Pointer); ok {
@@ -206,7 +185,6 @@ func indirect(ty types.Type) types.Type {
 	}
 	return ty
 }
-<<<<<<< HEAD
 
 func implements(varty, interfaceType types.Type) bool {
 	underlying := interfaceType.Underlying()
@@ -215,5 +193,3 @@ func implements(varty, interfaceType types.Type) bool {
 	}
 	return false
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

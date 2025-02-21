@@ -15,11 +15,6 @@
 package parser
 
 import (
-<<<<<<< HEAD
-=======
-	"fmt"
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/google/cel-go/common"
 )
 
@@ -34,19 +29,11 @@ func (e *parseErrors) errorCount() int {
 }
 
 func (e *parseErrors) internalError(message string) {
-<<<<<<< HEAD
 	e.errs.ReportErrorAtID(0, common.NoLocation, "%s", message)
 }
 
 func (e *parseErrors) syntaxError(l common.Location, message string) {
 	e.errs.ReportErrorAtID(0, l, "Syntax error: %s", message)
-=======
-	e.errs.ReportErrorAtID(0, common.NoLocation, message)
-}
-
-func (e *parseErrors) syntaxError(l common.Location, message string) {
-	e.errs.ReportErrorAtID(0, l, fmt.Sprintf("Syntax error: %s", message))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (e *parseErrors) reportErrorAtID(id int64, l common.Location, message string, args ...any) {

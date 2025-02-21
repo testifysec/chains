@@ -22,15 +22,10 @@ import (
 
 	"cloud.google.com/go/auth"
 	"cloud.google.com/go/auth/credentials/impersonate"
-<<<<<<< HEAD
 	intimpersonate "cloud.google.com/go/auth/credentials/internal/impersonate"
 	"cloud.google.com/go/auth/internal"
 	"cloud.google.com/go/auth/internal/credsfile"
 	"github.com/googleapis/gax-go/v2/internallog"
-=======
-	"cloud.google.com/go/auth/internal"
-	"cloud.google.com/go/auth/internal/credsfile"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const (
@@ -50,7 +45,6 @@ func credsFromDefault(creds *auth.Credentials, opts *Options) (*auth.Credentials
 		if err != nil {
 			return nil, err
 		}
-<<<<<<< HEAD
 		var tp auth.TokenProvider
 		if resolveUniverseDomain(f) == internal.DefaultUniverseDomain {
 			tp, err = new2LOTokenProvider(f, opts)
@@ -69,44 +63,13 @@ func credsFromDefault(creds *auth.Credentials, opts *Options) (*auth.Credentials
 					Audience: opts.Audience,
 				},
 			}
-=======
-		opts2LO := &auth.Options2LO{
-			Email:        f.ClientEmail,
-			PrivateKey:   []byte(f.PrivateKey),
-			PrivateKeyID: f.PrivateKeyID,
-			TokenURL:     f.TokenURL,
-			UseIDToken:   true,
-		}
-		if opts2LO.TokenURL == "" {
-			opts2LO.TokenURL = jwtTokenURL
-		}
-
-		var customClaims map[string]interface{}
-		if opts != nil {
-			customClaims = opts.CustomClaims
-		}
-		if customClaims == nil {
-			customClaims = make(map[string]interface{})
-		}
-		customClaims["target_audience"] = opts.Audience
-
-		opts2LO.PrivateClaims = customClaims
-		tp, err := auth.New2LOTokenProvider(opts2LO)
-		if err != nil {
-			return nil, err
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		tp = auth.NewCachedTokenProvider(tp, nil)
 		return auth.NewCredentials(&auth.CredentialsOptions{
 			TokenProvider:          tp,
 			JSON:                   b,
-<<<<<<< HEAD
 			ProjectIDProvider:      auth.CredentialsPropertyFunc(creds.ProjectID),
 			UniverseDomainProvider: auth.CredentialsPropertyFunc(creds.UniverseDomain),
-=======
-			ProjectIDProvider:      internal.StaticCredentialsProperty(f.ProjectID),
-			UniverseDomainProvider: internal.StaticCredentialsProperty(f.UniverseDomain),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}), nil
 	case credsfile.ImpersonatedServiceAccountKey, credsfile.ExternalAccountKey:
 		type url struct {
@@ -118,20 +81,13 @@ func credsFromDefault(creds *auth.Credentials, opts *Options) (*auth.Credentials
 		}
 		account := filepath.Base(accountURL.ServiceAccountImpersonationURL)
 		account = strings.Split(account, ":")[0]
-<<<<<<< HEAD
-=======
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		config := impersonate.IDTokenOptions{
 			Audience:        opts.Audience,
 			TargetPrincipal: account,
 			IncludeEmail:    true,
 			Client:          opts.client(),
 			Credentials:     creds,
-<<<<<<< HEAD
 			Logger:          internallog.New(opts.Logger),
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		idTokenCreds, err := impersonate.NewIDTokenCredentials(&config)
 		if err != nil {
@@ -148,7 +104,6 @@ func credsFromDefault(creds *auth.Credentials, opts *Options) (*auth.Credentials
 		return nil, fmt.Errorf("idtoken: unsupported credentials type: %v", t)
 	}
 }
-<<<<<<< HEAD
 
 func new2LOTokenProvider(f *credsfile.ServiceAccountFile, opts *Options) (auth.TokenProvider, error) {
 	opts2LO := &auth.Options2LO{
@@ -185,5 +140,3 @@ func resolveUniverseDomain(f *credsfile.ServiceAccountFile) string {
 	}
 	return internal.DefaultUniverseDomain
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

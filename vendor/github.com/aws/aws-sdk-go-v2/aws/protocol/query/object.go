@@ -1,13 +1,6 @@
 package query
 
-<<<<<<< HEAD
 import "net/url"
-=======
-import (
-	"fmt"
-	"net/url"
-)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 // Object represents the encoding of Query structures and unions. A Query
 // object is a representation of a mapping of string keys to arbitrary
@@ -60,24 +53,16 @@ func (o *Object) FlatKey(name string) Value {
 
 func (o *Object) key(name string, flatValue bool) Value {
 	if o.prefix != "" {
-<<<<<<< HEAD
 		// This uses string concatenation in place of fmt.Sprintf as fmt.Sprintf has a much higher resource overhead
 		return newValue(o.values, o.prefix+keySeparator+name, flatValue)
-=======
-		return newValue(o.values, fmt.Sprintf("%s.%s", o.prefix, name), flatValue)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return newValue(o.values, name, flatValue)
 }
 
 func (o *Object) keyWithValues(name string, flatValue bool) Value {
 	if o.prefix != "" {
-<<<<<<< HEAD
 		// This uses string concatenation in place of fmt.Sprintf as fmt.Sprintf has a much higher resource overhead
 		return newAppendValue(o.values, o.prefix+keySeparator+name, flatValue)
-=======
-		return newAppendValue(o.values, fmt.Sprintf("%s.%s", o.prefix, name), flatValue)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return newAppendValue(o.values, name, flatValue)
 }

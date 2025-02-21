@@ -79,11 +79,8 @@ func checkForStmt(pass *analysis.Pass, forStmt *ast.ForStmt) {
 		return
 	}
 
-<<<<<<< HEAD
 	initAssign := init.Tok == token.ASSIGN
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if len(init.Lhs) != 1 || len(init.Rhs) != 1 {
 		return
 	}
@@ -102,7 +99,6 @@ func checkForStmt(pass *analysis.Pass, forStmt *ast.ForStmt) {
 		return
 	}
 
-<<<<<<< HEAD
 	var (
 		operand               ast.Expr
 		hasEquivalentOperator bool
@@ -110,18 +106,6 @@ func checkForStmt(pass *analysis.Pass, forStmt *ast.ForStmt) {
 
 	switch cond.Op {
 	case token.LSS, token.LEQ: // ;i < n; || ;i <= n;
-=======
-	var nExpr ast.Expr
-
-	switch cond.Op {
-	case token.LSS: // ;i < n;
-		if isBenchmark(cond.Y) {
-			return
-		}
-
-		nExpr = findNExpr(cond.Y)
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		x, ok := cond.X.(*ast.Ident)
 		if !ok {
 			return
@@ -130,20 +114,10 @@ func checkForStmt(pass *analysis.Pass, forStmt *ast.ForStmt) {
 		if x.Name != initIdent.Name {
 			return
 		}
-<<<<<<< HEAD
 
 		hasEquivalentOperator = cond.Op == token.LEQ
 		operand = cond.Y
 	case token.GTR, token.GEQ: // ;n > i; || ;n >= i;
-=======
-	case token.GTR: // ;n > i;
-		if isBenchmark(cond.X) {
-			return
-		}
-
-		nExpr = findNExpr(cond.X)
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		y, ok := cond.Y.(*ast.Ident)
 		if !ok {
 			return
@@ -152,12 +126,9 @@ func checkForStmt(pass *analysis.Pass, forStmt *ast.ForStmt) {
 		if y.Name != initIdent.Name {
 			return
 		}
-<<<<<<< HEAD
 
 		hasEquivalentOperator = cond.Op == token.GEQ
 		operand = cond.X
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	default:
 		return
 	}
@@ -256,11 +227,7 @@ func checkForStmt(pass *analysis.Pass, forStmt *ast.ForStmt) {
 
 	bc := &bodyChecker{
 		initIdent: initIdent,
-<<<<<<< HEAD
 		nExpr:     findNExpr(operand),
-=======
-		nExpr:     nExpr,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	ast.Inspect(forStmt.Body, bc.check)
@@ -269,7 +236,6 @@ func checkForStmt(pass *analysis.Pass, forStmt *ast.ForStmt) {
 		return
 	}
 
-<<<<<<< HEAD
 	if initAssign {
 		pass.Report(analysis.Diagnostic{
 			Pos:     forStmt.Pos(),
@@ -314,11 +280,6 @@ func checkForStmt(pass *analysis.Pass, forStmt *ast.ForStmt) {
 				},
 			},
 		},
-=======
-	pass.Report(analysis.Diagnostic{
-		Pos:     forStmt.Pos(),
-		Message: msg,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	})
 }
 
@@ -442,7 +403,6 @@ func findNExpr(expr ast.Expr) ast.Expr {
 	}
 }
 
-<<<<<<< HEAD
 func recursiveOperandToString(
 	expr ast.Expr,
 	incrementInt bool,
@@ -482,28 +442,6 @@ func recursiveOperandToString(
 	default:
 		return ""
 	}
-=======
-func isBenchmark(expr ast.Expr) bool {
-	selectorExpr, ok := expr.(*ast.SelectorExpr)
-	if !ok {
-		return false
-	}
-
-	if selectorExpr.Sel.Name != "N" {
-		return false
-	}
-
-	ident, ok := selectorExpr.X.(*ast.Ident)
-	if !ok {
-		return false
-	}
-
-	if ident.Name == "b" {
-		return true
-	}
-
-	return false
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func identEqual(a, b ast.Expr) bool {
@@ -549,10 +487,7 @@ type bodyChecker struct {
 	initIdent *ast.Ident
 	nExpr     ast.Expr
 	modified  bool
-<<<<<<< HEAD
 	accessed  bool
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (b *bodyChecker) check(n ast.Node) bool {
@@ -571,19 +506,15 @@ func (b *bodyChecker) check(n ast.Node) bool {
 
 			return false
 		}
-<<<<<<< HEAD
 	case *ast.Ident:
 		if identEqual(stmt, b.initIdent) {
 			b.accessed = true
 		}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	return true
 }
 
-<<<<<<< HEAD
 func isNumberLit(exp ast.Expr) bool {
 	switch lit := exp.(type) {
 	case *ast.BasicLit:
@@ -624,8 +555,6 @@ func isNumberLit(exp ast.Expr) bool {
 	}
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func compareNumberLit(exp ast.Expr, val int) bool {
 	switch lit := exp.(type) {
 	case *ast.BasicLit:
@@ -672,7 +601,6 @@ func compareNumberLit(exp ast.Expr, val int) bool {
 		return false
 	}
 }
-<<<<<<< HEAD
 
 func operandToString(
 	pass *analysis.Pass,
@@ -697,5 +625,3 @@ func operandToString(
 
 	return t.String() + "(" + s + ")"
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

@@ -96,20 +96,12 @@ func NewView(criteria Instrument, mask Stream) View {
 	return func(i Instrument) (Stream, bool) {
 		if matchFunc(i) {
 			return Stream{
-<<<<<<< HEAD
 				Name:                              nonZero(mask.Name, i.Name),
 				Description:                       nonZero(mask.Description, i.Description),
 				Unit:                              nonZero(mask.Unit, i.Unit),
 				Aggregation:                       agg,
 				AttributeFilter:                   mask.AttributeFilter,
 				ExemplarReservoirProviderSelector: mask.ExemplarReservoirProviderSelector,
-=======
-				Name:            nonZero(mask.Name, i.Name),
-				Description:     nonZero(mask.Description, i.Description),
-				Unit:            nonZero(mask.Unit, i.Unit),
-				Aggregation:     agg,
-				AttributeFilter: mask.AttributeFilter,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			}, true
 		}
 		return Stream{}, false

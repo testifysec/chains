@@ -427,7 +427,6 @@ func unwrap(desc description, msg proto.Message) (any, bool, error) {
 			return structpb.NullValue_NULL_VALUE, true, nil
 		}
 	case *wrapperspb.BoolValue:
-<<<<<<< HEAD
 		if v == nil {
 			return nil, true, nil
 		}
@@ -471,24 +470,6 @@ func unwrap(desc description, msg proto.Message) (any, bool, error) {
 		if v == nil {
 			return nil, true, nil
 		}
-=======
-		return v.GetValue(), true, nil
-	case *wrapperspb.BytesValue:
-		return v.GetValue(), true, nil
-	case *wrapperspb.DoubleValue:
-		return v.GetValue(), true, nil
-	case *wrapperspb.FloatValue:
-		return float64(v.GetValue()), true, nil
-	case *wrapperspb.Int32Value:
-		return int64(v.GetValue()), true, nil
-	case *wrapperspb.Int64Value:
-		return v.GetValue(), true, nil
-	case *wrapperspb.StringValue:
-		return v.GetValue(), true, nil
-	case *wrapperspb.UInt32Value:
-		return uint64(v.GetValue()), true, nil
-	case *wrapperspb.UInt64Value:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return v.GetValue(), true, nil
 	}
 	return msg, false, nil

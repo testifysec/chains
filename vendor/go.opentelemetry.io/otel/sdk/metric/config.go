@@ -5,7 +5,6 @@ package metric // import "go.opentelemetry.io/otel/sdk/metric"
 
 import (
 	"context"
-<<<<<<< HEAD
 	"errors"
 	"os"
 	"strings"
@@ -13,26 +12,15 @@ import (
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/sdk/metric/exemplar"
-=======
-	"fmt"
-	"sync"
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go.opentelemetry.io/otel/sdk/resource"
 )
 
 // config contains configuration options for a MeterProvider.
 type config struct {
-<<<<<<< HEAD
 	res            *resource.Resource
 	readers        []Reader
 	views          []View
 	exemplarFilter exemplar.Filter
-=======
-	res     *resource.Resource
-	readers []Reader
-	views   []View
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // readerSignals returns a force-flush and shutdown function for a
@@ -56,7 +44,6 @@ func (c config) readerSignals() (forceFlush, shutdown func(context.Context) erro
 // value.
 func unify(funcs []func(context.Context) error) func(context.Context) error {
 	return func(ctx context.Context) error {
-<<<<<<< HEAD
 		var err error
 		for _, f := range funcs {
 			if e := f(ctx); e != nil {
@@ -64,27 +51,6 @@ func unify(funcs []func(context.Context) error) func(context.Context) error {
 			}
 		}
 		return err
-=======
-		var errs []error
-		for _, f := range funcs {
-			if err := f(ctx); err != nil {
-				errs = append(errs, err)
-			}
-		}
-		return unifyErrors(errs)
-	}
-}
-
-// unifyErrors combines multiple errors into a single error.
-func unifyErrors(errs []error) error {
-	switch len(errs) {
-	case 0:
-		return nil
-	case 1:
-		return errs[0]
-	default:
-		return fmt.Errorf("%v", errs)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -102,7 +68,6 @@ func unifyShutdown(funcs []func(context.Context) error) func(context.Context) er
 
 // newConfig returns a config configured with options.
 func newConfig(options []Option) config {
-<<<<<<< HEAD
 	conf := config{
 		res:            resource.Default(),
 		exemplarFilter: exemplar.TraceBasedFilter,
@@ -110,9 +75,6 @@ func newConfig(options []Option) config {
 	for _, o := range meterProviderOptionsFromEnv() {
 		conf = o.apply(conf)
 	}
-=======
-	conf := config{res: resource.Default()}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, o := range options {
 		conf = o.apply(conf)
 	}
@@ -140,15 +102,11 @@ func (o optionFunc) apply(conf config) config {
 // go.opentelemetry.io/otel/sdk/resource package will be used.
 func WithResource(res *resource.Resource) Option {
 	return optionFunc(func(conf config) config {
-<<<<<<< HEAD
 		var err error
 		conf.res, err = resource.Merge(resource.Environment(), res)
 		if err != nil {
 			otel.Handle(err)
 		}
-=======
-		conf.res = res
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return conf
 	})
 }
@@ -180,7 +138,6 @@ func WithView(views ...View) Option {
 		return cfg
 	})
 }
-<<<<<<< HEAD
 
 // WithExemplarFilter configures the exemplar filter.
 //
@@ -213,5 +170,3 @@ func meterProviderOptionsFromEnv() []Option {
 	}
 	return opts
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

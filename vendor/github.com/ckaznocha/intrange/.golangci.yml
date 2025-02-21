@@ -1,13 +1,9 @@
 linters-settings:
   gci:
-<<<<<<< HEAD
     sections:
       - standard
       - default
       - localmodule
-=======
-    local-prefixes: github.com/ckaznocha/intrange
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   gocritic:
     enabled-tags:
       - diagnostic
@@ -17,14 +13,7 @@ linters-settings:
       - style
   goimports:
     local-prefixes: github.com/ckaznocha/intrange
-<<<<<<< HEAD
   govet:
-=======
-  golint:
-    min-confidence: 0
-  govet:
-    check-shadowing: true
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     enable:
       - asmdecl
       - assign
@@ -35,10 +24,7 @@ linters-settings:
       - cgocall
       - composite
       - copylock
-<<<<<<< HEAD
       - copyloopvar
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
       - deepequalerrors
       - errorsas
       - fieldalignment
@@ -72,28 +58,16 @@ linters:
     - dupl
     - errcheck
     - errorlint
-<<<<<<< HEAD
-=======
-    - exportloopref
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     - gci
     - gochecknoinits
     - goconst
     - gocritic
     - godot
     - godox
-<<<<<<< HEAD
     - err113
     - gofmt
     - gofumpt
     - goimports
-=======
-    - goerr113
-    - gofmt
-    - gofumpt
-    - goimports
-    - gomnd
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     - goprintffuncname
     - gosec
     - gosimple
@@ -119,11 +93,6 @@ linters:
     - wastedassign
     - whitespace
     - wsl
-<<<<<<< HEAD
 issues:
   exclude-dirs:
-=======
-run:
-  skip-dirs:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
     - testdata/

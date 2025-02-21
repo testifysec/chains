@@ -353,11 +353,7 @@ func (p *processor) parseBlockStatements(statements []ast.Stmt) {
 				return false
 			}
 
-<<<<<<< HEAD
 			for j := range n {
-=======
-			for j := 0; j < n; j++ {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				s1 := statements[i+j]
 				s2 := statements[i+j+1]
 
@@ -1117,13 +1113,8 @@ func (p *processor) findLeadingAndTrailingWhitespaces(ident *ast.Ident, stmt, ne
 		return
 	}
 
-<<<<<<< HEAD
 	blockStartLine = p.fileSet.Position(blockStartPos).Line
 	blockEndLine = p.fileSet.Position(blockEndPos).Line
-=======
-	blockStartLine = p.fileSet.PositionFor(blockStartPos, false).Line
-	blockEndLine = p.fileSet.PositionFor(blockEndPos, false).Line
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	// No whitespace possible if LBrace and RBrace is on the same line.
 	if blockStartLine == blockEndLine {
@@ -1371,7 +1362,6 @@ func isExampleFunc(ident *ast.Ident) bool {
 }
 
 func (p *processor) nodeStart(node ast.Node) int {
-<<<<<<< HEAD
 	return p.fileSet.Position(node.Pos()).Line
 }
 
@@ -1380,16 +1370,6 @@ func (p *processor) nodeEnd(node ast.Node) int {
 
 	if isEmptyLabeledStmt(node) {
 		return p.fileSet.Position(node.Pos()).Line
-=======
-	return p.fileSet.PositionFor(node.Pos(), false).Line
-}
-
-func (p *processor) nodeEnd(node ast.Node) int {
-	line := p.fileSet.PositionFor(node.End(), false).Line
-
-	if isEmptyLabeledStmt(node) {
-		return p.fileSet.PositionFor(node.Pos(), false).Line
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	return line
@@ -1428,11 +1408,7 @@ func (p *processor) addErrorRange(reportAt, start, end token.Pos, reason string)
 }
 
 func (p *processor) addWarning(w string, pos token.Pos, t interface{}) {
-<<<<<<< HEAD
 	position := p.fileSet.Position(pos)
-=======
-	position := p.fileSet.PositionFor(pos, false)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	p.warnings = append(p.warnings,
 		fmt.Sprintf("%s:%d: %s (%T)", position.Filename, position.Line, w, t),

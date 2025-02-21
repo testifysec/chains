@@ -126,7 +126,6 @@ type NamespacedAttribute interface {
 	Qualifiers() []Qualifier
 }
 
-<<<<<<< HEAD
 // AttrFactoryOption specifies a functional option for configuring an attribute factory.
 type AttrFactoryOption func(*attrFactory) *attrFactory
 
@@ -144,35 +143,22 @@ func EnableErrorOnBadPresenceTest(value bool) AttrFactoryOption {
 // types: bool, int, string, and uint.
 func NewAttributeFactory(cont *containers.Container, a types.Adapter, p types.Provider, opts ...AttrFactoryOption) AttributeFactory {
 	fac := &attrFactory{
-=======
-// NewAttributeFactory returns a default AttributeFactory which is produces Attribute values
-// capable of resolving types by simple names and qualify the values using the supported qualifier
-// types: bool, int, string, and uint.
-func NewAttributeFactory(cont *containers.Container, a types.Adapter, p types.Provider) AttributeFactory {
-	return &attrFactory{
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		container: cont,
 		adapter:   a,
 		provider:  p,
 	}
-<<<<<<< HEAD
 	for _, o := range opts {
 		fac = o(fac)
 	}
 	return fac
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type attrFactory struct {
 	container *containers.Container
 	adapter   types.Adapter
 	provider  types.Provider
-<<<<<<< HEAD
 
 	errorOnBadPresenceTest bool
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // AbsoluteAttribute refers to a variable value and an optional qualifier path.
@@ -181,7 +167,6 @@ type attrFactory struct {
 // resolution rules.
 func (r *attrFactory) AbsoluteAttribute(id int64, names ...string) NamespacedAttribute {
 	return &absoluteAttribute{
-<<<<<<< HEAD
 		id:                     id,
 		namespaceNames:         names,
 		qualifiers:             []Qualifier{},
@@ -189,14 +174,6 @@ func (r *attrFactory) AbsoluteAttribute(id int64, names ...string) NamespacedAtt
 		provider:               r.provider,
 		fac:                    r,
 		errorOnBadPresenceTest: r.errorOnBadPresenceTest,
-=======
-		id:             id,
-		namespaceNames: names,
-		qualifiers:     []Qualifier{},
-		adapter:        r.adapter,
-		provider:       r.provider,
-		fac:            r,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -230,20 +207,12 @@ func (r *attrFactory) MaybeAttribute(id int64, name string) Attribute {
 // RelativeAttribute refers to an expression and an optional qualifier path.
 func (r *attrFactory) RelativeAttribute(id int64, operand Interpretable) Attribute {
 	return &relativeAttribute{
-<<<<<<< HEAD
 		id:                     id,
 		operand:                operand,
 		qualifiers:             []Qualifier{},
 		adapter:                r.adapter,
 		fac:                    r,
 		errorOnBadPresenceTest: r.errorOnBadPresenceTest,
-=======
-		id:         id,
-		operand:    operand,
-		qualifiers: []Qualifier{},
-		adapter:    r.adapter,
-		fac:        r,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -265,11 +234,7 @@ func (r *attrFactory) NewQualifier(objType *types.Type, qualID int64, val any, o
 			}, nil
 		}
 	}
-<<<<<<< HEAD
 	return newQualifier(r.adapter, qualID, val, opt, r.errorOnBadPresenceTest)
-=======
-	return newQualifier(r.adapter, qualID, val, opt)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type absoluteAttribute struct {
@@ -281,11 +246,8 @@ type absoluteAttribute struct {
 	adapter        types.Adapter
 	provider       types.Provider
 	fac            AttributeFactory
-<<<<<<< HEAD
 
 	errorOnBadPresenceTest bool
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ID implements the Attribute interface method.
@@ -574,11 +536,8 @@ type relativeAttribute struct {
 	qualifiers []Qualifier
 	adapter    types.Adapter
 	fac        AttributeFactory
-<<<<<<< HEAD
 
 	errorOnBadPresenceTest bool
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ID is an implementation of the Attribute interface method.
@@ -642,11 +601,7 @@ func (a *relativeAttribute) String() string {
 	return fmt.Sprintf("id: %v, operand: %v", a.id, a.operand)
 }
 
-<<<<<<< HEAD
 func newQualifier(adapter types.Adapter, id int64, v any, opt, errorOnBadPresenceTest bool) (Qualifier, error) {
-=======
-func newQualifier(adapter types.Adapter, id int64, v any, opt bool) (Qualifier, error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	var qual Qualifier
 	switch val := v.(type) {
 	case Attribute:
@@ -661,7 +616,6 @@ func newQualifier(adapter types.Adapter, id int64, v any, opt bool) (Qualifier, 
 		}, nil
 	case string:
 		qual = &stringQualifier{
-<<<<<<< HEAD
 			id:                     id,
 			value:                  val,
 			celValue:               types.String(val),
@@ -794,73 +748,6 @@ func newQualifier(adapter types.Adapter, id int64, v any, opt bool) (Qualifier, 
 			adapter:                adapter,
 			optional:               opt,
 			errorOnBadPresenceTest: errorOnBadPresenceTest,
-=======
-			id:       id,
-			value:    val,
-			celValue: types.String(val),
-			adapter:  adapter,
-			optional: opt,
-		}
-	case int:
-		qual = &intQualifier{
-			id: id, value: int64(val), celValue: types.Int(val), adapter: adapter, optional: opt,
-		}
-	case int32:
-		qual = &intQualifier{
-			id: id, value: int64(val), celValue: types.Int(val), adapter: adapter, optional: opt,
-		}
-	case int64:
-		qual = &intQualifier{
-			id: id, value: val, celValue: types.Int(val), adapter: adapter, optional: opt,
-		}
-	case uint:
-		qual = &uintQualifier{
-			id: id, value: uint64(val), celValue: types.Uint(val), adapter: adapter, optional: opt,
-		}
-	case uint32:
-		qual = &uintQualifier{
-			id: id, value: uint64(val), celValue: types.Uint(val), adapter: adapter, optional: opt,
-		}
-	case uint64:
-		qual = &uintQualifier{
-			id: id, value: val, celValue: types.Uint(val), adapter: adapter, optional: opt,
-		}
-	case bool:
-		qual = &boolQualifier{
-			id: id, value: val, celValue: types.Bool(val), adapter: adapter, optional: opt,
-		}
-	case float32:
-		qual = &doubleQualifier{
-			id:       id,
-			value:    float64(val),
-			celValue: types.Double(val),
-			adapter:  adapter,
-			optional: opt,
-		}
-	case float64:
-		qual = &doubleQualifier{
-			id: id, value: val, celValue: types.Double(val), adapter: adapter, optional: opt,
-		}
-	case types.String:
-		qual = &stringQualifier{
-			id: id, value: string(val), celValue: val, adapter: adapter, optional: opt,
-		}
-	case types.Int:
-		qual = &intQualifier{
-			id: id, value: int64(val), celValue: val, adapter: adapter, optional: opt,
-		}
-	case types.Uint:
-		qual = &uintQualifier{
-			id: id, value: uint64(val), celValue: val, adapter: adapter, optional: opt,
-		}
-	case types.Bool:
-		qual = &boolQualifier{
-			id: id, value: bool(val), celValue: val, adapter: adapter, optional: opt,
-		}
-	case types.Double:
-		qual = &doubleQualifier{
-			id: id, value: float64(val), celValue: val, adapter: adapter, optional: opt,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	case *types.Unknown:
 		qual = &unknownQualifier{id: id, value: val}
@@ -891,20 +778,12 @@ func (q *attrQualifier) IsOptional() bool {
 }
 
 type stringQualifier struct {
-<<<<<<< HEAD
 	id                     int64
 	value                  string
 	celValue               ref.Val
 	adapter                types.Adapter
 	optional               bool
 	errorOnBadPresenceTest bool
-=======
-	id       int64
-	value    string
-	celValue ref.Val
-	adapter  types.Adapter
-	optional bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ID is an implementation of the Qualifier interface method.
@@ -987,11 +866,7 @@ func (q *stringQualifier) qualifyInternal(vars Activation, obj any, presenceTest
 			return obj, true, nil
 		}
 	default:
-<<<<<<< HEAD
 		return refQualify(q.adapter, obj, q.celValue, presenceTest, presenceOnly, q.errorOnBadPresenceTest)
-=======
-		return refQualify(q.adapter, obj, q.celValue, presenceTest, presenceOnly)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if presenceTest {
 		return nil, false, nil
@@ -1005,20 +880,12 @@ func (q *stringQualifier) Value() ref.Val {
 }
 
 type intQualifier struct {
-<<<<<<< HEAD
 	id                     int64
 	value                  int64
 	celValue               ref.Val
 	adapter                types.Adapter
 	optional               bool
 	errorOnBadPresenceTest bool
-=======
-	id       int64
-	value    int64
-	celValue ref.Val
-	adapter  types.Adapter
-	optional bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ID is an implementation of the Qualifier interface method.
@@ -1124,11 +991,7 @@ func (q *intQualifier) qualifyInternal(vars Activation, obj any, presenceTest, p
 			return o[i], true, nil
 		}
 	default:
-<<<<<<< HEAD
 		return refQualify(q.adapter, obj, q.celValue, presenceTest, presenceOnly, q.errorOnBadPresenceTest)
-=======
-		return refQualify(q.adapter, obj, q.celValue, presenceTest, presenceOnly)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if presenceTest {
 		return nil, false, nil
@@ -1145,20 +1008,12 @@ func (q *intQualifier) Value() ref.Val {
 }
 
 type uintQualifier struct {
-<<<<<<< HEAD
 	id                     int64
 	value                  uint64
 	celValue               ref.Val
 	adapter                types.Adapter
 	optional               bool
 	errorOnBadPresenceTest bool
-=======
-	id       int64
-	value    uint64
-	celValue ref.Val
-	adapter  types.Adapter
-	optional bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ID is an implementation of the Qualifier interface method.
@@ -1205,11 +1060,7 @@ func (q *uintQualifier) qualifyInternal(vars Activation, obj any, presenceTest, 
 			return obj, true, nil
 		}
 	default:
-<<<<<<< HEAD
 		return refQualify(q.adapter, obj, q.celValue, presenceTest, presenceOnly, q.errorOnBadPresenceTest)
-=======
-		return refQualify(q.adapter, obj, q.celValue, presenceTest, presenceOnly)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if presenceTest {
 		return nil, false, nil
@@ -1223,20 +1074,12 @@ func (q *uintQualifier) Value() ref.Val {
 }
 
 type boolQualifier struct {
-<<<<<<< HEAD
 	id                     int64
 	value                  bool
 	celValue               ref.Val
 	adapter                types.Adapter
 	optional               bool
 	errorOnBadPresenceTest bool
-=======
-	id       int64
-	value    bool
-	celValue ref.Val
-	adapter  types.Adapter
-	optional bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ID is an implementation of the Qualifier interface method.
@@ -1269,11 +1112,7 @@ func (q *boolQualifier) qualifyInternal(vars Activation, obj any, presenceTest, 
 			return obj, true, nil
 		}
 	default:
-<<<<<<< HEAD
 		return refQualify(q.adapter, obj, q.celValue, presenceTest, presenceOnly, q.errorOnBadPresenceTest)
-=======
-		return refQualify(q.adapter, obj, q.celValue, presenceTest, presenceOnly)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if presenceTest {
 		return nil, false, nil
@@ -1348,20 +1187,12 @@ func (q *fieldQualifier) Value() ref.Val {
 // type may not be known ahead of time and may not conform to the standard types supported as valid
 // protobuf map key types.
 type doubleQualifier struct {
-<<<<<<< HEAD
 	id                     int64
 	value                  float64
 	celValue               ref.Val
 	adapter                types.Adapter
 	optional               bool
 	errorOnBadPresenceTest bool
-=======
-	id       int64
-	value    float64
-	celValue ref.Val
-	adapter  types.Adapter
-	optional bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ID is an implementation of the Qualifier interface method.
@@ -1385,11 +1216,7 @@ func (q *doubleQualifier) QualifyIfPresent(vars Activation, obj any, presenceOnl
 }
 
 func (q *doubleQualifier) qualifyInternal(vars Activation, obj any, presenceTest, presenceOnly bool) (any, bool, error) {
-<<<<<<< HEAD
 	return refQualify(q.adapter, obj, q.celValue, presenceTest, presenceOnly, q.errorOnBadPresenceTest)
-=======
-	return refQualify(q.adapter, obj, q.celValue, presenceTest, presenceOnly)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // Value implements the ConstantQualifier interface
@@ -1495,11 +1322,7 @@ func attrQualifyIfPresent(fac AttributeFactory, vars Activation, obj any, qualAt
 
 // refQualify attempts to convert the value to a CEL value and then uses reflection methods to try and
 // apply the qualifier with the option to presence test field accesses before retrieving field values.
-<<<<<<< HEAD
 func refQualify(adapter types.Adapter, obj any, idx ref.Val, presenceTest, presenceOnly, errorOnBadPresenceTest bool) (ref.Val, bool, error) {
-=======
-func refQualify(adapter types.Adapter, obj any, idx ref.Val, presenceTest, presenceOnly bool) (ref.Val, bool, error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	celVal := adapter.NativeToValue(obj)
 	switch v := celVal.(type) {
 	case *types.Unknown:
@@ -1556,11 +1379,7 @@ func refQualify(adapter types.Adapter, obj any, idx ref.Val, presenceTest, prese
 		}
 		return val, true, nil
 	default:
-<<<<<<< HEAD
 		if presenceTest && !errorOnBadPresenceTest {
-=======
-		if presenceTest {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return nil, false, nil
 		}
 		return nil, false, missingKey(idx)

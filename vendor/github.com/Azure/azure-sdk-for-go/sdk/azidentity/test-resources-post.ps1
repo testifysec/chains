@@ -7,13 +7,10 @@ param (
   [hashtable] $AdditionalParameters = @{},
   [hashtable] $DeploymentOutputs,
 
-<<<<<<< HEAD
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
   [string] $SubscriptionId,
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   [Parameter(ParameterSetName = 'Provisioner', Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
   [string] $TenantId,
@@ -22,13 +19,10 @@ param (
   [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
   [string] $TestApplicationId,
 
-<<<<<<< HEAD
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
   [string] $Environment,
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
   [Parameter(ValueFromRemainingArguments = $true)]
   $RemainingArguments
@@ -42,14 +36,9 @@ if ($CI) {
     Write-Host "Skipping post-provisioning script because resources weren't deployed"
     return
   }
-<<<<<<< HEAD
   az cloud set -n $Environment
   az login --federated-token $env:ARM_OIDC_TOKEN --service-principal -t $TenantId -u $TestApplicationId
   az account set --subscription $SubscriptionId
-=======
-  az login --federated-token $env:OIDC_TOKEN --service-principal -t $TenantId -u $TestApplicationId
-  az account set --subscription $DeploymentOutputs['AZIDENTITY_SUBSCRIPTION_ID']
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 Write-Host "Building container"
@@ -82,12 +71,9 @@ $aciName = "azidentity-test"
 az container create -g $rg -n $aciName --image $image `
   --acr-identity $($DeploymentOutputs['AZIDENTITY_USER_ASSIGNED_IDENTITY']) `
   --assign-identity [system] $($DeploymentOutputs['AZIDENTITY_USER_ASSIGNED_IDENTITY']) `
-<<<<<<< HEAD
   --cpu 1 `
   --memory 1.0 `
   --os-type Linux `
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   --role "Storage Blob Data Reader" `
   --scope $($DeploymentOutputs['AZIDENTITY_STORAGE_ID']) `
   -e AZIDENTITY_STORAGE_NAME=$($DeploymentOutputs['AZIDENTITY_STORAGE_NAME']) `

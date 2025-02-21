@@ -69,11 +69,7 @@ func ValidPortNumber(port string) bool {
 	return true
 }
 
-<<<<<<< HEAD
 // ValidHostLabel returns whether the label is a valid RFC 3986 host label.
-=======
-// ValidHostLabel returns whether the label is a valid RFC 3986 host abel.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func ValidHostLabel(label string) bool {
 	if l := len(label); l == 0 || l > 63 {
 		return false

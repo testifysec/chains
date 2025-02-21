@@ -79,10 +79,7 @@ func getBuildInfo() *debug.BuildInfo {
 	if !ok {
 		return nil
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return bi
 }
 
@@ -108,34 +105,22 @@ func getDirty(bi *debug.BuildInfo) string {
 	if modified == "true" {
 		return "dirty"
 	}
-<<<<<<< HEAD
 
 	if modified == "false" {
 		return "clean"
 	}
 
-=======
-	if modified == "false" {
-		return "clean"
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return unknown
 }
 
 func getBuildDate(bi *debug.BuildInfo) string {
 	buildTime := getKey(bi, "vcs.time")
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	t, err := time.Parse("2006-01-02T15:04:05Z", buildTime)
 	if err != nil {
 		return unknown
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return t.Format("2006-01-02T15:04:05")
 }
 
@@ -143,19 +128,13 @@ func getKey(bi *debug.BuildInfo, key string) string {
 	if bi == nil {
 		return unknown
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, iter := range bi.Settings {
 		if iter.Key == key {
 			return iter.Value
 		}
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return unknown
 }
 
@@ -164,10 +143,7 @@ func GetVersionInfo() Info {
 	once.Do(func() {
 		buildInfo := getBuildInfo()
 		gitVersion = getGitVersion(buildInfo)
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if gitCommit == unknown {
 			gitCommit = getCommit(buildInfo)
 		}
@@ -218,18 +194,12 @@ func (i *Info) String() string {
 			f := figure.NewFigure(strings.ToUpper(i.Name), i.FontName, true)
 			_, _ = fmt.Fprint(w, f.String())
 		}
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		_, _ = fmt.Fprint(w, i.Name)
 		if i.Description != "" {
 			_, _ = fmt.Fprintf(w, ": %s", i.Description)
 		}
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		_, _ = fmt.Fprint(w, "\n\n")
 	}
 
@@ -242,10 +212,7 @@ func (i *Info) String() string {
 	_, _ = fmt.Fprintf(w, "Platform:\t%s\n", i.Platform)
 
 	_ = w.Flush()
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return b.String()
 }
 
@@ -269,9 +236,6 @@ func (i *Info) CheckFontName(fontName string) bool {
 	}
 
 	fmt.Fprintln(os.Stderr, "font not valid, using default")
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return false
 }

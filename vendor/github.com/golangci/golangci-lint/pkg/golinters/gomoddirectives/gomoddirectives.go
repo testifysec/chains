@@ -1,10 +1,7 @@
 package gomoddirectives
 
 import (
-<<<<<<< HEAD
 	"regexp"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"sync"
 
 	"github.com/ldez/gomoddirectives"
@@ -12,10 +9,7 @@ import (
 
 	"github.com/golangci/golangci-lint/pkg/config"
 	"github.com/golangci/golangci-lint/pkg/goanalysis"
-<<<<<<< HEAD
 	"github.com/golangci/golangci-lint/pkg/golinters/internal"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/golangci/golangci-lint/pkg/lint/linter"
 	"github.com/golangci/golangci-lint/pkg/result"
 )
@@ -32,7 +26,6 @@ func New(settings *config.GoModDirectivesSettings) *goanalysis.Linter {
 		opts.ReplaceAllowList = settings.ReplaceAllowList
 		opts.RetractAllowNoExplanation = settings.RetractAllowNoExplanation
 		opts.ExcludeForbidden = settings.ExcludeForbidden
-<<<<<<< HEAD
 		opts.ToolchainForbidden = settings.ToolchainForbidden
 		opts.ToolForbidden = settings.ToolForbidden
 		opts.GoDebugForbidden = settings.GoDebugForbidden
@@ -54,8 +47,6 @@ func New(settings *config.GoModDirectivesSettings) *goanalysis.Linter {
 				opts.GoVersionPattern = exp
 			}
 		}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	analyzer := &analysis.Analyzer{
@@ -72,11 +63,7 @@ func New(settings *config.GoModDirectivesSettings) *goanalysis.Linter {
 	).WithContextSetter(func(lintCtx *linter.Context) {
 		analyzer.Run = func(pass *analysis.Pass) (any, error) {
 			once.Do(func() {
-<<<<<<< HEAD
 				results, err := gomoddirectives.AnalyzePass(pass, opts)
-=======
-				results, err := gomoddirectives.Analyze(opts)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				if err != nil {
 					lintCtx.Log.Warnf("running %s failed: %s: "+
 						"if you are not using go modules it is suggested to disable this linter", linterName, err)

@@ -8,21 +8,12 @@ import (
 	"strings"
 	"sync"
 
-<<<<<<< HEAD
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
 
 	"github.com/butuzov/ireturn/analyzer/internal/config"
 	"github.com/butuzov/ireturn/analyzer/internal/types"
-=======
-	"github.com/butuzov/ireturn/analyzer/internal/config"
-	"github.com/butuzov/ireturn/analyzer/internal/types"
-
-	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/ast/inspector"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const name string = "ireturn" // linter name
@@ -32,19 +23,11 @@ type validator interface {
 }
 
 type analyzer struct {
-<<<<<<< HEAD
 	once           sync.Once
 	mu             sync.RWMutex
 	handler        validator
 	err            error
 	disabledNolint bool
-=======
-	once          sync.Once
-	mu            sync.RWMutex
-	handler       validator
-	err           error
-	diabledNolint bool
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	found []analysis.Diagnostic
 }
@@ -80,11 +63,7 @@ func (a *analyzer) run(pass *analysis.Pass) (interface{}, error) {
 		}
 
 		// 003. Is it allowed to be checked?
-<<<<<<< HEAD
 		if !a.disabledNolint && hasDisallowDirective(f.Doc) {
-=======
-		if !a.diabledNolint && hasDisallowDirective(f.Doc) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return
 		}
 
@@ -136,11 +115,7 @@ func (a *analyzer) readConfiguration(fs *flag.FlagSet) {
 	// First: checking nonolint directive
 	val := fs.Lookup("nonolint")
 	if val != nil {
-<<<<<<< HEAD
 		a.disabledNolint = fs.Lookup("nonolint").Value.String() == "true"
-=======
-		a.diabledNolint = fs.Lookup("nonolint").Value.String() == "true"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 
 	// Second: validators implementation next
@@ -153,11 +128,7 @@ func (a *analyzer) readConfiguration(fs *flag.FlagSet) {
 }
 
 func NewAnalyzer() *analysis.Analyzer {
-<<<<<<< HEAD
 	a := analyzer{}
-=======
-	a := analyzer{} //nolint: exhaustivestruct
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	return &analysis.Analyzer{
 		Name:     name,
@@ -225,11 +196,7 @@ func filterInterfaces(p *analysis.Pass, ft *ast.FuncType, di map[string]struct{}
 
 				typeParams := val.String()
 				prefix, suffix := "interface{", "}"
-<<<<<<< HEAD
 				if strings.HasPrefix(typeParams, prefix) { //nolint:gosimple
-=======
-				if strings.HasPrefix(typeParams, prefix) { // nolint: gosimple
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 					typeParams = typeParams[len(prefix):]
 				}
 				if strings.HasSuffix(typeParams, suffix) {

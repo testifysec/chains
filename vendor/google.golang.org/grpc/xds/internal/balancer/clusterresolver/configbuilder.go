@@ -48,13 +48,8 @@ type priorityConfig struct {
 	mechanism DiscoveryMechanism
 	// edsResp is set only if type is EDS.
 	edsResp xdsresource.EndpointsUpdate
-<<<<<<< HEAD
 	// endpoints is set only if type is DNS.
 	endpoints []resolver.Endpoint
-=======
-	// addresses is set only if type is DNS.
-	addresses []string
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Each discovery mechanism has a name generator so that the child policies
 	// can reuse names between updates (EDS updates for example).
 	childNameGen *nameGenerator
@@ -76,13 +71,8 @@ type priorityConfig struct {
 //	┌──────▼─────┐  ┌─────▼──────┐
 //	│xDSLBPolicy │  │xDSLBPolicy │ (Locality and Endpoint picking layer)
 //	└────────────┘  └────────────┘
-<<<<<<< HEAD
 func buildPriorityConfigJSON(priorities []priorityConfig, xdsLBPolicy *internalserviceconfig.BalancerConfig) ([]byte, []resolver.Endpoint, error) {
 	pc, endpoints, err := buildPriorityConfig(priorities, xdsLBPolicy)
-=======
-func buildPriorityConfigJSON(priorities []priorityConfig, xdsLBPolicy *internalserviceconfig.BalancerConfig) ([]byte, []resolver.Address, error) {
-	pc, addrs, err := buildPriorityConfig(priorities, xdsLBPolicy)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to build priority config: %v", err)
 	}
@@ -90,7 +80,6 @@ func buildPriorityConfigJSON(priorities []priorityConfig, xdsLBPolicy *internals
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to marshal built priority config struct into json: %v", err)
 	}
-<<<<<<< HEAD
 	return ret, endpoints, nil
 }
 
@@ -98,33 +87,16 @@ func buildPriorityConfig(priorities []priorityConfig, xdsLBPolicy *internalservi
 	var (
 		retConfig    = &priority.LBConfig{Children: make(map[string]*priority.Child)}
 		retEndpoints []resolver.Endpoint
-=======
-	return ret, addrs, nil
-}
-
-func buildPriorityConfig(priorities []priorityConfig, xdsLBPolicy *internalserviceconfig.BalancerConfig) (*priority.LBConfig, []resolver.Address, error) {
-	var (
-		retConfig = &priority.LBConfig{Children: make(map[string]*priority.Child)}
-		retAddrs  []resolver.Address
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	)
 	for _, p := range priorities {
 		switch p.mechanism.Type {
 		case DiscoveryMechanismTypeEDS:
-<<<<<<< HEAD
 			names, configs, endpoints, err := buildClusterImplConfigForEDS(p.childNameGen, p.edsResp, p.mechanism, xdsLBPolicy)
-=======
-			names, configs, addrs, err := buildClusterImplConfigForEDS(p.childNameGen, p.edsResp, p.mechanism, xdsLBPolicy)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err != nil {
 				return nil, nil, err
 			}
 			retConfig.Priorities = append(retConfig.Priorities, names...)
-<<<<<<< HEAD
 			retEndpoints = append(retEndpoints, endpoints...)
-=======
-			retAddrs = append(retAddrs, addrs...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			odCfgs := convertClusterImplMapToOutlierDetection(configs, p.mechanism.outlierDetection)
 			for n, c := range odCfgs {
 				retConfig.Children[n] = &priority.Child{
@@ -135,15 +107,9 @@ func buildPriorityConfig(priorities []priorityConfig, xdsLBPolicy *internalservi
 			}
 			continue
 		case DiscoveryMechanismTypeLogicalDNS:
-<<<<<<< HEAD
 			name, config, endpoints := buildClusterImplConfigForDNS(p.childNameGen, p.endpoints, p.mechanism)
 			retConfig.Priorities = append(retConfig.Priorities, name)
 			retEndpoints = append(retEndpoints, endpoints...)
-=======
-			name, config, addrs := buildClusterImplConfigForDNS(p.childNameGen, p.addresses, p.mechanism)
-			retConfig.Priorities = append(retConfig.Priorities, name)
-			retAddrs = append(retAddrs, addrs...)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			odCfg := makeClusterImplOutlierDetectionChild(config, p.mechanism.outlierDetection)
 			retConfig.Children[name] = &priority.Child{
 				Config: &internalserviceconfig.BalancerConfig{Name: outlierdetection.Name, Config: odCfg},
@@ -154,11 +120,7 @@ func buildPriorityConfig(priorities []priorityConfig, xdsLBPolicy *internalservi
 			continue
 		}
 	}
-<<<<<<< HEAD
 	return retConfig, retEndpoints, nil
-=======
-	return retConfig, retAddrs, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func convertClusterImplMapToOutlierDetection(ciCfgs map[string]*clusterimpl.LBConfig, odCfg outlierdetection.LBConfig) map[string]*outlierdetection.LBConfig {
@@ -175,7 +137,6 @@ func makeClusterImplOutlierDetectionChild(ciCfg *clusterimpl.LBConfig, odCfg out
 	return &odCfgRet
 }
 
-<<<<<<< HEAD
 func buildClusterImplConfigForDNS(g *nameGenerator, endpoints []resolver.Endpoint, mechanism DiscoveryMechanism) (string, *clusterimpl.LBConfig, []resolver.Endpoint) {
 	// Endpoint picking policy for DNS is hardcoded to pick_first.
 	const childPolicy = "pick_first"
@@ -186,25 +147,12 @@ func buildClusterImplConfigForDNS(g *nameGenerator, endpoints []resolver.Endpoin
 		// Copy the nested address field as slice fields are shared by the
 		// iteration variable and the original slice.
 		retEndpoints[i].Addresses = append([]resolver.Address{}, e.Addresses...)
-=======
-func buildClusterImplConfigForDNS(g *nameGenerator, addrStrs []string, mechanism DiscoveryMechanism) (string, *clusterimpl.LBConfig, []resolver.Address) {
-	// Endpoint picking policy for DNS is hardcoded to pick_first.
-	const childPolicy = "pick_first"
-	retAddrs := make([]resolver.Address, 0, len(addrStrs))
-	pName := fmt.Sprintf("priority-%v", g.prefix)
-	for _, addrStr := range addrStrs {
-		retAddrs = append(retAddrs, hierarchy.Set(resolver.Address{Addr: addrStr}, []string{pName}))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	return pName, &clusterimpl.LBConfig{
 		Cluster:         mechanism.Cluster,
 		TelemetryLabels: mechanism.TelemetryLabels,
 		ChildPolicy:     &internalserviceconfig.BalancerConfig{Name: childPolicy},
-<<<<<<< HEAD
 	}, retEndpoints
-=======
-	}, retAddrs
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // buildClusterImplConfigForEDS returns a list of cluster_impl configs, one for
@@ -216,11 +164,7 @@ func buildClusterImplConfigForDNS(g *nameGenerator, addrStrs []string, mechanism
 // - map{"p0":p0_config, "p1":p1_config}
 // - [p0_address_0, p0_address_1, p1_address_0, p1_address_1]
 //   - p0 addresses' hierarchy attributes are set to p0
-<<<<<<< HEAD
 func buildClusterImplConfigForEDS(g *nameGenerator, edsResp xdsresource.EndpointsUpdate, mechanism DiscoveryMechanism, xdsLBPolicy *internalserviceconfig.BalancerConfig) ([]string, map[string]*clusterimpl.LBConfig, []resolver.Endpoint, error) {
-=======
-func buildClusterImplConfigForEDS(g *nameGenerator, edsResp xdsresource.EndpointsUpdate, mechanism DiscoveryMechanism, xdsLBPolicy *internalserviceconfig.BalancerConfig) ([]string, map[string]*clusterimpl.LBConfig, []resolver.Address, error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	drops := make([]clusterimpl.DropConfig, 0, len(edsResp.Drops))
 	for _, d := range edsResp.Drops {
 		drops = append(drops, clusterimpl.DropConfig{
@@ -242,30 +186,17 @@ func buildClusterImplConfigForEDS(g *nameGenerator, edsResp xdsresource.Endpoint
 	}
 	retNames := g.generate(priorities)
 	retConfigs := make(map[string]*clusterimpl.LBConfig, len(retNames))
-<<<<<<< HEAD
 	var retEndpoints []resolver.Endpoint
 	for i, pName := range retNames {
 		priorityLocalities := priorities[i]
 		cfg, endpoints, err := priorityLocalitiesToClusterImpl(priorityLocalities, pName, mechanism, drops, xdsLBPolicy)
-=======
-	var retAddrs []resolver.Address
-	for i, pName := range retNames {
-		priorityLocalities := priorities[i]
-		cfg, addrs, err := priorityLocalitiesToClusterImpl(priorityLocalities, pName, mechanism, drops, xdsLBPolicy)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return nil, nil, nil, err
 		}
 		retConfigs[pName] = cfg
-<<<<<<< HEAD
 		retEndpoints = append(retEndpoints, endpoints...)
 	}
 	return retNames, retConfigs, retEndpoints, nil
-=======
-		retAddrs = append(retAddrs, addrs...)
-	}
-	return retNames, retConfigs, retAddrs, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // groupLocalitiesByPriority returns the localities grouped by priority.
@@ -316,13 +247,8 @@ func dedupSortedIntSlice(a []int) []int {
 // priority), and generates a cluster impl policy config, and a list of
 // addresses with their path hierarchy set to [priority-name, locality-name], so
 // priority and the xDS LB Policy know which child policy each address is for.
-<<<<<<< HEAD
 func priorityLocalitiesToClusterImpl(localities []xdsresource.Locality, priorityName string, mechanism DiscoveryMechanism, drops []clusterimpl.DropConfig, xdsLBPolicy *internalserviceconfig.BalancerConfig) (*clusterimpl.LBConfig, []resolver.Endpoint, error) {
 	var retEndpoints []resolver.Endpoint
-=======
-func priorityLocalitiesToClusterImpl(localities []xdsresource.Locality, priorityName string, mechanism DiscoveryMechanism, drops []clusterimpl.DropConfig, xdsLBPolicy *internalserviceconfig.BalancerConfig) (*clusterimpl.LBConfig, []resolver.Address, error) {
-	var addrs []resolver.Address
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, locality := range localities {
 		var lw uint32 = 1
 		if locality.Weight != 0 {
@@ -339,39 +265,24 @@ func priorityLocalitiesToClusterImpl(localities []xdsresource.Locality, priority
 			if endpoint.HealthStatus != xdsresource.EndpointHealthStatusHealthy && endpoint.HealthStatus != xdsresource.EndpointHealthStatusUnknown {
 				continue
 			}
-<<<<<<< HEAD
 			resolverEndpoint := resolver.Endpoint{}
 			for _, as := range endpoint.Addresses {
 				resolverEndpoint.Addresses = append(resolverEndpoint.Addresses, resolver.Address{Addr: as})
 			}
 			resolverEndpoint = hierarchy.SetInEndpoint(resolverEndpoint, []string{priorityName, localityStr})
 			resolverEndpoint = internal.SetLocalityIDInEndpoint(resolverEndpoint, locality.ID)
-=======
-			addr := resolver.Address{Addr: endpoint.Address}
-			addr = hierarchy.Set(addr, []string{priorityName, localityStr})
-			addr = internal.SetLocalityID(addr, locality.ID)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			// "To provide the xds_wrr_locality load balancer information about
 			// locality weights received from EDS, the cluster resolver will
 			// populate a new locality weight attribute for each address The
 			// attribute will have the weight (as an integer) of the locality
 			// the address is part of." - A52
-<<<<<<< HEAD
 			resolverEndpoint = wrrlocality.SetAddrInfoInEndpoint(resolverEndpoint, wrrlocality.AddrInfo{LocalityWeight: lw})
-=======
-			addr = wrrlocality.SetAddrInfo(addr, wrrlocality.AddrInfo{LocalityWeight: lw})
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			var ew uint32 = 1
 			if endpoint.Weight != 0 {
 				ew = endpoint.Weight
 			}
-<<<<<<< HEAD
 			resolverEndpoint = weightedroundrobin.SetAddrInfoInEndpoint(resolverEndpoint, weightedroundrobin.AddrInfo{Weight: lw * ew})
 			retEndpoints = append(retEndpoints, resolverEndpoint)
-=======
-			addr = weightedroundrobin.SetAddrInfo(addr, weightedroundrobin.AddrInfo{Weight: lw * ew})
-			addrs = append(addrs, addr)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 	return &clusterimpl.LBConfig{
@@ -382,9 +293,5 @@ func priorityLocalitiesToClusterImpl(localities []xdsresource.Locality, priority
 		TelemetryLabels:       mechanism.TelemetryLabels,
 		DropCategories:        drops,
 		ChildPolicy:           xdsLBPolicy,
-<<<<<<< HEAD
 	}, retEndpoints, nil
-=======
-	}, addrs, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

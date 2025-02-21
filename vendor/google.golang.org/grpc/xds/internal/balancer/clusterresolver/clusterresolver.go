@@ -184,14 +184,10 @@ func (b *clusterResolverBalancer) handleClientConnUpdate(update *ccUpdate) {
 		return
 	}
 
-<<<<<<< HEAD
 	if b.logger.V(2) {
 		b.logger.Infof("Received new balancer config: %v", pretty.ToJSON(update.state.BalancerConfig))
 	}
 
-=======
-	b.logger.Infof("Received new balancer config: %v", pretty.ToJSON(update.state.BalancerConfig))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	cfg, _ := update.state.BalancerConfig.(*LBConfig)
 	if cfg == nil {
 		b.logger.Warningf("Ignoring unsupported balancer configuration of type: %T", update.state.BalancerConfig)
@@ -238,11 +234,7 @@ func (b *clusterResolverBalancer) updateChildConfig() {
 		b.child = newChildBalancer(b.priorityBuilder, b.cc, b.bOpts)
 	}
 
-<<<<<<< HEAD
 	childCfgBytes, endpoints, err := buildPriorityConfigJSON(b.priorities, &b.config.xdsLBPolicy)
-=======
-	childCfgBytes, addrs, err := buildPriorityConfigJSON(b.priorities, &b.config.xdsLBPolicy)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		b.logger.Warningf("Failed to build child policy config: %v", err)
 		return
@@ -256,7 +248,6 @@ func (b *clusterResolverBalancer) updateChildConfig() {
 		b.logger.Infof("Built child policy config: %s", pretty.ToJSON(childCfg))
 	}
 
-<<<<<<< HEAD
 	flattenedAddrs := make([]resolver.Address, len(endpoints))
 	for i := range endpoints {
 		for j := range endpoints[i].Addresses {
@@ -279,22 +270,11 @@ func (b *clusterResolverBalancer) updateChildConfig() {
 			// See https://github.com/grpc/grpc-go/issues/7339
 			endpoints[i].Addresses[j] = addr
 		}
-=======
-	endpoints := make([]resolver.Endpoint, len(addrs))
-	for i, a := range addrs {
-		endpoints[i].Attributes = a.BalancerAttributes
-		endpoints[i].Addresses = []resolver.Address{a}
-		endpoints[i].Addresses[0].BalancerAttributes = nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	if err := b.child.UpdateClientConnState(balancer.ClientConnState{
 		ResolverState: resolver.State{
 			Endpoints:     endpoints,
-<<<<<<< HEAD
 			Addresses:     flattenedAddrs,
-=======
-			Addresses:     addrs,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			ServiceConfig: b.configRaw,
 			Attributes:    b.attrsWithClient,
 		},

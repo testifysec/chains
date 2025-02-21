@@ -20,7 +20,6 @@ package internal
 
 // The following vars can be overridden by tests.
 var (
-<<<<<<< HEAD
 	// GRPCNewClient returns a new gRPC Client.
 	GRPCNewClient any // func(string, ...grpc.DialOption) (*grpc.ClientConn, error)
 
@@ -31,8 +30,4 @@ var (
 	// identified by the given resource type and resource name. Returns a
 	// non-nil error if there is no such resource being watched.
 	ResourceWatchStateForTesting any // func(xdsclient.XDSClient, xdsresource.Type, string) error
-=======
-	// NewADSStream is a function that returns a new ADS stream.
-	NewADSStream any // func(context.Context, *grpc.ClientConn) (v3adsgrpc.AggregatedDiscoveryService_StreamAggregatedResourcesClient, error)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )

@@ -25,11 +25,7 @@ package backoff
 import (
 	"context"
 	"errors"
-<<<<<<< HEAD
 	rand "math/rand/v2"
-=======
-	"math/rand"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"time"
 
 	grpcbackoff "google.golang.org/grpc/backoff"

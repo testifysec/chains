@@ -44,13 +44,9 @@ func (w *RespWriterWrapper) Write(p []byte) (int, error) {
 	w.mu.Lock()
 	defer w.mu.Unlock()
 
-<<<<<<< HEAD
 	if !w.wroteHeader {
 		w.writeHeader(http.StatusOK)
 	}
-=======
-	w.writeHeader(http.StatusOK)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	n, err := w.ResponseWriter.Write(p)
 	n1 := int64(n)
@@ -86,16 +82,12 @@ func (w *RespWriterWrapper) writeHeader(statusCode int) {
 
 // Flush implements [http.Flusher].
 func (w *RespWriterWrapper) Flush() {
-<<<<<<< HEAD
 	w.mu.Lock()
 	defer w.mu.Unlock()
 
 	if !w.wroteHeader {
 		w.writeHeader(http.StatusOK)
 	}
-=======
-	w.WriteHeader(http.StatusOK)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if f, ok := w.ResponseWriter.(http.Flusher); ok {
 		f.Flush()

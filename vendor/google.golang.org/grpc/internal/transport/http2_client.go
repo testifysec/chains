@@ -123,11 +123,7 @@ type http2Client struct {
 	mu            sync.Mutex // guard the following variables
 	nextID        uint32
 	state         transportState
-<<<<<<< HEAD
 	activeStreams map[uint32]*ClientStream
-=======
-	activeStreams map[uint32]*Stream
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// prevGoAway ID records the Last-Stream-ID in the previous GOAway frame.
 	prevGoAwayID uint32
 	// goAwayReason records the http2.ErrCode and debug data received with the
@@ -203,17 +199,10 @@ func isTemporary(err error) bool {
 	return true
 }
 
-<<<<<<< HEAD
 // NewHTTP2Client constructs a connected ClientTransport to addr based on HTTP2
 // and starts to receive messages on it. Non-nil error returns if construction
 // fails.
 func NewHTTP2Client(connectCtx, ctx context.Context, addr resolver.Address, opts ConnectOptions, onClose func(GoAwayReason)) (_ ClientTransport, err error) {
-=======
-// newHTTP2Client constructs a connected ClientTransport to addr based on HTTP2
-// and starts to receive messages on it. Non-nil error returns if construction
-// fails.
-func newHTTP2Client(connectCtx, ctx context.Context, addr resolver.Address, opts ConnectOptions, onClose func(GoAwayReason)) (_ *http2Client, err error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	scheme := "http"
 	ctx, cancel := context.WithCancel(ctx)
 	defer func() {
@@ -350,11 +339,7 @@ func newHTTP2Client(connectCtx, ctx context.Context, addr resolver.Address, opts
 		framer:                newFramer(conn, writeBufSize, readBufSize, opts.SharedWriteBuffer, maxHeaderListSize),
 		fc:                    &trInFlow{limit: uint32(icwz)},
 		scheme:                scheme,
-<<<<<<< HEAD
 		activeStreams:         make(map[uint32]*ClientStream),
-=======
-		activeStreams:         make(map[uint32]*Stream),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		isSecure:              isSecure,
 		perRPCCreds:           perRPCCreds,
 		kp:                    kp,
@@ -495,7 +480,6 @@ func newHTTP2Client(connectCtx, ctx context.Context, addr resolver.Address, opts
 	return t, nil
 }
 
-<<<<<<< HEAD
 func (t *http2Client) newStream(ctx context.Context, callHdr *CallHdr) *ClientStream {
 	// TODO(zhaoq): Handle uint32 overflow of Stream.id.
 	s := &ClientStream{
@@ -509,19 +493,6 @@ func (t *http2Client) newStream(ctx context.Context, callHdr *CallHdr) *ClientSt
 		done:       make(chan struct{}),
 		headerChan: make(chan struct{}),
 		doneFunc:   callHdr.DoneFunc,
-=======
-func (t *http2Client) newStream(ctx context.Context, callHdr *CallHdr) *Stream {
-	// TODO(zhaoq): Handle uint32 overflow of Stream.id.
-	s := &Stream{
-		ct:             t,
-		done:           make(chan struct{}),
-		method:         callHdr.Method,
-		sendCompress:   callHdr.SendCompress,
-		buf:            newRecvBuffer(),
-		headerChan:     make(chan struct{}),
-		contentSubtype: callHdr.ContentSubtype,
-		doneFunc:       callHdr.DoneFunc,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	s.wq = newWriteQuota(defaultWriteQuota, s.done)
 	s.requestRead = func(n int) {
@@ -537,11 +508,7 @@ func (t *http2Client) newStream(ctx context.Context, callHdr *CallHdr) *Stream {
 			ctxDone: s.ctx.Done(),
 			recv:    s.buf,
 			closeStream: func(err error) {
-<<<<<<< HEAD
 				s.Close(err)
-=======
-				t.CloseStream(s, err)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			},
 		},
 		windowHandler: func(n int) {
@@ -632,15 +599,6 @@ func (t *http2Client) createHeaderFields(ctx context.Context, callHdr *CallHdr) 
 	for k, v := range callAuthData {
 		headerFields = append(headerFields, hpack.HeaderField{Name: k, Value: encodeMetadataHeader(k, v)})
 	}
-<<<<<<< HEAD
-=======
-	if b := stats.OutgoingTags(ctx); b != nil {
-		headerFields = append(headerFields, hpack.HeaderField{Name: "grpc-tags-bin", Value: encodeBinHeader(b)})
-	}
-	if b := stats.OutgoingTrace(ctx); b != nil {
-		headerFields = append(headerFields, hpack.HeaderField{Name: "grpc-trace-bin", Value: encodeBinHeader(b)})
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if md, added, ok := metadataFromOutgoingContextRaw(ctx); ok {
 		var k string
@@ -776,11 +734,7 @@ func (e NewStreamError) Error() string {
 
 // NewStream creates a stream and registers it into the transport as "active"
 // streams.  All non-nil errors returned will be *NewStreamError.
-<<<<<<< HEAD
 func (t *http2Client) NewStream(ctx context.Context, callHdr *CallHdr) (*ClientStream, error) {
-=======
-func (t *http2Client) NewStream(ctx context.Context, callHdr *CallHdr) (*Stream, error) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	ctx = peer.NewContext(ctx, t.getPeer())
 
 	// ServerName field of the resolver returned address takes precedence over
@@ -805,11 +759,7 @@ func (t *http2Client) NewStream(ctx context.Context, callHdr *CallHdr) (*Stream,
 			return
 		}
 		// The stream was unprocessed by the server.
-<<<<<<< HEAD
 		s.unprocessed.Store(true)
-=======
-		atomic.StoreUint32(&s.unprocessed, 1)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		s.write(recvMsg{err: err})
 		close(s.done)
 		// If headerChan isn't closed, then close it.
@@ -954,25 +904,7 @@ func (t *http2Client) NewStream(ctx context.Context, callHdr *CallHdr) (*Stream,
 	return s, nil
 }
 
-<<<<<<< HEAD
 func (t *http2Client) closeStream(s *ClientStream, err error, rst bool, rstCode http2.ErrCode, st *status.Status, mdata map[string][]string, eosReceived bool) {
-=======
-// CloseStream clears the footprint of a stream when the stream is not needed any more.
-// This must not be executed in reader's goroutine.
-func (t *http2Client) CloseStream(s *Stream, err error) {
-	var (
-		rst     bool
-		rstCode http2.ErrCode
-	)
-	if err != nil {
-		rst = true
-		rstCode = http2.ErrCodeCancel
-	}
-	t.closeStream(s, err, rst, rstCode, status.Convert(err), nil, false)
-}
-
-func (t *http2Client) closeStream(s *Stream, err error, rst bool, rstCode http2.ErrCode, st *status.Status, mdata map[string][]string, eosReceived bool) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Set stream status to done.
 	if s.swapState(streamDone) == streamDone {
 		// If it was already done, return.  If multiple closeStream calls
@@ -1135,11 +1067,7 @@ func (t *http2Client) GracefulClose() {
 
 // Write formats the data into HTTP2 data frame(s) and sends it out. The caller
 // should proceed only if Write returns nil.
-<<<<<<< HEAD
 func (t *http2Client) write(s *ClientStream, hdr []byte, data mem.BufferSlice, opts *WriteOptions) error {
-=======
-func (t *http2Client) Write(s *Stream, hdr []byte, data mem.BufferSlice, opts *Options) error {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	reader := data.Reader()
 
 	if opts.Last {
@@ -1168,18 +1096,11 @@ func (t *http2Client) Write(s *Stream, hdr []byte, data mem.BufferSlice, opts *O
 		_ = reader.Close()
 		return err
 	}
-<<<<<<< HEAD
 	t.incrMsgSent()
 	return nil
 }
 
 func (t *http2Client) getStream(f http2.Frame) *ClientStream {
-=======
-	return nil
-}
-
-func (t *http2Client) getStream(f http2.Frame) *Stream {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	t.mu.Lock()
 	s := t.activeStreams[f.Header().StreamID]
 	t.mu.Unlock()
@@ -1189,11 +1110,7 @@ func (t *http2Client) getStream(f http2.Frame) *Stream {
 // adjustWindow sends out extra window update over the initial window size
 // of stream if the application is requesting data larger in size than
 // the window.
-<<<<<<< HEAD
 func (t *http2Client) adjustWindow(s *ClientStream, n uint32) {
-=======
-func (t *http2Client) adjustWindow(s *Stream, n uint32) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if w := s.fc.maybeAdjust(n); w > 0 {
 		t.controlBuf.put(&outgoingWindowUpdate{streamID: s.id, increment: w})
 	}
@@ -1202,11 +1119,7 @@ func (t *http2Client) adjustWindow(s *Stream, n uint32) {
 // updateWindow adjusts the inbound quota for the stream.
 // Window updates will be sent out when the cumulative quota
 // exceeds the corresponding threshold.
-<<<<<<< HEAD
 func (t *http2Client) updateWindow(s *ClientStream, n uint32) {
-=======
-func (t *http2Client) updateWindow(s *Stream, n uint32) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if w := s.fc.onRead(n); w > 0 {
 		t.controlBuf.put(&outgoingWindowUpdate{streamID: s.id, increment: w})
 	}
@@ -1312,11 +1225,7 @@ func (t *http2Client) handleRSTStream(f *http2.RSTStreamFrame) {
 	}
 	if f.ErrCode == http2.ErrCodeRefusedStream {
 		// The stream was unprocessed by the server.
-<<<<<<< HEAD
 		s.unprocessed.Store(true)
-=======
-		atomic.StoreUint32(&s.unprocessed, 1)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	statusCode, ok := http2ErrConvTab[f.ErrCode]
 	if !ok {
@@ -1457,19 +1366,11 @@ func (t *http2Client) handleGoAway(f *http2.GoAwayFrame) error {
 		return connectionErrorf(true, nil, "received goaway and there are no active streams")
 	}
 
-<<<<<<< HEAD
 	streamsToClose := make([]*ClientStream, 0)
 	for streamID, stream := range t.activeStreams {
 		if streamID > id && streamID <= upperLimit {
 			// The stream was unprocessed by the server.
 			stream.unprocessed.Store(true)
-=======
-	streamsToClose := make([]*Stream, 0)
-	for streamID, stream := range t.activeStreams {
-		if streamID > id && streamID <= upperLimit {
-			// The stream was unprocessed by the server.
-			atomic.StoreUint32(&stream.unprocessed, 1)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			streamsToClose = append(streamsToClose, stream)
 		}
 	}
@@ -1521,11 +1422,7 @@ func (t *http2Client) operateHeaders(frame *http2.MetaHeadersFrame) {
 		return
 	}
 	endStream := frame.StreamEnded()
-<<<<<<< HEAD
 	s.bytesReceived.Store(true)
-=======
-	atomic.StoreUint32(&s.bytesReceived, 1)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	initialHeader := atomic.LoadUint32(&s.headerChanClosed) == 0
 
 	if !initialHeader && !endStream {
@@ -1895,7 +1792,6 @@ func (t *http2Client) socketMetrics() *channelz.EphemeralSocketMetrics {
 
 func (t *http2Client) RemoteAddr() net.Addr { return t.remoteAddr }
 
-<<<<<<< HEAD
 func (t *http2Client) incrMsgSent() {
 	if channelz.IsOn() {
 		t.channelz.SocketMetrics.MessagesSent.Add(1)
@@ -1908,16 +1804,6 @@ func (t *http2Client) incrMsgRecv() {
 		t.channelz.SocketMetrics.MessagesReceived.Add(1)
 		t.channelz.SocketMetrics.LastMessageReceivedTimestamp.Store(time.Now().UnixNano())
 	}
-=======
-func (t *http2Client) IncrMsgSent() {
-	t.channelz.SocketMetrics.MessagesSent.Add(1)
-	t.channelz.SocketMetrics.LastMessageSentTimestamp.Store(time.Now().UnixNano())
-}
-
-func (t *http2Client) IncrMsgRecv() {
-	t.channelz.SocketMetrics.MessagesReceived.Add(1)
-	t.channelz.SocketMetrics.LastMessageReceivedTimestamp.Store(time.Now().UnixNano())
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (t *http2Client) getOutFlowWindow() int64 {

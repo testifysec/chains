@@ -33,9 +33,5 @@ func New(settings *config.Cyclop) *goanalysis.Linter {
 		a.Doc,
 		[]*analysis.Analyzer{a},
 		cfg,
-<<<<<<< HEAD
 	).WithLoadMode(goanalysis.LoadModeSyntax)
-=======
-	).WithLoadMode(goanalysis.LoadModeTypesInfo)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

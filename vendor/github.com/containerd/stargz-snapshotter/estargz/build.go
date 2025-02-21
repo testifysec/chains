@@ -436,14 +436,8 @@ func importTar(in io.ReaderAt) (*tarFile, error) {
 		if err != nil {
 			if err == io.EOF {
 				break
-<<<<<<< HEAD
 			}
 			return nil, fmt.Errorf("failed to parse tar file, %w", err)
-=======
-			} else {
-				return nil, fmt.Errorf("failed to parse tar file, %w", err)
-			}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 		switch cleanEntryName(h.Name) {
 		case PrefetchLandmark, NoPrefetchLandmark:

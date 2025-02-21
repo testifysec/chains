@@ -10,15 +10,9 @@ import (
 	smithyhttp "github.com/aws/smithy-go/transport/http"
 )
 
-<<<<<<< HEAD
 // Registers a public client with IAM Identity Center. This allows clients to
 // perform authorization using the authorization code grant with Proof Key for Code
 // Exchange (PKCE) or the device code grant.
-=======
-// Registers a client with IAM Identity Center. This allows clients to initiate
-// device authorization. The output should be persisted for reuse through many
-// authentication requests.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Client) RegisterClient(ctx context.Context, params *RegisterClientInput, optFns ...func(*Options)) (*RegisterClientOutput, error) {
 	if params == nil {
 		params = &RegisterClientInput{}
@@ -54,7 +48,6 @@ type RegisterClientInput struct {
 	EntitledApplicationArn *string
 
 	// The list of OAuth 2.0 grant types that are defined by the client. This list is
-<<<<<<< HEAD
 	// used to restrict the token granting flows available to the client. Supports the
 	// following OAuth 2.0 grant types: Authorization Code, Device Code, and Refresh
 	// Token.
@@ -64,9 +57,6 @@ type RegisterClientInput struct {
 	// * Device Code - urn:ietf:params:oauth:grant-type:device_code
 	//
 	// * Refresh Token - refresh_token
-=======
-	// used to restrict the token granting flows available to the client.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	GrantTypes []string
 
 	// The IAM Identity Center Issuer URL associated with an instance of IAM Identity

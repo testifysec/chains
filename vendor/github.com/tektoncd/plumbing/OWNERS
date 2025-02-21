@@ -3,7 +3,6 @@
 approvers:
 - abayer
 - afrittoli
-<<<<<<< HEAD
 - AlanGreene
 - bobcatfish
 - chitrangpatel
@@ -17,13 +16,3 @@ approvers:
 # Alumni ❤️
 # - nikhil-thomas
 # - dlorenc
-=======
-- bobcatfish
-- dibyom
-- dlorenc
-- jerop
-- nikhil-thomas
-- savitaashture
-- vdemeester
-- wlynch
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

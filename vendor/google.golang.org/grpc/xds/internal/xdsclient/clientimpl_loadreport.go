@@ -28,7 +28,6 @@ import (
 // It returns a Store for the user to report loads, a function to cancel the
 // load reporting stream.
 func (c *clientImpl) ReportLoad(server *bootstrap.ServerConfig) (*load.Store, func()) {
-<<<<<<< HEAD
 	xc, releaseChannelRef, err := c.getChannelForLRS(server)
 	if err != nil {
 		c.logger.Warningf("Failed to create a channel to the management server to report load: %v", server, err)
@@ -38,22 +37,5 @@ func (c *clientImpl) ReportLoad(server *bootstrap.ServerConfig) (*load.Store, fu
 	return load, func() {
 		stopLoadReporting()
 		releaseChannelRef()
-=======
-	c.authorityMu.Lock()
-	a, err := c.newAuthorityLocked(server)
-	if err != nil {
-		c.authorityMu.Unlock()
-		c.logger.Warningf("Failed to connect to the management server to report load for authority %q: %v", server, err)
-		return nil, func() {}
-	}
-	// Hold the ref before starting load reporting.
-	a.refLocked()
-	c.authorityMu.Unlock()
-
-	store, cancelF := a.reportLoad()
-	return store, func() {
-		cancelF()
-		c.unrefAuthority(a)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }

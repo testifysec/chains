@@ -16,16 +16,10 @@ package credentials
 
 import (
 	"context"
-<<<<<<< HEAD
 	"crypto"
 	"errors"
 	"fmt"
 	"log/slog"
-=======
-	"crypto/rsa"
-	"errors"
-	"fmt"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 	"time"
 
@@ -46,11 +40,7 @@ func configureSelfSignedJWT(f *credsfile.ServiceAccountFile, opts *DetectOptions
 	if len(opts.scopes()) == 0 && opts.Audience == "" {
 		return nil, errors.New("credentials: both scopes and audience are empty")
 	}
-<<<<<<< HEAD
 	signer, err := internal.ParseKey([]byte(f.PrivateKey))
-=======
-	pk, err := internal.ParseKey([]byte(f.PrivateKey))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return nil, fmt.Errorf("credentials: could not parse key: %w", err)
 	}
@@ -58,14 +48,9 @@ func configureSelfSignedJWT(f *credsfile.ServiceAccountFile, opts *DetectOptions
 		email:    f.ClientEmail,
 		audience: opts.Audience,
 		scopes:   opts.scopes(),
-<<<<<<< HEAD
 		signer:   signer,
 		pkID:     f.PrivateKeyID,
 		logger:   opts.logger(),
-=======
-		pk:       pk,
-		pkID:     f.PrivateKeyID,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}, nil
 }
 
@@ -73,14 +58,9 @@ type selfSignedTokenProvider struct {
 	email    string
 	audience string
 	scopes   []string
-<<<<<<< HEAD
 	signer   crypto.Signer
 	pkID     string
 	logger   *slog.Logger
-=======
-	pk       *rsa.PrivateKey
-	pkID     string
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (tp *selfSignedTokenProvider) Token(context.Context) (*auth.Token, error) {
@@ -100,18 +80,10 @@ func (tp *selfSignedTokenProvider) Token(context.Context) (*auth.Token, error) {
 		Type:      jwt.HeaderType,
 		KeyID:     string(tp.pkID),
 	}
-<<<<<<< HEAD
 	tok, err := jwt.EncodeJWS(h, c, tp.signer)
 	if err != nil {
 		return nil, fmt.Errorf("credentials: could not encode JWT: %w", err)
 	}
 	tp.logger.Debug("created self-signed JWT", "token", tok)
 	return &auth.Token{Value: tok, Type: internal.TokenTypeBearer, Expiry: exp}, nil
-=======
-	msg, err := jwt.EncodeJWS(h, c, tp.pk)
-	if err != nil {
-		return nil, fmt.Errorf("credentials: could not encode JWT: %w", err)
-	}
-	return &auth.Token{Value: msg, Type: internal.TokenTypeBearer, Expiry: exp}, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

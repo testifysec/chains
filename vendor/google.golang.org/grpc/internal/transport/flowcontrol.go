@@ -92,22 +92,11 @@ func (f *trInFlow) newLimit(n uint32) uint32 {
 
 func (f *trInFlow) onData(n uint32) uint32 {
 	f.unacked += n
-<<<<<<< HEAD
 	if f.unacked < f.limit/4 {
 		f.updateEffectiveWindowSize()
 		return 0
 	}
 	return f.reset()
-=======
-	if f.unacked >= f.limit/4 {
-		w := f.unacked
-		f.unacked = 0
-		f.updateEffectiveWindowSize()
-		return w
-	}
-	f.updateEffectiveWindowSize()
-	return 0
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (f *trInFlow) reset() uint32 {

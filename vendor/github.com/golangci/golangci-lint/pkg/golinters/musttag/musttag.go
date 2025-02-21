@@ -8,19 +8,11 @@ import (
 	"github.com/golangci/golangci-lint/pkg/goanalysis"
 )
 
-<<<<<<< HEAD
 func New(settings *config.MustTagSettings) *goanalysis.Linter {
 	var funcs []musttag.Func
 
 	if settings != nil {
 		for _, fn := range settings.Functions {
-=======
-func New(setting *config.MustTagSettings) *goanalysis.Linter {
-	var funcs []musttag.Func
-
-	if setting != nil {
-		for _, fn := range setting.Functions {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			funcs = append(funcs, musttag.Func{
 				Name:   fn.Name,
 				Tag:    fn.Tag,

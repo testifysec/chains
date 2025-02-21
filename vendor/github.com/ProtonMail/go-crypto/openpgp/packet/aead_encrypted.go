@@ -65,45 +65,28 @@ func (ae *AEADEncrypted) decrypt(key []byte) (io.ReadCloser, error) {
 	blockCipher := ae.cipher.new(key)
 	aead := ae.mode.new(blockCipher)
 	// Carry the first tagLen bytes
-<<<<<<< HEAD
 	chunkSize := decodeAEADChunkSize(ae.chunkSizeByte)
 	tagLen := ae.mode.TagLength()
 	chunkBytes := make([]byte, chunkSize+tagLen*2)
 	peekedBytes := chunkBytes[chunkSize+tagLen:]
-=======
-	tagLen := ae.mode.TagLength()
-	peekedBytes := make([]byte, tagLen)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	n, err := io.ReadFull(ae.Contents, peekedBytes)
 	if n < tagLen || (err != nil && err != io.EOF) {
 		return nil, errors.AEADError("Not enough data to decrypt:" + err.Error())
 	}
-<<<<<<< HEAD
 
-=======
-	chunkSize := decodeAEADChunkSize(ae.chunkSizeByte)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return &aeadDecrypter{
 		aeadCrypter: aeadCrypter{
 			aead:           aead,
 			chunkSize:      chunkSize,
-<<<<<<< HEAD
 			nonce:          ae.initialNonce,
-=======
-			initialNonce:   ae.initialNonce,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			associatedData: ae.associatedData(),
 			chunkIndex:     make([]byte, 8),
 			packetTag:      packetTypeAEADEncrypted,
 		},
 		reader:      ae.Contents,
-<<<<<<< HEAD
 		chunkBytes:  chunkBytes,
 		peekedBytes: peekedBytes,
 	}, nil
-=======
-		peekedBytes: peekedBytes}, nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // associatedData for chunks: tag, version, cipher, mode, chunk size byte

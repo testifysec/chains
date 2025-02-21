@@ -26,10 +26,7 @@ import (
 	v3corepb "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 	v3endpointpb "github.com/envoyproxy/go-control-plane/envoy/config/endpoint/v3"
 	v3typepb "github.com/envoyproxy/go-control-plane/envoy/type/v3"
-<<<<<<< HEAD
 	"google.golang.org/grpc/internal/envconfig"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"google.golang.org/grpc/internal/pretty"
 	"google.golang.org/grpc/xds/internal"
 	"google.golang.org/protobuf/proto"
@@ -97,7 +94,6 @@ func parseEndpoints(lbEndpoints []*v3endpointpb.LbEndpoint, uniqueEndpointAddrs 
 			}
 			weight = w.GetValue()
 		}
-<<<<<<< HEAD
 		addrs := []string{parseAddress(lbEndpoint.GetEndpoint().GetAddress().GetSocketAddress())}
 		if envconfig.XDSDualstackEndpointsEnabled {
 			for _, sa := range lbEndpoint.GetEndpoint().GetAdditionalAddresses() {
@@ -114,16 +110,6 @@ func parseEndpoints(lbEndpoints []*v3endpointpb.LbEndpoint, uniqueEndpointAddrs 
 		endpoints = append(endpoints, Endpoint{
 			HealthStatus: EndpointHealthStatus(lbEndpoint.GetHealthStatus()),
 			Addresses:    addrs,
-=======
-		addr := parseAddress(lbEndpoint.GetEndpoint().GetAddress().GetSocketAddress())
-		if uniqueEndpointAddrs[addr] {
-			return nil, fmt.Errorf("duplicate endpoint with the same address %s", addr)
-		}
-		uniqueEndpointAddrs[addr] = true
-		endpoints = append(endpoints, Endpoint{
-			HealthStatus: EndpointHealthStatus(lbEndpoint.GetHealthStatus()),
-			Address:      addr,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			Weight:       weight,
 		})
 	}

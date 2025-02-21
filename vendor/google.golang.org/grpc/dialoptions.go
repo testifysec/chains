@@ -87,10 +87,6 @@ type dialOptions struct {
 	disableServiceConfig        bool
 	disableRetry                bool
 	disableHealthCheck          bool
-<<<<<<< HEAD
-=======
-	healthCheckFunc             internal.HealthChecker
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	minConnectTimeout           func() time.Duration
 	defaultServiceConfig        *ServiceConfig // defaultServiceConfig is parsed from defaultServiceConfigRawJSON.
 	defaultServiceConfigRawJSON *string
@@ -432,14 +428,11 @@ func WithTimeout(d time.Duration) DialOption {
 // returned by f, gRPC checks the error's Temporary() method to decide if it
 // should try to reconnect to the network address.
 //
-<<<<<<< HEAD
 // Note that gRPC by default performs name resolution on the target passed to
 // NewClient. To bypass name resolution and cause the target string to be
 // passed directly to the dialer here instead, use the "passthrough" resolver
 // by specifying it in the target string, e.g. "passthrough:target".
 //
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Note: All supported releases of Go (as of December 2023) override the OS
 // defaults for TCP keepalive time and interval to 15s. To enable TCP keepalive
 // with OS defaults for keepalive time and interval, use a net.Dialer that sets
@@ -456,13 +449,6 @@ func WithContextDialer(f func(context.Context, string) (net.Conn, error)) DialOp
 	})
 }
 
-<<<<<<< HEAD
-=======
-func init() {
-	internal.WithHealthCheckFunc = withHealthCheckFunc
-}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // WithDialer returns a DialOption that specifies a function to use for dialing
 // network addresses. If FailOnNonTempDialError() is set to true, and an error
 // is returned by f, gRPC checks the error's Temporary() method to decide if it
@@ -676,19 +662,6 @@ func WithDisableHealthCheck() DialOption {
 	})
 }
 
-<<<<<<< HEAD
-=======
-// withHealthCheckFunc replaces the default health check function with the
-// provided one. It makes tests easier to change the health check function.
-//
-// For testing purpose only.
-func withHealthCheckFunc(f internal.HealthChecker) DialOption {
-	return newFuncDialOption(func(o *dialOptions) {
-		o.healthCheckFunc = f
-	})
-}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func defaultDialOptions() dialOptions {
 	return dialOptions{
 		copts: transport.ConnectOptions{
@@ -699,10 +672,6 @@ func defaultDialOptions() dialOptions {
 			BufferPool:      mem.DefaultBufferPool(),
 		},
 		bs:              internalbackoff.DefaultExponential,
-<<<<<<< HEAD
-=======
-		healthCheckFunc: internal.HealthCheckFunc,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		idleTimeout:     30 * time.Minute,
 		defaultScheme:   "dns",
 		maxCallAttempts: defaultMaxCallAttempts,

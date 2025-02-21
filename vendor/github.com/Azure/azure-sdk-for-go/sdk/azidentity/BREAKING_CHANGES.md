@@ -1,6 +1,5 @@
 # Breaking Changes
 
-<<<<<<< HEAD
 ## v1.8.0
 
 ### New errors from `NewManagedIdentityCredential` in some environments
@@ -11,8 +10,6 @@
   * Cloud Shell
   * Service Fabric
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## v1.6.0
 
 ### Behavioral change to `DefaultAzureCredential` in IMDS managed identity scenarios

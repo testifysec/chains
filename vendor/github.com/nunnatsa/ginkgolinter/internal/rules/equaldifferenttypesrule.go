@@ -14,11 +14,7 @@ const compareDifferentTypes = "use %[1]s with different types: Comparing %[2]s w
 type EqualDifferentTypesRule struct{}
 
 func (r EqualDifferentTypesRule) isApplied(config types.Config) bool {
-<<<<<<< HEAD
 	return !config.SuppressTypeCompare
-=======
-	return !bool(config.SuppressTypeCompare)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (r EqualDifferentTypesRule) Apply(gexp *expression.GomegaExpression, config types.Config, reportBuilder *reports.Builder) bool {

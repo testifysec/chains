@@ -22,14 +22,11 @@ import (
 	"io"
 )
 
-<<<<<<< HEAD
 const (
 	// 32 KiB is what io.Copy uses.
 	readAllBufSize = 32 * 1024
 )
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // BufferSlice offers a means to represent data that spans one or more Buffer
 // instances. A BufferSlice is meant to be immutable after creation, and methods
 // like Ref create and return copies of the slice. This is why all methods have
@@ -227,7 +224,6 @@ func (w *writer) Write(p []byte) (n int, err error) {
 
 // NewWriter wraps the given BufferSlice and BufferPool to implement the
 // io.Writer interface. Every call to Write copies the contents of the given
-<<<<<<< HEAD
 // buffer into a new Buffer pulled from the given pool and the Buffer is
 // added to the given BufferSlice.
 func NewWriter(buffers *BufferSlice, pool BufferPool) io.Writer {
@@ -283,10 +279,3 @@ nextBuffer:
 		}
 	}
 }
-=======
-// buffer into a new Buffer pulled from the given pool and the Buffer is added to
-// the given BufferSlice.
-func NewWriter(buffers *BufferSlice, pool BufferPool) io.Writer {
-	return &writer{buffers: buffers, pool: pool}
-}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

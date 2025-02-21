@@ -14,14 +14,11 @@ import (
 	"github.com/golangci/gofmt/gofmt/internal/diff"
 )
 
-<<<<<<< HEAD
 type Options struct {
 	NeedSimplify bool
 	RewriteRules []RewriteRule
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 var parserModeMu sync.RWMutex
 
 type RewriteRule struct {
@@ -81,7 +78,6 @@ func RunRewrite(filename string, needSimplify bool, rewriteRules []RewriteRule) 
 	return diff.Diff(oldName, src, newName, res), nil
 }
 
-<<<<<<< HEAD
 func Source(filename string, src []byte, opts Options) ([]byte, error) {
 	fset := token.NewFileSet()
 
@@ -108,8 +104,6 @@ func Source(filename string, src []byte, opts Options) ([]byte, error) {
 	return format(fset, file, sourceAdj, indentAdj, src, printer.Config{Mode: printerMode, Tabwidth: tabWidth})
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func rewriteFileContent(fset *token.FileSet, file *ast.File, rewriteRules []RewriteRule) (*ast.File, error) {
 	for _, rewriteRule := range rewriteRules {
 		pattern, err := parseExpression(rewriteRule.Pattern, "pattern")

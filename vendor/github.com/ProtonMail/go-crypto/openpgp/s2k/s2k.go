@@ -87,17 +87,10 @@ func decodeCount(c uint8) int {
 // encodeMemory converts the Argon2 "memory" in the range parallelism*8 to
 // 2**31, inclusive, to an encoded memory. The return value is the
 // octet that is actually stored in the GPG file. encodeMemory panics
-<<<<<<< HEAD
 // if is not in the above range
 // See OpenPGP crypto refresh Section 3.7.1.4.
 func encodeMemory(memory uint32, parallelism uint8) uint8 {
 	if memory < (8*uint32(parallelism)) || memory > uint32(2147483648) {
-=======
-// if is not in the above range 
-// See OpenPGP crypto refresh Section 3.7.1.4.
-func encodeMemory(memory uint32, parallelism uint8) uint8 {
-	if memory < (8 * uint32(parallelism)) || memory > uint32(2147483648) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		panic("Memory argument memory is outside the required range")
 	}
 
@@ -206,13 +199,8 @@ func Generate(rand io.Reader, c *Config) (*Params, error) {
 		}
 
 		params = &Params{
-<<<<<<< HEAD
 			mode:   SaltedS2K,
 			hashId: hashId,
-=======
-			mode:      SaltedS2K,
-			hashId:    hashId,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	} else { // Enforce IteratedSaltedS2K method otherwise
 		hashId, ok := algorithm.HashToHashId(c.hash())
@@ -223,11 +211,7 @@ func Generate(rand io.Reader, c *Config) (*Params, error) {
 			c.S2KMode = IteratedSaltedS2K
 		}
 		params = &Params{
-<<<<<<< HEAD
 			mode:      IteratedSaltedS2K,
-=======
-			mode:      IteratedSaltedS2K, 
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			hashId:    hashId,
 			countByte: c.EncodedCount(),
 		}
@@ -299,12 +283,9 @@ func ParseIntoParams(r io.Reader) (params *Params, err error) {
 		params.passes = buf[Argon2SaltSize]
 		params.parallelism = buf[Argon2SaltSize+1]
 		params.memoryExp = buf[Argon2SaltSize+2]
-<<<<<<< HEAD
 		if err := validateArgon2Params(params); err != nil {
 			return nil, err
 		}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return params, nil
 	case GnuS2K:
 		// This is a GNU extension. See
@@ -322,31 +303,22 @@ func ParseIntoParams(r io.Reader) (params *Params, err error) {
 	return nil, errors.UnsupportedError("S2K function")
 }
 
-<<<<<<< HEAD
 func (params *Params) Mode() Mode {
 	return params.mode
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (params *Params) Dummy() bool {
 	return params != nil && params.mode == GnuS2K
 }
 
 func (params *Params) salt() []byte {
 	switch params.mode {
-<<<<<<< HEAD
 	case SaltedS2K, IteratedSaltedS2K:
 		return params.saltBytes[:8]
 	case Argon2S2K:
 		return params.saltBytes[:Argon2SaltSize]
 	default:
 		return nil
-=======
-		case SaltedS2K, IteratedSaltedS2K: return params.saltBytes[:8]
-		case Argon2S2K: return params.saltBytes[:Argon2SaltSize]
-		default: return nil
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -443,7 +415,6 @@ func Serialize(w io.Writer, key []byte, rand io.Reader, passphrase []byte, c *Co
 	f(key, passphrase)
 	return nil
 }
-<<<<<<< HEAD
 
 // validateArgon2Params checks that the argon2 parameters are valid according to RFC9580.
 func validateArgon2Params(params *Params) error {
@@ -463,5 +434,3 @@ func validateArgon2Params(params *Params) error {
 
 	return nil
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

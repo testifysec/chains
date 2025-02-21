@@ -12,15 +12,9 @@ import (
 	"go/token"
 	"go/types"
 	"strconv"
-<<<<<<< HEAD
 
 	"golang.org/x/tools/internal/typeparams"
 	"golang.org/x/tools/internal/typesinternal"
-=======
-	"strings"
-
-	"golang.org/x/tools/internal/typeparams"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // NewConst returns a new constant of the specified value and type.
@@ -84,11 +78,7 @@ func zeroConst(t types.Type) *Const {
 func (c *Const) RelString(from *types.Package) string {
 	var s string
 	if c.Value == nil {
-<<<<<<< HEAD
 		s, _ = typesinternal.ZeroString(c.typ, types.RelativeTo(from))
-=======
-		s = zeroString(c.typ, from)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	} else if c.Value.Kind() == constant.String {
 		s = constant.StringVal(c.Value)
 		const max = 20
@@ -103,47 +93,6 @@ func (c *Const) RelString(from *types.Package) string {
 	return s + ":" + relType(c.Type(), from)
 }
 
-<<<<<<< HEAD
-=======
-// zeroString returns the string representation of the "zero" value of the type t.
-func zeroString(t types.Type, from *types.Package) string {
-	switch t := t.(type) {
-	case *types.Basic:
-		switch {
-		case t.Info()&types.IsBoolean != 0:
-			return "false"
-		case t.Info()&types.IsNumeric != 0:
-			return "0"
-		case t.Info()&types.IsString != 0:
-			return `""`
-		case t.Kind() == types.UnsafePointer:
-			fallthrough
-		case t.Kind() == types.UntypedNil:
-			return "nil"
-		default:
-			panic(fmt.Sprint("zeroString for unexpected type:", t))
-		}
-	case *types.Pointer, *types.Slice, *types.Interface, *types.Chan, *types.Map, *types.Signature:
-		return "nil"
-	case *types.Named, *types.Alias:
-		return zeroString(t.Underlying(), from)
-	case *types.Array, *types.Struct:
-		return relType(t, from) + "{}"
-	case *types.Tuple:
-		// Tuples are not normal values.
-		// We are currently format as "(t[0], ..., t[n])". Could be something else.
-		components := make([]string, t.Len())
-		for i := 0; i < t.Len(); i++ {
-			components[i] = zeroString(t.At(i).Type(), from)
-		}
-		return "(" + strings.Join(components, ", ") + ")"
-	case *types.TypeParam:
-		return "*new(" + relType(t, from) + ")"
-	}
-	panic(fmt.Sprint("zeroString: unexpected ", t))
-}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *Const) Name() string {
 	return c.RelString(nil)
 }

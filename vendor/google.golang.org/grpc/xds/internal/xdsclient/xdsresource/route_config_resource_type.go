@@ -81,13 +81,8 @@ type RouteConfigResourceData struct {
 	Resource RouteConfigUpdate
 }
 
-<<<<<<< HEAD
 // RawEqual returns true if other is equal to r.
 func (r *RouteConfigResourceData) RawEqual(other ResourceData) bool {
-=======
-// Equal returns true if other is equal to r.
-func (r *RouteConfigResourceData) Equal(other ResourceData) bool {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if r == nil && other == nil {
 		return true
 	}

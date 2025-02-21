@@ -23,10 +23,7 @@ import (
 	"github.com/google/cel-go/common/types"
 	"github.com/google/cel-go/common/types/ref"
 
-<<<<<<< HEAD
 	celpb "cel.dev/expr"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	exprpb "google.golang.org/genproto/googleapis/api/expr/v1alpha1"
 )
 
@@ -316,7 +313,6 @@ func ExprTypeToType(t *exprpb.Type) (*Type, error) {
 
 // ExprDeclToDeclaration converts a protobuf CEL declaration to a CEL-native declaration, either a Variable or Function.
 func ExprDeclToDeclaration(d *exprpb.Decl) (EnvOption, error) {
-<<<<<<< HEAD
 	return AlphaProtoAsDeclaration(d)
 }
 
@@ -333,30 +329,18 @@ func AlphaProtoAsDeclaration(d *exprpb.Decl) (EnvOption, error) {
 func ProtoAsDeclaration(d *celpb.Decl) (EnvOption, error) {
 	switch d.GetDeclKind().(type) {
 	case *celpb.Decl_Function:
-=======
-	switch d.GetDeclKind().(type) {
-	case *exprpb.Decl_Function:
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		overloads := d.GetFunction().GetOverloads()
 		opts := make([]FunctionOpt, len(overloads))
 		for i, o := range overloads {
 			args := make([]*Type, len(o.GetParams()))
 			for j, p := range o.GetParams() {
-<<<<<<< HEAD
 				a, err := types.ProtoAsType(p)
-=======
-				a, err := types.ExprTypeToType(p)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				if err != nil {
 					return nil, err
 				}
 				args[j] = a
 			}
-<<<<<<< HEAD
 			res, err := types.ProtoAsType(o.GetResultType())
-=======
-			res, err := types.ExprTypeToType(o.GetResultType())
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if err != nil {
 				return nil, err
 			}
@@ -367,24 +351,15 @@ func ProtoAsDeclaration(d *celpb.Decl) (EnvOption, error) {
 			}
 		}
 		return Function(d.GetName(), opts...), nil
-<<<<<<< HEAD
 	case *celpb.Decl_Ident:
 		t, err := types.ProtoAsType(d.GetIdent().GetType())
-=======
-	case *exprpb.Decl_Ident:
-		t, err := types.ExprTypeToType(d.GetIdent().GetType())
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return nil, err
 		}
 		if d.GetIdent().GetValue() == nil {
 			return Variable(d.GetName(), t), nil
 		}
-<<<<<<< HEAD
 		val, err := ast.ProtoConstantAsVal(d.GetIdent().GetValue())
-=======
-		val, err := ast.ConstantToVal(d.GetIdent().GetValue())
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return nil, err
 		}

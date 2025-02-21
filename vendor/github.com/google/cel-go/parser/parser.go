@@ -17,10 +17,7 @@
 package parser
 
 import (
-<<<<<<< HEAD
 	"errors"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"fmt"
 	"regexp"
 	"strconv"
@@ -44,10 +41,7 @@ type Parser struct {
 // NewParser builds and returns a new Parser using the provided options.
 func NewParser(opts ...Option) (*Parser, error) {
 	p := &Parser{}
-<<<<<<< HEAD
 	p.enableHiddenAccumulatorName = true
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, opt := range opts {
 		if err := opt(&p.options); err != nil {
 			return nil, err
@@ -96,15 +90,11 @@ func mustNewParser(opts ...Option) *Parser {
 // Parse parses the expression represented by source and returns the result.
 func (p *Parser) Parse(source common.Source) (*ast.AST, *common.Errors) {
 	errs := common.NewErrors(source)
-<<<<<<< HEAD
 	accu := AccumulatorName
 	if p.enableHiddenAccumulatorName {
 		accu = HiddenAccumulatorName
 	}
 	fac := ast.NewExprFactoryWithAccumulator(accu)
-=======
-	fac := ast.NewExprFactory()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	impl := parser{
 		errors:                           &parseErrors{errs},
 		exprFactory:                      fac,
@@ -117,10 +107,7 @@ func (p *Parser) Parse(source common.Source) (*ast.AST, *common.Errors) {
 		populateMacroCalls:               p.populateMacroCalls,
 		enableOptionalSyntax:             p.enableOptionalSyntax,
 		enableVariadicOperatorASTs:       p.enableVariadicOperatorASTs,
-<<<<<<< HEAD
 		enableIdentEscapeSyntax:          p.enableIdentEscapeSyntax,
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	buf, ok := source.(runes.Buffer)
 	if !ok {
@@ -163,7 +150,6 @@ var reservedIds = map[string]struct{}{
 	"while":     {},
 }
 
-<<<<<<< HEAD
 func unescapeIdent(in string) (string, error) {
 	if len(in) <= 2 {
 		return "", errors.New("invalid escaped identifier: underflow")
@@ -185,8 +171,6 @@ func (p *parser) normalizeIdent(ctx gen.IEscapeIdentContext) (string, error) {
 	return "", errors.New("unsupported ident kind")
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Parse converts a source input a parsed expression.
 // This function calls ParseWithMacros with AllMacros.
 //
@@ -340,10 +324,7 @@ type parser struct {
 	populateMacroCalls               bool
 	enableOptionalSyntax             bool
 	enableVariadicOperatorASTs       bool
-<<<<<<< HEAD
 	enableIdentEscapeSyntax          bool
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 var _ gen.CELVisitor = (*parser)(nil)
@@ -417,15 +398,10 @@ func (p *parser) Visit(tree antlr.ParseTree) any {
 		return out
 	case *gen.LogicalNotContext:
 		return p.VisitLogicalNot(tree)
-<<<<<<< HEAD
 	case *gen.IdentContext:
 		return p.VisitIdent(tree)
 	case *gen.GlobalCallContext:
 		return p.VisitGlobalCall(tree)
-=======
-	case *gen.IdentOrGlobalCallContext:
-		return p.VisitIdentOrGlobalCall(tree)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case *gen.SelectContext:
 		p.checkAndIncrementRecursionDepth()
 		out := p.VisitSelect(tree)
@@ -593,14 +569,10 @@ func (p *parser) VisitSelect(ctx *gen.SelectContext) any {
 	if ctx.GetId() == nil || ctx.GetOp() == nil {
 		return p.helper.newExpr(ctx)
 	}
-<<<<<<< HEAD
 	id, err := p.normalizeIdent(ctx.GetId())
 	if err != nil {
 		p.reportError(ctx.GetId(), "%v", err)
 	}
-=======
-	id := ctx.GetId().GetText()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if ctx.GetOpt() != nil {
 		if !p.enableOptionalSyntax {
 			return p.reportError(ctx.GetOp(), "unsupported syntax '.?'")
@@ -684,7 +656,6 @@ func (p *parser) VisitIFieldInitializerList(ctx gen.IFieldInitializerListContext
 			p.reportError(optField, "unsupported syntax '?'")
 			continue
 		}
-<<<<<<< HEAD
 
 		// The field may be empty due to a prior error.
 		fieldName, err := p.normalizeIdent(optField.EscapeIdent())
@@ -693,14 +664,6 @@ func (p *parser) VisitIFieldInitializerList(ctx gen.IFieldInitializerListContext
 			continue
 		}
 
-=======
-		// The field may be empty due to a prior error.
-		id := optField.IDENTIFIER()
-		if id == nil {
-			return []ast.EntryExpr{}
-		}
-		fieldName := id.GetText()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		value := p.Visit(vals[i]).(ast.Expr)
 		field := p.helper.newObjectField(initID, fieldName, value, optional)
 		result[i] = field
@@ -708,13 +671,8 @@ func (p *parser) VisitIFieldInitializerList(ctx gen.IFieldInitializerListContext
 	return result
 }
 
-<<<<<<< HEAD
 // Visit a parse tree produced by CELParser#Ident.
 func (p *parser) VisitIdent(ctx *gen.IdentContext) any {
-=======
-// Visit a parse tree produced by CELParser#IdentOrGlobalCall.
-func (p *parser) VisitIdentOrGlobalCall(ctx *gen.IdentOrGlobalCallContext) any {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	identName := ""
 	if ctx.GetLeadingDot() != nil {
 		identName = "."
@@ -729,7 +687,6 @@ func (p *parser) VisitIdentOrGlobalCall(ctx *gen.IdentOrGlobalCallContext) any {
 		return p.reportError(ctx, "reserved identifier: %s", id)
 	}
 	identName += id
-<<<<<<< HEAD
 	return p.helper.newIdent(ctx.GetId(), identName)
 }
 
@@ -754,15 +711,6 @@ func (p *parser) VisitGlobalCall(ctx *gen.GlobalCallContext) any {
 
 }
 
-=======
-	if ctx.GetOp() != nil {
-		opID := p.helper.id(ctx.GetOp())
-		return p.globalCallOrMacro(opID, identName, p.visitExprList(ctx.GetArgs())...)
-	}
-	return p.helper.newIdent(ctx.GetId(), identName)
-}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Visit a parse tree produced by CELParser#CreateList.
 func (p *parser) VisitCreateList(ctx *gen.CreateListContext) any {
 	listID := p.helper.id(ctx.GetOp())
@@ -861,11 +809,7 @@ func (p *parser) VisitDouble(ctx *gen.DoubleContext) any {
 
 // Visit a parse tree produced by CELParser#String.
 func (p *parser) VisitString(ctx *gen.StringContext) any {
-<<<<<<< HEAD
 	s := p.unquote(ctx, ctx.GetTok().GetText(), false)
-=======
-	s := p.unquote(ctx, ctx.GetText(), false)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return p.helper.newLiteralString(ctx, s)
 }
 
@@ -965,12 +909,8 @@ func (p *parser) reportError(ctx any, format string, args ...any) ast.Expr {
 
 // ANTLR Parse listener implementations
 func (p *parser) SyntaxError(recognizer antlr.Recognizer, offendingSymbol any, line, column int, msg string, e antlr.RecognitionException) {
-<<<<<<< HEAD
 	offset := p.helper.sourceInfo.ComputeOffset(int32(line), int32(column))
 	l := p.helper.getLocationByOffset(offset)
-=======
-	l := p.helper.source.NewLocation(line, column)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	// Hack to keep existing error messages consistent with previous versions of CEL when a reserved word
 	// is used as an identifier. This behavior needs to be overhauled to provide consistent, normalized error
 	// messages out of ANTLR to prevent future breaking changes related to error message content.
@@ -1030,19 +970,12 @@ func (p *parser) expandMacro(exprID int64, function string, target ast.Expr, arg
 	expr, err := macro.Expander()(eh, target, args)
 	// An error indicates that the macro was matched, but the arguments were not well-formed.
 	if err != nil {
-<<<<<<< HEAD
 		loc := err.Location
 		if loc == nil {
 			loc = p.helper.getLocation(exprID)
 		}
 		p.helper.deleteID(exprID)
 		return p.reportError(loc, "%s", err.Message), true
-=======
-		if err.Location != nil {
-			return p.reportError(err.Location, err.Message), true
-		}
-		return p.reportError(p.helper.getLocation(exprID), err.Message), true
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 	// A nil value from the macro indicates that the macro implementation decided that
 	// an expansion should not be performed.
@@ -1052,10 +985,7 @@ func (p *parser) expandMacro(exprID int64, function string, target ast.Expr, arg
 	if p.populateMacroCalls {
 		p.helper.addMacroCall(expr.ID(), function, target, args...)
 	}
-<<<<<<< HEAD
 	p.helper.deleteID(exprID)
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return expr, true
 }
 

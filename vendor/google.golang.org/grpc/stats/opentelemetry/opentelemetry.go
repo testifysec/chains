@@ -16,13 +16,10 @@
 
 // Package opentelemetry implements opentelemetry instrumentation code for
 // gRPC-Go clients and servers.
-<<<<<<< HEAD
 //
 // For details on configuring opentelemetry and various instruments that this
 // package creates, see
 // [gRPC OpenTelemetry Metrics](https://grpc.io/docs/guides/opentelemetry-metrics/).
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 package opentelemetry
 
 import (
@@ -35,10 +32,7 @@ import (
 	estats "google.golang.org/grpc/experimental/stats"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/internal"
-<<<<<<< HEAD
 	"google.golang.org/grpc/stats"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	otelinternal "google.golang.org/grpc/stats/opentelemetry/internal"
 
 	otelattribute "go.opentelemetry.io/otel/attribute"
@@ -68,20 +62,13 @@ type Options struct {
 type MetricsOptions struct {
 	// MeterProvider is the MeterProvider instance that will be used to create
 	// instruments. To enable metrics collection, set a meter provider. If
-<<<<<<< HEAD
 	// unset, no metrics will be recorded.
-=======
-	// unset, no metrics will be recorded. Any implementation knobs (i.e. views,
-	// bounds) set in the MeterProvider take precedence over the API calls from
-	// this interface. (i.e. it will create default views for unset views).
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	MeterProvider otelmetric.MeterProvider
 
 	// Metrics are the metrics to instrument. Will create instrument and record telemetry
 	// for corresponding metric supported by the client and server
 	// instrumentation components if applicable. If not set, the default metrics
 	// will be recorded.
-<<<<<<< HEAD
 	Metrics *stats.MetricSet
 
 	// MethodAttributeFilter is a function that determines whether to record the
@@ -97,20 +84,6 @@ type MetricsOptions struct {
 
 	// OptionalLabels specifies a list of optional labels to enable on any
 	// metrics that support them.
-=======
-	Metrics *estats.Metrics
-
-	// MethodAttributeFilter is to record the method name of RPCs handled by
-	// grpc.UnknownServiceHandler, but take care to limit the values allowed, as
-	// allowing too many will increase cardinality and could cause severe memory
-	// or performance problems. On Client Side, pass a
-	// grpc.StaticMethodCallOption as a call option into Invoke or NewStream.
-	// This only applies for server side metrics.
-	MethodAttributeFilter func(string) bool
-
-	// OptionalLabels are labels received from LB Policies that this component
-	// should add to metrics that record after receiving incoming metadata.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	OptionalLabels []string
 
 	// pluginOption is used to get labels to attach to certain metrics, if set.
@@ -240,11 +213,7 @@ type serverMetrics struct {
 	callDuration otelmetric.Float64Histogram
 }
 
-<<<<<<< HEAD
 func createInt64Counter(setOfMetrics map[string]bool, metricName string, meter otelmetric.Meter, options ...otelmetric.Int64CounterOption) otelmetric.Int64Counter {
-=======
-func createInt64Counter(setOfMetrics map[estats.Metric]bool, metricName estats.Metric, meter otelmetric.Meter, options ...otelmetric.Int64CounterOption) otelmetric.Int64Counter {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if _, ok := setOfMetrics[metricName]; !ok {
 		return noop.Int64Counter{}
 	}
@@ -256,11 +225,7 @@ func createInt64Counter(setOfMetrics map[estats.Metric]bool, metricName estats.M
 	return ret
 }
 
-<<<<<<< HEAD
 func createFloat64Counter(setOfMetrics map[string]bool, metricName string, meter otelmetric.Meter, options ...otelmetric.Float64CounterOption) otelmetric.Float64Counter {
-=======
-func createFloat64Counter(setOfMetrics map[estats.Metric]bool, metricName estats.Metric, meter otelmetric.Meter, options ...otelmetric.Float64CounterOption) otelmetric.Float64Counter {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if _, ok := setOfMetrics[metricName]; !ok {
 		return noop.Float64Counter{}
 	}
@@ -272,11 +237,7 @@ func createFloat64Counter(setOfMetrics map[estats.Metric]bool, metricName estats
 	return ret
 }
 
-<<<<<<< HEAD
 func createInt64Histogram(setOfMetrics map[string]bool, metricName string, meter otelmetric.Meter, options ...otelmetric.Int64HistogramOption) otelmetric.Int64Histogram {
-=======
-func createInt64Histogram(setOfMetrics map[estats.Metric]bool, metricName estats.Metric, meter otelmetric.Meter, options ...otelmetric.Int64HistogramOption) otelmetric.Int64Histogram {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if _, ok := setOfMetrics[metricName]; !ok {
 		return noop.Int64Histogram{}
 	}
@@ -288,11 +249,7 @@ func createInt64Histogram(setOfMetrics map[estats.Metric]bool, metricName estats
 	return ret
 }
 
-<<<<<<< HEAD
 func createFloat64Histogram(setOfMetrics map[string]bool, metricName string, meter otelmetric.Meter, options ...otelmetric.Float64HistogramOption) otelmetric.Float64Histogram {
-=======
-func createFloat64Histogram(setOfMetrics map[estats.Metric]bool, metricName estats.Metric, meter otelmetric.Meter, options ...otelmetric.Float64HistogramOption) otelmetric.Float64Histogram {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if _, ok := setOfMetrics[metricName]; !ok {
 		return noop.Float64Histogram{}
 	}
@@ -304,11 +261,7 @@ func createFloat64Histogram(setOfMetrics map[estats.Metric]bool, metricName esta
 	return ret
 }
 
-<<<<<<< HEAD
 func createInt64Gauge(setOfMetrics map[string]bool, metricName string, meter otelmetric.Meter, options ...otelmetric.Int64GaugeOption) otelmetric.Int64Gauge {
-=======
-func createInt64Gauge(setOfMetrics map[estats.Metric]bool, metricName estats.Metric, meter otelmetric.Meter, options ...otelmetric.Int64GaugeOption) otelmetric.Int64Gauge {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if _, ok := setOfMetrics[metricName]; !ok {
 		return noop.Int64Gauge{}
 	}
@@ -351,11 +304,7 @@ type registryMetrics struct {
 	optionalLabels []string
 }
 
-<<<<<<< HEAD
 func (rm *registryMetrics) registerMetrics(metrics *stats.MetricSet, meter otelmetric.Meter) {
-=======
-func (rm *registryMetrics) registerMetrics(metrics *estats.Metrics, meter otelmetric.Meter) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	rm.intCounts = make(map[*estats.MetricDescriptor]otelmetric.Int64Counter)
 	rm.floatCounts = make(map[*estats.MetricDescriptor]otelmetric.Float64Counter)
 	rm.intHistos = make(map[*estats.MetricDescriptor]otelmetric.Int64Histogram)
@@ -436,20 +385,12 @@ var (
 	// DefaultSizeBounds are the default bounds for metrics which record size.
 	DefaultSizeBounds = []float64{0, 1024, 2048, 4096, 16384, 65536, 262144, 1048576, 4194304, 16777216, 67108864, 268435456, 1073741824, 4294967296}
 	// defaultPerCallMetrics are the default metrics provided by this module.
-<<<<<<< HEAD
 	defaultPerCallMetrics = stats.NewMetricSet(ClientAttemptStartedMetricName, ClientAttemptDurationMetricName, ClientAttemptSentCompressedTotalMessageSizeMetricName, ClientAttemptRcvdCompressedTotalMessageSizeMetricName, ClientCallDurationMetricName, ServerCallStartedMetricName, ServerCallSentCompressedTotalMessageSizeMetricName, ServerCallRcvdCompressedTotalMessageSizeMetricName, ServerCallDurationMetricName)
-=======
-	defaultPerCallMetrics = estats.NewMetrics(ClientAttemptStarted, ClientAttemptDuration, ClientAttemptSentCompressedTotalMessageSize, ClientAttemptRcvdCompressedTotalMessageSize, ClientCallDuration, ServerCallStarted, ServerCallSentCompressedTotalMessageSize, ServerCallRcvdCompressedTotalMessageSize, ServerCallDuration)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // DefaultMetrics returns a set of default OpenTelemetry metrics.
 //
 // This should only be invoked after init time.
-<<<<<<< HEAD
 func DefaultMetrics() *stats.MetricSet {
-=======
-func DefaultMetrics() *estats.Metrics {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return defaultPerCallMetrics.Join(estats.DefaultMetrics)
 }

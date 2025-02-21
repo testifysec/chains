@@ -18,7 +18,6 @@ type nameHandler struct {
 	pass *analysis.Pass
 }
 
-<<<<<<< HEAD
 // GetGomegaBasicInfo returns the name of the gomega function, e.g. `Expect` + some additional info
 func (g nameHandler) GetGomegaBasicInfo(expr *ast.CallExpr) (*GomegaBasicInfo, bool) {
 	info := &GomegaBasicInfo{}
@@ -52,30 +51,6 @@ func (g nameHandler) GetGomegaBasicInfo(expr *ast.CallExpr) (*GomegaBasicInfo, b
 			return nil, false
 		}
 	}
-=======
-// GetActualFuncName returns the name of the gomega function, e.g. `Expect`
-func (g nameHandler) GetActualFuncName(expr *ast.CallExpr) (string, bool) {
-	selector, ok := expr.Fun.(*ast.SelectorExpr)
-	if !ok {
-		return "", false
-	}
-
-	switch x := selector.X.(type) {
-	case *ast.Ident:
-		if x.Name != g.name {
-			if !g.isGomegaVar(x) {
-				return "", false
-			}
-		}
-
-		return selector.Sel.Name, true
-
-	case *ast.CallExpr:
-		return g.GetActualFuncName(x)
-	}
-
-	return "", false
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // ReplaceFunction replaces the function with another one, for fix suggestions
@@ -87,11 +62,7 @@ func (g nameHandler) isGomegaVar(x ast.Expr) bool {
 	return gomegainfo.IsGomegaVar(x, g.pass)
 }
 
-<<<<<<< HEAD
 func (g nameHandler) GetActualExpr(assertionFunc *ast.SelectorExpr) *ast.CallExpr {
-=======
-func (g nameHandler) GetActualExpr(assertionFunc *ast.SelectorExpr, errMethodExists *bool) *ast.CallExpr {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	actualExpr, ok := assertionFunc.X.(*ast.CallExpr)
 	if !ok {
 		return nil
@@ -109,14 +80,7 @@ func (g nameHandler) GetActualExpr(assertionFunc *ast.SelectorExpr, errMethodExi
 				return actualExpr
 			}
 		} else {
-<<<<<<< HEAD
 			return g.GetActualExpr(fun)
-=======
-			if fun.Sel.Name == "Error" {
-				*errMethodExists = true
-			}
-			return g.GetActualExpr(fun, errMethodExists)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}
 	}
 	return nil

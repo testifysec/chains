@@ -44,15 +44,9 @@ func Run(pass *analysis.Pass, withTests bool) []*checker.Violation {
 		BytesFunctions, BytesBufferMethods,
 		RegexpFunctions, RegexpRegexpMethods,
 		StringFunctions, StringsBuilderMethods,
-<<<<<<< HEAD
 		MaphashMethods, MaphashFunctions,
 		BufioMethods, HTTPTestMethods,
 		OsFileMethods, UTF8Functions,
-=======
-		BufioMethods, HTTPTestMethods,
-		OsFileMethods, MaphashMethods,
-		UTF8Functions,
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	)
 
 	check.Type = checker.WrapType(pass.TypesInfo)

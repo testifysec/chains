@@ -23,22 +23,11 @@ import (
 	"github.com/google/cel-go/common/types"
 	"github.com/google/cel-go/common/types/ref"
 	"github.com/google/cel-go/common/types/traits"
-<<<<<<< HEAD
-=======
-
-	exprpb "google.golang.org/genproto/googleapis/api/expr/v1alpha1"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 var (
 	stdFunctions []*decls.FunctionDecl
-<<<<<<< HEAD
 	stdTypes     []*decls.VariableDecl
-=======
-	stdFnDecls   []*exprpb.Decl
-	stdTypes     []*decls.VariableDecl
-	stdTypeDecls []*exprpb.Decl
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 func init() {
@@ -62,18 +51,6 @@ func init() {
 		decls.TypeVariable(types.UintType),
 	}
 
-<<<<<<< HEAD
-=======
-	stdTypeDecls = make([]*exprpb.Decl, 0, len(stdTypes))
-	for _, stdType := range stdTypes {
-		typeVar, err := decls.VariableDeclToExprDecl(stdType)
-		if err != nil {
-			panic(err)
-		}
-		stdTypeDecls = append(stdTypeDecls, typeVar)
-	}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	stdFunctions = []*decls.FunctionDecl{
 		// Logical operators. Special-cased within the interpreter.
 		// Note, the singleton binding prevents extensions from overriding the operator behavior.
@@ -586,21 +563,6 @@ func init() {
 			decls.MemberOverload(overloads.DurationToMilliseconds,
 				argTypes(types.DurationType), types.IntType)),
 	}
-<<<<<<< HEAD
-=======
-
-	stdFnDecls = make([]*exprpb.Decl, 0, len(stdFunctions))
-	for _, fn := range stdFunctions {
-		if fn.IsDeclarationDisabled() {
-			continue
-		}
-		ed, err := decls.FunctionDeclToExprDecl(fn)
-		if err != nil {
-			panic(err)
-		}
-		stdFnDecls = append(stdFnDecls, ed)
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // Functions returns the set of standard library function declarations and definitions for CEL.
@@ -608,33 +570,11 @@ func Functions() []*decls.FunctionDecl {
 	return stdFunctions
 }
 
-<<<<<<< HEAD
-=======
-// FunctionExprDecls returns the legacy style protobuf-typed declarations for all functions and overloads
-// in the CEL standard environment.
-//
-// Deprecated: use Functions
-func FunctionExprDecls() []*exprpb.Decl {
-	return stdFnDecls
-}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // Types returns the set of standard library types for CEL.
 func Types() []*decls.VariableDecl {
 	return stdTypes
 }
 
-<<<<<<< HEAD
-=======
-// TypeExprDecls returns the legacy style protobuf-typed declarations for all types in the CEL
-// standard environment.
-//
-// Deprecated: use Types
-func TypeExprDecls() []*exprpb.Decl {
-	return stdTypeDecls
-}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func notStrictlyFalse(value ref.Val) ref.Val {
 	if types.IsBool(value) {
 		return value

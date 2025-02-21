@@ -44,11 +44,7 @@ func ParseReference(s string, opts ...Option) (Reference, error) {
 	if d, err := NewDigest(s, opts...); err == nil {
 		return d, nil
 	}
-<<<<<<< HEAD
 	return nil, newErrBadName("could not parse reference: %s", s)
-=======
-	return nil, newErrBadName("could not parse reference: " + s)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type stringConst string

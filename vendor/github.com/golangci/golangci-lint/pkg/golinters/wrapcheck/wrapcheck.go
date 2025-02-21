@@ -11,11 +11,8 @@ import (
 func New(settings *config.WrapcheckSettings) *goanalysis.Linter {
 	cfg := wrapcheck.NewDefaultConfig()
 	if settings != nil {
-<<<<<<< HEAD
 		cfg.ExtraIgnoreSigs = settings.ExtraIgnoreSigs
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if len(settings.IgnoreSigs) != 0 {
 			cfg.IgnoreSigs = settings.IgnoreSigs
 		}

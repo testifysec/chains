@@ -127,7 +127,6 @@ var nilBuffer = &emptyBuffer{}
 // elements of the byte or uint16 array, and continue. The underlying storage is an rune array
 // containing any Unicode character.
 func NewBuffer(data string) Buffer {
-<<<<<<< HEAD
 	buf, _ := newBuffer(data, false)
 	return buf
 }
@@ -160,31 +159,16 @@ func newBuffer(data string, lines bool) (Buffer, []int32) {
 		buf16 []uint16
 		buf32 []rune
 		offs  []int32
-=======
-	if len(data) == 0 {
-		return nilBuffer
-	}
-	var (
-		idx   = 0
-		buf8  = make([]byte, 0, len(data))
-		buf16 []uint16
-		buf32 []rune
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	)
 	for idx < len(data) {
 		r, s := utf8.DecodeRuneInString(data[idx:])
 		idx += s
-<<<<<<< HEAD
 		if lines && r == '\n' {
 			offs = append(offs, off+1)
 		}
 		if r < utf8.RuneSelf {
 			buf8 = append(buf8, byte(r))
 			off++
-=======
-		if r < utf8.RuneSelf {
-			buf8 = append(buf8, byte(r))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			continue
 		}
 		if r <= 0xffff {
@@ -194,10 +178,7 @@ func newBuffer(data string, lines bool) (Buffer, []int32) {
 			}
 			buf8 = nil
 			buf16 = append(buf16, uint16(r))
-<<<<<<< HEAD
 			off++
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			goto copy16
 		}
 		buf32 = make([]rune, len(buf8), len(data))
@@ -206,7 +187,6 @@ func newBuffer(data string, lines bool) (Buffer, []int32) {
 		}
 		buf8 = nil
 		buf32 = append(buf32, r)
-<<<<<<< HEAD
 		off++
 		goto copy32
 	}
@@ -216,28 +196,16 @@ func newBuffer(data string, lines bool) (Buffer, []int32) {
 	return &asciiBuffer{
 		arr: buf8,
 	}, offs
-=======
-		goto copy32
-	}
-	return &asciiBuffer{
-		arr: buf8,
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 copy16:
 	for idx < len(data) {
 		r, s := utf8.DecodeRuneInString(data[idx:])
 		idx += s
-<<<<<<< HEAD
 		if lines && r == '\n' {
 			offs = append(offs, off+1)
 		}
 		if r <= 0xffff {
 			buf16 = append(buf16, uint16(r))
 			off++
-=======
-		if r <= 0xffff {
-			buf16 = append(buf16, uint16(r))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			continue
 		}
 		buf32 = make([]rune, len(buf16), len(data))
@@ -246,7 +214,6 @@ copy16:
 		}
 		buf16 = nil
 		buf32 = append(buf32, r)
-<<<<<<< HEAD
 		off++
 		goto copy32
 	}
@@ -256,18 +223,10 @@ copy16:
 	return &basicBuffer{
 		arr: buf16,
 	}, offs
-=======
-		goto copy32
-	}
-	return &basicBuffer{
-		arr: buf16,
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 copy32:
 	for idx < len(data) {
 		r, s := utf8.DecodeRuneInString(data[idx:])
 		idx += s
-<<<<<<< HEAD
 		if lines && r == '\n' {
 			offs = append(offs, off+1)
 		}
@@ -280,11 +239,4 @@ copy32:
 	return &supplementalBuffer{
 		arr: buf32,
 	}, offs
-=======
-		buf32 = append(buf32, r)
-	}
-	return &supplementalBuffer{
-		arr: buf32,
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

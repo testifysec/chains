@@ -19,10 +19,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-<<<<<<< HEAD
 	"log/slog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"net/http"
 	"os"
 	"time"
@@ -31,10 +28,7 @@ import (
 	"cloud.google.com/go/auth/internal"
 	"cloud.google.com/go/auth/internal/credsfile"
 	"cloud.google.com/go/compute/metadata"
-<<<<<<< HEAD
 	"github.com/googleapis/gax-go/v2/internallog"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 const (
@@ -104,7 +98,6 @@ func DetectDefault(opts *DetectOptions) (*auth.Credentials, error) {
 	}
 
 	if OnGCE() {
-<<<<<<< HEAD
 		metadataClient := metadata.NewWithOptions(&metadata.Options{
 			Logger: opts.logger(),
 		})
@@ -116,14 +109,6 @@ func DetectDefault(opts *DetectOptions) (*auth.Credentials, error) {
 			UniverseDomainProvider: &internal.ComputeUniverseDomainProvider{
 				MetadataClient: metadataClient,
 			},
-=======
-		return auth.NewCredentials(&auth.CredentialsOptions{
-			TokenProvider: computeTokenProvider(opts),
-			ProjectIDProvider: auth.CredentialsPropertyFunc(func(ctx context.Context) (string, error) {
-				return metadata.ProjectIDWithContext(ctx)
-			}),
-			UniverseDomainProvider: &internal.ComputeUniverseDomainProvider{},
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		}), nil
 	}
 
@@ -180,14 +165,11 @@ type DetectOptions struct {
 	// The default value is "googleapis.com". This option is ignored for
 	// authentication flows that do not support universe domain. Optional.
 	UniverseDomain string
-<<<<<<< HEAD
 	// Logger is used for debug logging. If provided, logging will be enabled
 	// at the loggers configured level. By default logging is disabled unless
 	// enabled by setting GOOGLE_SDK_GO_LOGGING_LEVEL in which case a default
 	// logger will be used. Optional.
 	Logger *slog.Logger
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (o *DetectOptions) validate() error {
@@ -223,13 +205,10 @@ func (o *DetectOptions) client() *http.Client {
 	return internal.DefaultClient()
 }
 
-<<<<<<< HEAD
 func (o *DetectOptions) logger() *slog.Logger {
 	return internallog.New(o.Logger)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func readCredentialsFile(filename string, opts *DetectOptions) (*auth.Credentials, error) {
 	b, err := os.ReadFile(filename)
 	if err != nil {
@@ -290,10 +269,7 @@ func clientCredConfigFromJSON(b []byte, opts *DetectOptions) *auth.Options3LO {
 		AuthURL:          c.AuthURI,
 		TokenURL:         c.TokenURI,
 		Client:           opts.client(),
-<<<<<<< HEAD
 		Logger:           opts.logger(),
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		EarlyTokenExpiry: opts.EarlyTokenRefresh,
 		AuthHandlerOpts:  handleOpts,
 		// TODO(codyoss): refactor this out. We need to add in auto-detection

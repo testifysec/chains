@@ -34,12 +34,9 @@ const (
 	FeatureMetadata2
 )
 
-<<<<<<< HEAD
 // Hardcoded value to specify which version of the user agent we're using
 const uaMetadata = "ua/2.1"
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (k SDKAgentKeyType) string() string {
 	switch k {
 	case APIMetadata:
@@ -79,7 +76,6 @@ type UserAgentFeature string
 
 // Enumerates UserAgentFeature.
 const (
-<<<<<<< HEAD
 	UserAgentFeatureResourceModel                 UserAgentFeature = "A" // n/a (we don't generate separate resource types)
 	UserAgentFeatureWaiter                                         = "B"
 	UserAgentFeaturePaginator                                      = "C"
@@ -102,21 +98,6 @@ const (
 	UserAgentFeatureRequestChecksumWhenRequired                    = "a"
 	UserAgentFeatureResponseChecksumWhenSupported                  = "b"
 	UserAgentFeatureResponseChecksumWhenRequired                   = "c"
-=======
-	UserAgentFeatureResourceModel          UserAgentFeature = "A" // n/a (we don't generate separate resource types)
-	UserAgentFeatureWaiter                                  = "B"
-	UserAgentFeaturePaginator                               = "C"
-	UserAgentFeatureRetryModeLegacy                         = "D" // n/a (equivalent to standard)
-	UserAgentFeatureRetryModeStandard                       = "E"
-	UserAgentFeatureRetryModeAdaptive                       = "F"
-	UserAgentFeatureS3Transfer                              = "G"
-	UserAgentFeatureS3CryptoV1N                             = "H" // n/a (crypto client is external)
-	UserAgentFeatureS3CryptoV2                              = "I" // n/a
-	UserAgentFeatureS3ExpressBucket                         = "J"
-	UserAgentFeatureS3AccessGrants                          = "K" // not yet implemented
-	UserAgentFeatureGZIPRequestCompression                  = "L"
-	UserAgentFeatureProtocolRPCV2CBOR                       = "M"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 // RequestUserAgent is a build middleware that set the User-Agent for the request.
@@ -138,10 +119,7 @@ type RequestUserAgent struct {
 func NewRequestUserAgent() *RequestUserAgent {
 	userAgent, sdkAgent := smithyhttp.NewUserAgentBuilder(), smithyhttp.NewUserAgentBuilder()
 	addProductName(userAgent)
-<<<<<<< HEAD
 	addUserAgentMetadata(userAgent)
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	addProductName(sdkAgent)
 
 	r := &RequestUserAgent{
@@ -169,13 +147,10 @@ func addProductName(builder *smithyhttp.UserAgentBuilder) {
 	builder.AddKeyValue(aws.SDKName, aws.SDKVersion)
 }
 
-<<<<<<< HEAD
 func addUserAgentMetadata(builder *smithyhttp.UserAgentBuilder) {
 	builder.AddKey(uaMetadata)
 }
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // AddUserAgentKey retrieves a requestUserAgent from the provided stack, or initializes one.
 func AddUserAgentKey(key string) func(*middleware.Stack) error {
 	return func(stack *middleware.Stack) error {
@@ -300,17 +275,10 @@ func (u *RequestUserAgent) HandleBuild(ctx context.Context, in middleware.BuildI
 
 func (u *RequestUserAgent) addHTTPUserAgent(request *smithyhttp.Request) {
 	const userAgent = "User-Agent"
-<<<<<<< HEAD
 	if len(u.features) > 0 {
 		updateHTTPHeader(request, userAgent, buildFeatureMetrics(u.features))
 	}
 	updateHTTPHeader(request, userAgent, u.userAgent.Build())
-=======
-	updateHTTPHeader(request, userAgent, u.userAgent.Build())
-	if len(u.features) > 0 {
-		updateHTTPHeader(request, userAgent, buildFeatureMetrics(u.features))
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (u *RequestUserAgent) addHTTPSDKAgent(request *smithyhttp.Request) {

@@ -15,10 +15,7 @@
 package gcp
 
 import (
-<<<<<<< HEAD
 	"context"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"fmt"
 	"strings"
 )
@@ -35,7 +32,6 @@ const (
 )
 
 func (d *Detector) onGKE() bool {
-<<<<<<< HEAD
 	// Check if we are on k8s first
 	_, found := d.os.LookupEnv(k8sServiceHostEnv)
 	if !found {
@@ -45,10 +41,6 @@ func (d *Detector) onGKE() bool {
 	// different managed k8s platform.
 	_, err := d.metadata.InstanceAttributeValueWithContext(context.TODO(), clusterLocationMetadataAttr)
 	return err == nil
-=======
-	_, found := d.os.LookupEnv(k8sServiceHostEnv)
-	return found
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // GKEHostID returns the instance ID of the instance on which this program is running.
@@ -58,11 +50,7 @@ func (d *Detector) GKEHostID() (string, error) {
 
 // GKEClusterName returns the name if the GKE cluster in which this program is running.
 func (d *Detector) GKEClusterName() (string, error) {
-<<<<<<< HEAD
 	return d.metadata.InstanceAttributeValueWithContext(context.TODO(), clusterNameMetadataAttr)
-=======
-	return d.metadata.InstanceAttributeValue(clusterNameMetadataAttr)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type LocationType int64
@@ -75,11 +63,7 @@ const (
 
 // GKEAvailabilityZoneOrRegion returns the location of the cluster and whether the cluster is zonal or regional.
 func (d *Detector) GKEAvailabilityZoneOrRegion() (string, LocationType, error) {
-<<<<<<< HEAD
 	clusterLocation, err := d.metadata.InstanceAttributeValueWithContext(context.TODO(), clusterLocationMetadataAttr)
-=======
-	clusterLocation, err := d.metadata.InstanceAttributeValue(clusterLocationMetadataAttr)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return "", UndefinedLocation, err
 	}

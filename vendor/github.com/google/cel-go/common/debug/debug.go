@@ -215,14 +215,11 @@ func (w *debugWriter) appendComprehension(comprehension ast.ComprehensionExpr) {
 	w.append(comprehension.IterVar())
 	w.append(",")
 	w.appendLine()
-<<<<<<< HEAD
 	if comprehension.HasIterVar2() {
 		w.append(comprehension.IterVar2())
 		w.append(",")
 		w.appendLine()
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	w.append("// Target")
 	w.appendLine()
 	w.Buffer(comprehension.IterRange())
@@ -260,11 +257,7 @@ func formatLiteral(c ref.Val) string {
 	case types.Bool:
 		return fmt.Sprintf("%t", v)
 	case types.Bytes:
-<<<<<<< HEAD
 		return fmt.Sprintf("b%s", strconv.Quote(string(v)))
-=======
-		return fmt.Sprintf("b\"%s\"", string(v))
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case types.Double:
 		return fmt.Sprintf("%v", float64(v))
 	case types.Int:

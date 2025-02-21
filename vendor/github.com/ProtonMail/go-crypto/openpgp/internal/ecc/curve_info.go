@@ -4,20 +4,14 @@ package ecc
 import (
 	"bytes"
 	"crypto/elliptic"
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/ProtonMail/go-crypto/bitcurves"
 	"github.com/ProtonMail/go-crypto/brainpool"
 	"github.com/ProtonMail/go-crypto/openpgp/internal/encoding"
 )
 
-<<<<<<< HEAD
 const Curve25519GenName = "Curve25519"
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type CurveInfo struct {
 	GenName string
 	Oid     *encoding.OID
@@ -51,31 +45,19 @@ var Curves = []CurveInfo{
 	},
 	{
 		// Curve25519
-<<<<<<< HEAD
 		GenName: Curve25519GenName,
-=======
-		GenName: "Curve25519",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		Oid:     encoding.NewOID([]byte{0x2B, 0x06, 0x01, 0x04, 0x01, 0x97, 0x55, 0x01, 0x05, 0x01}),
 		Curve:   NewCurve25519(),
 	},
 	{
-<<<<<<< HEAD
 		// x448
-=======
-		// X448
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		GenName: "Curve448",
 		Oid:     encoding.NewOID([]byte{0x2B, 0x65, 0x6F}),
 		Curve:   NewX448(),
 	},
 	{
 		// Ed25519
-<<<<<<< HEAD
 		GenName: Curve25519GenName,
-=======
-		GenName: "Curve25519",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		Oid:     encoding.NewOID([]byte{0x2B, 0x06, 0x01, 0x04, 0x01, 0xDA, 0x47, 0x0F, 0x01}),
 		Curve:   NewEd25519(),
 	},

@@ -39,17 +39,11 @@ var (
 )
 
 // semVerRegex is the regular expression used to parse a semantic version.
-<<<<<<< HEAD
 // This is not the official regex from the semver spec. It has been modified to allow for loose handling
 // where versions like 2.1 are detected.
 const semVerRegex string = `v?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?` +
 	`(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?` +
 	`(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?`
-=======
-const semVerRegex string = `v?([0-9]+)(\.[0-9]+)?(\.[0-9]+)?` +
-	`(-([0-9A-Za-z\-]+(\.[0-9A-Za-z\-]+)*))?` +
-	`(\+([0-9A-Za-z\-]+(\.[0-9A-Za-z\-]+)*))?`
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 // Version represents a single semantic version.
 type Version struct {
@@ -154,13 +148,8 @@ func NewVersion(v string) (*Version, error) {
 	}
 
 	sv := &Version{
-<<<<<<< HEAD
 		metadata: m[5],
 		pre:      m[4],
-=======
-		metadata: m[8],
-		pre:      m[5],
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		original: v,
 	}
 
@@ -171,11 +160,7 @@ func NewVersion(v string) (*Version, error) {
 	}
 
 	if m[2] != "" {
-<<<<<<< HEAD
 		sv.minor, err = strconv.ParseUint(m[2], 10, 64)
-=======
-		sv.minor, err = strconv.ParseUint(strings.TrimPrefix(m[2], "."), 10, 64)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return nil, fmt.Errorf("Error parsing version segment: %s", err)
 		}
@@ -184,11 +169,7 @@ func NewVersion(v string) (*Version, error) {
 	}
 
 	if m[3] != "" {
-<<<<<<< HEAD
 		sv.patch, err = strconv.ParseUint(m[3], 10, 64)
-=======
-		sv.patch, err = strconv.ParseUint(strings.TrimPrefix(m[3], "."), 10, 64)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		if err != nil {
 			return nil, fmt.Errorf("Error parsing version segment: %s", err)
 		}
@@ -633,13 +614,9 @@ func containsOnly(s string, comp string) bool {
 func validatePrerelease(p string) error {
 	eparts := strings.Split(p, ".")
 	for _, p := range eparts {
-<<<<<<< HEAD
 		if p == "" {
 			return ErrInvalidMetadata
 		} else if containsOnly(p, num) {
-=======
-		if containsOnly(p, num) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			if len(p) > 1 && p[0] == '0' {
 				return ErrSegmentStartsZero
 			}
@@ -658,13 +635,9 @@ func validatePrerelease(p string) error {
 func validateMetadata(m string) error {
 	eparts := strings.Split(m, ".")
 	for _, p := range eparts {
-<<<<<<< HEAD
 		if p == "" {
 			return ErrInvalidMetadata
 		} else if !containsOnly(p, allowed) {
-=======
-		if !containsOnly(p, allowed) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 			return ErrInvalidMetadata
 		}
 	}

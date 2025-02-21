@@ -19,7 +19,6 @@
 package xdsclient
 
 import (
-<<<<<<< HEAD
 	"errors"
 	"fmt"
 	"sync"
@@ -32,20 +31,10 @@ import (
 	"google.golang.org/grpc/xds/internal/xdsclient/transport"
 	"google.golang.org/grpc/xds/internal/xdsclient/transport/ads"
 	"google.golang.org/grpc/xds/internal/xdsclient/xdsresource"
-=======
-	"sync"
-	"time"
-
-	"google.golang.org/grpc/internal/cache"
-	"google.golang.org/grpc/internal/grpclog"
-	"google.golang.org/grpc/internal/grpcsync"
-	"google.golang.org/grpc/internal/xds/bootstrap"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 )
 
 var _ XDSClient = &clientImpl{}
 
-<<<<<<< HEAD
 // ErrClientClosed is returned when the xDS client is closed.
 var ErrClientClosed = errors.New("xds: the xDS client is closed")
 
@@ -142,39 +131,6 @@ func (cs *channelState) adsResourceDoesNotExist(typ xdsresource.Type, resourceNa
 	for authority := range cs.interestedAuthorities {
 		authority.adsResourceDoesNotExist(typ, resourceName)
 	}
-=======
-// clientImpl is the real implementation of the xds client. The exported Client
-// is a wrapper of this struct with a ref count.
-type clientImpl struct {
-	done               *grpcsync.Event
-	config             *bootstrap.Config
-	logger             *grpclog.PrefixLogger
-	watchExpiryTimeout time.Duration
-	backoff            func(int) time.Duration // Backoff for ADS and LRS stream failures.
-	serializer         *grpcsync.CallbackSerializer
-	serializerClose    func()
-	resourceTypes      *resourceTypeRegistry
-
-	// authorityMu protects the authority fields. It's necessary because an
-	// authority is created when it's used.
-	authorityMu sync.Mutex
-	// authorities is a map from ServerConfig to authority. So that
-	// different authorities sharing the same ServerConfig can share the
-	// authority.
-	//
-	// The key is **ServerConfig.String()**, not the authority name.
-	//
-	// An authority is either in authorities, or idleAuthorities,
-	// never both.
-	authorities map[string]*authority
-	// idleAuthorities keeps the authorities that are not used (the last
-	// watch on it was canceled). They are kept in the cache and will be deleted
-	// after a timeout. The key is ServerConfig.String().
-	//
-	// An authority is either in authorities, or idleAuthorities,
-	// never both.
-	idleAuthorities *cache.TimeoutCache
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // BootstrapConfig returns the configuration read from the bootstrap file.
@@ -183,17 +139,12 @@ func (c *clientImpl) BootstrapConfig() *bootstrap.Config {
 	return c.config
 }
 
-<<<<<<< HEAD
 // close closes the xDS client and releases all resources.
-=======
-// close closes the gRPC connection to the management server.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (c *clientImpl) close() {
 	if c.done.HasFired() {
 		return
 	}
 	c.done.Fire()
-<<<<<<< HEAD
 
 	c.topLevelAuthority.close()
 	for _, a := range c.authorities {
@@ -218,18 +169,6 @@ func (c *clientImpl) close() {
 
 	c.serializerClose()
 	<-c.serializer.Done()
-=======
-	// TODO: Should we invoke the registered callbacks here with an error that
-	// the client is closed?
-
-	c.authorityMu.Lock()
-	for _, a := range c.authorities {
-		a.close()
-	}
-	c.idleAuthorities.Clear(true)
-	c.authorityMu.Unlock()
-	c.serializerClose()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	for _, s := range c.config.XDSServers() {
 		for _, f := range s.Cleanups() {
@@ -245,7 +184,6 @@ func (c *clientImpl) close() {
 	}
 	c.logger.Infof("Shutdown")
 }
-<<<<<<< HEAD
 
 // getChannelForADS returns an xdsChannel for the given server configuration.
 //
@@ -412,5 +350,3 @@ func (c *clientImpl) releaseChannel(serverConfig *bootstrap.ServerConfig, state 
 		channelToClose.close()
 	})
 }
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)

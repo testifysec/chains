@@ -10,14 +10,11 @@
         "grpc": {
           "libraryClient": "Client",
           "rpcs": {
-<<<<<<< HEAD
             "BidiReadObject": {
               "methods": [
                 "BidiReadObject"
               ]
             },
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
             "BidiWriteObject": {
               "methods": [
                 "BidiWriteObject"
@@ -78,14 +75,11 @@
                 "LockBucketRetentionPolicy"
               ]
             },
-<<<<<<< HEAD
             "MoveObject": {
               "methods": [
                 "MoveObject"
               ]
             },
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
             "QueryWriteStatus": {
               "methods": [
                 "QueryWriteStatus"

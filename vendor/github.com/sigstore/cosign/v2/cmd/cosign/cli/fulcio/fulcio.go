@@ -24,10 +24,7 @@ import (
 	"os"
 	"strings"
 
-<<<<<<< HEAD
 	"github.com/go-jose/go-jose/v3/jwt"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"github.com/sigstore/cosign/v2/cmd/cosign/cli/options"
 	"github.com/sigstore/cosign/v2/cmd/cosign/cli/sign/privacy"
 	"github.com/sigstore/cosign/v2/internal/pkg/cosign/fulcio/fulcioroots"
@@ -37,10 +34,6 @@ import (
 	"github.com/sigstore/sigstore/pkg/cryptoutils"
 	"github.com/sigstore/sigstore/pkg/oauthflow"
 	"github.com/sigstore/sigstore/pkg/signature"
-<<<<<<< HEAD
-=======
-	"go.step.sm/crypto/jose"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"golang.org/x/term"
 )
 
@@ -216,11 +209,7 @@ func NewClient(fulcioURL string) (api.LegacyClient, error) {
 // or a path to an identity token via the --identity-token flag
 func idToken(s string) (string, error) {
 	// If this is a valid raw token or is empty, just return it
-<<<<<<< HEAD
 	if _, err := jwt.ParseSigned(s); err == nil || s == "" {
-=======
-	if _, err := jose.ParseSigned(s); err == nil || s == "" {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		return s, nil
 	}
 

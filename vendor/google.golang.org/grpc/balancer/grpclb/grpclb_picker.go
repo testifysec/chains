@@ -19,11 +19,7 @@
 package grpclb
 
 import (
-<<<<<<< HEAD
 	rand "math/rand/v2"
-=======
-	"math/rand"
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"sync"
 	"sync/atomic"
 
@@ -116,11 +112,7 @@ type rrPicker struct {
 func newRRPicker(readySCs []balancer.SubConn) *rrPicker {
 	return &rrPicker{
 		subConns:     readySCs,
-<<<<<<< HEAD
 		subConnsNext: rand.IntN(len(readySCs)),
-=======
-		subConnsNext: rand.Intn(len(readySCs)),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -155,11 +147,7 @@ func newLBPicker(serverList []*lbpb.Server, readySCs []balancer.SubConn, stats *
 	return &lbPicker{
 		serverList:   serverList,
 		subConns:     readySCs,
-<<<<<<< HEAD
 		subConnsNext: rand.IntN(len(readySCs)),
-=======
-		subConnsNext: rand.Intn(len(readySCs)),
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 		stats:        stats,
 	}
 }

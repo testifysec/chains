@@ -147,24 +147,14 @@ The following structures receive a nesting increment commensurate with their nes
 
 ## Installation
 
-<<<<<<< HEAD
 ```shell
 go install github.com/uudashr/gocognit/cmd/gocognit@latest
-=======
-```
-$ go install github.com/uudashr/gocognit/cmd/gocognit@latest
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ```
 
 or 
 
-<<<<<<< HEAD
 ```shell
 go get github.com/uudashr/gocognit/cmd/gocognit
-=======
-```
-$ go get github.com/uudashr/gocognit/cmd/gocognit
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ```
 
 ## Usage
@@ -179,7 +169,6 @@ Usage:
 
 Flags:
 
-<<<<<<< HEAD
   -over N       show functions with complexity > N only
                 and return exit code 1 if the output is non-empty
   -top N        show the top N most complex functions only
@@ -191,16 +180,6 @@ Flags:
   -f format     string the format to use
                 (default "{{.Complexity}} {{.PkgName}} {{.FuncName}} {{.Pos}}")
   -ignore expr  ignore files matching the given regexp
-=======
-  -over N    show functions with complexity > N only
-             and return exit code 1 if the output is non-empty
-  -top N     show the top N most complex functions only
-  -avg       show the average complexity over all functions,
-             not depending on whether -over or -top are set
-  -json      encode the output as JSON
-  -f format  string the format to use 
-             (default "{{.PkgName}}.{{.FuncName}}:{{.Complexity}}:{{.Pos}}")
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 The (default) output fields for each line are:
 
@@ -215,7 +194,6 @@ or equal to <complexity> <package> <function> <file:row:column>
 The struct being passed to the template is:
 
   type Stat struct {
-<<<<<<< HEAD
     PkgName     string
     FuncName    string
     Complexity  int
@@ -234,12 +212,6 @@ The struct being passed to the template is:
     Offset int
     Line   int
     Column int
-=======
-    PkgName    string
-    FuncName   string
-    Complexity int
-    Pos        token.Position
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
   }
 ```
 
@@ -268,7 +240,6 @@ func IgnoreMe() {
 }
 ```
 
-<<<<<<< HEAD
 ## Diagnostic
 To understand how the complexity are calculated, we can enable the diagnostic by using `-d` flag.
 
@@ -339,8 +310,6 @@ It will show the diagnostic output in JSON format
 ```
 </details>
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 ## Related project
 - [Gocyclo](https://github.com/fzipp/gocyclo) where the code are based on.
 - [Cognitive Complexity: A new way of measuring understandability](https://www.sonarsource.com/docs/CognitiveComplexity.pdf) white paper by G. Ann Campbell.

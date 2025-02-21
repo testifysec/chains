@@ -2,10 +2,7 @@ package analyzer
 
 import (
 	"flag"
-<<<<<<< HEAD
 	"fmt"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"go/ast"
 	"go/token"
 	"strings"
@@ -368,11 +365,7 @@ func checkHTTPMethod(pass *analysis.Pass, basicLit *ast.BasicLit) {
 	key := strings.ToUpper(currentVal)
 
 	if newVal, ok := mapping.HTTPMethod[key]; ok {
-<<<<<<< HEAD
 		report(pass, basicLit, currentVal, newVal)
-=======
-		report(pass, basicLit.Pos(), currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -380,11 +373,7 @@ func checkHTTPStatusCode(pass *analysis.Pass, basicLit *ast.BasicLit) {
 	currentVal := getBasicLitValue(basicLit)
 
 	if newVal, ok := mapping.HTTPStatusCode[currentVal]; ok {
-<<<<<<< HEAD
 		report(pass, basicLit, currentVal, newVal)
-=======
-		report(pass, basicLit.Pos(), currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -392,11 +381,7 @@ func checkTimeWeekday(pass *analysis.Pass, basicLit *ast.BasicLit) {
 	currentVal := getBasicLitValue(basicLit)
 
 	if newVal, ok := mapping.TimeWeekday[currentVal]; ok {
-<<<<<<< HEAD
 		report(pass, basicLit, currentVal, newVal)
-=======
-		report(pass, basicLit.Pos(), currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -404,11 +389,7 @@ func checkTimeMonth(pass *analysis.Pass, basicLit *ast.BasicLit) {
 	currentVal := getBasicLitValue(basicLit)
 
 	if newVal, ok := mapping.TimeMonth[currentVal]; ok {
-<<<<<<< HEAD
 		report(pass, basicLit, currentVal, newVal)
-=======
-		report(pass, basicLit.Pos(), currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -416,11 +397,7 @@ func checkTimeLayout(pass *analysis.Pass, basicLit *ast.BasicLit) {
 	currentVal := getBasicLitValue(basicLit)
 
 	if newVal, ok := mapping.TimeLayout[currentVal]; ok {
-<<<<<<< HEAD
 		report(pass, basicLit, currentVal, newVal)
-=======
-		report(pass, basicLit.Pos(), currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -428,11 +405,7 @@ func checkCryptoHash(pass *analysis.Pass, basicLit *ast.BasicLit) {
 	currentVal := getBasicLitValue(basicLit)
 
 	if newVal, ok := mapping.CryptoHash[currentVal]; ok {
-<<<<<<< HEAD
 		report(pass, basicLit, currentVal, newVal)
-=======
-		report(pass, basicLit.Pos(), currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -440,11 +413,7 @@ func checkRPCDefaultPath(pass *analysis.Pass, basicLit *ast.BasicLit) {
 	currentVal := getBasicLitValue(basicLit)
 
 	if newVal, ok := mapping.RPCDefaultPath[currentVal]; ok {
-<<<<<<< HEAD
 		report(pass, basicLit, currentVal, newVal)
-=======
-		report(pass, basicLit.Pos(), currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -454,11 +423,7 @@ func checkSQLIsolationLevel(pass *analysis.Pass, basicLit *ast.BasicLit) {
 	currentVal := getBasicLitValue(basicLit)
 
 	if newVal, ok := mapping.SQLIsolationLevel[currentVal]; ok {
-<<<<<<< HEAD
 		report(pass, basicLit, currentVal, newVal)
-=======
-		report(pass, basicLit.Pos(), currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -466,11 +431,7 @@ func checkTLSSignatureScheme(pass *analysis.Pass, basicLit *ast.BasicLit) {
 	currentVal := getBasicLitValue(basicLit)
 
 	if newVal, ok := mapping.TLSSignatureScheme[currentVal]; ok {
-<<<<<<< HEAD
 		report(pass, basicLit, currentVal, newVal)
-=======
-		report(pass, basicLit.Pos(), currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -478,11 +439,7 @@ func checkConstantKind(pass *analysis.Pass, basicLit *ast.BasicLit) {
 	currentVal := getBasicLitValue(basicLit)
 
 	if newVal, ok := mapping.ConstantKind[currentVal]; ok {
-<<<<<<< HEAD
 		report(pass, basicLit, currentVal, newVal)
-=======
-		report(pass, basicLit.Pos(), currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
@@ -558,7 +515,6 @@ func getBasicLitValue(basicLit *ast.BasicLit) string {
 	return val.String()
 }
 
-<<<<<<< HEAD
 func report(pass *analysis.Pass, rg analysis.Range, currentVal, newVal string) {
 	pass.Report(analysis.Diagnostic{
 		Pos:     rg.Pos(),
@@ -571,8 +527,4 @@ func report(pass *analysis.Pass, rg analysis.Range, currentVal, newVal string) {
 			}},
 		}},
 	})
-=======
-func report(pass *analysis.Pass, pos token.Pos, currentVal, newVal string) {
-	pass.Reportf(pos, "%q can be replaced by %s", currentVal, newVal)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }

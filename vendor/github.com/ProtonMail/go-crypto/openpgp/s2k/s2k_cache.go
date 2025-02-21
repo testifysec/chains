@@ -5,11 +5,7 @@ package s2k
 // the same parameters.
 type Cache map[Params][]byte
 
-<<<<<<< HEAD
 // GetOrComputeDerivedKey tries to retrieve the key
-=======
-// GetOrComputeDerivedKey tries to retrieve the key 
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 // for the given s2k parameters from the cache.
 // If there is no hit, it derives the key with the s2k function from the passphrase,
 // updates the cache, and returns the key.

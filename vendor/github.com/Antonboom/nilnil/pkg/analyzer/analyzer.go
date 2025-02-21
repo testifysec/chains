@@ -125,11 +125,7 @@ const (
 )
 
 func (n *nilNil) isDangerNilType(t types.Type) (bool, zeroValue) {
-<<<<<<< HEAD
 	switch v := types.Unalias(t).(type) {
-=======
-	switch v := t.(type) {
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case *types.Pointer:
 		return n.checkedTypes.Contains(ptrType), zeroValueNil
 

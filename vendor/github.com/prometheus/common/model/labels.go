@@ -97,37 +97,21 @@ var LabelNameRE = regexp.MustCompile("^[a-zA-Z_][a-zA-Z0-9_]*$")
 // therewith.
 type LabelName string
 
-<<<<<<< HEAD
 // IsValid returns true iff the name matches the pattern of LabelNameRE when
 // NameValidationScheme is set to LegacyValidation, or valid UTF-8 if
 // NameValidationScheme is set to UTF8Validation.
-=======
-// IsValid returns true iff name matches the pattern of LabelNameRE for legacy
-// names, and iff it's valid UTF-8 if NameValidationScheme is set to
-// UTF8Validation. For the legacy matching, it does not use LabelNameRE for the
-// check but a much faster hardcoded implementation.
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 func (ln LabelName) IsValid() bool {
 	if len(ln) == 0 {
 		return false
 	}
 	switch NameValidationScheme {
 	case LegacyValidation:
-<<<<<<< HEAD
 		return ln.IsValidLegacy()
-=======
-		for i, b := range ln {
-			if !((b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') || b == '_' || (b >= '0' && b <= '9' && i > 0)) {
-				return false
-			}
-		}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	case UTF8Validation:
 		return utf8.ValidString(string(ln))
 	default:
 		panic(fmt.Sprintf("Invalid name validation scheme requested: %d", NameValidationScheme))
 	}
-<<<<<<< HEAD
 }
 
 // IsValidLegacy returns true iff name matches the pattern of LabelNameRE for
@@ -142,8 +126,6 @@ func (ln LabelName) IsValidLegacy() bool {
 			return false
 		}
 	}
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return true
 }
 

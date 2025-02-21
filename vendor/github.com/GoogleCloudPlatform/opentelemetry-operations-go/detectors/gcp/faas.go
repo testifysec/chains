@@ -15,10 +15,7 @@
 package gcp
 
 import (
-<<<<<<< HEAD
 	"context"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	"strings"
 )
 
@@ -93,11 +90,7 @@ func (d *Detector) CloudRunJobTaskIndex() (string, error) {
 
 // FaaSID returns the instance id of the Cloud Run or Cloud Function.
 func (d *Detector) FaaSID() (string, error) {
-<<<<<<< HEAD
 	return d.instanceID()
-=======
-	return d.metadata.InstanceID()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 // FaaSCloudRegion detects region from the metadata server.
@@ -105,11 +98,7 @@ func (d *Detector) FaaSID() (string, error) {
 //
 // https://cloud.google.com/run/docs/reference/container-contract#metadata-server
 func (d *Detector) FaaSCloudRegion() (string, error) {
-<<<<<<< HEAD
 	region, err := d.metadata.GetWithContext(context.TODO(), regionMetadataAttr)
-=======
-	region, err := d.metadata.Get(regionMetadataAttr)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if err != nil {
 		return "", err
 	}

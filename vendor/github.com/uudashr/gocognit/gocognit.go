@@ -4,10 +4,7 @@ import (
 	"fmt"
 	"go/ast"
 	"go/token"
-<<<<<<< HEAD
 	"strconv"
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
@@ -16,7 +13,6 @@ import (
 
 // Stat is statistic of the complexity.
 type Stat struct {
-<<<<<<< HEAD
 	PkgName     string
 	FuncName    string
 	Complexity  int
@@ -69,12 +65,6 @@ func (d Diagnostic) String() string {
 	}
 
 	return fmt.Sprintf("+%d (nesting=%d)", d.Inc, d.Nesting)
-=======
-	PkgName    string
-	FuncName   string
-	Complexity int
-	Pos        token.Position
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (s Stat) String() string {
@@ -83,14 +73,11 @@ func (s Stat) String() string {
 
 // ComplexityStats builds the complexity statistics.
 func ComplexityStats(f *ast.File, fset *token.FileSet, stats []Stat) []Stat {
-<<<<<<< HEAD
 	return ComplexityStatsWithDiagnostic(f, fset, stats, false)
 }
 
 // ComplexityStatsWithDiagnostic builds the complexity statistics with diagnostic.
 func ComplexityStatsWithDiagnostic(f *ast.File, fset *token.FileSet, stats []Stat, enableDiagnostics bool) []Stat {
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	for _, decl := range f.Decls {
 		if fn, ok := decl.(*ast.FuncDecl); ok {
 			d := parseDirective(fn.Doc)
@@ -98,7 +85,6 @@ func ComplexityStatsWithDiagnostic(f *ast.File, fset *token.FileSet, stats []Sta
 				continue
 			}
 
-<<<<<<< HEAD
 			res := ScanComplexity(fn, enableDiagnostics)
 
 			stats = append(stats, Stat{
@@ -136,19 +122,6 @@ func generateDiagnostics(fset *token.FileSet, diags []diagnostic) []Diagnostic {
 	return out
 }
 
-=======
-			stats = append(stats, Stat{
-				PkgName:    f.Name.Name,
-				FuncName:   funcName(fn),
-				Complexity: Complexity(fn),
-				Pos:        fset.Position(fn.Pos()),
-			})
-		}
-	}
-	return stats
-}
-
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 type directive struct {
 	Ignore bool
 }
@@ -173,23 +146,16 @@ func funcName(fn *ast.FuncDecl) string {
 	if fn.Recv != nil {
 		if fn.Recv.NumFields() > 0 {
 			typ := fn.Recv.List[0].Type
-<<<<<<< HEAD
 
 			return fmt.Sprintf("(%s).%s", recvString(typ), fn.Name)
 		}
 	}
 
-=======
-			return fmt.Sprintf("(%s).%s", recvString(typ), fn.Name)
-		}
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return fn.Name.Name
 }
 
 // Complexity calculates the cognitive complexity of a function.
 func Complexity(fn *ast.FuncDecl) int {
-<<<<<<< HEAD
 	res := ScanComplexity(fn, false)
 
 	return res.Complexity
@@ -220,14 +186,6 @@ type diagnostic struct {
 	Nesting int
 	Text    string
 	Pos     token.Pos
-=======
-	v := complexityVisitor{
-		name: fn.Name,
-	}
-
-	ast.Walk(&v, fn)
-	return v.complexity
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 type complexityVisitor struct {
@@ -236,12 +194,9 @@ type complexityVisitor struct {
 	nesting         int
 	elseNodes       map[ast.Node]bool
 	calculatedExprs map[ast.Expr]bool
-<<<<<<< HEAD
 
 	diagnosticsEnabled bool
 	diagnostics        []diagnostic
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (v *complexityVisitor) incNesting() {
@@ -252,7 +207,6 @@ func (v *complexityVisitor) decNesting() {
 	v.nesting--
 }
 
-<<<<<<< HEAD
 func (v *complexityVisitor) incComplexity(text string, pos token.Pos) {
 	v.complexity++
 
@@ -280,14 +234,6 @@ func (v *complexityVisitor) nestIncComplexity(text string, pos token.Pos) {
 		Text:    text,
 		Pos:     pos,
 	})
-=======
-func (v *complexityVisitor) incComplexity() {
-	v.complexity++
-}
-
-func (v *complexityVisitor) nestIncComplexity() {
-	v.complexity += (v.nesting + 1)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 }
 
 func (v *complexityVisitor) markAsElseNode(n ast.Node) {
@@ -346,19 +292,12 @@ func (v *complexityVisitor) Visit(n ast.Node) ast.Visitor {
 	case *ast.CallExpr:
 		return v.visitCallExpr(n)
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return v
 }
 
 func (v *complexityVisitor) visitIfStmt(n *ast.IfStmt) ast.Visitor {
-<<<<<<< HEAD
 	v.incIfComplexity(n, "if", n.Pos())
-=======
-	v.incIfComplexity(n)
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if n := n.Init; n != nil {
 		ast.Walk(v, n)
@@ -366,26 +305,12 @@ func (v *complexityVisitor) visitIfStmt(n *ast.IfStmt) ast.Visitor {
 
 	ast.Walk(v, n.Cond)
 
-<<<<<<< HEAD
 	v.incNesting()
 	ast.Walk(v, n.Body)
 	v.decNesting()
 
 	if _, ok := n.Else.(*ast.BlockStmt); ok {
 		v.incComplexity("else", n.Else.Pos())
-=======
-	pure := !v.markedAsElseNode(n) // pure `if` statement, not an `else if`
-	if pure {
-		v.incNesting()
-		ast.Walk(v, n.Body)
-		v.decNesting()
-	} else {
-		ast.Walk(v, n.Body)
-	}
-
-	if _, ok := n.Else.(*ast.BlockStmt); ok {
-		v.incComplexity()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 		ast.Walk(v, n.Else)
 	} else if _, ok := n.Else.(*ast.IfStmt); ok {
@@ -397,11 +322,7 @@ func (v *complexityVisitor) visitIfStmt(n *ast.IfStmt) ast.Visitor {
 }
 
 func (v *complexityVisitor) visitSwitchStmt(n *ast.SwitchStmt) ast.Visitor {
-<<<<<<< HEAD
 	v.nestIncComplexity("switch", n.Pos())
-=======
-	v.nestIncComplexity()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if n := n.Init; n != nil {
 		ast.Walk(v, n)
@@ -414,19 +335,12 @@ func (v *complexityVisitor) visitSwitchStmt(n *ast.SwitchStmt) ast.Visitor {
 	v.incNesting()
 	ast.Walk(v, n.Body)
 	v.decNesting()
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil
 }
 
 func (v *complexityVisitor) visitTypeSwitchStmt(n *ast.TypeSwitchStmt) ast.Visitor {
-<<<<<<< HEAD
 	v.nestIncComplexity("switch", n.Pos())
-=======
-	v.nestIncComplexity()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if n := n.Init; n != nil {
 		ast.Walk(v, n)
@@ -439,36 +353,22 @@ func (v *complexityVisitor) visitTypeSwitchStmt(n *ast.TypeSwitchStmt) ast.Visit
 	v.incNesting()
 	ast.Walk(v, n.Body)
 	v.decNesting()
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil
 }
 
 func (v *complexityVisitor) visitSelectStmt(n *ast.SelectStmt) ast.Visitor {
-<<<<<<< HEAD
 	v.nestIncComplexity("select", n.Pos())
-=======
-	v.nestIncComplexity()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	v.incNesting()
 	ast.Walk(v, n.Body)
 	v.decNesting()
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil
 }
 
 func (v *complexityVisitor) visitForStmt(n *ast.ForStmt) ast.Visitor {
-<<<<<<< HEAD
 	v.nestIncComplexity("for", n.Pos())
-=======
-	v.nestIncComplexity()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if n := n.Init; n != nil {
 		ast.Walk(v, n)
@@ -485,19 +385,12 @@ func (v *complexityVisitor) visitForStmt(n *ast.ForStmt) ast.Visitor {
 	v.incNesting()
 	ast.Walk(v, n.Body)
 	v.decNesting()
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil
 }
 
 func (v *complexityVisitor) visitRangeStmt(n *ast.RangeStmt) ast.Visitor {
-<<<<<<< HEAD
 	v.nestIncComplexity("for", n.Pos())
-=======
-	v.nestIncComplexity()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 
 	if n := n.Key; n != nil {
 		ast.Walk(v, n)
@@ -512,10 +405,7 @@ func (v *complexityVisitor) visitRangeStmt(n *ast.RangeStmt) ast.Visitor {
 	v.incNesting()
 	ast.Walk(v, n.Body)
 	v.decNesting()
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil
 }
 
@@ -525,23 +415,15 @@ func (v *complexityVisitor) visitFuncLit(n *ast.FuncLit) ast.Visitor {
 	v.incNesting()
 	ast.Walk(v, n.Body)
 	v.decNesting()
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return nil
 }
 
 func (v *complexityVisitor) visitBranchStmt(n *ast.BranchStmt) ast.Visitor {
 	if n.Label != nil {
-<<<<<<< HEAD
 		v.incComplexity(n.Tok.String(), n.Pos())
 	}
 
-=======
-		v.incComplexity()
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return v
 }
 
@@ -552,19 +434,12 @@ func (v *complexityVisitor) visitBinaryExpr(n *ast.BinaryExpr) ast.Visitor {
 		var lastOp token.Token
 		for _, op := range ops {
 			if lastOp != op {
-<<<<<<< HEAD
 				v.incComplexity(op.String(), n.OpPos)
-=======
-				v.incComplexity()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 				lastOp = op
 			}
 		}
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return v
 }
 
@@ -573,61 +448,38 @@ func (v *complexityVisitor) visitCallExpr(n *ast.CallExpr) ast.Visitor {
 		obj, name := callIdent.Obj, callIdent.Name
 		if obj == v.name.Obj && name == v.name.Name {
 			// called by same function directly (direct recursion)
-<<<<<<< HEAD
 			v.incComplexity(name, n.Pos())
 		}
 	}
 
-=======
-			v.incComplexity()
-		}
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	return v
 }
 
 func (v *complexityVisitor) collectBinaryOps(exp ast.Expr) []token.Token {
 	v.markCalculated(exp)
-<<<<<<< HEAD
 
-=======
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	if exp, ok := exp.(*ast.BinaryExpr); ok {
 		return mergeBinaryOps(v.collectBinaryOps(exp.X), exp.Op, v.collectBinaryOps(exp.Y))
 	}
 	return nil
 }
 
-<<<<<<< HEAD
 func (v *complexityVisitor) incIfComplexity(n *ast.IfStmt, text string, pos token.Pos) {
 	if v.markedAsElseNode(n) {
 		v.incComplexity(text, pos)
 	} else {
 		v.nestIncComplexity(text, pos)
-=======
-func (v *complexityVisitor) incIfComplexity(n *ast.IfStmt) {
-	if v.markedAsElseNode(n) {
-		v.incComplexity()
-	} else {
-		v.nestIncComplexity()
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	}
 }
 
 func mergeBinaryOps(x []token.Token, op token.Token, y []token.Token) []token.Token {
 	var out []token.Token
 	out = append(out, x...)
-<<<<<<< HEAD
 
 	if isBinaryLogicalOp(op) {
 		out = append(out, op)
 	}
 
-=======
-	if isBinaryLogicalOp(op) {
-		out = append(out, op)
-	}
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
 	out = append(out, y...)
 	return out
 }

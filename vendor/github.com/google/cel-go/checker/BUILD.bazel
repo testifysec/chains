@@ -16,10 +16,6 @@ go_library(
         "options.go",
         "printer.go",
         "scopes.go",
-<<<<<<< HEAD
-=======
-        "standard.go",
->>>>>>> 70e0318b1 ([WIP] add archivista storage backend)
         "types.go",
     ],
     importpath = "github.com/google/cel-go/checker",
