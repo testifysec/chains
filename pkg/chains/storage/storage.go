@@ -18,6 +18,7 @@ import (
 	"errors"
 
 	"github.com/tektoncd/chains/pkg/chains/objects"
+	"github.com/tektoncd/chains/pkg/chains/storage/archivista"
 	"github.com/tektoncd/chains/pkg/chains/storage/docdb"
 	"github.com/tektoncd/chains/pkg/chains/storage/gcs"
 	"github.com/tektoncd/chains/pkg/chains/storage/grafeas"
@@ -93,6 +94,12 @@ func InitializeBackends(ctx context.Context, ps versioned.Interface, kc kubernet
 				return nil, err
 			}
 			backends[backendType] = pubsubBackend
+		case archivista.StorageBackendArchivista:
+			archivistaBackend, err := archivista.NewArchivistaStorage(cfg, ps)
+			if err != nil {
+				return nil, err
+			}
+			backends[backendType] = archivistaBackend
 		}
 
 	}
